@@ -1,3 +1,4 @@
+import 'package:dev_tesis/components/buttons/pixel_large_bttn.dart';
 import 'package:flutter/material.dart';
 
 class welcome extends StatelessWidget {
@@ -18,17 +19,12 @@ class welcome extends StatelessWidget {
             right: 0,
             bottom: 20,
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              child: IconButton(
-                onPressed: () {
-                  print('Boton presionado');
-                },
-                iconSize: 100,
-                icon: Image.asset(
-                  'assets/Bttn.png',
-                ),
-              ),
-            ),
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                child: PixelLargeBttn(
+                    path: 'assets/items/Bttn.png',
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/home');
+                    })),
           ),
         ],
       ),

@@ -1,3 +1,4 @@
+import 'package:dev_tesis/pages/screen_home/home.dart';
 import 'package:dev_tesis/pages/screen_welcome/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const welcome(),
+        '/home': (context) => const Home(),
       },
     );
   }
