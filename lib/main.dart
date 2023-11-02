@@ -1,5 +1,4 @@
-import 'package:dev_tesis/pages/screen_home/home.dart';
-import 'package:dev_tesis/pages/screen_welcome/welcome.dart';
+import 'package:dev_tesis/config/config.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,8 +13,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
+      routerConfig: appRouter,
       title: "Codex",
       theme: ThemeData(
         scaffoldBackgroundColor: sixtyColor,
@@ -27,11 +27,6 @@ class MyApp extends StatelessWidget {
         }),
         primaryColor: Colors.blue,
       ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const welcome(),
-        '/home': (context) => const Home(),
-      },
     );
   }
 }

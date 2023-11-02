@@ -1,4 +1,4 @@
-import 'package:dev_tesis/components/buttons/pixel_large_bttn.dart';
+import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {

@@ -1,11 +1,14 @@
-import 'package:dev_tesis/components/buttons/pixel_large_bttn.dart';
+import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class welcome extends StatelessWidget {
   const welcome({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final router = GoRouter.of(context);
+
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -23,7 +26,7 @@ class welcome extends StatelessWidget {
                 child: PixelLargeBttn(
                     path: 'assets/items/Bttn.png',
                     onPressed: () {
-                      Navigator.pushNamed(context, '/home');
+                      router.go('/inicio');
                     })),
           ),
         ],
