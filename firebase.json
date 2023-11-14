@@ -1,7 +1,6 @@
 {
   "hosting": {
-    "site": "mundopctesis",
-    "public": "web",
+    "public": "build/web",
     "ignore": [
       "firebase.json",
       "**/.*",
