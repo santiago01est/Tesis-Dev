@@ -3,6 +3,7 @@ import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/components/cards/curso_cards.dart';
 import 'package:flutter/material.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../domain/model/curso.dart';
 
@@ -19,7 +20,7 @@ class _HomeWebState extends State<HomeWeb> {
   @override
   Widget build(BuildContext context) {
     //implementar caso de uso de cursos
-    print("carga scaffold");
+    final router = GoRouter.of(context);
 
     return Scaffold(
       body: Stack(
@@ -46,7 +47,7 @@ class _HomeWebState extends State<HomeWeb> {
                     child: PixelLargeBttn(
                       path: 'assets/items/bttn_iniciar_sesion.png',
                       onPressed: () {
-                        print('Botón presionado');
+                        router.go('/iniciosesion');
                       },
                     ),
                   ),
