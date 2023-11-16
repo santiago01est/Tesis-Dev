@@ -1,5 +1,10 @@
+import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
+import 'package:dev_tesis/main.dart';
+import 'package:dev_tesis/ui/components/cards/curso_cards.dart';
 import 'package:flutter/material.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
+
+import '../../../domain/model/curso.dart';
 
 class HomeWeb extends StatefulWidget {
   const HomeWeb({super.key});
@@ -9,53 +14,12 @@ class HomeWeb extends StatefulWidget {
 }
 
 class _HomeWebState extends State<HomeWeb> {
-  List<Map<String, String>> cursos = [
-    {
-      'nombre': 'Curso 1',
-      'descripcion': 'Descripción del Curso 1',
-      'profesor': 'Profesor del Curso 1',
-      'imagen': 'assets/Inicio.png',
-    },
-    {
-      'nombre': 'Curso 2',
-      'descripcion': 'Descripción del Curso 2',
-      'profesor': 'Profesor del Curso 2',
-      'imagen': 'assets/Inicio.png',
-    },
-    {
-      'nombre': 'Curso 3',
-      'descripcion': 'Descripción del Curso 3',
-      'profesor': 'Profesor del Curso 3',
-      'imagen': 'assets/Inicio.png',
-    },
-    {
-      'nombre': 'Curso 4',
-      'descripcion': 'Descripción del Curso 4',
-      'profesor': 'Profesor del Curso 4',
-      'imagen': 'assets/Inicio.png',
-    },
-    {
-      'nombre': 'Curso 5',
-      'descripcion': 'Descripción del Curso 5',
-      'profesor': 'Profesor del Curso 5',
-      'imagen': 'assets/Inicio.png',
-    },
-    {
-      'nombre': 'Curso 6',
-      'descripcion': 'Descripción del Curso 6',
-      'profesor': 'Profesor del Curso 6',
-      'imagen': 'assets/Inicio.png',
-    },
-    {
-      'nombre': 'Curso 7',
-      'descripcion': 'Descripción del Curso 7',
-      'profesor': 'Profesor del Curso 7',
-      'imagen': 'assets/Inicio.png',
-    },
-  ];
+  final CursosCasoUso cursosCasoUso = getIt<CursosCasoUso>();
 
   @override
   Widget build(BuildContext context) {
+    //implementar caso de uso de cursos
+
     return Scaffold(
       body: Stack(
         children: [
@@ -77,7 +41,7 @@ class _HomeWebState extends State<HomeWeb> {
                   child: Container(
                     width: 300,
                     height: 100,
-                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
                     child: PixelLargeBttn(
                       path: 'assets/items/bttn_iniciar_sesion.png',
                       onPressed: () {
@@ -134,8 +98,21 @@ class _HomeWebState extends State<HomeWeb> {
                   padding: const EdgeInsets.all(0),
                   child: Center(
                       child: FractionallySizedBox(
-                          widthFactor: 0.5,
-                          child: ListView(
+                    widthFactor: 0.5,
+                    child: FutureBuilder<List<Curso>>(
+                      future: cursosCasoUso.getCursos(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else if (!snapshot.hasData ||
+                            snapshot.data!.isEmpty) {
+                          return const Text('No hay cursos disponibles');
+                        } else {
+                          // Mostrar la lista de cursos utilizando snapshot.data
+                          return ListView(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             children: [
@@ -150,56 +127,21 @@ class _HomeWebState extends State<HomeWeb> {
                                   childAspectRatio:
                                       1, // Relación de aspecto para mantener cuadradas las cards
                                 ),
-                                itemCount: cursos.length, // Cantidad de cursos
+                                itemCount: snapshot.data!.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return CourseCard(
-                                    curso: cursos[index],
+                                  return CursoCard(
+                                    curso: snapshot.data![
+                                        index], // Convertir el objeto Curso a un mapa
                                   );
                                 },
                               ),
                             ],
-                          ))),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class CourseCard extends StatelessWidget {
-  final Map<String, String> curso;
-
-  const CourseCard({Key? key, required this.curso}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Image.asset(
-            curso['imagen']!,
-            width: double.infinity,
-            height: 100,
-            fit: BoxFit.cover,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  curso['nombre']!, // Nombre del curso
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  curso['descripcion']!, // Descripción del curso
-                ),
-                Text(
-                  'Profesor: ${curso['profesor']}', // Nombre del profesor
+                          );
+                        }
+                      },
+                    ),
+                    //
+                  )),
                 ),
               ],
             ),
