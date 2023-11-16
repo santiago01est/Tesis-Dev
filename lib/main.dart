@@ -3,11 +3,8 @@ import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'firebase_options.dart';
 import 'constants/styles.dart';
-
 import 'package:get_it/get_it.dart';
-
 import 'infraestructure/driven_adapter/cursos_adapter/cursos_data_adapter.dart';
 
 final getIt = GetIt.instance;
