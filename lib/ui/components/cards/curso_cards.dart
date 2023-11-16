@@ -9,6 +9,7 @@ class CursoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 5,
       // estilo de la card con bordes redondos
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),

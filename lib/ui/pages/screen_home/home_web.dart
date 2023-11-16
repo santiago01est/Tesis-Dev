@@ -19,13 +19,14 @@ class _HomeWebState extends State<HomeWeb> {
   @override
   Widget build(BuildContext context) {
     //implementar caso de uso de cursos
+    print("carga scaffold");
 
     return Scaffold(
       body: Stack(
         children: [
           // Imagen de fondo
           Image.asset(
-            'assets/home.png',
+            'assets/FondoHome.png',
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
@@ -51,21 +52,67 @@ class _HomeWebState extends State<HomeWeb> {
                   ),
                 ),
 
-                // Imagen desde los assets
+                //titulo
+                const Align(
+                    alignment: Alignment.topCenter,
+                    child: Text('Mundo PC',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 70,
+                          fontWeight: FontWeight.bold,
+                        ))),
+
+                const SizedBox(height: 40),
+
                 Padding(
                   padding: const EdgeInsets.all(0),
-                  child: Image.asset(
-                    'assets/items/mascota_dialogo.png',
-                    width: 600,
-                    height: 400,
+                  child: Center(
+                    child: FractionallySizedBox(
+                        widthFactor: 0.6,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(0),
+                                child: Image.asset(
+                                  'assets/items/perico_mascota.png',
+                                  width: 400,
+                                  height: 200,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: SelectableText(
+                                            "Nos emociona tenerte a bordo en este emocionante viaje hacia el mundo del pensamiento computacional. Mundo PC es más que una plataforma; somos un puente entre la innovación, la creatividad y la enseñanza.",
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.black,
+                                            ),
+                                            textAlign: TextAlign.justify,
+                                          )))),
+                            ),
+                          ],
+                        )),
                   ),
                 ),
+                const SizedBox(height: 30),
                 // Barra de búsqueda redondeada
                 Padding(
                   padding: const EdgeInsets.all(0),
                   child: Center(
                     child: FractionallySizedBox(
-                      widthFactor: 0.5,
+                      widthFactor: 0.6,
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -98,7 +145,7 @@ class _HomeWebState extends State<HomeWeb> {
                   padding: const EdgeInsets.all(0),
                   child: Center(
                       child: FractionallySizedBox(
-                    widthFactor: 0.5,
+                    widthFactor: 0.6,
                     child: FutureBuilder<List<Curso>>(
                       future: cursosCasoUso.getCursos(),
                       builder: (context, snapshot) {
