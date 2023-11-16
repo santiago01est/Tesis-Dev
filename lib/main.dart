@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       title: "Codex",
       theme: ThemeData(
         scaffoldBackgroundColor: sixtyColor,
-        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
+        textTheme: GoogleFonts.ibmPlexMonoTextTheme(Theme.of(context).textTheme)
             .apply(bodyColor: Colors.black),
         pageTransitionsTheme: const PageTransitionsTheme(builders: {
           TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),

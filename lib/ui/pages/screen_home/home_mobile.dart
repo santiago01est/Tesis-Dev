@@ -21,7 +21,7 @@ class _HomeMobileState extends State<HomeMobile> {
         children: [
           // Imagen de fondo
           Image.asset(
-            'assets/home.png',
+            'assets/FondoHome.png',
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
@@ -35,7 +35,7 @@ class _HomeMobileState extends State<HomeMobile> {
                 Align(
                   alignment: Alignment.topRight,
                   child: Container(
-                    width: 300,
+                    width: 200,
                     height: 100,
                     margin: EdgeInsets.symmetric(horizontal: 10),
                     child: PixelLargeBttn(
@@ -47,15 +47,58 @@ class _HomeMobileState extends State<HomeMobile> {
                   ),
                 ),
 
-                // Imagen desde los assets
+                //titulo
+                const Align(
+                    alignment: Alignment.topCenter,
+                    child: Text('Mundo PC',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 70,
+                          fontWeight: FontWeight.bold,
+                        ))),
+
+                const SizedBox(height: 40),
+
                 Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: Image.asset(
-                    'assets/items/mascota_dialogo.png',
-                    width: 600,
-                    height: 400,
-                  ),
-                ),
+                    padding: const EdgeInsets.all(0),
+                    child: Center(
+                        child: FractionallySizedBox(
+                      widthFactor: 0.8,
+                      child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: const Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: SelectableText(
+                                    "Nos emociona tenerte a bordo en este emocionante viaje hacia el mundo del pensamiento computacional. Mundo PC es más que una plataforma; somos un puente entre la innovación, la creatividad y la enseñanza.",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black,
+                                    ),
+                                    textAlign: TextAlign.justify,
+                                  )))),
+                    ))),
+                Padding(
+                    padding: const EdgeInsets.all(0),
+                    child: Center(
+                        child: FractionallySizedBox(
+                      widthFactor: 0.5,
+                      child: Padding(
+                        padding: const EdgeInsets.all(0),
+                        child: Image.asset(
+                          'assets/items/perico_mascota.png',
+                          width: 400,
+                          height: 200,
+                        ),
+                      ),
+                    ))),
+
+                const SizedBox(height: 30),
                 // Barra de búsqueda redondeada
                 Padding(
                   padding: const EdgeInsets.all(0),
@@ -95,7 +138,7 @@ class _HomeMobileState extends State<HomeMobile> {
                   padding: const EdgeInsets.all(0),
                   child: Center(
                       child: FractionallySizedBox(
-                    widthFactor: 0.5,
+                    widthFactor: 0.8,
                     child: FutureBuilder<List<Curso>>(
                       future: cursosCasoUso.getCursos(),
                       builder: (context, snapshot) {
@@ -109,30 +152,19 @@ class _HomeMobileState extends State<HomeMobile> {
                           return const Text('No hay cursos disponibles');
                         } else {
                           // Mostrar la lista de cursos utilizando snapshot.data
-                          return ListView(
+                          return ListView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            children: [
-                              GridView.builder(
-                                shrinkWrap: true,
-                                gridDelegate:
-                                    const SliverGridDelegateWithMaxCrossAxisExtent(
-                                  maxCrossAxisExtent:
-                                      300, // Tamaño máximo de cada card
-                                  crossAxisSpacing: 10,
-                                  mainAxisSpacing: 10,
-                                  childAspectRatio:
-                                      1, // Relación de aspecto para mantener cuadradas las cards
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: CursoCard(
+                                  curso: snapshot.data![
+                                      index], // Convertir el objeto Curso a un mapa
                                 ),
-                                itemCount: snapshot.data!.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return CursoCard(
-                                    curso: snapshot.data![
-                                        index], // Convertir el objeto Curso a un mapa
-                                  );
-                                },
-                              ),
-                            ],
+                              );
+                            },
                           );
                         }
                       },

@@ -72,11 +72,11 @@ class CursosDataAdapter extends CursoRepository {
       departamento: 'Departamento 5',
       ciudad: 'Ciudad 5',
       colegio: 'Colegio 5',
-      profesor: 'Profesor 5',
+      profesor: 'Profesor de la institucion educativa',
       portada: 'assets/Inicio.png',
       estado: 'Activo',
       numEstudiantes: 10,
-      descripcion: "Descripción 5",
+      descripcion: "Descripción una muy larga descripcion",
       fechaCreacion: '2022-01-01',
       fechaFinalizacion: '2022-01-01',
     );
