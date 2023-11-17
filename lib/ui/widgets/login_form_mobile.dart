@@ -1,8 +1,8 @@
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:flutter/material.dart';
 
-class LoginForm extends StatelessWidget {
-  LoginForm({Key? key}) : super(key: key);
+class LoginFormMobile extends StatelessWidget {
+  LoginFormMobile({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailEditingController = TextEditingController();
@@ -17,12 +17,13 @@ class LoginForm extends StatelessWidget {
           const Text(
             "¡Bienvenido a Mundo PC!",
             style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
           ),
           const SizedBox(
             height: 20,
           ),
           const Text(
-            "Ingresa y que el aprendizaje continue.\n Innovació́n, creatividad y enseñanza.",
+            "Ingresa y que el aprendizaje continue.\nInnovació́n, creatividad y enseñanza.",
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
           ),
           const SizedBox(
@@ -150,7 +151,7 @@ class LoginForm extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                Row(
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(

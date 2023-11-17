@@ -1,3 +1,4 @@
+import 'package:dev_tesis/ui/pages/screen_registro_profesor/inicio_sesion_mobile_scree.dart';
 import 'package:dev_tesis/ui/pages/screen_registro_profesor/inicio_sesion_web_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class InicioSesionScreen extends StatelessWidget {
         return const InicioSesionWebScreen();
       } else {
         // Versión móvil
-        return const InicioSesionWebScreen();
+        return const InicioSesionMobileScreen();
       }
     });
   }

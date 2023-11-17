@@ -1,5 +1,5 @@
-import 'package:dev_tesis/ui/widgets/login_form.dart';
-import 'package:dev_tesis/ui/widgets/web_layout.dart';
+import 'package:dev_tesis/ui/widgets/login_form_web.dart';
+import 'package:dev_tesis/ui/widgets/web_iniciosesion_layout.dart';
 import 'package:flutter/material.dart';
 
 class InicioSesionWebScreen extends StatefulWidget {
