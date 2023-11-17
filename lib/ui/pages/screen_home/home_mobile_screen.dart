@@ -4,6 +4,7 @@ import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/components/cards/curso_cards.dart';
 import 'package:flutter/material.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeMobile extends StatefulWidget {
   const HomeMobile({super.key});
@@ -16,6 +17,8 @@ class _HomeMobileState extends State<HomeMobile> {
   final CursosCasoUso cursosCasoUso = getIt<CursosCasoUso>();
   @override
   Widget build(BuildContext context) {
+    final router = GoRouter.of(context);
+
     return Scaffold(
       body: Stack(
         children: [
@@ -41,7 +44,7 @@ class _HomeMobileState extends State<HomeMobile> {
                     child: PixelLargeBttn(
                       path: 'assets/items/bttn_iniciar_sesion.png',
                       onPressed: () {
-                        print('Botón presionado');
+                        router.go('/iniciosesion');
                       },
                     ),
                   ),
