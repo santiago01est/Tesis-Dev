@@ -73,6 +73,13 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
                   ),
                 ),
                 const SizedBox(
+                  height: 10,
+                ),
+                const Text(
+                  "Elige tu avatar",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                ),
+                const SizedBox(
                   height: 30,
                 ),
                 TextFormField(
@@ -201,17 +208,57 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
                 const SizedBox(
                   height: 10,
                 ),
+                TextFormField(
+                  controller: confirmpwdEditingController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    hintText: "Confirmar Contraseña",
+                    prefixIcon: Icon(Icons.lock, color: blueColor),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(
+                        width: 0,
+                        style: BorderStyle.none,
+                      ),
+                    ),
+                    filled: true,
+                    isDense: true,
+                    contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    fillColor: Colors.grey[300],
+                    // Aplicar validación y mensajes de error
+                    errorText: _formSubmitted
+                        ? _validateField(confirmpwdEditingController.text)
+                        : null,
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(
+                        width: 2,
+                        color: Colors.red, // Color rojo para el borde de error
+                      ),
+                    ),
+                  ),
+                  // Lets apply validation
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Vuelva a escribir la contraseña";
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
                 Container(
                   width: 300,
                   height: 100,
                   margin: const EdgeInsets.symmetric(horizontal: 10),
                   child: PixelLargeBttn(
-                    path: "assets/items/bttn_ingresar.png",
+                    path: "assets/items/bttn_registrar.png",
                     onPressed: () async {
-                      _formSubmitted =
-                          true; // Marcamos el formulario como enviado
+                      // Marcamos el formulario como enviado
                       if (_formKey.currentState!.validate()) {
                         // Call sign in method of firebase & open home screen based on successful login
+                        _formSubmitted = true;
                       }
                     },
                   ),
