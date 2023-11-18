@@ -1,5 +1,6 @@
 import 'package:dev_tesis/ui/pages/screen_home/home.dart';
 import 'package:dev_tesis/ui/pages/screen_registro_profesor/inicio_sesion_screen.dart';
+import 'package:dev_tesis/ui/pages/screen_registro_profesor/registro_profesor_screen.dart';
 import 'package:dev_tesis/ui/pages/screen_welcome/welcome.dart';
 import 'package:go_router/go_router.dart';
 
@@ -16,6 +17,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/iniciosesion',
       builder: (context, state) => const InicioSesionScreen(),
+    ),
+    GoRoute(
+      path: '/registroprofesor',
+      builder: (context, state) => const RegistroProfesorScreen(),
     ),
   ],
 );

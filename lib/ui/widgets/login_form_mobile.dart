@@ -1,3 +1,4 @@
+import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +41,7 @@ class LoginFormMobile extends StatelessWidget {
                   autocorrect: false,
                   decoration: InputDecoration(
                       hintText: "Email",
-                      prefixIcon: const Icon(Icons.email),
+                      prefixIcon: Icon(Icons.email, color: blueColor),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: const BorderSide(
@@ -65,7 +66,7 @@ class LoginFormMobile extends StatelessWidget {
                   obscureText: true,
                   decoration: InputDecoration(
                       hintText: "Contraseña",
-                      prefixIcon: const Icon(Icons.lock),
+                      prefixIcon: Icon(Icons.lock, color: blueColor),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: const BorderSide(
