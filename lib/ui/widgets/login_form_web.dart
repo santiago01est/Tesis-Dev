@@ -1,5 +1,7 @@
+import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginForm extends StatelessWidget {
   LoginForm({Key? key}) : super(key: key);
@@ -10,6 +12,8 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final router = GoRouter.of(context);
+
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
@@ -39,7 +43,7 @@ class LoginForm extends StatelessWidget {
                   autocorrect: false,
                   decoration: InputDecoration(
                       hintText: "Email",
-                      prefixIcon: const Icon(Icons.email),
+                      prefixIcon: Icon(Icons.email, color: blueColor),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: const BorderSide(
@@ -64,7 +68,7 @@ class LoginForm extends StatelessWidget {
                   obscureText: true,
                   decoration: InputDecoration(
                       hintText: "Contraseña",
-                      prefixIcon: const Icon(Icons.lock),
+                      prefixIcon: Icon(Icons.lock, color: blueColor),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: const BorderSide(
@@ -163,9 +167,7 @@ class LoginForm extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        //Open Forgot password screen here
-                        //
-                        print("Olvidaste tu contraseña");
+                        router.go('/registroprofesor');
                       },
                       child: const Text(
                         "Registrarse",

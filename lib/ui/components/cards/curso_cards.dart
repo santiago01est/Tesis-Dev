@@ -1,3 +1,4 @@
+import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,8 @@ class CursoCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
+      //color de la card
+      color: orangeColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
