@@ -1,7 +1,9 @@
 import 'package:dev_tesis/config/config.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
+import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'constants/styles.dart';
@@ -29,19 +31,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      routerConfig: appRouter,
-      title: "Codex",
-      theme: ThemeData(
-        scaffoldBackgroundColor: sixtyColor,
-        textTheme: GoogleFonts.ibmPlexMonoTextTheme(Theme.of(context).textTheme)
-            .apply(bodyColor: Colors.black),
-        pageTransitionsTheme: const PageTransitionsTheme(builders: {
-          TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),
-          TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
-        }),
-        primaryColor: Colors.blue,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<NombreCompletoCubit>(
+            create: (context) => NombreCompletoCubit()),
+        // Agrega más BlocProviders según sea necesario
+      ],
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        routerConfig: appRouter,
+        title: "Codex",
+        theme: ThemeData(
+          scaffoldBackgroundColor: sixtyColor,
+          textTheme:
+              GoogleFonts.ibmPlexMonoTextTheme(Theme.of(context).textTheme)
+                  .apply(bodyColor: Colors.black),
+          pageTransitionsTheme: const PageTransitionsTheme(builders: {
+            TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),
+            TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+          }),
+          primaryColor: Colors.blue,
+        ),
       ),
     );
   }

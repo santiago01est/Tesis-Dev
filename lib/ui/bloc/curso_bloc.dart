@@ -1,35 +1,22 @@
-import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dev_tesis/domain/model/curso.dart';
 
-// Evento para solicitar los cursos
-class GetCursosEvent extends Cubit<void> {
-  final CursosCasoUso cursosCasoUso;
+// Evento para cambiar el nombre completo
+class CambiarNombreEvent extends Equatable {
+  final String newName;
 
-  GetCursosEvent(this.cursosCasoUso) : super(null);
+  CambiarNombreEvent(this.newName);
 
-  void getCursos() async {
-    try {
-      List<Curso> cursos = await cursosCasoUso.getCursos();
-      emit(cursos); // Emitir los cursos obtenidos
-    } catch (e) {
-      // Manejar el error, por ejemplo: emit(LoadingFailed());
-    }
-  }
+  @override
+  List<Object?> get props => [newName];
 }
 
-// Bloc para administrar el estado de los cursos
-class CursosBloc extends Cubit<List<Curso>> {
-  final CursosCasoUso cursosCasoUso;
+// Cubit para manejar el estado del nombre completo
+class NombreCompletoCubit extends Cubit<String> {
+  NombreCompletoCubit() : super("");
 
-  CursosBloc(this.cursosCasoUso) : super([]);
-
-  void obtenerCursos() async {
-    try {
-      List<Curso> cursos = await cursosCasoUso.getCursos();
-      emit(cursos); // Actualizar el estado con los cursos obtenidos
-    } catch (e) {
-      // Manejar el error, por: emit([]);
-    }
+  // Método para cambiar el nombre
+  void changeName(String newName) {
+    emit(newName);
   }
 }
