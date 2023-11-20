@@ -1,4 +1,5 @@
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
+import 'package:dev_tesis/ui/components/carrusel/carrusel_welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,9 +15,29 @@ class welcome extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           Image.asset(
-            'assets/Inicio.png',
+            'assets/FondoInicio.png',
             fit: BoxFit.cover,
           ),
+
+          const Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Text('Mundo PC',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 80,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ))),
+          //carrusel en el centro
+          const Center(
+              child: ImageCarousel(
+            imagePaths: [
+              "assets/FondoInicio.png",
+              "assets/FondoInicio.png",
+              "assets/FondoInicio.png",
+              // Agrega más rutas de imágenes según sea necesario
+            ],
+          )),
           Positioned(
             left: 0,
             right: 0,

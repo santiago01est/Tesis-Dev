@@ -1,6 +1,9 @@
 import 'package:dev_tesis/constants/styles.dart';
+import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class RegistroFormWeb extends StatefulWidget {
   RegistroFormWeb({Key? key}) : super(key: key);
@@ -31,6 +34,8 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
 
   @override
   Widget build(BuildContext context) {
+    final router = GoRouter.of(context);
+    final nombreCompleto = context.watch<NombreCompletoCubit>();
     //arreglo con las path de los avatares
     List<String> avatars = [
       "assets/items/perico_mascota.png",
@@ -120,6 +125,9 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
                       return "Por favor ingrese su Nombre Completo";
                     }
                     return null;
+                  },
+                  onChanged: (value) {
+                    nombreCompleto.changeName(value);
                   },
                 ),
                 const SizedBox(
@@ -259,6 +267,7 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
                       if (_formKey.currentState!.validate()) {
                         // Call sign in method of firebase & open home screen based on successful login
                         _formSubmitted = true;
+                        router.go('/crearcurso');
                       }
                     },
                   ),
