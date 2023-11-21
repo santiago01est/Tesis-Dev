@@ -25,29 +25,64 @@ class _HomeMobileState extends State<HomeMobile> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Stack(
-                children: [
-                  // Imagen de fondo
-                  Image.asset(
-                    'assets/FondoHome.png',
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                    height: 950,
+              Container(
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(
+                        'assets/FondoHome.png'), // Ruta de tu imagen de fondo
+                    fit: BoxFit.cover, // Ajuste para cubrir el contenedor
                   ),
+                ),
 
-                  // Contenido superpuesto en la primera sección
-                  Column(
-                    children: [
-                      // Fila con botón en la parte superior derecha
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                // Contenido superpuesto en la primera sección
+                child: Column(
+                  children: [
+                    // Fila con botón en la parte superior derecha
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          width: 200,
+                          height: 100,
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          child: PixelLargeBttn(
+                            path: 'assets/items/bttn_registrar.png',
+                            onPressed: () {
+                              router.go('/iniciosesion');
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+
+                    // Fila con dos secciones
+                    FractionallySizedBox(
+                      widthFactor: 0.8,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // Sección de la izquierda con texto y botón
+                          const Text(
+                            'Mundo PC',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 50.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 20.0),
+                          const Text(
+                              'Nos emociona tenerte a bordo en este emocionante viaje hacia el mundo del pensamiento computacional. Mundo PC es más que una plataforma; somos un puente entre la innovación, la creatividad y la enseñanza.',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w400,
+                              )),
                           Container(
-                            width: 250,
-                            height: 100,
-                            margin: EdgeInsets.symmetric(horizontal: 10),
+                            width: 200,
                             child: PixelLargeBttn(
-                              path: 'assets/items/bttn_registrar.png',
+                              path: 'assets/items/bttn_iniciar_sesion.png',
                               onPressed: () {
                                 router.go('/iniciosesion');
                               },
@@ -55,53 +90,16 @@ class _HomeMobileState extends State<HomeMobile> {
                           )
                         ],
                       ),
+                    ),
+                    // Sección de la derecha con imagen
 
-                      // Fila con dos secciones
-                      FractionallySizedBox(
-                        widthFactor: 0.8,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Sección de la izquierda con texto y botón
-                            const Text(
-                              'Mundo PC',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 50.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 20.0),
-                            const Text(
-                                'Nos emociona tenerte a bordo en este emocionante viaje hacia el mundo del pensamiento computacional. Mundo PC es más que una plataforma; somos un puente entre la innovación, la creatividad y la enseñanza.',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w400,
-                                )),
-                            Container(
-                              width: 250,
-                              child: PixelLargeBttn(
-                                path: 'assets/items/bttn_iniciar_sesion.png',
-                                onPressed: () {
-                                  router.go('/iniciosesion');
-                                },
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      // Sección de la derecha con imagen
-
-                      Image.asset(
-                        'assets/ImagenMascotasHome.png',
-                        fit: BoxFit.contain,
-                        width: 400,
-                      ),
-                    ],
-                  ),
-                ],
+                    Image.asset(
+                      'assets/ImagenMascotasHome.png',
+                      fit: BoxFit.contain,
+                      width: 400,
+                    ),
+                  ],
+                ),
               ),
               Container(
                 // padding: EdgeInsets.all(20.0),
