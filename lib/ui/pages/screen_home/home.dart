@@ -1,4 +1,3 @@
-import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/pages/screen_home/home_mobile_screen.dart';
 import 'package:dev_tesis/ui/pages/screen_home/home_web_screen.dart';
 import 'package:flutter/material.dart';
