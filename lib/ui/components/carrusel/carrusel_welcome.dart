@@ -20,10 +20,11 @@ class _ImageCarouselState extends State<ImageCarousel> {
       carouselController: _carouselController,
       itemCount: widget.imagePaths.length,
       options: CarouselOptions(
-        // si la pantalla es de movil la altura se reduce
-        height: MediaQuery.of(context).size.height * 0.3,
+        // operador terniario si la pantalla es de movil tiene una altura y si es pc tiene otra altura
+
+        height: MediaQuery.of(context).size.width < 600 ? 150 : 400,
         aspectRatio: 16 / 9,
-        viewportFraction: 0.3,
+        viewportFraction: 0.4,
         initialPage: _currentIndex,
         enableInfiniteScroll: true,
         autoPlay: true,

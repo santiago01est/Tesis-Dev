@@ -32,8 +32,8 @@ class welcome extends StatelessWidget {
           const Center(
               child: ImageCarousel(
             imagePaths: [
-              "assets/FondoInicio.png",
-              "assets/FondoInicio.png",
+              "assets/PosterWelcome1.png",
+              "assets/PosterWelcome2.png",
               "assets/FondoInicio.png",
               // Agrega más rutas de imágenes según sea necesario
             ],
