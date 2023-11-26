@@ -2,6 +2,7 @@ import 'package:dev_tesis/config/config.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
+import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -36,6 +37,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<NombreCompletoCubit>(
             create: (context) => NombreCompletoCubit()),
         // Agrega más BlocProviders según sea necesario
+        BlocProvider<ProfesorCubit>(
+          create: (context) => ProfesorCubit(),
+        )
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

@@ -1,5 +1,7 @@
 import 'package:dev_tesis/constants/styles.dart';
+import 'package:dev_tesis/domain/model/profesor.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
+import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +37,9 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
+    Profesor profesor;
     final nombreCompleto = context.watch<NombreCompletoCubit>();
+    final profesorCubit = context.watch<ProfesorCubit>();
     //arreglo con las path de los avatares
     List<String> avatars = [
       "assets/items/perico_mascota.png",
@@ -267,6 +271,16 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
                       if (_formKey.currentState!.validate()) {
                         // Call sign in method of firebase & open home screen based on successful login
                         _formSubmitted = true;
+                        profesor = Profesor(
+                          id: "1",
+                          nombre: nombreEditingController.text,
+                          email: emailEditingController.text,
+                          password: pwdEditingController.text,
+                          avatar: selectedAvatar,
+                        );
+                        //actualizamos el estado del objeto profesor
+                        profesorCubit.actualizarProfesor(profesor);
+
                         router.go('/crearcurso');
                       }
                     },
@@ -301,7 +315,8 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
                 Expanded(
                   child: GridView.builder(
                     shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
                       maxCrossAxisExtent: 70,
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
