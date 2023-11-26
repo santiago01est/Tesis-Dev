@@ -29,6 +29,7 @@ class _HomeWebState extends State<HomeWeb> {
         child: Column(
           children: [
             Container(
+              width: double.infinity,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
