@@ -14,7 +14,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-      if (constraints.maxWidth >= 900) {
+      if (constraints.maxWidth >= 700) {
         // Versión de escritorio
         return const HomeWeb();
       } else {

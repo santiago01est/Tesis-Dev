@@ -4,6 +4,7 @@ import 'package:dev_tesis/ui/components/appbar/appbar_profesor.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class CrearCursoBienvenidaScreen extends StatefulWidget {
   const CrearCursoBienvenidaScreen({super.key});
@@ -18,6 +19,8 @@ class _CrearCursoBienvenidaScreenState
   @override
   Widget build(BuildContext context) {
     final profesorCubit = context.watch<ProfesorCubit>();
+    final router = GoRouter.of(context);
+
     return Scaffold(
       backgroundColor: blueColor,
       appBar: AppBarProfesor(
@@ -89,7 +92,7 @@ class _CrearCursoBienvenidaScreenState
                           child: PixelLargeBttn(
                               path: 'assets/items/bttn_crearcurso.png',
                               onPressed: () {
-                                print('Boton presionado');
+                                router.go('/crearcurso');
                               }))
                     ],
                   ),

@@ -3,6 +3,7 @@ import 'package:dev_tesis/domain/model/profesor.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
+import 'package:dev_tesis/ui/widgets/PopUp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -74,7 +75,8 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
               children: [
                 InkWell(
                   onTap: () {
-                    _showAvatarSelectionPopup(context, avatars);
+                    PopupUtils.showAvatarSelectionPopup(
+                        context, avatars, _selectAvatar);
                   },
                   child: CircleAvatar(
                     radius: 50,
@@ -280,8 +282,8 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
                         );
                         //actualizamos el estado del objeto profesor
                         profesorCubit.actualizarProfesor(profesor);
-
-                        router.go('/crearcurso');
+                        /* TODO:Caso de Uso crear Profesor*/
+                        router.go('/crearcursobienvenida');
                       }
                     },
                   ),
@@ -294,53 +296,6 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
           ),
         ],
       ),
-    );
-  }
-
-  void _showAvatarSelectionPopup(
-      BuildContext context, List<String> avatarPaths) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          content: SizedBox(
-            width: 300, // Ajusta el ancho según tus necesidades
-            height: 300, // Ajusta la altura según tus necesidades
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Expanded(
-                  child: GridView.builder(
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 70,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                    ),
-                    itemCount: avatarPaths.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return InkWell(
-                        onTap: () {
-                          _selectAvatar(avatarPaths[index]);
-                          Navigator.of(context).pop();
-                        },
-                        child: CircleAvatar(
-                          radius: 30,
-                          backgroundImage: AssetImage(avatarPaths[index]),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 
