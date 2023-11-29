@@ -94,9 +94,7 @@ class _CrearCursoBienvenidaScreenState
                           margin: const EdgeInsets.symmetric(horizontal: 10),
                           child: PixelLargeBttn(
                               path: 'assets/items/bttn_crearcurso.png',
-                              onPressed: () {
-                                cargarArchivoExcel();
-                              }))
+                              onPressed: () {}))
                     ],
                   ),
                 ),
@@ -107,51 +105,5 @@ class _CrearCursoBienvenidaScreenState
       ),
     );
     // Contenido superpuesto en la primera sección
-  }
-
-  Future<Future<List<String>>> cargarArchivoExcel() async {
-    final completer = Completer<List<String>>();
-
-    html.InputElement input = html.InputElement(type: 'file')
-      ..accept = '.xls,.xlsx';
-    input.click();
-
-    input.onChange.listen((e) {
-      final files = input.files;
-      if (files != null && files.isNotEmpty) {
-        final file = files[0];
-        final reader = html.FileReader();
-
-        reader.onLoadEnd.listen((e) {
-          final Uint8List fileBytes =
-              Uint8List.fromList(reader.result as List<int>);
-          leerArchivoExcel(fileBytes).then((datos) {
-            print(datos);
-            completer.complete(datos);
-          });
-        });
-
-        reader.readAsArrayBuffer(file);
-      }
-    });
-
-    return completer.future;
-  }
-
-  Future<List<String>> leerArchivoExcel(var bytes) async {
-    var excel = Excel.decodeBytes(bytes);
-    List<String> primeraColumna = [];
-
-    for (var table in excel.tables.keys) {
-      for (var row in excel.tables[table]!.rows) {
-        if (row.isNotEmpty) {
-          // Obtener el elemento en la primera posición de la fila
-          String elemento = row[0]?.value.toString() ?? '';
-          primeraColumna.add(elemento);
-        }
-      }
-    }
-
-    return primeraColumna;
   }
 }
