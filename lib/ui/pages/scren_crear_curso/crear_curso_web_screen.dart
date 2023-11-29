@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
@@ -5,11 +7,12 @@ import 'package:dev_tesis/ui/components/appbar/appbar_profesor.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/widgets/PopUp.dart';
 import 'package:dev_tesis/utils/manejoExcel.dart';
+import 'dart:typed_data';
+import 'dart:html' as html;
 import 'package:dev_tesis/utils/rutasImagenes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:file_picker/file_picker.dart';
 
 class CrearCursoWebScreen extends StatefulWidget {
   const CrearCursoWebScreen({super.key});
@@ -666,70 +669,38 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
     );
   }
 
-  Future<void> cargarArchivoExcel() async {
-    FilePickerResult? result = await FilePicker.platform
-        .pickFiles(type: FileType.custom, allowedExtensions: ['xls', 'xlsx']);
+  Future<Future<List<String>>> cargarArchivoExcel() async {
+    final completer = Completer<List<String>>();
 
-    if (result != null) {
-      PlatformFile archivoSeleccionado = result.files.first;
-      var fileBytes = archivoSeleccionado.bytes;
-      List<String> datos = await ManejoExcel.leerArchivoExcel(fileBytes);
-      print(datos);
-      for (var i = 0; i < datos.length; i++) {
-        //obtener un dato de una posicion
+    html.InputElement input = html.InputElement(type: 'file')
+      ..accept = '.xls,.xlsx';
+    input.click();
 
-        Estudiante estudiante =
-            Estudiante(nombre: datos[i], avatar: RutasImagenes.getRandomRuta());
-        agregarEstudiante(estudiante);
+    input.onChange.listen((e) {
+      final files = input.files;
+      if (files != null && files.isNotEmpty) {
+        final file = files[0];
+        final reader = html.FileReader();
+
+        reader.onLoadEnd.listen((e) async {
+          final Uint8List fileBytes =
+              Uint8List.fromList(reader.result as List<int>);
+          List<String> datos = await ManejoExcel.leerArchivoExcel(fileBytes);
+
+          for (var i = 0; i < datos.length; i++) {
+            //obtener un dato de una posicion
+
+            Estudiante estudiante = Estudiante(
+                nombre: datos[i], avatar: RutasImagenes.getRandomRuta());
+            agregarEstudiante(estudiante);
+          }
+        });
+
+        reader.readAsArrayBuffer(file);
       }
-    }
-  }
+    });
 
-  void _showImagesSelectionPopup(
-      BuildContext context, List<String> imagesPaths) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          content: SizedBox(
-            width: 300, // Ajusta el ancho según tus necesidades
-            height: 300, // Ajusta la altura según tus necesidades
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Expanded(
-                  child: GridView.builder(
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 70,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                    ),
-                    itemCount: imagesPaths.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return InkWell(
-                        onTap: () {
-                          _selectImage(imagesPaths[index]);
-                          Navigator.of(context).pop();
-                        },
-                        child: CircleAvatar(
-                          radius: 30,
-                          backgroundImage: AssetImage(imagesPaths[index]),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
+    return completer.future;
   }
 
   void _selectImage(String portadaPath) {
