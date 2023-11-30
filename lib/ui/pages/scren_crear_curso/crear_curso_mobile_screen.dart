@@ -13,6 +13,7 @@ import 'package:dev_tesis/utils/rutasImagenes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class CrearCursoMobileScreen extends StatefulWidget {
   const CrearCursoMobileScreen({super.key});
@@ -82,6 +83,8 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final router = GoRouter.of(context);
+
     final profesorCubit = context.watch<ProfesorCubit>();
 
     final List<StepForm> _stepForms = [
@@ -580,6 +583,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                             child: PixelLargeBttn(
                               path: 'assets/items/bttn_confirmar.png',
                               onPressed: () {
+                                router.go('/estudio');
                                 //TODO: Validar la información
                                 //bool isValid =
                                 //_validateInformation(); // Verifica la información
