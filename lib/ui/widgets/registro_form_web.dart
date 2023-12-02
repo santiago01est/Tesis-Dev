@@ -39,7 +39,6 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
     Profesor profesor;
-    final nombreCompleto = context.watch<NombreCompletoCubit>();
     final profesorCubit = context.watch<ProfesorCubit>();
     //arreglo con las path de los avatares
     List<String> avatars = [
@@ -131,9 +130,6 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
                       return "Por favor ingrese su Nombre Completo";
                     }
                     return null;
-                  },
-                  onChanged: (value) {
-                    nombreCompleto.changeName(value);
                   },
                 ),
                 const SizedBox(

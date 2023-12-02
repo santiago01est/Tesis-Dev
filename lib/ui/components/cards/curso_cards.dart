@@ -21,7 +21,7 @@ class CursoCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Image.asset(
-            curso.portada,
+            curso.portada ?? 'assets/FondoInicio.png',
             width: double.infinity,
             height: 100,
             fit: BoxFit.cover,
@@ -32,11 +32,11 @@ class CursoCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  curso.nombre, // Nombre del curso
+                  curso.nombre!, // Nombre del curso
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  curso.descripcion, // Descripción del curso
+                  curso.descripcion ?? '', // Descripción del curso
                 ),
                 Text(
                   'Profesor: ${curso.profesor}', // Nombre del profesor

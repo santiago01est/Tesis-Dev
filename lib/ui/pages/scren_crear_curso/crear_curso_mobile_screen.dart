@@ -1,8 +1,6 @@
 import 'dart:async';
-
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
-import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_profesor.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/widgets/PopUp.dart';
@@ -12,7 +10,7 @@ import 'dart:html' as html;
 import 'package:dev_tesis/utils/rutasImagenes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class CrearCursoMobileScreen extends StatefulWidget {
   const CrearCursoMobileScreen({super.key});
@@ -82,8 +80,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final profesorCubit = context.watch<ProfesorCubit>();
-
+    final router = GoRouter.of(context);
     final List<StepForm> _stepForms = [
       StepForm(title: 'Información del Curso', formFields: [
         Padding(
@@ -510,14 +507,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
 
     return Scaffold(
       backgroundColor: blueColor,
-      appBar: AppBarProfesor(
-        title: 'Mundo PC',
-        userName: profesorCubit.state.nombre ?? '',
-        avatarImagePath: profesorCubit.state.avatar ?? '',
-        onAvatarTap: () {
-          print('Avatar tap');
-        },
-      ),
+      appBar: AppBarProfesor(),
       body: Stack(
         children: [
           Container(
@@ -581,6 +571,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                               path: 'assets/items/bttn_confirmar.png',
                               onPressed: () {
                                 //TODO: Validar la información
+                                router.go('/panelprofesorcurso');
                                 //bool isValid =
                                 //_validateInformation(); // Verifica la información
 /*

@@ -1,32 +1,36 @@
+import 'package:dev_tesis/domain/model/estudiante.dart';
+
 class Curso {
-  String id;
-  String nombre;
-  String codigoAcceso;
-  String departamento;
-  String ciudad;
-  String colegio;
-  String profesor;
-  String portada;
-  int numEstudiantes;
-  String descripcion;
-  String fechaCreacion;
-  String fechaFinalizacion;
-  String estado;
+  String? id;
+  String? nombre;
+  String? codigoAcceso;
+  String? departamento;
+  String? ciudad;
+  String? colegio;
+  String? profesor;
+  String? portada;
+  int? numEstudiantes;
+  String? descripcion;
+  String? fechaCreacion;
+  String? fechaFinalizacion;
+  String? estado;
+  List<Estudiante>? estudiantes;
 
   Curso({
-    required this.id,
-    required this.nombre,
-    required this.codigoAcceso,
-    required this.departamento,
-    required this.ciudad,
-    required this.colegio,
-    required this.profesor,
-    required this.portada,
-    required this.numEstudiantes,
-    required this.descripcion,
-    required this.fechaCreacion,
-    required this.fechaFinalizacion,
-    required this.estado,
+    this.id,
+    this.nombre,
+    this.codigoAcceso,
+    this.departamento,
+    this.ciudad,
+    this.colegio,
+    this.profesor,
+    this.portada,
+    this.numEstudiantes,
+    this.descripcion,
+    this.fechaCreacion,
+    this.fechaFinalizacion,
+    this.estado,
+    this.estudiantes,
   });
 
   factory Curso.fromJson(Map<String, dynamic> json) {
@@ -44,6 +48,7 @@ class Curso {
       fechaCreacion: json['fechaCreacion'],
       fechaFinalizacion: json['fechaFinalizacion'],
       estado: json['estado'],
+      estudiantes: json['estudiantes'],
     );
   }
 
@@ -62,6 +67,7 @@ class Curso {
       'fechaCreacion': fechaCreacion,
       'fechaFinalizacion': fechaFinalizacion,
       'estado': estado,
+      'estudiantes': estudiantes,
     };
   }
 
@@ -86,6 +92,7 @@ class Curso {
       'fechaCreacion': fechaCreacion,
       'fechaFinalizacion': fechaFinalizacion,
       'estado': estado,
+      'estudiantes': estudiantes,
     };
   }
 }

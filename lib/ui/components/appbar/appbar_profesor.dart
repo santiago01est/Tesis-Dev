@@ -1,24 +1,18 @@
+import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppBarProfesor extends StatelessWidget implements PreferredSizeWidget {
-  final String title;
-  final String userName;
-  final String avatarImagePath;
-  final VoidCallback onAvatarTap;
-
   const AppBarProfesor({
     super.key,
-    required this.title,
-    required this.userName,
-    required this.avatarImagePath,
-    required this.onAvatarTap,
   });
 
   @override
   Widget build(BuildContext context) {
+    final profesorCubit = context.watch<ProfesorCubit>();
     return AppBar(
       backgroundColor: Colors.blue, // Ajusta el color según tus necesidades
-      title: Text(title),
+      title: Text('Mundo PC'),
       actions: [
         LayoutBuilder(
           builder: (context, constraints) {
@@ -30,16 +24,22 @@ class AppBarProfesor extends StatelessWidget implements PreferredSizeWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(userName),
+                    Text(
+                      profesorCubit.state.nombre ?? '',
+                    ),
                     const SizedBox(
                       width: 10,
                     ),
                     GestureDetector(
-                      onTap: onAvatarTap,
+                      onTap: () {
+                        print('Avatar tap');
+                      },
                       child: CircleAvatar(
                         radius:
                             20, // Ajusta el radio del avatar según tus necesidades
-                        backgroundImage: AssetImage(avatarImagePath),
+                        backgroundImage: AssetImage(
+                          profesorCubit.state.avatar ?? '',
+                        ),
                       ),
                     ),
                   ],
@@ -50,11 +50,15 @@ class AppBarProfesor extends StatelessWidget implements PreferredSizeWidget {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: GestureDetector(
-                  onTap: onAvatarTap,
+                  onTap: () {
+                    print('Avatar tap');
+                  },
                   child: CircleAvatar(
                     radius:
                         20, // Ajusta el radio del avatar según tus necesidades
-                    backgroundImage: AssetImage(avatarImagePath),
+                    backgroundImage: AssetImage(
+                      profesorCubit.state.avatar ?? '',
+                    ),
                   ),
                 ),
               );

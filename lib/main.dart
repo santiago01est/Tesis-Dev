@@ -34,8 +34,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<NombreCompletoCubit>(
-            create: (context) => NombreCompletoCubit()),
+        BlocProvider<CursoCubit>(create: (context) => CursoCubit()),
         // Agrega más BlocProviders según sea necesario
         BlocProvider<ProfesorCubit>(
           create: (context) => ProfesorCubit(),

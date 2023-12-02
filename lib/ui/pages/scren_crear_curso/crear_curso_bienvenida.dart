@@ -1,9 +1,7 @@
 import 'package:dev_tesis/constants/styles.dart';
-import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_profesor.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class CrearCursoBienvenidaScreen extends StatefulWidget {
@@ -18,19 +16,11 @@ class _CrearCursoBienvenidaScreenState
     extends State<CrearCursoBienvenidaScreen> {
   @override
   Widget build(BuildContext context) {
-    final profesorCubit = context.watch<ProfesorCubit>();
     final router = GoRouter.of(context);
 
     return Scaffold(
       backgroundColor: blueColor,
-      appBar: AppBarProfesor(
-        title: 'Mundo PC',
-        userName: profesorCubit.state.nombre ?? '',
-        avatarImagePath: profesorCubit.state.avatar ?? '',
-        onAvatarTap: () {
-          print('Avatar tap');
-        },
-      ),
+      appBar: AppBarProfesor(),
       body: Stack(
         fit: StackFit.expand,
         children: [

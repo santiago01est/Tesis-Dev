@@ -1,8 +1,8 @@
 import 'dart:async';
-
 import 'package:dev_tesis/constants/styles.dart';
+import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
-import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
+import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_profesor.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/widgets/PopUp.dart';
@@ -12,7 +12,7 @@ import 'dart:html' as html;
 import 'package:dev_tesis/utils/rutasImagenes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class CrearCursoWebScreen extends StatefulWidget {
   const CrearCursoWebScreen({super.key});
@@ -22,6 +22,8 @@ class CrearCursoWebScreen extends StatefulWidget {
 }
 
 class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
+  final CursosCasoUso cursosCasoUso = getIt<CursosCasoUso>();
+
 //ruta imagene portada prederteminada
   String selectedImages = RutasImagenes.getRutasPortadas()[0];
 
@@ -82,7 +84,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final profesorCubit = context.watch<ProfesorCubit>();
+    final router = GoRouter.of(context);
 
     final List<StepForm> _stepForms = [
       StepForm(title: 'Información del Curso', formFields: [
@@ -518,14 +520,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
 
     return Scaffold(
       backgroundColor: blueColor,
-      appBar: AppBarProfesor(
-        title: 'Mundo PC',
-        userName: profesorCubit.state.nombre ?? '',
-        avatarImagePath: profesorCubit.state.avatar ?? '',
-        onAvatarTap: () {
-          print('Avatar tap');
-        },
-      ),
+      appBar: AppBarProfesor(),
       body: Stack(
         children: [
           Container(
@@ -590,6 +585,15 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                               path: 'assets/items/bttn_confirmar.png',
                               onPressed: () {
                                 //TODO: Validar la información
+                                //TODO: Llamar a la API para guardar la información
+                                cursosCasoUso.guardarCurso(
+                                    _nombreCursoController.text,
+                                    _descripcionCursoController.text,
+                                    _codigoAccesoController.text,
+                                    selectedImages,
+                                    'Plantilla1',
+                                    listaEstudiantes);
+                                router.go('/panelprofesorcurso');
                                 //bool isValid =
                                 //_validateInformation(); // Verifica la información
 /*
