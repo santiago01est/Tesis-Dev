@@ -43,6 +43,7 @@ class welcome extends StatelessWidget {
             right: 0,
             bottom: 20,
             child: Container(
+                height: 100,
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: PixelLargeBttn(
                     path: 'assets/items/Bttn.png',

@@ -72,15 +72,21 @@ class CursosDataAdapter extends CursoRepository {
       departamento: 'Departamento 5',
       ciudad: 'Ciudad 5',
       colegio: 'Colegio 5',
-      profesor: 'Profesor de la institucion educativa',
+      profesor: 'Angela Maria Muñoz Muñoz',
       portada: 'assets/Inicio.png',
       estado: 'Activo',
       numEstudiantes: 10,
-      descripcion: "Descripción una muy larga descripcion",
+      descripcion:
+          "Descripción una muy larga descripcionnnn muy larga muy larga",
       fechaCreacion: '2022-01-01',
       fechaFinalizacion: '2022-01-01',
     );
     List<Curso> cursos = [c1, c2, c3, c4, c5];
     return Future.value(cursos);
+  }
+
+  @override
+  void guardarCurso(Curso curso) {
+    // TODO: implement guardarCurso
   }
 }

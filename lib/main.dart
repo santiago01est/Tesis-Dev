@@ -1,6 +1,7 @@
 import 'package:dev_tesis/config/config.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
+import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:flutter/material.dart';
@@ -34,12 +35,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<NombreCompletoCubit>(
-            create: (context) => NombreCompletoCubit()),
+        BlocProvider<CursoCubit>(create: (context) => CursoCubit()),
         // Agrega más BlocProviders según sea necesario
         BlocProvider<ProfesorCubit>(
           create: (context) => ProfesorCubit(),
-        )
+        ),
+        BlocProvider<BDCursosCubit>(
+          create: (context) => BDCursosCubit(),
+        ),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
@@ -54,7 +57,7 @@ class MyApp extends StatelessWidget {
             TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),
             TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
           }),
-          primaryColor: Colors.blue,
+          primaryColor: blueDarkColor,
         ),
       ),
     );

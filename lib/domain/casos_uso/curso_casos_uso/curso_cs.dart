@@ -5,4 +5,8 @@ class CursosCasoUso {
   final CursoRepository cursoRepository;
   CursosCasoUso(this.cursoRepository);
   Future<List<Curso>> getCursos() => cursoRepository.getCursos();
+
+  void guardarCurso(Curso curso) {
+    cursoRepository.guardarCurso(curso);
+  }
 }
