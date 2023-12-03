@@ -1,7 +1,10 @@
 import 'package:dev_tesis/constants/styles.dart';
+import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
+import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_profesor.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class PanelProfesorCursoScreen extends StatefulWidget {
@@ -16,6 +19,7 @@ class _PanelProfesorCursoScreenState extends State<PanelProfesorCursoScreen> {
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
+    final cursoCubit = context.watch<CursoCubit>();
     return Scaffold(
         backgroundColor: blueColor,
         appBar: const AppBarProfesor(),
@@ -23,9 +27,24 @@ class _PanelProfesorCursoScreenState extends State<PanelProfesorCursoScreen> {
           padding: const EdgeInsets.all(50),
           child: Column(children: [
             TitleText(
-              text: 'Panel de Profesores',
+              text: cursoCubit.state.nombre!,
             ),
             const SizedBox(height: 20),
+            //buton
+            ElevatedButton(
+                onPressed: () {
+                  router.go('/crearactividad');
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: const Text(
+                  'Iniciar Nivel',
+                )),
+
             LayoutBuilder(
               builder: (context, constraints) {
                 // Verifica el ancho de la pantalla
@@ -34,8 +53,7 @@ class _PanelProfesorCursoScreenState extends State<PanelProfesorCursoScreen> {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      buildCard(
-                          'Lorem ipsum dolor sit amet consectetur adipiscing elit'),
+                      buildCard(cursoCubit.state.descripcion ?? ''),
                       buildCardWithImageAndGraph(),
                     ],
                   );

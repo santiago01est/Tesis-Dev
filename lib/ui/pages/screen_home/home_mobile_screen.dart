@@ -2,9 +2,11 @@ import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/main.dart';
+import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/components/cards/curso_cards.dart';
 import 'package:flutter/material.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeMobile extends StatefulWidget {
@@ -15,6 +17,25 @@ class HomeMobile extends StatefulWidget {
 }
 
 class _HomeMobileState extends State<HomeMobile> {
+  @override
+  void initState() {
+    super.initState();
+    // si el cubit no tiene datos, los obtiene
+    if (context.read<BDCursosCubit>().state.isEmpty) {
+      _fetchCursos();
+    }
+  }
+
+  void _fetchCursos() async {
+    try {
+      final cursos = await cursosCasoUso.getCursos();
+      context.read<BDCursosCubit>().subirCursos(cursos);
+    } catch (e) {
+      // Manejo de errores, puedes mostrar un mensaje de error
+      print('Error al obtener cursos: $e');
+    }
+  }
+
   final CursosCasoUso cursosCasoUso = getIt<CursosCasoUso>();
   @override
   Widget build(BuildContext context) {
@@ -84,7 +105,7 @@ class _HomeMobileState extends State<HomeMobile> {
                             child: PixelLargeBttn(
                               path: 'assets/items/bttn_iniciar_sesion.png',
                               onPressed: () {
-                                router.go('/iniciosesion');
+                                router.go('/registroprofesor');
                               },
                             ),
                           )
@@ -145,40 +166,41 @@ class _HomeMobileState extends State<HomeMobile> {
                     Padding(
                       padding: const EdgeInsets.all(0),
                       child: Center(
-                          child: FractionallySizedBox(
-                        widthFactor: 0.8,
-                        child: FutureBuilder<List<Curso>>(
-                          future: cursosCasoUso.getCursos(),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const CircularProgressIndicator();
-                            } else if (snapshot.hasError) {
-                              return Text('Error: ${snapshot.error}');
-                            } else if (!snapshot.hasData ||
-                                snapshot.data!.isEmpty) {
-                              return const Text('No hay cursos disponibles');
-                            } else {
-                              // Mostrar la lista de cursos utilizando snapshot.data
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: snapshot.data!.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: CursoCard(
-                                      curso: snapshot.data![
-                                          index], // Convertir el objeto Curso a un mapa
+                        child: FractionallySizedBox(
+                          widthFactor: 0.8,
+                          child: BlocBuilder<BDCursosCubit, List<Curso>>(
+                            builder: (context, cursos) {
+                              if (cursos.isEmpty) {
+                                return const CircularProgressIndicator();
+                              } else {
+                                return ListView(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  children: [
+                                    GridView.builder(
+                                      shrinkWrap: true,
+                                      gridDelegate:
+                                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                                        maxCrossAxisExtent: 300,
+                                        crossAxisSpacing: 10,
+                                        mainAxisSpacing: 10,
+                                        childAspectRatio: 0.5,
+                                      ),
+                                      itemCount: cursos.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return CursoCard(
+                                          curso: cursos[index],
+                                        );
+                                      },
                                     ),
-                                  );
-                                },
-                              );
-                            }
-                          },
+                                  ],
+                                );
+                              }
+                            },
+                          ),
                         ),
-                        //
-                      )),
+                      ),
                     ),
                   ],
                 ),

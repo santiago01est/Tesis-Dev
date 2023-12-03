@@ -10,6 +10,7 @@ class AppBarProfesor extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final profesorCubit = context.watch<ProfesorCubit>();
+
     return AppBar(
       backgroundColor: Colors.blue, // Ajusta el color según tus necesidades
       title: Text('Mundo PC'),

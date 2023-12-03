@@ -1,6 +1,7 @@
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginFormMobile extends StatelessWidget {
   LoginFormMobile({Key? key}) : super(key: key);
@@ -11,6 +12,7 @@ class LoginFormMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final router = GoRouter.of(context);
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
@@ -167,7 +169,7 @@ class LoginFormMobile extends StatelessWidget {
                       onTap: () {
                         //Open Forgot password screen here
                         //
-                        print("Olvidaste tu contraseña");
+                        router.go('/registroprofesor');
                       },
                       child: const Text(
                         "Registrarse",

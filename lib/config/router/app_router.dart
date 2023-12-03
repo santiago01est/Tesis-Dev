@@ -1,4 +1,5 @@
 import 'package:dev_tesis/ui/pages/screen_home/home.dart';
+import 'package:dev_tesis/ui/pages/screen_laberintos/nivel1_screen.dart';
 import 'package:dev_tesis/ui/pages/screen_panel_profesor_curso/panel_profesor_curso_screen.dart';
 import 'package:dev_tesis/ui/pages/screen_registro_profesor/inicio_sesion_screen.dart';
 import 'package:dev_tesis/ui/pages/screen_registro_profesor/registro_profesor_screen.dart';
@@ -36,6 +37,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/panelprofesorcurso',
       builder: (context, state) => const PanelProfesorCursoScreen(),
+    ),
+    GoRoute(
+      path: '/laberinto',
+      builder: (context, state) => const Nivel1Laberinto(),
     ),
   ],
 );
