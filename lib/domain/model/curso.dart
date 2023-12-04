@@ -1,4 +1,6 @@
+import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
+import 'package:dev_tesis/domain/model/unidad.dart';
 
 class Curso {
   String? id;
@@ -13,8 +15,9 @@ class Curso {
   String? descripcion;
   String? fechaCreacion;
   String? fechaFinalizacion;
-  String? estado;
+  bool? estado;
   List<Estudiante>? estudiantes;
+  List<Unidad>? unidades;
 
   Curso({
     this.id,
@@ -31,6 +34,7 @@ class Curso {
     this.fechaFinalizacion,
     this.estado,
     this.estudiantes,
+    this.unidades,
   });
 
   factory Curso.fromJson(Map<String, dynamic> json) {
@@ -49,6 +53,7 @@ class Curso {
       fechaFinalizacion: json['fechaFinalizacion'],
       estado: json['estado'],
       estudiantes: json['estudiantes'],
+      unidades: json['unidades'],
     );
   }
 
@@ -68,12 +73,13 @@ class Curso {
       'fechaFinalizacion': fechaFinalizacion,
       'estado': estado,
       'estudiantes': estudiantes,
+      'unidades': unidades,
     };
   }
 
   @override
   String toString() {
-    return 'Curso: $id, $nombre, $codigoAcceso, $departamento, $ciudad, $colegio,$profesor, $portada, $numEstudiantes, $descripcion, $fechaCreacion, $fechaFinalizacion, $estado';
+    return 'Curso: $id, $nombre, $codigoAcceso, $departamento, $ciudad, $colegio,$profesor, $portada, $numEstudiantes, $descripcion, $fechaCreacion, $fechaFinalizacion, $estado, $unidades';
   }
 
   //metodo toMap
@@ -93,6 +99,7 @@ class Curso {
       'fechaFinalizacion': fechaFinalizacion,
       'estado': estado,
       'estudiantes': estudiantes,
+      'unidades': unidades,
     };
   }
 }

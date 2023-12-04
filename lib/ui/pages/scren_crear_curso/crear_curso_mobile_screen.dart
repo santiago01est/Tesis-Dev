@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/unidad_casos_uso/unidad_cs.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
+import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
@@ -30,6 +32,7 @@ class CrearCursoMobileScreen extends StatefulWidget {
 
 class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
   final CursosCasoUso cursosCasoUso = getIt<CursosCasoUso>();
+  final UnidadCasoUso unidadCasoUso = getIt<UnidadCasoUso>();
 //ruta imagene portada prederteminada
   String selectedImages = RutasImagenes.getRutasPortadas()[0];
 
@@ -705,6 +708,8 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                               onPressed: () {
                                 //TODO: Validar la información
 
+                                List<Unidad> listaUnidades =
+                                    unidadCasoUso.getUnidadesPrueba();
                                 Curso curso = Curso(
                                     id: _nombreCursoController.text +
                                         profesorCubit.state.nombre!,
@@ -720,15 +725,16 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                         _descripcionCursoController.text,
                                     fechaCreacion: DateTime.now().toString(),
                                     fechaFinalizacion: "",
-                                    estado: 'Activo',
-                                    estudiantes: listaEstudiantes);
+                                    estado: true,
+                                    estudiantes: listaEstudiantes,
+                                    unidades: listaUnidades);
                                 //TODO: Llamar a la API para guardar la información
                                 cursosCasoUso.guardarCurso(curso);
                                 // Guardar en Cubit
                                 cursoCubit.actualizarCurso(curso);
                                 bdCursosCubit.agregarCurso(curso);
 
-                                router.go('/panelprofesorcurso');
+                                router.go('/panelprofesorcurso/${curso.id}');
                                 //bool isValid =
                                 //_validateInformation(); // Verifica la información
 /*

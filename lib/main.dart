@@ -1,6 +1,9 @@
 import 'package:dev_tesis/config/config.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/unidad_casos_uso/unidad_cs.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
+import 'package:dev_tesis/domain/repository/unidad_repository.dart';
+import 'package:dev_tesis/infraestructure/driven_adapter/unidad_adapter/unidad_data_adapter.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
@@ -21,6 +24,9 @@ void setupDependencies() {
   getIt.registerSingleton<CursoRepository>(CursosDataAdapter());
   getIt.registerSingleton<CursosCasoUso>(
       CursosCasoUso(getIt<CursoRepository>()));
+  getIt.registerSingleton<UnidadRepository>(UnidadDataAdapter());
+  getIt.registerSingleton<UnidadCasoUso>(
+      UnidadCasoUso(getIt<UnidadRepository>()));
 }
 
 void main() {

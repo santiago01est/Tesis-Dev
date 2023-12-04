@@ -34,9 +34,15 @@ final appRouter = GoRouter(
       path: '/crearcurso',
       builder: (context, state) => const CrearCursoScreen(),
     ),
+    // ruta con id del curso
     GoRoute(
-      path: '/panelprofesorcurso',
-      builder: (context, state) => const PanelProfesorCursoScreen(),
+      path:
+          '/panelprofesorcurso/:cursoId', // :cursoId indica un parámetro dinámico
+      builder: (context, state) {
+        // Obtén el ID del curso desde los parámetros de la ruta
+        final String cursoId = state.pathParameters['cursoId'] ?? '1';
+        return PanelProfesorCursoScreen(cursoId: cursoId);
+      },
     ),
     GoRoute(
       path: '/laberinto',
