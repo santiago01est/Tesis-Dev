@@ -15,16 +15,16 @@ class Animation_Object extends SpriteAnimationComponent with HasGameRef<GameActi
   
     switch(name){
       case 'chickens':
-        chargeAnimation(4, 32);
+        chargeAnimation('animation_object/animals/',4, 32);
         break;
     }
     debugMode= false;
     return super.onLoad();
   }
 
-  void chargeAnimation(int amount, double size){
+  void chargeAnimation(String path,int amount, double size){
     animation= SpriteAnimation.fromFrameData(
-      game.images.fromCache('$name.png'),
+      game.images.fromCache('$path$name.png'),
       SpriteAnimationData.sequenced(
         amount: amount, 
         stepTime: stepTime, 

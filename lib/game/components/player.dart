@@ -205,7 +205,7 @@ class Player extends SpriteAnimationGroupComponent
   SpriteAnimation _spriteAnimationsGenerator(
       String direction, String state, int amount) {
     SpriteAnimation spriteAnimation = SpriteAnimation.fromFrameData(
-        game.images.fromCache('character/$state-$direction.png'),
+        game.images.fromCache('animation_object/player/$state-$direction.png'),
         SpriteAnimationData.sequenced(
           amount: amount,
           stepTime: stepTime,

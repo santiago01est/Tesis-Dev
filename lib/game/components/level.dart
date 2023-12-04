@@ -19,6 +19,11 @@ class Level extends World with HasGameRef<GameActivity>{
 
   @override
   FutureOr<void> onLoad() async{
+    const RUTA_DECORACION= 'map/decoracion/';
+    const RUTA_OBJETOS= 'map/objetos/';
+    const RUTA_OBJETOS_UP= 'map/objetos_up/';
+    const RUTA_SUELO= 'map/suelo/';
+    
     level= await TiledComponent.load('Level-02.tmx', Vector2(16, 16));
     
     add(level);
@@ -27,47 +32,47 @@ class Level extends World with HasGameRef<GameActivity>{
       for(final itemMap in levelMap.objects){
         switch(itemMap.class_){
           case 'esquina-superior-izq':
-            final image= loadImage(itemMap);
+            final image= loadImage(itemMap, RUTA_SUELO);
             image.priority=-1;
             add(image);
             break;
           case 'esquina-superior-derech':
-            final image= loadImage(itemMap);
+            final image= loadImage(itemMap, RUTA_SUELO);
             image.priority=-1;
             add(image);
             break;
           case 'esquina-inferior-izq':
-            final image= loadImage(itemMap);
+            final image= loadImage(itemMap, RUTA_SUELO);
             image.priority=-1;
             add(image);
             break;
           case 'esquina-inferior-derech':
-            final image= loadImage(itemMap);
+            final image= loadImage(itemMap, RUTA_SUELO);
             image.priority=-1;
             add(image);
             break;
           case 'borde-izq':
-            final image= loadImage(itemMap);
+            final image= loadImage(itemMap, RUTA_SUELO);
             image.priority=-1;
             add(image);
             break;
           case 'borde-derech':
-            final image= loadImage(itemMap);
+            final image= loadImage(itemMap, RUTA_SUELO);
             image.priority=-1;
             add(image);
             break;
           case 'borde-superior':
-            final image= loadImage(itemMap);
+            final image= loadImage(itemMap, RUTA_SUELO);
             image.priority=-1;
             add(image);
             break;
           case 'borde-inferior':
-            final image= loadImage(itemMap);
+            final image= loadImage(itemMap, RUTA_SUELO);
             image.priority=-1;
             add(image);
             break;
           case 'suelo':
-            final image= loadImage(itemMap);
+            final image= loadImage(itemMap, RUTA_SUELO);
             image.priority=-1;
             add(image);
             break;
@@ -82,17 +87,17 @@ class Level extends World with HasGameRef<GameActivity>{
       for(final decoration in mapDecoration.objects){
         switch(decoration.class_){
           case 'hojas-1':
-            final image= loadImage(decoration);
+            final image= loadImage(decoration, RUTA_DECORACION);
             image.priority=0;
             add(image);
             break;
           case 'flor-1':
-            final image= loadImage(decoration);
+            final image= loadImage(decoration, RUTA_DECORACION);
             image.priority=0;
             add(image);
             break;
           case 'flor-2':
-            final image= loadImage(decoration);
+            final image= loadImage(decoration, RUTA_DECORACION);
             image.priority=0;
             add(image);
             break;
@@ -115,12 +120,12 @@ class Level extends World with HasGameRef<GameActivity>{
             add(animationObject);
             break;
           case 'Up-Object':
-            final image= loadImage(object);
+            final image= loadImage(object, RUTA_OBJETOS_UP);
             image.priority=3;
             add(image);
             break;
           case 'Down-Object':
-            final image= loadImage(object);
+            final image= loadImage(object, RUTA_OBJETOS);
             image.priority=1;
             add(image);
             break;
@@ -163,10 +168,10 @@ class Level extends World with HasGameRef<GameActivity>{
     return super.onLoad();
   }
 
-  SpriteComponent loadImage(TiledObject object){
+  SpriteComponent loadImage(TiledObject object, String ruta){
     String name= object.name;
     var image=SpriteComponent.fromImage(
-              game.images.fromCache('$name.png'),
+              game.images.fromCache('$ruta$name.png'),
               position: Vector2(object.x, object.y),
               size: Vector2(16, 16)
     );

@@ -60,3 +60,16 @@ flutter:
   assets:
     - assets/
     - assets/items/
+    - assets/images/
+    - assets/images/animation_object/
+    - assets/images/animation_object/animals/
+    - assets/images/animation_object/player/
+    - assets/tiles/
+    - assets/images/map/
+    - assets/images/map/decoracion/
+    - assets/images/map/objetos/
+    - assets/images/map/objetos_up/
+    - assets/images/map/suelo/
+    - assets/friends/
+    - assets/buttons/
+
