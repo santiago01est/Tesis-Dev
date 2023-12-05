@@ -146,7 +146,7 @@ class Player extends SpriteAnimationGroupComponent
         add(MoveByEffect(Vector2(16, 0), EffectController(duration: 0.333)));
         await Future.delayed(const Duration(milliseconds: 333));
         current = PlayerState.idleR;
-      } else if (block.type == 'Trap-spikes') {
+      } else if (block.type == 'Meta') {
         current = PlayerState.runningR;
         add(MoveByEffect(Vector2(16, 0), EffectController(duration: 0.333)));
         await Future.delayed(const Duration(milliseconds: 333));
@@ -172,7 +172,7 @@ class Player extends SpriteAnimationGroupComponent
         add(MoveByEffect(Vector2(0, -16), EffectController(duration: 0.333)));
         await Future.delayed(const Duration(milliseconds: 333));
         current = PlayerState.idleU;
-      } else if (block.type == 'Trap-spikes') {
+      } else if (block.type == 'Meta') {
         current = PlayerState.runningU;
         add(MoveByEffect(Vector2(0, -16), EffectController(duration: 0.333)));
         await Future.delayed(const Duration(milliseconds: 333));
@@ -185,7 +185,7 @@ class Player extends SpriteAnimationGroupComponent
         add(MoveByEffect(Vector2(0, 16), EffectController(duration: 0.333)));
         await Future.delayed(const Duration(milliseconds: 333));
         current = PlayerState.idleD;
-      } else if (block.type == 'Trap-spikes') {
+      } else if (block.type == 'Meta') {
         current = PlayerState.runningD;
         add(MoveByEffect(Vector2(0, 16), EffectController(duration: 0.333)));
         await Future.delayed(const Duration(milliseconds: 333));
@@ -199,8 +199,6 @@ class Player extends SpriteAnimationGroupComponent
     }
     currentInstructionIndex += 1;
   }
-
-  
 
   SpriteAnimation _spriteAnimationsGenerator(
       String direction, String state, int amount) {
@@ -227,7 +225,7 @@ class Player extends SpriteAnimationGroupComponent
 
     Future.delayed(hitDuration, () {
       current = PlayerState.idleR;
-      position = Vector2(40, 22);
+      position = Vector2(40, 20);
     });
   }
 

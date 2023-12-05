@@ -160,6 +160,15 @@ class Level extends World with HasGameRef<GameActivity>{
             collisionBlocks.add(block);
             add(block);
             break;
+          case 'Arrival_point':
+            final block= CollisionBlock(
+              position: Vector2(collision.x, collision.y),
+              size: Vector2(collision.width, collision.height),
+              type: collision.name,
+            );
+            collisionBlocks.add(block);
+            add(block);
+            break;
         }
       }
     }
