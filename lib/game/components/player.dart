@@ -7,7 +7,6 @@ import 'package:dev_tesis/game/game_activity.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
-import 'package:flutter/services.dart';
 
 enum PlayerState {
   idleR,
@@ -21,14 +20,15 @@ enum PlayerState {
   deathR,
   deathL,
   deathU,
-  deathD
+  deathD,
+  victory
 }
 
 class Player extends SpriteAnimationGroupComponent
-    with HasGameRef<GameActivity>, KeyboardHandler {
-  final List<String> movementInstructions;
+  with HasGameRef<GameActivity>, KeyboardHandler {
+  late List<String> movementInstructions;
 
-  Player({position, priority, required this.movementInstructions})
+  Player({position, priority})
       : super(position: position, priority: priority);
 
   int currentInstructionIndex = 0;
@@ -44,6 +44,7 @@ class Player extends SpriteAnimationGroupComponent
   late final SpriteAnimation rightDeathAnimation;
   late final SpriteAnimation leftDeathAnimation;
   late final SpriteAnimation upDeathAnimation;
+  late final SpriteAnimation victoryAnimation;
 
   late final double startPositionX;
   late final double startPositionY;
@@ -68,18 +69,19 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _loadAllAnimations() {
-    idleRightAnimation = _spriteAnimationsGenerator('right', 'idle', 6);
-    idleLeftAnimation = _spriteAnimationsGenerator('left', 'idle', 6);
-    idleUpAnimation = _spriteAnimationsGenerator('up', 'idle', 6);
-    idleDownAnimation = _spriteAnimationsGenerator('down', 'idle', 6);
-    runningRightAnimation = _spriteAnimationsGenerator('right', 'run', 6);
-    runningLeftAnimation = _spriteAnimationsGenerator('left', 'run', 6);
-    runningUpAnimation = _spriteAnimationsGenerator('up', 'run', 6);
-    runningDownAnimation = _spriteAnimationsGenerator('down', 'run', 6);
-    downDeathAnimation = _spriteAnimationsGenerator('down', 'death', 6);
-    rightDeathAnimation = _spriteAnimationsGenerator('right', 'death', 6);
-    leftDeathAnimation = _spriteAnimationsGenerator('left', 'death', 6);
-    upDeathAnimation = _spriteAnimationsGenerator('up', 'death', 6);
+    idleRightAnimation = _spriteAnimationsGenerator('right', 'idle-', 6);
+    idleLeftAnimation = _spriteAnimationsGenerator('left', 'idle-', 6);
+    idleUpAnimation = _spriteAnimationsGenerator('up', 'idle-', 6);
+    idleDownAnimation = _spriteAnimationsGenerator('down', 'idle-', 6);
+    runningRightAnimation = _spriteAnimationsGenerator('right', 'run-', 6);
+    runningLeftAnimation = _spriteAnimationsGenerator('left', 'run-', 6);
+    runningUpAnimation = _spriteAnimationsGenerator('up', 'run-', 6);
+    runningDownAnimation = _spriteAnimationsGenerator('down', 'run-', 6);
+    downDeathAnimation = _spriteAnimationsGenerator('down', 'death-', 6);
+    rightDeathAnimation = _spriteAnimationsGenerator('right', 'death-', 6);
+    leftDeathAnimation = _spriteAnimationsGenerator('left', 'death-', 6);
+    upDeathAnimation = _spriteAnimationsGenerator('up', 'death-', 6);
+    victoryAnimation = _spriteAnimationsGenerator('', 'victory2', 4);
     //Lista de todas las animaciones
     animations = {
       PlayerState.idleR: idleRightAnimation,
@@ -94,48 +96,19 @@ class Player extends SpriteAnimationGroupComponent
       PlayerState.deathL: leftDeathAnimation,
       PlayerState.deathU: upDeathAnimation,
       PlayerState.deathD: downDeathAnimation,
+      PlayerState.victory: victoryAnimation
     };
     current = PlayerState.idleR;
   }
 
-  @override
-  bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-    final isLeftKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyA) ||
-        keysPressed.contains(LogicalKeyboardKey.arrowLeft);
-    final isRightKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyD) ||
-        keysPressed.contains(LogicalKeyboardKey.arrowRight);
-    final isUpKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyW) ||
-        keysPressed.contains(LogicalKeyboardKey.arrowUp);
-    final isDownKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyS) ||
-        keysPressed.contains(LogicalKeyboardKey.arrowDown);
-    final isSecuenceKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyQ);
-
-    if ((isLeftKeyPressed && isUpKeyPressed) ||
-        (isRightKeyPressed && isUpKeyPressed) ||
-        (isLeftKeyPressed && isDownKeyPressed) ||
-        (isRightKeyPressed && isDownKeyPressed)) {
-    } else {
-      if (isSecuenceKeyPressed) {
+  void executeResponse(){
+    // ignore: unnecessary_null_comparison
+    if (movementInstructions!=null || movementInstructions.isNotEmpty) {
         _execute();
       }
-      if (isLeftKeyPressed) {
-        _executeInstruction('izquierda');
-      }
-      if (isRightKeyPressed) {
-        _executeInstruction('derecha');
-      }
-      if (isUpKeyPressed) {
-        _executeInstruction('arriba');
-      }
-      if (isDownKeyPressed) {
-        _executeInstruction('abajo');
-      }
-    }
-
-    return super.onKeyEvent(event, keysPressed);
   }
 
-  Future<void> _executeInstruction(String instruction) async {
+  Future<void> _executeInstruction(String instruction, bool lastInstruction) async {
     final block = _checkNextBlockForCollision(instruction);
     if (block.type == 'err') {
       print('Hubo un error');
@@ -146,11 +119,11 @@ class Player extends SpriteAnimationGroupComponent
         add(MoveByEffect(Vector2(16, 0), EffectController(duration: 0.333)));
         await Future.delayed(const Duration(milliseconds: 333));
         current = PlayerState.idleR;
-      } else if (block.type == 'Meta') {
+      } else if (block.type == 'Meta' && lastInstruction==true) {
         current = PlayerState.runningR;
         add(MoveByEffect(Vector2(16, 0), EffectController(duration: 0.333)));
         await Future.delayed(const Duration(milliseconds: 333));
-        _hitSpikes(PlayerState.deathR);
+        _victory(PlayerState.victory);
       }
     }
     if (instruction == 'izquierda') {
@@ -159,11 +132,11 @@ class Player extends SpriteAnimationGroupComponent
         add(MoveByEffect(Vector2(-16, 0), EffectController(duration: 0.333)));
         await Future.delayed(const Duration(milliseconds: 333));
         current = PlayerState.idleL;
-      } else if (block.type == 'Meta') {
+      } else if (block.type == 'Meta' && lastInstruction==true) {
         current = PlayerState.runningL;
         add(MoveByEffect(Vector2(-16, 0), EffectController(duration: 0.333)));
         await Future.delayed(const Duration(milliseconds: 333));
-        _hitSpikes(PlayerState.deathL);
+        _victory(PlayerState.victory);
       }
     }
     if (instruction == 'arriba') {
@@ -172,11 +145,11 @@ class Player extends SpriteAnimationGroupComponent
         add(MoveByEffect(Vector2(0, -16), EffectController(duration: 0.333)));
         await Future.delayed(const Duration(milliseconds: 333));
         current = PlayerState.idleU;
-      } else if (block.type == 'Meta') {
+      } else if (block.type == 'Meta' && lastInstruction==true) {
         current = PlayerState.runningU;
         add(MoveByEffect(Vector2(0, -16), EffectController(duration: 0.333)));
         await Future.delayed(const Duration(milliseconds: 333));
-        _hitSpikes(PlayerState.deathU);
+        _victory(PlayerState.victory);
       }
     }
     if (instruction == 'abajo') {
@@ -185,17 +158,12 @@ class Player extends SpriteAnimationGroupComponent
         add(MoveByEffect(Vector2(0, 16), EffectController(duration: 0.333)));
         await Future.delayed(const Duration(milliseconds: 333));
         current = PlayerState.idleD;
-      } else if (block.type == 'Meta') {
+      } else if (block.type == 'Meta' && lastInstruction==true) {
         current = PlayerState.runningD;
         add(MoveByEffect(Vector2(0, 16), EffectController(duration: 0.333)));
         await Future.delayed(const Duration(milliseconds: 333));
-        _hitSpikes(PlayerState.deathD);
+        _victory(PlayerState.victory);
       }
-
-      /*print(position.y);
-      if(position.y>=55){
-        _hitSpikes();
-      }*/
     }
     currentInstructionIndex += 1;
   }
@@ -203,7 +171,7 @@ class Player extends SpriteAnimationGroupComponent
   SpriteAnimation _spriteAnimationsGenerator(
       String direction, String state, int amount) {
     SpriteAnimation spriteAnimation = SpriteAnimation.fromFrameData(
-        game.images.fromCache('animation_object/player/$state-$direction.png'),
+        game.images.fromCache('animation_object/player/$state$direction.png'),
         SpriteAnimationData.sequenced(
           amount: amount,
           stepTime: stepTime,
@@ -213,13 +181,22 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _execute() async {
+    var i=0;
     for (var movement in movementInstructions) {
+      i++;
       final instruction = movement;
-      await _executeInstruction(instruction);
+      if (i == movementInstructions.length) {
+        await _executeInstruction(instruction, true);
+      }
+      else{
+        await _executeInstruction(instruction, false);
+      }
+      
+      
     }
   }
 
-  void _hitSpikes(PlayerState deathPosition) {
+/*   void _hitSpikes(PlayerState deathPosition) {
     const hitDuration = Duration(milliseconds: 1200);
     current = deathPosition;
 
@@ -227,6 +204,11 @@ class Player extends SpriteAnimationGroupComponent
       current = PlayerState.idleR;
       position = Vector2(40, 20);
     });
+  } */
+
+  void _victory(PlayerState victoryAnimation) {
+    current = victoryAnimation;
+
   }
 
   CollisionBlock _checkNextBlockForCollision(String direction) {

@@ -12,7 +12,7 @@ class GameActivity extends FlameGame with HasKeyboardHandlerComponents, HasColli
   @override
   Color backgroundColor()=> Color.fromARGB(0, 0, 0, 0);
   late final CameraComponent cam;
-  Player player= Player(movementInstructions: ['derecha', 'derecha', 'derecha', 'arriba', 'abajo'],);
+  Player player= Player();
   
   @override
   FutureOr<void> onLoad() async{

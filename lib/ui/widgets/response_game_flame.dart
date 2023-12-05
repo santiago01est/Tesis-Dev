@@ -17,15 +17,28 @@ class RespuestaLaberinto extends StatelessWidget {
         color: Colors.white,
         border: Border.all(color: Colors.black, width: 2),
       ),
-      child: BlocBuilder<InstruccionesCubit, List<String>>(
-        builder: (context, state) {
-          return ListView.builder(
-            itemCount: movementInstructionsCubit.state.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(movementInstructionsCubit.state[index]),
-              );
-            },
+      child: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 6, // Cambia esto según la cantidad deseada de columnas
+          mainAxisSpacing: 8.0
+        ),
+        itemCount: movementInstructionsCubit.state.length,
+        itemBuilder: (context, index) {
+          final clave = movementInstructionsCubit.state[index].key;
+          final valor = movementInstructionsCubit.state[index].value;
+
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Text(clave),
+                Image.asset(
+                    valor,
+                    width: 60, // Ajusta el tamaño de la imagen según sea necesario
+                    height: 60,
+                  ),
+              ],
+            ),
           );
         },
       ),
