@@ -101,14 +101,16 @@ class Player extends SpriteAnimationGroupComponent
     current = PlayerState.idleR;
   }
 
-  void executeResponse(){
+  Future<bool> executeResponse() async {
     // ignore: unnecessary_null_comparison
     if (movementInstructions!=null || movementInstructions.isNotEmpty) {
-        _execute();
-      }
+      return await _execute();
+    }
+    return false;
+
   }
 
-  Future<void> _executeInstruction(String instruction, bool lastInstruction) async {
+  Future<bool> _executeInstruction(String instruction, bool lastInstruction) async {
     final block = _checkNextBlockForCollision(instruction);
     if (block.type == 'err') {
       print('Hubo un error');
@@ -124,6 +126,7 @@ class Player extends SpriteAnimationGroupComponent
         add(MoveByEffect(Vector2(16, 0), EffectController(duration: 0.333)));
         await Future.delayed(const Duration(milliseconds: 333));
         _victory(PlayerState.victory);
+        return true;
       }
     }
     if (instruction == 'izquierda') {
@@ -137,6 +140,7 @@ class Player extends SpriteAnimationGroupComponent
         add(MoveByEffect(Vector2(-16, 0), EffectController(duration: 0.333)));
         await Future.delayed(const Duration(milliseconds: 333));
         _victory(PlayerState.victory);
+        return true;
       }
     }
     if (instruction == 'arriba') {
@@ -150,6 +154,7 @@ class Player extends SpriteAnimationGroupComponent
         add(MoveByEffect(Vector2(0, -16), EffectController(duration: 0.333)));
         await Future.delayed(const Duration(milliseconds: 333));
         _victory(PlayerState.victory);
+        return true;
       }
     }
     if (instruction == 'abajo') {
@@ -163,10 +168,13 @@ class Player extends SpriteAnimationGroupComponent
         add(MoveByEffect(Vector2(0, 16), EffectController(duration: 0.333)));
         await Future.delayed(const Duration(milliseconds: 333));
         _victory(PlayerState.victory);
+        return true;
       }
     }
     currentInstructionIndex += 1;
+    return false;
   }
+
 
   SpriteAnimation _spriteAnimationsGenerator(
       String direction, String state, int amount) {
@@ -180,20 +188,21 @@ class Player extends SpriteAnimationGroupComponent
     return spriteAnimation;
   }
 
-  void _execute() async {
+  Future<bool> _execute() async {
     var i=0;
+    bool response= false;
     for (var movement in movementInstructions) {
       i++;
       final instruction = movement;
       if (i == movementInstructions.length) {
-        await _executeInstruction(instruction, true);
+        response= await _executeInstruction(instruction, true);
       }
       else{
-        await _executeInstruction(instruction, false);
+        response= await _executeInstruction(instruction, false);
       }
       
-      
     }
+    return response;
   }
 
 /*   void _hitSpikes(PlayerState deathPosition) {

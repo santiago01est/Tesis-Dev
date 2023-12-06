@@ -106,7 +106,8 @@ class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
                               ),
                             ),
                             Container(
-                              margin: const EdgeInsets.only(left: 30, bottom: 20),
+                              margin:
+                                  const EdgeInsets.only(left: 30, bottom: 20),
                               child: const Text(
                                 "Selecciona los pasos necesarios para\nllegar a la meta:",
                                 style: TextStyle(
@@ -174,12 +175,14 @@ class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
                             ),
                             const RespuestaLaberinto(),
                             Container(
-                              margin: const EdgeInsets.only(bottom:24, left: 30), // Puedes ajustar el valor según tus necesidades
+                              margin: const EdgeInsets.only(
+                                  bottom: 24,
+                                  left:
+                                      30), // Puedes ajustar el valor según tus necesidades
                               child: Row(
                                 children: [
                                   SizedBox(
                                     height: 70,
-                                    
                                     child: PixelLargeBttn(
                                         path: "assets/buttons/Play.png",
                                         onPressed: () async {
@@ -187,12 +190,19 @@ class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
                                               movementInstructionsCubit.state
                                                   .map((map) => map.key)
                                                   .toList();
-                                          player.executeResponse();
+                                          Future<bool> response =
+                                              player.executeResponse();
+                                          if (await response) {
+                                            Future.delayed(Duration(seconds: 2),() {
+                                              // ignore: use_build_context_synchronously
+                                            _mostrarDialogoVictoria(context);
+                                            });
+                                            
+                                          }
                                         }),
                                   ),
                                   SizedBox(
                                     height: 70,
-                                    
                                     child: PixelLargeBttn(
                                         path: "assets/buttons/Clean.png",
                                         onPressed: () async {
@@ -214,6 +224,35 @@ class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
           ],
         ),
       ),
+    );
+  }
+
+  void _mostrarDialogoVictoria(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Haz llegado a la meta'),
+          content: Text(
+              'El granjero ha encontrado a sus GALLINAS y esta muy agradecido contigo, !te ha dado un cafeto como recompensa!'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Cierra el diálogo
+              },
+              child: Text('Cerrar'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Cierra el diálogo
+                // Lógica para limpiar las instrucciones
+                context.read<InstruccionesCubit>().limpiarInstrucciones();
+              },
+              child: Text('Seguir aprendiendo'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
