@@ -1,5 +1,6 @@
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
+import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
 
@@ -8,97 +9,160 @@ class CursosDataAdapter extends CursoRepository {
   Future<List<Curso>> getCursos() {
     /* TODO: implement getCursos BD mientras sera por mapas */
     Curso c1 = Curso(
-      id: '1',
-      nombre: 'Curso Quinto C',
-      codigoAcceso: '12345',
-      departamento: 'Quindío',
-      ciudad: 'Calarca',
-      colegio: 'IE General Santander',
-      profesor: 'Angela Maria Muñoz Muñoz',
-      portada: 'assets/Inicio.png',
-      estado: true,
-      numEstudiantes: 10,
-      descripcion:
-          "Este es un espacio para el desarrollo y evaluacion del pensamiento computacional. Donde puedes aprender y divertirte.",
-      fechaCreacion: '2022-01-01',
-      fechaFinalizacion: '2022-01-01',
-      unidades: [
-        Unidad(id: '1', nombre: 'Unidad 1', estado: 'Activa', actividades: [
-          Actividad(
-            id: '1',
-            nombre: 'Actividad 1',
-            estado: 'Activa',
-            descripcion: '',
-            tipoActividad: 'Laberinto',
+        id: '1',
+        nombre: 'Curso Quinto C',
+        codigoAcceso: '12345',
+        departamento: 'Quindío',
+        ciudad: 'Calarca',
+        colegio: 'IE General Santander',
+        profesor: '1',
+        portada: 'assets/FondoInicio.png',
+        estado: true,
+        numEstudiantes: 10,
+        descripcion:
+            "Este es un espacio para el desarrollo y evaluacion del pensamiento computacional, para el grupo Quinto C. Donde puedes aprender y divertirte en el mundo de los algoritmos, los patrones y más.",
+        fechaCreacion: '2023-12-01',
+        fechaFinalizacion: '2022-01-01',
+        unidades: [
+          Unidad(id: '1', nombre: 'Unidad Uno', estado: 'Activa', actividades: [
+            Actividad(
+              id: '1',
+              nombre: 'Primeros Pasos',
+              estado: 'Activa',
+              descripcion: '',
+              tipoActividad: 'Laberinto',
+            ),
+            Actividad(
+              id: '2',
+              nombre: 'Buscando el mejor camino',
+              estado: 'Activa',
+              descripcion: '',
+              tipoActividad: 'Laberinto',
+            ),
+            Actividad(
+              id: '3',
+              nombre: 'Diversión en el campo',
+              estado: 'Activa',
+              descripcion: '',
+              tipoActividad: 'Laberinto',
+            ),
+            Actividad(
+              id: '4',
+              nombre: 'Adelante, giro, adelante',
+              estado: 'Activa',
+              descripcion: '',
+              tipoActividad: 'Laberinto',
+            ),
+            Actividad(
+              id: '5',
+              nombre: 'Hora del café',
+              estado: 'Activa',
+              descripcion: '',
+              tipoActividad: 'Laberinto',
+            ),
+          ]),
+          Unidad(id: '2', nombre: 'Unidad Dos', estado: 'Activa', actividades: [
+            Actividad(
+              id: '6',
+              nombre: 'El mejor camino',
+              estado: 'Activa',
+              descripcion: '',
+              tipoActividad: 'Laberinto',
+            ),
+            Actividad(
+              id: '7',
+              nombre: 'Recoge las recompensas',
+              estado: 'Activa',
+              descripcion: '',
+              tipoActividad: 'Laberinto',
+            ),
+            Actividad(
+              id: '8',
+              nombre: 'Diversión en clase',
+              estado: 'Activa',
+              descripcion: '',
+              tipoActividad: 'Laberinto',
+            ),
+            Actividad(
+              id: '9',
+              nombre: 'Si pasa esto hago aquello',
+              estado: 'Activa',
+              descripcion: '',
+              tipoActividad: 'Laberinto',
+            ),
+            Actividad(
+              id: '10',
+              nombre: 'Estoy en un ciclo',
+              estado: 'Activa',
+              descripcion: '',
+              tipoActividad: 'Laberinto',
+            ),
+          ]),
+          Unidad(
+              id: '3',
+              nombre: 'Unidad Tres',
+              estado: 'Activa',
+              actividades: [
+                Actividad(
+                  id: '11',
+                  nombre: 'Mi decision',
+                  estado: 'Activa',
+                  descripcion: '',
+                  tipoActividad: 'Laberinto',
+                ),
+                Actividad(
+                  id: '12',
+                  nombre: 'Recoge todas las recompensas',
+                  estado: 'Activa',
+                  descripcion: '',
+                  tipoActividad: 'Laberinto',
+                ),
+                Actividad(
+                  id: '13',
+                  nombre: 'Diversión en clase',
+                  estado: 'Activa',
+                  descripcion: '',
+                  tipoActividad: 'Laberinto',
+                ),
+                Actividad(
+                  id: '14',
+                  nombre: 'Si pasa esto hago aquello',
+                  estado: 'Activa',
+                  descripcion: '',
+                  tipoActividad: 'Laberinto',
+                ),
+                Actividad(
+                  id: '15',
+                  nombre: 'Estoy en un ciclo',
+                  estado: 'Activa',
+                  descripcion: '',
+                  tipoActividad: 'Laberinto',
+                ),
+              ])
+        ],
+        estudiantes: [
+          Estudiante(nombre: 'Andres Perez Perez', avatar: 'assets/gato.png'),
+          Estudiante(
+            nombre: 'Sofia González Perez',
+            avatar: 'assets/chica.png',
           ),
-          Actividad(
-            id: '2',
-            nombre: 'Actividad 2',
-            estado: 'Activa',
-            descripcion: '',
-            tipoActividad: 'Laberinto',
+          Estudiante(
+            nombre: 'Nicolas Rodriguez Hernandez',
+            avatar: 'assets/chico.png',
           ),
-          Actividad(
-            id: '3',
-            nombre: 'Actividad 3',
-            estado: 'Activa',
-            descripcion: '',
-            tipoActividad: 'Laberinto',
+          Estudiante(
+            nombre: 'Sergio Torres Diaz',
+            avatar: 'assets/items/perico_mascota.png',
           ),
-          Actividad(
-            id: '4',
-            nombre: 'Actividad 4',
-            estado: 'Activa',
-            descripcion: '',
-            tipoActividad: 'Laberinto',
+          Estudiante(
+            nombre: 'Estefania Gutierrez Gutierrez',
+            avatar: 'assets/gato.png',
           ),
-          Actividad(
-            id: '5',
-            nombre: 'Actividad 5',
-            estado: 'Activa',
-            descripcion: '',
-            tipoActividad: 'Laberinto',
-          ),
-        ]),
-        Unidad(id: '2', nombre: 'Unidad 2', estado: 'Activa', actividades: [
-          Actividad(
-            id: '6',
-            nombre: 'Actividad 6',
-            estado: 'Activa',
-            descripcion: '',
-            tipoActividad: 'Laberinto',
-          ),
-          Actividad(
-            id: '7',
-            nombre: 'Actividad 7',
-            estado: 'Activa',
-            descripcion: '',
-            tipoActividad: 'Laberinto',
-          ),
-          Actividad(
-            id: '8',
-            nombre: 'Actividad 8',
-            estado: 'Activa',
-            descripcion: '',
-            tipoActividad: 'Laberinto',
-          ),
-          Actividad(
-            id: '9',
-            nombre: 'Actividad 9',
-            estado: 'Activa',
-            descripcion: '',
-            tipoActividad: 'Laberinto',
-          ),
-          Actividad(
-            id: '10',
-            nombre: 'Actividad 10',
-            estado: 'Activa',
-            descripcion: '',
-            tipoActividad: 'Laberinto',
-          ),
-        ])
-      ],
-    );
+          Estudiante(
+            nombre: 'Camila Salazar Salazar',
+            avatar: 'assets/chica.png',
+          )
+        ]);
     Curso c2 = Curso(
         id: '2',
         nombre: 'Curso 2',
@@ -106,8 +170,8 @@ class CursosDataAdapter extends CursoRepository {
         departamento: 'Departamento 2',
         ciudad: 'Ciudad 2',
         colegio: 'Colegio 2',
-        profesor: 'Profesor 2',
-        portada: 'assets/Inicio.png',
+        profesor: '2',
+        portada: 'assets/FondoNevado.png',
         estado: true,
         numEstudiantes: 10,
         descripcion: "Descripción 2",
@@ -188,6 +252,29 @@ class CursosDataAdapter extends CursoRepository {
               tipoActividad: 'Laberinto',
             ),
           ])
+        ],
+        estudiantes: [
+          Estudiante(nombre: 'Andres Perez Perez', avatar: 'assets/gato.png'),
+          Estudiante(
+            nombre: 'Sofia González Perez',
+            avatar: 'assets/chica.png',
+          ),
+          Estudiante(
+            nombre: 'Nicolas Rodriguez Hernandez',
+            avatar: 'assets/chico.png',
+          ),
+          Estudiante(
+            nombre: 'Sergio Torres Diaz',
+            avatar: 'assets/items/perico_mascota.png',
+          ),
+          Estudiante(
+            nombre: 'Estefania Gutierrez Gutierrez',
+            avatar: 'assets/gato.png',
+          ),
+          Estudiante(
+            nombre: 'Camila Salazar Salazar',
+            avatar: 'assets/chica.png',
+          )
         ]);
     Curso c3 = Curso(
         id: '3',
@@ -196,8 +283,8 @@ class CursosDataAdapter extends CursoRepository {
         departamento: 'Departamento 3',
         ciudad: 'Ciudad 3',
         colegio: 'Colegio 3',
-        profesor: 'Profesor 3',
-        portada: 'assets/Inicio.png',
+        profesor: '3',
+        portada: 'assets/FondoHome.png',
         estado: true,
         numEstudiantes: 10,
         descripcion: "Descripción 3",
@@ -278,6 +365,29 @@ class CursosDataAdapter extends CursoRepository {
               tipoActividad: 'Laberinto',
             ),
           ])
+        ],
+        estudiantes: [
+          Estudiante(nombre: 'Andres Perez Perez', avatar: 'assets/gato.png'),
+          Estudiante(
+            nombre: 'Sofia González Perez',
+            avatar: 'assets/chica.png',
+          ),
+          Estudiante(
+            nombre: 'Nicolas Rodriguez Hernandez',
+            avatar: 'assets/chico.png',
+          ),
+          Estudiante(
+            nombre: 'Sergio Torres Diaz',
+            avatar: 'assets/items/perico_mascota.png',
+          ),
+          Estudiante(
+            nombre: 'Estefania Gutierrez Gutierrez',
+            avatar: 'assets/gato.png',
+          ),
+          Estudiante(
+            nombre: 'Camila Salazar Salazar',
+            avatar: 'assets/chica.png',
+          )
         ]);
     Curso c4 = Curso(
         id: '4',
@@ -286,8 +396,8 @@ class CursosDataAdapter extends CursoRepository {
         departamento: 'Departamento 4',
         ciudad: 'Ciudad 4',
         colegio: 'Colegio 4',
-        profesor: 'Profesor 4',
-        portada: 'assets/Inicio.png',
+        profesor: '4',
+        portada: 'assets/FondoRegistroProfesor.png',
         estado: true,
         numEstudiantes: 10,
         descripcion: "Descripción 4",
@@ -368,6 +478,29 @@ class CursosDataAdapter extends CursoRepository {
               tipoActividad: 'Laberinto',
             ),
           ])
+        ],
+        estudiantes: [
+          Estudiante(nombre: 'Andres Perez Perez', avatar: 'assets/gato.png'),
+          Estudiante(
+            nombre: 'Sofia González Perez',
+            avatar: 'assets/chica.png',
+          ),
+          Estudiante(
+            nombre: 'Nicolas Rodriguez Hernandez',
+            avatar: 'assets/chico.png',
+          ),
+          Estudiante(
+            nombre: 'Sergio Torres Diaz',
+            avatar: 'assets/items/perico_mascota.png',
+          ),
+          Estudiante(
+            nombre: 'Estefania Gutierrez Gutierrez',
+            avatar: 'assets/gato.png',
+          ),
+          Estudiante(
+            nombre: 'Camila Salazar Salazar',
+            avatar: 'assets/chica.png',
+          )
         ]);
     Curso c5 = Curso(
         id: '5',
@@ -376,7 +509,7 @@ class CursosDataAdapter extends CursoRepository {
         departamento: 'Departamento 5',
         ciudad: 'Ciudad 5',
         colegio: 'Colegio 5',
-        profesor: 'Angela Maria Muñoz Muñoz',
+        profesor: '5',
         portada: 'assets/Inicio.png',
         estado: true,
         numEstudiantes: 10,
@@ -459,6 +592,29 @@ class CursosDataAdapter extends CursoRepository {
               tipoActividad: 'Laberinto',
             ),
           ])
+        ],
+        estudiantes: [
+          Estudiante(nombre: 'Andres Perez Perez', avatar: 'assets/gato.png'),
+          Estudiante(
+            nombre: 'Sofia González Perez',
+            avatar: 'assets/chica.png',
+          ),
+          Estudiante(
+            nombre: 'Nicolas Rodriguez Hernandez',
+            avatar: 'assets/chico.png',
+          ),
+          Estudiante(
+            nombre: 'Sergio Torres Diaz',
+            avatar: 'assets/items/perico_mascota.png',
+          ),
+          Estudiante(
+            nombre: 'Estefania Gutierrez Gutierrez',
+            avatar: 'assets/gato.png',
+          ),
+          Estudiante(
+            nombre: 'Camila Salazar Salazar',
+            avatar: 'assets/chica.png',
+          )
         ]);
     List<Curso> cursos = [c1, c2, c3, c4, c5];
     return Future.value(cursos);

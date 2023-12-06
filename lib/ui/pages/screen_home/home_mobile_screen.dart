@@ -1,8 +1,10 @@
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
+import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/components/cards/curso_cards.dart';
 import 'package:flutter/material.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
@@ -17,12 +19,15 @@ class HomeMobile extends StatefulWidget {
 }
 
 class _HomeMobileState extends State<HomeMobile> {
+  final CursosCasoUso cursosCasoUso = getIt<CursosCasoUso>();
+  final ProfesorCasoUso profesorCasoUso = getIt<ProfesorCasoUso>();
   @override
   void initState() {
     super.initState();
     // si el cubit no tiene datos, los obtiene
     if (context.read<BDCursosCubit>().state.isEmpty) {
       _fetchCursos();
+      _fetchProfesores();
     }
   }
 
@@ -36,11 +41,21 @@ class _HomeMobileState extends State<HomeMobile> {
     }
   }
 
-  final CursosCasoUso cursosCasoUso = getIt<CursosCasoUso>();
+  void _fetchProfesores() async {
+    try {
+      final profesores = await profesorCasoUso.getProfesores();
+      context.read<ProfesoresCubit>().subirProfesores(profesores);
+    } catch (e) {
+      // Manejo de errores, puedes mostrar un mensaje de error
+      print('Error al obtener cursos: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
-
+    final profesoresCubit = context.watch<ProfesoresCubit>();
+    final profesores = profesoresCubit.state;
     return Scaffold(
         backgroundColor: blueColor,
         body: SingleChildScrollView(
@@ -191,6 +206,11 @@ class _HomeMobileState extends State<HomeMobile> {
                                           (BuildContext context, int index) {
                                         return CursoCard(
                                           curso: cursos[index],
+                                          nombreProfesor: profesores
+                                              .firstWhere((profesor) =>
+                                                  profesor.id ==
+                                                  cursos[index].profesor)
+                                              .nombre!,
                                         );
                                       },
                                     ),

@@ -1,14 +1,18 @@
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
+import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CursoCard extends StatelessWidget {
   final Curso curso;
+  final String nombreProfesor;
 
-  const CursoCard({Key? key, required this.curso}) : super(key: key);
+  const CursoCard({Key? key, required this.curso, required this.nombreProfesor}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    
     return Container(
       width: 400,
       child: Card(
@@ -43,7 +47,7 @@ class CursoCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis, // Descripción del curso
                   ),
                   Text(
-                    'Profesor: ${curso.profesor}', // Nombre del profesor
+                    'Profesor: $nombreProfesor', // Nombre del profesor
                   ),
                 ],
               ),

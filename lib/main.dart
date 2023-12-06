@@ -1,8 +1,11 @@
 import 'package:dev_tesis/config/config.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/unidad_casos_uso/unidad_cs.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
+import 'package:dev_tesis/domain/repository/profesor_respository.dart';
 import 'package:dev_tesis/domain/repository/unidad_repository.dart';
+import 'package:dev_tesis/infraestructure/driven_adapter/profesor_adapter/profesor_data_adapter.dart';
 import 'package:dev_tesis/infraestructure/driven_adapter/unidad_adapter/unidad_data_adapter.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
@@ -27,6 +30,9 @@ void setupDependencies() {
   getIt.registerSingleton<UnidadRepository>(UnidadDataAdapter());
   getIt.registerSingleton<UnidadCasoUso>(
       UnidadCasoUso(getIt<UnidadRepository>()));
+  getIt.registerSingleton<ProfesorRepository>(ProfesorDataAdapter());
+  getIt.registerSingleton<ProfesorCasoUso>(
+      ProfesorCasoUso(getIt<ProfesorRepository>()));
 }
 
 void main() {
@@ -45,6 +51,9 @@ class MyApp extends StatelessWidget {
         // Agrega más BlocProviders según sea necesario
         BlocProvider<ProfesorCubit>(
           create: (context) => ProfesorCubit(),
+        ),
+        BlocProvider<ProfesoresCubit>(
+          create: (context) => ProfesoresCubit(),
         ),
         BlocProvider<BDCursosCubit>(
           create: (context) => BDCursosCubit(),

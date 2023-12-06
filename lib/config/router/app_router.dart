@@ -1,6 +1,7 @@
 import 'package:dev_tesis/ui/pages/screen_home/home.dart';
 import 'package:dev_tesis/ui/pages/screen_laberintos/nivel1_screen.dart';
 import 'package:dev_tesis/ui/pages/screen_panel_profesor_curso/panel_profesor_curso_screen.dart';
+import 'package:dev_tesis/ui/pages/screen_panel_profesor_curso/panel_profesor_principal.dart';
 import 'package:dev_tesis/ui/pages/screen_registro_profesor/inicio_sesion_screen.dart';
 import 'package:dev_tesis/ui/pages/screen_registro_profesor/registro_profesor_screen.dart';
 import 'package:dev_tesis/ui/pages/screen_welcome/welcome.dart';
@@ -12,7 +13,7 @@ final appRouter = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const welcome(),
+      builder: (context, state) => welcome(),
     ),
     GoRoute(
       path: '/inicio',
@@ -47,6 +48,15 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/laberinto',
       builder: (context, state) => const Nivel1Laberinto(),
+    ),
+
+    GoRoute(
+      path: '/panelprofesor/:profesorId',
+      builder: (context, state) {
+        // Obtén el ID del profesor desde los parámetros de la ruta
+        final String profesorId = state.pathParameters['profesorId'] ?? '1';
+        return PanelPrincipalProfesorScreen(profesorId: profesorId);
+      },
     ),
   ],
 );

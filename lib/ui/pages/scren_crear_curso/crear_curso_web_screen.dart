@@ -738,7 +738,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                     departamento: selectedDepartamento,
                                     ciudad: selectedMunicipio,
                                     colegio: _colegioCursoController.text,
-                                    profesor: profesorCubit.state.nombre!,
+                                    profesor: profesorCubit.state.id!,
                                     portada: selectedImages,
                                     numEstudiantes: listaEstudiantes.length,
                                     descripcion:

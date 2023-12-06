@@ -1,19 +1,24 @@
+import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
-class AppBarProfesor extends StatelessWidget implements PreferredSizeWidget {
-  const AppBarProfesor({
+class AppBarProfesorPanel extends StatelessWidget
+    implements PreferredSizeWidget {
+  final String profesorId;
+  const AppBarProfesorPanel({
     super.key,
+    required this.profesorId,
   });
 
   @override
   Widget build(BuildContext context) {
     final profesorCubit = context.watch<ProfesorCubit>();
-
+    final router = GoRouter.of(context);
     return AppBar(
-      backgroundColor: Colors.blue, // Ajusta el color según tus necesidades
+      backgroundColor: blueColor, // Ajusta el color según tus necesidades
       title: const SubtitleText(text: 'Mundo PC'),
       actions: [
         LayoutBuilder(
@@ -22,10 +27,26 @@ class AppBarProfesor extends StatelessWidget implements PreferredSizeWidget {
             if (constraints.maxWidth > 600) {
               // Pantalla grande: muestra el nombre y el avatar
               return Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    GestureDetector(
+                        onTap: () {
+                          router.go('/inicio');
+                        },
+                        child: const SubtitleText(text: 'Inicio')),
+                    const SizedBox(
+                      width: 30,
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          router.go('/panelprofesor/$profesorId');
+                        },
+                        child: const SubtitleText(text: 'Mis Cursos')),
+                    const SizedBox(
+                      width: 50,
+                    ),
                     Text(
                       profesorCubit.state.nombre ?? '',
                     ),
@@ -34,7 +55,7 @@ class AppBarProfesor extends StatelessWidget implements PreferredSizeWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        print('Avatar tap');
+                        // print('Avatar tap');
                       },
                       child: CircleAvatar(
                         radius:
