@@ -1,10 +1,55 @@
+import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
+import 'package:dev_tesis/main.dart';
+import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
+import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/carrusel/carrusel_welcome.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class welcome extends StatelessWidget {
-  const welcome({super.key});
+class welcome extends StatefulWidget {
+  welcome({super.key});
+
+  @override
+  State<welcome> createState() => _welcomeState();
+}
+
+class _welcomeState extends State<welcome> {
+  final CursosCasoUso cursosCasoUso = getIt<CursosCasoUso>();
+  final ProfesorCasoUso profesorCasoUso = getIt<ProfesorCasoUso>();
+
+  @override
+  void initState() {
+    super.initState();
+    // si el cubit no tiene datos, los obtiene
+    if (context.read<BDCursosCubit>().state.isEmpty) {
+      _fetchCursos();
+      _fetchProfesores();
+      //_fetchProfesores();
+    }
+  }
+
+  Future<void> _fetchCursos() async {
+    try {
+      final cursos = await cursosCasoUso.getCursos();
+      context.read<BDCursosCubit>().subirCursos(cursos);
+    } catch (e) {
+      // Manejo de errores, puedes mostrar un mensaje de error
+      print('Error al obtener cursos: $e');
+    }
+  }
+
+  void _fetchProfesores() async {
+    try {
+      final profesores = await profesorCasoUso.getProfesores();
+      context.read<ProfesoresCubit>().subirProfesores(profesores);
+    } catch (e) {
+      // Manejo de errores, puedes mostrar un mensaje de error
+      print('Error al obtener cursos: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +88,7 @@ class welcome extends StatelessWidget {
             right: 0,
             bottom: 20,
             child: Container(
+                height: 100,
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: PixelLargeBttn(
                     path: 'assets/items/Bttn.png',

@@ -1,19 +1,27 @@
 import 'dart:async';
-
 import 'package:dev_tesis/constants/styles.dart';
+import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/unidad_casos_uso/unidad_cs.dart';
+import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
+import 'package:dev_tesis/domain/model/unidad.dart';
+import 'package:dev_tesis/main.dart';
+import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
+import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_profesor.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
+import 'package:dev_tesis/ui/components/combobox/combobox_ubicacion.dart';
 import 'package:dev_tesis/ui/widgets/PopUp.dart';
 import 'package:dev_tesis/utils/manejoExcel.dart';
-import 'dart:typed_data';
 import 'dart:html' as html;
 import 'package:dev_tesis/utils/rutasImagenes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class CrearCursoMobileScreen extends StatefulWidget {
   const CrearCursoMobileScreen({super.key});
@@ -23,11 +31,19 @@ class CrearCursoMobileScreen extends StatefulWidget {
 }
 
 class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
+  final CursosCasoUso cursosCasoUso = getIt<CursosCasoUso>();
+  final UnidadCasoUso unidadCasoUso = getIt<UnidadCasoUso>();
 //ruta imagene portada prederteminada
   String selectedImages = RutasImagenes.getRutasPortadas()[0];
 
 // ruta avatar predeterminado
   String selectedAvatar = RutasImagenes.getRutasAvatares()[0];
+
+  // Datos ubicacion
+  String selectedDepartamento = '';
+  String selectedMunicipio = '';
+  List<String> departamentos = [];
+  List<String> municipios = [];
 
   // variable para el stepper
   int _currentStep = 0;
@@ -46,6 +62,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
   final TextEditingController _nombreCursoController = TextEditingController();
   final TextEditingController _descripcionCursoController =
       TextEditingController();
+  final TextEditingController _colegioCursoController = TextEditingController();
   final TextEditingController _codigoAccesoController = TextEditingController();
   final TextEditingController _nombreEstudianteController =
       TextEditingController();
@@ -82,11 +99,59 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _fetchDepartamentos();
+  }
+
+  Future<void> _fetchDepartamentos() async {
+    final response = await http
+        .get(Uri.parse('https://www.datos.gov.co/resource/xdk5-pm3f.json'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      final List<String> departamentosList = [];
+
+      for (final departamento in data) {
+        departamentosList.add(departamento['departamento']);
+      }
+
+      setState(() {
+        Set<String> conjuntoDeptoUnico = Set<String>.from(departamentosList);
+        // Convertir el conjunto de nuevo a una lista
+        departamentos = conjuntoDeptoUnico.toList();
+        print(departamentos);
+      });
+    }
+  }
+
+  Future<void> _fetchMunicipios(String departamento) async {
+    final response = await http.get(Uri.parse(
+        'https://www.datos.gov.co/resource/xdk5-pm3f.json?departamento=$departamento'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      final List<String> municipiosList = [];
+
+      for (final municipio in data) {
+        municipiosList.add(municipio['municipio']);
+      }
+
+      setState(() {
+        Set<String> conjuntoDeptoUnico = Set<String>.from(municipiosList);
+        // Convertir el conjunto de nuevo a una lista
+        municipios = conjuntoDeptoUnico.toList();
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
 
     final profesorCubit = context.watch<ProfesorCubit>();
-
+    final cursoCubit = context.watch<CursoCubit>();
+    final bdCursosCubit = context.read<BDCursosCubit>();
     final List<StepForm> _stepForms = [
       StepForm(title: 'Información del Curso', formFields: [
         Padding(
@@ -110,7 +175,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                             width: 0, style: BorderStyle.none)),
                     filled: true,
                     isDense: true,
-                    contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    contentPadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
                     fillColor: Colors.white),
                 //Lets apply validation
                 validator: (value) {
@@ -147,12 +212,78 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                             width: 0, style: BorderStyle.none)),
                     filled: true,
                     isDense: true,
-                    contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    contentPadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
                     fillColor: Colors.white),
                 //Lets apply validation
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "descripcion requerido";
+                  }
+                  return null;
+                },
+                //onChanged: (value) => _nadadorData.nombre = value,
+              ),
+            ])),
+        const SizedBox(
+          height: 20,
+        ),
+        Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              const Text(
+                'Departamento',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 10),
+              ComboboxUbicacion(
+                textoHint: 'Seleccionar',
+                listaUbicaciones: departamentos,
+                onChanged: _selectDepto,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const Text(
+                'Municipio',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 10),
+              ComboboxUbicacion(
+                textoHint: 'Seleccionar',
+                listaUbicaciones: municipios,
+                onChanged: _selectMunicipio,
+              ),
+            ])),
+        const SizedBox(height: 20),
+        Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              const Text(
+                'Colegio *',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: _colegioCursoController,
+                keyboardType: TextInputType.text,
+                maxLines: null,
+                decoration: InputDecoration(
+                    hintText: "Ingresa Nombre del Colegio",
+                    prefixIcon: const Icon(Icons.book_online_rounded),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                            width: 0, style: BorderStyle.none)),
+                    filled: true,
+                    isDense: true,
+                    contentPadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+                    fillColor: Colors.white),
+                //Lets apply validation
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Colegio requerido";
                   }
                   return null;
                 },
@@ -184,7 +315,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                             width: 0, style: BorderStyle.none)),
                     filled: true,
                     isDense: true,
-                    contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    contentPadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
                     fillColor: Colors.white),
               ),
             ])),
@@ -367,7 +498,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                       filled: true,
                                       isDense: true,
                                       contentPadding: const EdgeInsets.fromLTRB(
-                                          10, 10, 10, 10),
+                                          10, 20, 10, 20),
                                       fillColor: Colors.white),
                                 ),
                               ])),
@@ -513,14 +644,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
 
     return Scaffold(
       backgroundColor: blueColor,
-      appBar: AppBarProfesor(
-        title: 'Mundo PC',
-        userName: profesorCubit.state.nombre ?? '',
-        avatarImagePath: profesorCubit.state.avatar ?? '',
-        onAvatarTap: () {
-          print('Avatar tap');
-        },
-      ),
+      appBar: AppBarProfesor(),
       body: Stack(
         children: [
           Container(
@@ -585,6 +709,34 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                               onPressed: () {
                                 router.go('/estudio');
                                 //TODO: Validar la información
+
+                                List<Unidad> listaUnidades =
+                                    unidadCasoUso.getUnidadesPrueba();
+                                Curso curso = Curso(
+                                    id: _nombreCursoController.text +
+                                        profesorCubit.state.nombre!,
+                                    nombre: _nombreCursoController.text,
+                                    codigoAcceso: _codigoAccesoController.text,
+                                    departamento: selectedDepartamento,
+                                    ciudad: selectedMunicipio,
+                                    colegio: _colegioCursoController.text,
+                                    profesor: profesorCubit.state.id!,
+                                    portada: selectedImages,
+                                    numEstudiantes: listaEstudiantes.length,
+                                    descripcion:
+                                        _descripcionCursoController.text,
+                                    fechaCreacion: DateTime.now().toString(),
+                                    fechaFinalizacion: "",
+                                    estado: true,
+                                    estudiantes: listaEstudiantes,
+                                    unidades: listaUnidades);
+                                //TODO: Llamar a la API para guardar la información
+                                cursosCasoUso.guardarCurso(curso);
+                                // Guardar en Cubit
+                                cursoCubit.actualizarCurso(curso);
+                                bdCursosCubit.agregarCurso(curso);
+
+                                router.go('/panelprofesorcurso/${curso.id}');
                                 //bool isValid =
                                 //_validateInformation(); // Verifica la información
 /*
@@ -696,6 +848,22 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
     });
 
     return completer.future;
+  }
+
+  void _selectDepto(String depto) {
+    setState(() {
+      selectedDepartamento = depto;
+      selectedMunicipio =
+          ''; // Reiniciar los municipios cuando se cambia el departamento
+      municipios = [];
+      _fetchMunicipios(depto);
+    });
+  }
+
+  void _selectMunicipio(String municipio) {
+    setState(() {
+      selectedMunicipio = municipio;
+    });
   }
 
   void _selectImage(String portadaPath) {

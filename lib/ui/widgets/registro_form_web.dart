@@ -39,8 +39,8 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
     Profesor profesor;
-    final nombreCompleto = context.watch<NombreCompletoCubit>();
     final profesorCubit = context.watch<ProfesorCubit>();
+    final profesoresCubit = context.watch<ProfesoresCubit>();
     //arreglo con las path de los avatares
     List<String> avatars = [
       "assets/items/perico_mascota.png",
@@ -131,9 +131,6 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
                       return "Por favor ingrese su Nombre Completo";
                     }
                     return null;
-                  },
-                  onChanged: (value) {
-                    nombreCompleto.changeName(value);
                   },
                 ),
                 const SizedBox(
@@ -274,7 +271,7 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
                         // Call sign in method of firebase & open home screen based on successful login
                         _formSubmitted = true;
                         profesor = Profesor(
-                          id: "1",
+                          id: "1${nombreEditingController.text}",
                           nombre: nombreEditingController.text,
                           email: emailEditingController.text,
                           password: pwdEditingController.text,
@@ -282,6 +279,7 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
                         );
                         //actualizamos el estado del objeto profesor
                         profesorCubit.actualizarProfesor(profesor);
+                        profesoresCubit.agregarProfesor(profesor);
                         /* TODO:Caso de Uso crear Profesor*/
                         router.go('/crearcursobienvenida');
                       }

@@ -43,6 +43,8 @@ dependencies:
   carousel_slider: ^4.2.1
   universal_html: ^2.0.8
   excel: ^4.0.0
+  http: ^1.1.2
+ 
 
 dev_dependencies:
   flutter_lints: ^2.0.0

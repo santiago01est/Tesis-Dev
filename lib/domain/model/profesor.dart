@@ -4,6 +4,7 @@ class Profesor {
   final String? email;
   final String? password;
   final String? avatar;
+  final String? bio;
 
   Profesor({
     this.id,
@@ -11,5 +12,6 @@ class Profesor {
     this.email,
     this.password,
     this.avatar,
+    this.bio,
   });
 }

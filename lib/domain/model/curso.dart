@@ -1,32 +1,40 @@
+import 'package:dev_tesis/domain/model/actividad.dart';
+import 'package:dev_tesis/domain/model/estudiante.dart';
+import 'package:dev_tesis/domain/model/unidad.dart';
+
 class Curso {
-  String id;
-  String nombre;
-  String codigoAcceso;
-  String departamento;
-  String ciudad;
-  String colegio;
-  String profesor;
-  String portada;
-  int numEstudiantes;
-  String descripcion;
-  String fechaCreacion;
-  String fechaFinalizacion;
-  String estado;
+  String? id;
+  String? nombre;
+  String? codigoAcceso;
+  String? departamento;
+  String? ciudad;
+  String? colegio;
+  String? profesor;
+  String? portada;
+  int? numEstudiantes;
+  String? descripcion;
+  String? fechaCreacion;
+  String? fechaFinalizacion;
+  bool? estado;
+  List<Estudiante>? estudiantes;
+  List<Unidad>? unidades;
 
   Curso({
-    required this.id,
-    required this.nombre,
-    required this.codigoAcceso,
-    required this.departamento,
-    required this.ciudad,
-    required this.colegio,
-    required this.profesor,
-    required this.portada,
-    required this.numEstudiantes,
-    required this.descripcion,
-    required this.fechaCreacion,
-    required this.fechaFinalizacion,
-    required this.estado,
+    this.id,
+    this.nombre,
+    this.codigoAcceso,
+    this.departamento,
+    this.ciudad,
+    this.colegio,
+    this.profesor,
+    this.portada,
+    this.numEstudiantes,
+    this.descripcion,
+    this.fechaCreacion,
+    this.fechaFinalizacion,
+    this.estado,
+    this.estudiantes,
+    this.unidades,
   });
 
   factory Curso.fromJson(Map<String, dynamic> json) {
@@ -44,6 +52,8 @@ class Curso {
       fechaCreacion: json['fechaCreacion'],
       fechaFinalizacion: json['fechaFinalizacion'],
       estado: json['estado'],
+      estudiantes: json['estudiantes'],
+      unidades: json['unidades'],
     );
   }
 
@@ -62,12 +72,14 @@ class Curso {
       'fechaCreacion': fechaCreacion,
       'fechaFinalizacion': fechaFinalizacion,
       'estado': estado,
+      'estudiantes': estudiantes,
+      'unidades': unidades,
     };
   }
 
   @override
   String toString() {
-    return 'Curso: $id, $nombre, $codigoAcceso, $departamento, $ciudad, $colegio,$profesor, $portada, $numEstudiantes, $descripcion, $fechaCreacion, $fechaFinalizacion, $estado';
+    return 'Curso: $id, $nombre, $codigoAcceso, $departamento, $ciudad, $colegio,$profesor, $portada, $numEstudiantes, $descripcion, $fechaCreacion, $fechaFinalizacion, $estado, $unidades';
   }
 
   //metodo toMap
@@ -86,6 +98,8 @@ class Curso {
       'fechaCreacion': fechaCreacion,
       'fechaFinalizacion': fechaFinalizacion,
       'estado': estado,
+      'estudiantes': estudiantes,
+      'unidades': unidades,
     };
   }
 }
