@@ -44,7 +44,9 @@ dependencies:
   universal_html: ^2.0.8
   excel: ^4.0.0
   http: ^1.1.2
- 
+  flame: ^1.11.0
+  flame_tiled: ^1.18.0
+
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -60,3 +62,16 @@ flutter:
   assets:
     - assets/
     - assets/items/
+    - assets/images/
+    - assets/images/animation_object/
+    - assets/images/animation_object/animals/
+    - assets/images/animation_object/player/
+    - assets/tiles/
+    - assets/images/map/
+    - assets/images/map/decoracion/
+    - assets/images/map/objetos/
+    - assets/images/map/objetos_up/
+    - assets/images/map/suelo/
+    - assets/friends/
+    - assets/buttons/
+
