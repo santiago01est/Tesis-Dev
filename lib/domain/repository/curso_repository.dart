@@ -4,4 +4,6 @@ abstract class CursoRepository {
   Future<List<Curso>> getCursos();
 
   void guardarCurso(Curso curso);
+
+  Future<Curso> getCursoById(String id);
 }

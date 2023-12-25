@@ -45,7 +45,7 @@ class SubtitleText extends StatelessWidget {
       text,
       style: TextStyle(
         fontSize: 18,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w600,
       ),
     );
   }

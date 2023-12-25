@@ -1,7 +1,10 @@
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
+import 'package:dev_tesis/domain/model/profesor.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
+import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/components/cards/curso_cards.dart';
 import 'package:flutter/material.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
@@ -19,6 +22,7 @@ class HomeWeb extends StatefulWidget {
 
 class _HomeWebState extends State<HomeWeb> {
   final CursosCasoUso cursosCasoUso = getIt<CursosCasoUso>();
+  final ProfesorCasoUso profesorCasoUso = getIt<ProfesorCasoUso>();
 
   @override
   void initState() {
@@ -26,13 +30,24 @@ class _HomeWebState extends State<HomeWeb> {
     // si el cubit no tiene datos, los obtiene
     if (context.read<BDCursosCubit>().state.isEmpty) {
       _fetchCursos();
+      _fetchProfesores();
     }
   }
 
-  void _fetchCursos() async {
+  Future<void> _fetchCursos() async {
     try {
       final cursos = await cursosCasoUso.getCursos();
       context.read<BDCursosCubit>().subirCursos(cursos);
+    } catch (e) {
+      // Manejo de errores, puedes mostrar un mensaje de error
+      print('Error al obtener cursos: $e');
+    }
+  }
+
+  void _fetchProfesores() async {
+    try {
+      final profesores = await profesorCasoUso.getProfesores();
+      context.read<ProfesoresCubit>().subirProfesores(profesores);
     } catch (e) {
       // Manejo de errores, puedes mostrar un mensaje de error
       print('Error al obtener cursos: $e');
@@ -43,7 +58,8 @@ class _HomeWebState extends State<HomeWeb> {
   Widget build(BuildContext context) {
     //implementar caso de uso de cursos
     final router = GoRouter.of(context);
-
+    final profesoresCubit = context.watch<ProfesoresCubit>();
+    List<Profesor> profesores = profesoresCubit.state;
     return Scaffold(
       backgroundColor: blueColor,
       body: SingleChildScrollView(
@@ -209,8 +225,17 @@ class _HomeWebState extends State<HomeWeb> {
                                   itemCount: cursos.length,
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                    return CursoCard(
-                                      curso: cursos[index],
+                                    return GestureDetector(
+                                      onTap: () {
+                                        router.go(
+                                            '/panelprofesorcurso/${cursos[index].id}');
+                                      },
+                                      child: CursoCard(
+                                        curso: cursos[index],
+                                        nombreProfesor: obtenerNombreProfesor(
+                                            profesores,
+                                            cursos[index].profesor!),
+                                      ),
                                     );
                                   },
                                 ),
@@ -232,5 +257,17 @@ class _HomeWebState extends State<HomeWeb> {
         ),
       ),
     );
+  }
+
+  obtenerNombreProfesor(List<Profesor> profesores, String idProfesor) {
+    print(profesores.length);
+    print('profesorid: $idProfesor');
+    // for que retorna el nombre del profesor
+    for (var i = 0; i < profesores.length; i++) {
+      if (profesores[i].id == idProfesor) {
+        return profesores[i].nombre;
+      }
+    }
+    return '';
   }
 }
