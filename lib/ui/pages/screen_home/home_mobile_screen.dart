@@ -5,7 +5,9 @@ import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
+import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/components/cards/curso_cards.dart';
+import 'package:dev_tesis/ui/widgets/PopUp.dart';
 import 'package:flutter/material.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,6 +58,7 @@ class _HomeMobileState extends State<HomeMobile> {
     final router = GoRouter.of(context);
     final profesoresCubit = context.watch<ProfesoresCubit>();
     final profesores = profesoresCubit.state;
+    final rolCubit = context.watch<RolCubit>();
     return Scaffold(
         backgroundColor: blueColor,
         body: SingleChildScrollView(
@@ -65,7 +68,7 @@ class _HomeMobileState extends State<HomeMobile> {
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage(
-                        'assets/FondoHome.png'), // Ruta de tu imagen de fondo
+                        'assets/fondos/FondoHome.png'), // Ruta de tu imagen de fondo
                     fit: BoxFit.cover, // Ajuste para cubrir el contenedor
                   ),
                 ),
@@ -82,10 +85,11 @@ class _HomeMobileState extends State<HomeMobile> {
                           height: 100,
                           margin: EdgeInsets.symmetric(horizontal: 10),
                           child: PixelLargeBttn(
-                            path: 'assets/items/bttn_registrar.png',
+                            path: 'assets/items/ButtonOrange.png',
                             onPressed: () {
-                              router.go('/iniciosesion');
+                              router.go('/registroprofesor');
                             },
+                            text: 'REGISTRARSE',
                           ),
                         )
                       ],
@@ -118,10 +122,11 @@ class _HomeMobileState extends State<HomeMobile> {
                           Container(
                             width: 200,
                             child: PixelLargeBttn(
-                              path: 'assets/items/bttn_iniciar_sesion.png',
+                              path: 'assets/items/ButtonBlue.png',
                               onPressed: () {
                                 router.go('/registroprofesor');
                               },
+                              text: 'INICIAR SESIÓN',
                             ),
                           )
                         ],
@@ -204,14 +209,29 @@ class _HomeMobileState extends State<HomeMobile> {
                                       itemCount: cursos.length,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        return CursoCard(
-                                          curso: cursos[index],
-                                          nombreProfesor: profesores
-                                              .firstWhere((profesor) =>
-                                                  profesor.id ==
-                                                  cursos[index].profesor)
-                                              .nombre!,
-                                        );
+                                        return GestureDetector(
+                                            /* */
+                                            onTap: () {
+                                              // dependiendo del rol abre el panel del profesor o ingreso a estudiante
+                                              if (rolCubit.state ==
+                                                  'profesor') {
+                                                router.go(
+                                                    '/panelcurso/${cursos[index].id}');
+                                              } else {
+                                                PopupUtils.showCodeAccessPopup(
+                                                  context,
+                                                  cursos[index],
+                                                );
+                                              }
+                                            },
+                                            child: CursoCard(
+                                              curso: cursos[index],
+                                              nombreProfesor: profesores
+                                                  .firstWhere((profesor) =>
+                                                      profesor.id ==
+                                                      cursos[index].profesor)
+                                                  .nombre!,
+                                            ));
                                       },
                                     ),
                                   ],

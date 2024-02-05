@@ -88,7 +88,7 @@ class _PanelPrincipalProfesorScreenState
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
-                      'assets/FondoHome.png'), // Ruta de tu imagen de fondo
+                      'assets/fondos/FondoHome.png'), // Ruta de tu imagen de fondo
                   fit: BoxFit.cover, // Ajuste para cubrir el contenedor
                 ),
               ),

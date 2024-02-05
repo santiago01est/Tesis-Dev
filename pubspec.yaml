@@ -58,3 +58,6 @@ flutter:
   assets:
     - assets/
     - assets/items/
+    - assets/avatares/
+    - assets/fondos/
+

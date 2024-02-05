@@ -4,6 +4,7 @@ import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/widgets/PopUp.dart';
+import 'package:dev_tesis/utils/rutasImagenes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -24,7 +25,7 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
       TextEditingController();
 
   String selectedAvatar =
-      "assets/items/perico_mascota.png"; // Ruta del avatar predeterminado
+      "assets/avatares/perico_avatar.png"; // Ruta del avatar predeterminado
 
   bool _formSubmitted = false;
 
@@ -41,16 +42,7 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
     Profesor profesor;
     final profesorCubit = context.watch<ProfesorCubit>();
     final profesoresCubit = context.watch<ProfesoresCubit>();
-    //arreglo con las path de los avatares
-    List<String> avatars = [
-      "assets/items/perico_mascota.png",
-      "assets/gato.png",
-      "assets/chico.png",
-      "assets/chica.png",
-      "assets/bus.png",
-      "assets/home.png",
-    ];
-
+  
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
@@ -75,8 +67,8 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
               children: [
                 InkWell(
                   onTap: () {
-                    PopupUtils.showAvatarSelectionPopup(
-                        context, avatars, _selectAvatar);
+                    PopupUtils.showAvatarSelectionPopup(context,
+                        RutasImagenes.getRutasAvatares(), _selectAvatar);
                   },
                   child: CircleAvatar(
                     radius: 50,
@@ -264,7 +256,7 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
                   height: 100,
                   margin: const EdgeInsets.symmetric(horizontal: 10),
                   child: PixelLargeBttn(
-                    path: "assets/items/bttn_registrar.png",
+                    path: "assets/items/ButtonBlue.png",
                     onPressed: () async {
                       // Marcamos el formulario como enviado
                       if (_formKey.currentState!.validate()) {
@@ -284,6 +276,7 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
                         router.go('/crearcursobienvenida');
                       }
                     },
+                    text: 'Registrarse',
                   ),
                 ),
               ],

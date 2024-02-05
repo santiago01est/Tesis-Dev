@@ -1,6 +1,6 @@
 import 'package:dev_tesis/ui/pages/screen_home/home.dart';
 import 'package:dev_tesis/ui/pages/screen_laberintos/nivel1_screen.dart';
-import 'package:dev_tesis/ui/pages/screen_panel_profesor_curso/panel_profesor_curso_screen.dart';
+import 'package:dev_tesis/ui/pages/screen_curso/panel_curso_screen.dart';
 import 'package:dev_tesis/ui/pages/screen_panel_profesor_curso/panel_profesor_principal.dart';
 import 'package:dev_tesis/ui/pages/screen_registro_profesor/inicio_sesion_screen.dart';
 import 'package:dev_tesis/ui/pages/screen_registro_profesor/registro_profesor_screen.dart';
@@ -37,12 +37,11 @@ final appRouter = GoRouter(
     ),
     // ruta con id del curso
     GoRoute(
-      path:
-          '/panelprofesorcurso/:cursoId', // :cursoId indica un parámetro dinámico
+      path: '/panelcurso/:cursoId', // :cursoId indica un parámetro dinámico
       builder: (context, state) {
         // Obtén el ID del curso desde los parámetros de la ruta
         final String cursoId = state.pathParameters['cursoId'] ?? '1';
-        return PanelProfesorCursoScreen(cursoId: cursoId);
+        return PanelCursoScreen(cursoId: cursoId);
       },
     ),
     GoRoute(

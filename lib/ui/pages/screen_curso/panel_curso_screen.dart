@@ -5,7 +5,6 @@ import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
-import 'package:dev_tesis/ui/components/appbar/appbar_profesor.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_profesor_panel.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:dev_tesis/ui/widgets/layout_curso_unidades.dart';
@@ -14,18 +13,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class PanelProfesorCursoScreen extends StatefulWidget {
+class PanelCursoScreen extends StatefulWidget {
   final String cursoId;
-  const PanelProfesorCursoScreen({super.key, required this.cursoId});
+  const PanelCursoScreen({super.key, required this.cursoId});
 
   @override
-  State<PanelProfesorCursoScreen> createState() =>
-      _PanelProfesorCursoScreenState();
+  State<PanelCursoScreen> createState() => _PanelCursoScreenState();
 }
 
 //al iniciar la pantalla se obtienen los datos del curso
 
-class _PanelProfesorCursoScreenState extends State<PanelProfesorCursoScreen> {
+class _PanelCursoScreenState extends State<PanelCursoScreen> {
   final CursosCasoUso cursosCasoUso = getIt<CursosCasoUso>();
   final UnidadCasoUso unidadCasoUso = getIt<UnidadCasoUso>();
 
@@ -193,7 +191,7 @@ class _PanelProfesorCursoScreenState extends State<PanelProfesorCursoScreen> {
                                             ),
                                             Expanded(
                                               child: Image.asset(
-                                                'assets/items/perico_mascota.png',
+                                                'assets/avatares/perico_avatar.png',
                                                 width: 80,
                                                 height: 80,
                                                 fit: BoxFit.contain,
@@ -341,7 +339,7 @@ class _PanelProfesorCursoScreenState extends State<PanelProfesorCursoScreen> {
                     ),
                     Expanded(
                       child: Image.asset(
-                        'assets/items/perico_mascota.png',
+                        'assets/avatares/perico_avatar.png',
                         width: 80,
                         height: 80,
                         fit: BoxFit.contain,

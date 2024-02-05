@@ -64,8 +64,8 @@ class LayoutUnidadCurso extends StatelessWidget {
                                   Image.asset(
                                     //si el indice es uno se muestra una imagen si es diferente otra
                                     index == 1
-                                        ? 'assets/items/perico_mascota.png'
-                                        : 'assets/items/chi_mascota.png',
+                                        ? 'assets/avatares/perico_avatar.png'
+                                        : 'assets/avatares/chiguiro_avatar.png',
                                     width: 80,
                                     height: 80,
                                     fit: BoxFit.contain,

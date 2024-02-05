@@ -3,6 +3,7 @@ import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
+import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/carrusel/carrusel_welcome.dart';
 import 'package:flutter/material.dart';
@@ -27,8 +28,10 @@ class _welcomeState extends State<welcome> {
     if (context.read<BDCursosCubit>().state.isEmpty) {
       _fetchCursos();
       _fetchProfesores();
+
       //_fetchProfesores();
     }
+    _definirRol();
   }
 
   Future<void> _fetchCursos() async {
@@ -51,6 +54,10 @@ class _welcomeState extends State<welcome> {
     }
   }
 
+  void _definirRol() {
+    context.read<RolCubit>().actualizarRol("Estudiante");
+  }
+
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
@@ -60,12 +67,12 @@ class _welcomeState extends State<welcome> {
         fit: StackFit.expand,
         children: [
           Image.asset(
-            'assets/FondoInicio.png',
+            'assets/fondos/FondoInicio.png',
             fit: BoxFit.cover,
           ),
 
           const Padding(
-              padding: EdgeInsets.all(20.0),
+              padding: EdgeInsets.all(50.0),
               child: Text('Mundo PC',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -79,7 +86,7 @@ class _welcomeState extends State<welcome> {
             imagePaths: [
               "assets/PosterWelcome1.png",
               "assets/PosterWelcome2.png",
-              "assets/FondoInicio.png",
+              "assets/fondos/FondoInicio.png",
               // Agrega más rutas de imágenes según sea necesario
             ],
           )),
@@ -91,10 +98,12 @@ class _welcomeState extends State<welcome> {
                 height: 100,
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: PixelLargeBttn(
-                    path: 'assets/items/Bttn.png',
-                    onPressed: () {
-                      router.go('/inicio');
-                    })),
+                  path: 'assets/items/ButtonBlue.png',
+                  onPressed: () {
+                    router.go('/inicio');
+                  },
+                  text: 'Empezar',
+                )),
           ),
         ],
       ),

@@ -554,7 +554,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                   height: 80,
                   margin: const EdgeInsets.symmetric(horizontal: 10),
                   child: PixelLargeBttn(
-                      path: "assets/items/bttn_inscribir.png",
+                      path: "assets/items/ButtonBlue.png",
                       onPressed: () async {
                         Estudiante estudiante = Estudiante(
                           nombre: _nombreEstudianteController.text,
@@ -563,7 +563,8 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                         //agregar a la lista
                         agregarEstudiante(estudiante);
                         _nombreEstudianteController.clear();
-                      })),
+                      },
+                      text: 'Inscribir')),
               Container(
                 padding: const EdgeInsets.all(8.0),
                 height: 400,
@@ -690,8 +691,9 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                             height: 80,
                             margin: const EdgeInsets.symmetric(horizontal: 10),
                             child: PixelLargeBttn(
-                              path: 'assets/items/bttn_volver.png',
+                              path: 'assets/items/ButtonOrange.png',
                               onPressed: _onStepCancel,
+                              text: 'Volver',
                             ),
                           )),
                         const SizedBox(
@@ -704,7 +706,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                             height: 80,
                             margin: const EdgeInsets.symmetric(horizontal: 10),
                             child: PixelLargeBttn(
-                              path: 'assets/items/bttn_confirmar.png',
+                              path: 'assets/items/ButtonBlue.png',
                               onPressed: () {
                                 //TODO: Validar la información
 
@@ -734,7 +736,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                 cursoCubit.actualizarCurso(curso);
                                 bdCursosCubit.agregarCurso(curso);
 
-                                router.go('/panelprofesorcurso/${curso.id}');
+                                router.go('/panelcurso/${curso.id}');
                                 //bool isValid =
                                 //_validateInformation(); // Verifica la información
 /*
@@ -789,6 +791,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                 }
                                 */
                               },
+                              text: 'Confirmar',
                             ),
                           )),
                         if (_currentStep < 3 - 1)
@@ -799,8 +802,9 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                   margin: const EdgeInsets.symmetric(
                                       horizontal: 10),
                                   child: PixelLargeBttn(
-                                    path: 'assets/items/bttn_continuar.png',
+                                    path: 'assets/items/ButtonBlue.png',
                                     onPressed: _onStepContinue,
+                                    text: 'Continuar',
                                   )))
                       ],
                     ),
