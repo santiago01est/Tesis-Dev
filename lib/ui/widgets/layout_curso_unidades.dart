@@ -2,6 +2,7 @@ import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class LayoutUnidadCurso extends StatelessWidget {
   final List<Unidad> unidades;
@@ -10,6 +11,7 @@ class LayoutUnidadCurso extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final router = GoRouter.of(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -79,24 +81,29 @@ class LayoutUnidadCurso extends StatelessWidget {
                                 itemCount: unidades[index].actividades!.length,
                                 itemBuilder: (context, activityIndex) {
                                   return Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                    color: Colors.white,
-                                    margin: EdgeInsets.symmetric(vertical: 5),
-                                    child: ListTile(
-                                        leading: Icon(Icons.hexagon,
-                                            color: blueDarkColor),
-                                        title: Text(unidades[index]
-                                            .actividades![activityIndex]
-                                            .nombre!),
-                                        trailing: IconButton(
-                                            icon: Icon(Icons.delete,
-                                                color: orangeColor),
-                                            onPressed: () {
-                                              //eliminarEstudiante(index);
-                                            })),
-                                  );
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                      color: Colors.white,
+                                      margin: EdgeInsets.symmetric(vertical: 5),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          router.go('/laberinto');
+                                        },
+                                        child: ListTile(
+                                            leading: Icon(Icons.hexagon,
+                                                color: blueDarkColor),
+                                            title: Text(unidades[index]
+                                                .actividades![activityIndex]
+                                                .nombre!),
+                                            trailing: IconButton(
+                                                icon: Icon(Icons.delete,
+                                                    color: orangeColor),
+                                                onPressed: () {
+                                                  //eliminarEstudiante(index);
+                                                })),
+                                      ));
                                 },
                               ),
                             ],
