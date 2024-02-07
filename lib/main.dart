@@ -11,6 +11,7 @@ import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/game/instrucciones_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
+import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,9 +26,11 @@ void setupDependencies() {
   getIt.registerSingleton<CursoRepository>(CursosDataAdapter());
   getIt.registerSingleton<CursosCasoUso>(
       CursosCasoUso(getIt<CursoRepository>()));
+
   getIt.registerSingleton<UnidadRepository>(UnidadDataAdapter());
   getIt.registerSingleton<UnidadCasoUso>(
       UnidadCasoUso(getIt<UnidadRepository>()));
+
   getIt.registerSingleton<ProfesorRepository>(ProfesorDataAdapter());
   getIt.registerSingleton<ProfesorCasoUso>(
       ProfesorCasoUso(getIt<ProfesorRepository>()));
@@ -55,6 +58,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<BDCursosCubit>(
           create: (context) => BDCursosCubit(),
+        ),
+        BlocProvider<RolCubit>(
+          create: (context) => RolCubit(),
         ),
         BlocProvider<InstruccionesCubit>(
           create: (context) => InstruccionesCubit(),

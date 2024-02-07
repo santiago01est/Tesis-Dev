@@ -25,7 +25,7 @@ class _CrearCursoBienvenidaScreenState
         fit: StackFit.expand,
         children: [
           Image.asset(
-            'assets/FondoCrearCurso.png',
+            'assets/fondos/FondoCrearCurso.png',
             fit: BoxFit.cover,
           ),
           SingleChildScrollView(
@@ -80,10 +80,11 @@ class _CrearCursoBienvenidaScreenState
                           height: 100,
                           margin: const EdgeInsets.symmetric(horizontal: 10),
                           child: PixelLargeBttn(
-                              path: 'assets/items/bttn_crearcurso.png',
+                              path: 'assets/items/ButtonBlue.png',
                               onPressed: () {
                                 router.go('/crearcurso');
-                              }))
+                              },
+                              text: 'CREAR CURSO')),
                     ],
                   ),
                 ),

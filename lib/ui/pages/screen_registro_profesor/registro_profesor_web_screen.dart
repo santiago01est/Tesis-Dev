@@ -25,7 +25,7 @@ class _RegistroProfesorWebScreenState extends State<RegistroProfesorWebScreen> {
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
-                    'assets/FondoRegistroProfesor.png'), // Ruta de tu imagen
+                    'assets/fondos/FondoRegistroProfesor.png'), // Ruta de tu imagen
                 fit: BoxFit.cover,
               ),
             ),

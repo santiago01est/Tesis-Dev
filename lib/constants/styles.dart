@@ -6,4 +6,5 @@ Color blueColor = const Color(0xFFACD8ED);
 Color blueDarkColor = Color.fromARGB(255, 2, 76, 111);
 Color orangeColor = const Color(0xFFF5C3A8);
 Color greenColor = Color.fromARGB(255, 152, 246, 191);
+Color greenDarkColor = Color.fromARGB(255, 14, 169, 19);
 Color blackColor = const Color(0xFF262626);

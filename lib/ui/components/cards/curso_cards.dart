@@ -8,11 +8,11 @@ class CursoCard extends StatelessWidget {
   final Curso curso;
   final String nombreProfesor;
 
-  const CursoCard({Key? key, required this.curso, required this.nombreProfesor}) : super(key: key);
+  const CursoCard({Key? key, required this.curso, required this.nombreProfesor})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    
     return Container(
       width: 400,
       child: Card(
@@ -27,7 +27,7 @@ class CursoCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.asset(
-              curso.portada ?? 'assets/FondoInicio.png',
+              curso.portada ?? 'assets/fondos/FondoInicio.png',
               width: double.infinity,
               height: 100,
               fit: BoxFit.cover,

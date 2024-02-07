@@ -185,6 +185,7 @@ class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
                                     height: 70,
                                     child: PixelLargeBttn(
                                         path: "assets/buttons/Play.png",
+                                        text: "",
                                         onPressed: () async {
                                           player.movementInstructions =
                                               movementInstructionsCubit.state
@@ -205,6 +206,7 @@ class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
                                     height: 70,
                                     child: PixelLargeBttn(
                                         path: "assets/buttons/Clean.png",
+                                        text: "",
                                         onPressed: () async {
                                           movementInstructionsCubit
                                               .limpiarInstrucciones();

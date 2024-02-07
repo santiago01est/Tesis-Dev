@@ -11,12 +11,12 @@ class CursosDataAdapter extends CursoRepository {
     Curso c1 = Curso(
         id: '1',
         nombre: 'Curso Quinto C',
-        codigoAcceso: '12345',
+        codigoAcceso: '1234',
         departamento: 'Quindío',
         ciudad: 'Calarca',
         colegio: 'IE General Santander',
         profesor: '1',
-        portada: 'assets/FondoInicio.png',
+        portada: 'assets/fondos/FondoInicio.png',
         estado: true,
         numEstudiantes: 10,
         descripcion:
@@ -141,37 +141,39 @@ class CursosDataAdapter extends CursoRepository {
               ])
         ],
         estudiantes: [
-          Estudiante(nombre: 'Andres Perez Perez', avatar: 'assets/gato.png'),
+          Estudiante(
+              nombre: 'Andres Perez Perez',
+              avatar: 'assets/avatares/gato_avatar.png'),
           Estudiante(
             nombre: 'Sofia González Perez',
-            avatar: 'assets/chica.png',
+            avatar: 'assets/avatares/gato_avatar.png',
           ),
           Estudiante(
             nombre: 'Nicolas Rodriguez Hernandez',
-            avatar: 'assets/chico.png',
+            avatar: 'assets/avatares/gato_avatar.png',
           ),
           Estudiante(
             nombre: 'Sergio Torres Diaz',
-            avatar: 'assets/items/perico_mascota.png',
+            avatar: 'assets/avatares/gato_avatar.png',
           ),
           Estudiante(
             nombre: 'Estefania Gutierrez Gutierrez',
-            avatar: 'assets/gato.png',
+            avatar: 'assets/avatares/chiguiro_avatar.png',
           ),
           Estudiante(
             nombre: 'Camila Salazar Salazar',
-            avatar: 'assets/chica.png',
+            avatar: 'assets/avatares/gato_avatar.png',
           )
         ]);
     Curso c2 = Curso(
         id: '2',
         nombre: 'Curso 2',
-        codigoAcceso: '12345',
+        codigoAcceso: '1234',
         departamento: 'Departamento 2',
         ciudad: 'Ciudad 2',
         colegio: 'Colegio 2',
         profesor: '2',
-        portada: 'assets/FondoNevado.png',
+        portada: 'assets/fondos/FondoNevado.png',
         estado: true,
         numEstudiantes: 10,
         descripcion: "Descripción 2",
@@ -254,18 +256,20 @@ class CursosDataAdapter extends CursoRepository {
           ])
         ],
         estudiantes: [
-          Estudiante(nombre: 'Andres Perez Perez', avatar: 'assets/gato.png'),
+          Estudiante(
+              nombre: 'Andres Perez Perez',
+              avatar: 'assets/avatares/gato_avatar.png'),
           Estudiante(
             nombre: 'Sofia González Perez',
-            avatar: 'assets/chica.png',
+            avatar: 'assets/avatares/gato_avatar.png',
           ),
           Estudiante(
             nombre: 'Nicolas Rodriguez Hernandez',
-            avatar: 'assets/chico.png',
+            avatar: 'assets/avatares/gato_avatar.png',
           ),
           Estudiante(
             nombre: 'Sergio Torres Diaz',
-            avatar: 'assets/items/perico_mascota.png',
+            avatar: 'assets/avatares/gato_avatar.png',
           ),
           Estudiante(
             nombre: 'Estefania Gutierrez Gutierrez',
@@ -273,7 +277,7 @@ class CursosDataAdapter extends CursoRepository {
           ),
           Estudiante(
             nombre: 'Camila Salazar Salazar',
-            avatar: 'assets/chica.png',
+            avatar: 'assets/avatares/gato_avatar.png',
           )
         ]);
     Curso c3 = Curso(
@@ -284,7 +288,7 @@ class CursosDataAdapter extends CursoRepository {
         ciudad: 'Ciudad 3',
         colegio: 'Colegio 3',
         profesor: '3',
-        portada: 'assets/FondoHome.png',
+        portada: 'assets/fondos/FondoHome.png',
         estado: true,
         numEstudiantes: 10,
         descripcion: "Descripción 3",
@@ -367,26 +371,28 @@ class CursosDataAdapter extends CursoRepository {
           ])
         ],
         estudiantes: [
-          Estudiante(nombre: 'Andres Perez Perez', avatar: 'assets/gato.png'),
+          Estudiante(
+              nombre: 'Andres Perez Perez',
+              avatar: 'assets/avatares/gato_avatar.png'),
           Estudiante(
             nombre: 'Sofia González Perez',
-            avatar: 'assets/chica.png',
+            avatar: 'assets/avatares/perico_avatar.png',
           ),
           Estudiante(
             nombre: 'Nicolas Rodriguez Hernandez',
-            avatar: 'assets/chico.png',
+            avatar: 'assets/avatares/chiguiro_avatar.png',
           ),
           Estudiante(
             nombre: 'Sergio Torres Diaz',
-            avatar: 'assets/items/perico_mascota.png',
+            avatar: 'assets/avatares/gato_avatar.png',
           ),
           Estudiante(
             nombre: 'Estefania Gutierrez Gutierrez',
-            avatar: 'assets/gato.png',
+            avatar: 'assets/avatares/gato_avatar.png',
           ),
           Estudiante(
             nombre: 'Camila Salazar Salazar',
-            avatar: 'assets/chica.png',
+            avatar: 'assets/avatares/gato_avatar.png',
           )
         ]);
     Curso c4 = Curso(
@@ -397,7 +403,7 @@ class CursosDataAdapter extends CursoRepository {
         ciudad: 'Ciudad 4',
         colegio: 'Colegio 4',
         profesor: '4',
-        portada: 'assets/FondoRegistroProfesor.png',
+        portada: 'assets/fondos/FondoRegistroProfesor.png',
         estado: true,
         numEstudiantes: 10,
         descripcion: "Descripción 4",
@@ -480,26 +486,28 @@ class CursosDataAdapter extends CursoRepository {
           ])
         ],
         estudiantes: [
-          Estudiante(nombre: 'Andres Perez Perez', avatar: 'assets/gato.png'),
+          Estudiante(
+              nombre: 'Andres Perez Perez',
+              avatar: 'assets/avatares/gato_avatar.png'),
           Estudiante(
             nombre: 'Sofia González Perez',
-            avatar: 'assets/chica.png',
+            avatar: 'assets/avatares/gato_avatar.png',
           ),
           Estudiante(
             nombre: 'Nicolas Rodriguez Hernandez',
-            avatar: 'assets/chico.png',
+            avatar: 'assets/avatares/gato_avatar.png',
           ),
           Estudiante(
             nombre: 'Sergio Torres Diaz',
-            avatar: 'assets/items/perico_mascota.png',
+            avatar: 'assets/avatares/perico_avatar.png',
           ),
           Estudiante(
             nombre: 'Estefania Gutierrez Gutierrez',
-            avatar: 'assets/gato.png',
+            avatar: 'assets/avatares/chiguiro_avatar.png',
           ),
           Estudiante(
             nombre: 'Camila Salazar Salazar',
-            avatar: 'assets/chica.png',
+            avatar: 'assets/avatares/gato_avatar.png',
           )
         ]);
     Curso c5 = Curso(
@@ -510,7 +518,7 @@ class CursosDataAdapter extends CursoRepository {
         ciudad: 'Ciudad 5',
         colegio: 'Colegio 5',
         profesor: '5',
-        portada: 'assets/Inicio.png',
+        portada: 'assets/fondos/FondoInicio.png',
         estado: true,
         numEstudiantes: 10,
         descripcion:
@@ -594,26 +602,28 @@ class CursosDataAdapter extends CursoRepository {
           ])
         ],
         estudiantes: [
-          Estudiante(nombre: 'Andres Perez Perez', avatar: 'assets/gato.png'),
+          Estudiante(
+              nombre: 'Andres Perez Perez',
+              avatar: 'assets/avatares/gato_avatar.png'),
           Estudiante(
             nombre: 'Sofia González Perez',
-            avatar: 'assets/chica.png',
+            avatar: 'assets/avatares/gato_avatar.png',
           ),
           Estudiante(
             nombre: 'Nicolas Rodriguez Hernandez',
-            avatar: 'assets/chico.png',
+            avatar: 'assets/avatares/chiguiro_avatar.png',
           ),
           Estudiante(
             nombre: 'Sergio Torres Diaz',
-            avatar: 'assets/items/perico_mascota.png',
+            avatar: 'assets/avatares/perico_avatar.png',
           ),
           Estudiante(
             nombre: 'Estefania Gutierrez Gutierrez',
-            avatar: 'assets/gato.png',
+            avatar: 'assets/avatares/gato_avatar.png',
           ),
           Estudiante(
             nombre: 'Camila Salazar Salazar',
-            avatar: 'assets/chica.png',
+            avatar: 'assets/avatares/gato_avatar.png',
           )
         ]);
     List<Curso> cursos = [c1, c2, c3, c4, c5];

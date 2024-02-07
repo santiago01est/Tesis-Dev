@@ -112,7 +112,7 @@ class LoginForm extends StatelessWidget {
                     height: 100,
                     margin: const EdgeInsets.symmetric(horizontal: 10),
                     child: PixelLargeBttn(
-                        path: "assets/items/bttn_ingresar.png",
+                        path: "assets/items/ButtonBlue.png",
                         onPressed: () async {
                           /*
                       if (_formKey.currentState!.validate()) {
@@ -150,7 +150,8 @@ class LoginForm extends StatelessWidget {
                           if (_formKey.currentState!.validate()) {
                             //Call sign in method of firebase & open home screen based on successfull login
                           }
-                        })),
+                        },
+                        text: 'Ingresar')),
                 const SizedBox(
                   height: 10,
                 ),
