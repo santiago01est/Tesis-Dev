@@ -81,29 +81,29 @@ class LayoutUnidadCurso extends StatelessWidget {
                                 itemCount: unidades[index].actividades!.length,
                                 itemBuilder: (context, activityIndex) {
                                   return Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                    color: Colors.white,
-                                    margin: EdgeInsets.symmetric(vertical: 5),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        router.go('/laberinto');
-                                      },
-                                      child: ListTile(
-                                          leading: Icon(Icons.hexagon,
-                                              color: blueDarkColor),
-                                          title: Text(unidades[index]
-                                              .actividades![activityIndex]
-                                              .nombre!),
-                                          trailing: IconButton(
-                                              icon: Icon(Icons.delete,
-                                                  color: orangeColor),
-                                              onPressed: () {
-                                                //eliminarEstudiante(index);
-                                              })),
-                                    ),
-                                  );
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                      color: Colors.white,
+                                      margin: EdgeInsets.symmetric(vertical: 5),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          router.go('/laberinto');
+                                        },
+                                        child: ListTile(
+                                            leading: Icon(Icons.hexagon,
+                                                color: blueDarkColor),
+                                            title: Text(unidades[index]
+                                                .actividades![activityIndex]
+                                                .nombre!),
+                                            trailing: IconButton(
+                                                icon: Icon(Icons.delete,
+                                                    color: orangeColor),
+                                                onPressed: () {
+                                                  //eliminarEstudiante(index);
+                                                })),
+                                      ));
                                 },
                               ),
                             ],

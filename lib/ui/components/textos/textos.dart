@@ -36,8 +36,10 @@ class BigText extends StatelessWidget {
 
 class TitleText extends StatelessWidget {
   final String text;
+  //color para el texto
+  final Color? color;
 
-  const TitleText({required this.text});
+  const TitleText({required this.text, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,7 @@ class TitleText extends StatelessWidget {
       style: TextStyle(
         fontSize: 22,
         fontWeight: FontWeight.bold,
+        color: color ?? Colors.black,
       ),
     );
   }
