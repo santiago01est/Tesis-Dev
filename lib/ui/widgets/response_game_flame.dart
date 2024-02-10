@@ -19,10 +19,11 @@ class RespuestaLaberinto extends StatelessWidget {
       ),
       child: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            // si el ancho de la pantalla es mayor a 700 es un dispositivo escritorio y las columnas son 6
-            crossAxisCount: MediaQuery.of(context).size.width > 900 ? 6 : 3,
-            // Cambia esto según la cantidad deseada de columnas
-            mainAxisSpacing: 2.0),
+          // si el ancho de la pantalla es mayor a 700 es un dispositivo escritorio y las columnas son 6
+          crossAxisCount: MediaQuery.of(context).size.width > 900 ? 6 : 3,
+          mainAxisExtent: 80.0,
+          // espacio entre las filas
+        ),
         itemCount: movementInstructionsCubit.state.length,
         itemBuilder: (context, index) {
           final clave = movementInstructionsCubit.state[index].key;
