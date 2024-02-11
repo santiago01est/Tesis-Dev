@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:dev_tesis/game/components/collision_block.dart';
-import 'package:dev_tesis/game/components/player.dart';
+import 'package:dev_tesis/game/player/player.dart';
 import 'package:dev_tesis/game/game_activity.dart';
 import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
-import 'animation_object.dart';
+import '../components/animation_object.dart';
 
 class Level extends World with HasGameRef<GameActivity>{
 

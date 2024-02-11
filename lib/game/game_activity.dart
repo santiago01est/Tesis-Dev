@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:dev_tesis/game/components/level.dart';
-import 'package:dev_tesis/game/components/player.dart';
+import 'package:dev_tesis/game/levels/level.dart';
+import 'package:dev_tesis/game/player/player.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
