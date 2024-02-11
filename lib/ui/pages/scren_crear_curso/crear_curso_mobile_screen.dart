@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/unidad_casos_uso/unidad_cs.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
+import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
@@ -30,6 +32,7 @@ class CrearCursoMobileScreen extends StatefulWidget {
 
 class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
   final CursosCasoUso cursosCasoUso = getIt<CursosCasoUso>();
+  final UnidadCasoUso unidadCasoUso = getIt<UnidadCasoUso>();
 //ruta imagene portada prederteminada
   String selectedImages = RutasImagenes.getRutasPortadas()[0];
 
@@ -551,7 +554,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                   height: 80,
                   margin: const EdgeInsets.symmetric(horizontal: 10),
                   child: PixelLargeBttn(
-                      path: "assets/items/bttn_inscribir.png",
+                      path: "assets/items/ButtonBlue.png",
                       onPressed: () async {
                         Estudiante estudiante = Estudiante(
                           nombre: _nombreEstudianteController.text,
@@ -560,7 +563,8 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                         //agregar a la lista
                         agregarEstudiante(estudiante);
                         _nombreEstudianteController.clear();
-                      })),
+                      },
+                      text: 'Inscribir')),
               Container(
                 padding: const EdgeInsets.all(8.0),
                 height: 400,
@@ -687,8 +691,9 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                             height: 80,
                             margin: const EdgeInsets.symmetric(horizontal: 10),
                             child: PixelLargeBttn(
-                              path: 'assets/items/bttn_volver.png',
+                              path: 'assets/items/ButtonOrange.png',
                               onPressed: _onStepCancel,
+                              text: 'Volver',
                             ),
                           )),
                         const SizedBox(
@@ -701,10 +706,12 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                             height: 80,
                             margin: const EdgeInsets.symmetric(horizontal: 10),
                             child: PixelLargeBttn(
-                              path: 'assets/items/bttn_confirmar.png',
+                              path: 'assets/items/ButtonBlue.png',
                               onPressed: () {
                                 //TODO: Validar la información
 
+                                List<Unidad> listaUnidades =
+                                    unidadCasoUso.getUnidadesPrueba();
                                 Curso curso = Curso(
                                     id: _nombreCursoController.text +
                                         profesorCubit.state.nombre!,
@@ -713,22 +720,23 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                     departamento: selectedDepartamento,
                                     ciudad: selectedMunicipio,
                                     colegio: _colegioCursoController.text,
-                                    profesor: profesorCubit.state.nombre!,
+                                    profesor: profesorCubit.state.id!,
                                     portada: selectedImages,
                                     numEstudiantes: listaEstudiantes.length,
                                     descripcion:
                                         _descripcionCursoController.text,
                                     fechaCreacion: DateTime.now().toString(),
                                     fechaFinalizacion: "",
-                                    estado: 'Activo',
-                                    estudiantes: listaEstudiantes);
+                                    estado: true,
+                                    estudiantes: listaEstudiantes,
+                                    unidades: listaUnidades);
                                 //TODO: Llamar a la API para guardar la información
                                 cursosCasoUso.guardarCurso(curso);
                                 // Guardar en Cubit
                                 cursoCubit.actualizarCurso(curso);
                                 bdCursosCubit.agregarCurso(curso);
 
-                                router.go('/panelprofesorcurso');
+                                router.go('/panelcurso/${curso.id}');
                                 //bool isValid =
                                 //_validateInformation(); // Verifica la información
 /*
@@ -783,6 +791,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                 }
                                 */
                               },
+                              text: 'Confirmar',
                             ),
                           )),
                         if (_currentStep < 3 - 1)
@@ -793,8 +802,9 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                   margin: const EdgeInsets.symmetric(
                                       horizontal: 10),
                                   child: PixelLargeBttn(
-                                    path: 'assets/items/bttn_continuar.png',
+                                    path: 'assets/items/ButtonBlue.png',
                                     onPressed: _onStepContinue,
+                                    text: 'Continuar',
                                   )))
                       ],
                     ),

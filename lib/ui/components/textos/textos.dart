@@ -17,10 +17,29 @@ class LargeTitleText extends StatelessWidget {
   }
 }
 
-class TitleText extends StatelessWidget {
+class BigText extends StatelessWidget {
   final String text;
 
-  const TitleText({required this.text});
+  const BigText({required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontSize: 50,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+}
+
+class TitleText extends StatelessWidget {
+  final String text;
+  //color para el texto
+  final Color? color;
+
+  const TitleText({required this.text, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +48,7 @@ class TitleText extends StatelessWidget {
       style: TextStyle(
         fontSize: 22,
         fontWeight: FontWeight.bold,
+        color: color ?? Colors.black,
       ),
     );
   }
@@ -45,7 +65,7 @@ class SubtitleText extends StatelessWidget {
       text,
       style: TextStyle(
         fontSize: 18,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w700,
       ),
     );
   }

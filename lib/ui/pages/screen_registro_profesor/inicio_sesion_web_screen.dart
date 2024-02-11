@@ -20,7 +20,7 @@ class _InicioSesionWebScreenState extends State<InicioSesionWebScreen> {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
-                    'assets/FondoIniciosesion.png'), // Ruta de tu imagen
+                    'assets/fondos/FondoIniciosesion.png'), // Ruta de tu imagen
                 fit: BoxFit.cover,
               ),
             ),

@@ -1,4 +1,5 @@
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
+import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,7 +14,7 @@ class AppBarProfesor extends StatelessWidget implements PreferredSizeWidget {
 
     return AppBar(
       backgroundColor: Colors.blue, // Ajusta el color según tus necesidades
-      title: Text('Mundo PC'),
+      title: const SubtitleText(text: 'Mundo PC'),
       actions: [
         LayoutBuilder(
           builder: (context, constraints) {

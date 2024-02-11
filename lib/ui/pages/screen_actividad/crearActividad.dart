@@ -60,8 +60,6 @@ class _BoardPageState extends State<BoardPage> {
                 ),
                 itemCount: 36, // 6x6
                 itemBuilder: (context, index) {
-                  final row = index ~/ 6;
-                  final col = index % 6;
                   final elementIndex = board[index];
                   return Draggable(
                     data: elementIndex,
