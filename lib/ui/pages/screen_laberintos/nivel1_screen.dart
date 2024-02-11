@@ -206,8 +206,7 @@ class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
                                                                 map.key)
                                                             .toList();
                                                     Future<bool> response =
-                                                        player
-                                                            .executeResponse();
+                                                        player.processMovementInstructions();
                                                     if (await response) {
                                                       Future.delayed(
                                                           Duration(seconds: 2),
@@ -408,7 +407,7 @@ class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
                                                       .map((map) => map.key)
                                                       .toList();
                                               Future<bool> response =
-                                                  player.executeResponse();
+                                                  player.processMovementInstructions();
                                               if (await response) {
                                                 Future.delayed(
                                                     Duration(seconds: 2), () {
