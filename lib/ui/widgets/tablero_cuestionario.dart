@@ -11,11 +11,11 @@ class TableroCuestionario extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: actividadCuestionario.dimension *
-          60, // Tamaño del tablero (6 casillas * 60px por casilla)
+          90, // Tamaño del tablero (6 casillas * 90px por casilla)
       height: actividadCuestionario.dimension *
-          60, // Tamaño del tablero (6 casillas * 60px por casilla)
+          90, // Tamaño del tablero (6 casillas * 90px por casilla)
       child: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount:
@@ -26,18 +26,20 @@ class TableroCuestionario extends StatelessWidget {
         itemBuilder: (context, index) {
           final casilla = obtenerCasilla(index, actividadCuestionario.casillas);
           return Container(
-            width: 60, // Tamaño de cada casilla
-            height: 60, // Tamaño de cada casilla
+            width: 90, // Tamaño de cada casilla
+            height: 90, // Tamaño de cada casilla
             decoration: BoxDecoration(
               //color del borde
               border: Border.all(color: Colors.black),
-              image: DecorationImage(
-                image: casilla != null
-                    ? AssetImage(casilla.recurso)
-                    : const AssetImage(
-                        'assets/whiteCasilla.png'), // Fondo de la casilla
-                fit: BoxFit.cover,
-              ),
+              // color de relleno
+              color: const Color.fromARGB(255, 255, 255, 255),
+            ),
+            child: Image(
+              image: casilla != null
+                  ? AssetImage(casilla.recurso)
+                  : const AssetImage(
+                      'assets/whiteCasilla.png'), // Fondo de la casilla
+              //fit: BoxFit.fill, // Ajuste para cubrir el contenedor
             ),
           );
         },
@@ -50,8 +52,10 @@ class TableroCuestionario extends StatelessWidget {
 Casilla? obtenerCasilla(int index, List<Casilla> casillas) {
   //recorre la lista de casillas y si encuentra una casilla con esa posicion retorna el recurso de esa casilla
   for (var i = 0; i < casillas.length; i++) {
-    if (casillas[i].numeroCasilla == index) {
-      return casillas[i];
+    for (var j = 0; j < casillas[i].numeroCasillas.length; j++) {
+      if (casillas[i].numeroCasillas[j] == index) {
+        return casillas[i];
+      }
     }
   }
   return null;

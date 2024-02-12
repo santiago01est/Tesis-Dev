@@ -4,9 +4,13 @@ import 'package:dev_tesis/domain/model/casilla.dart';
 
 class ActividadCuestionario extends Actividad {
   int dimension;
-  int casillaGanadora;
   int casillaInicio;
+  int casillaFinal;
   List<Casilla> casillas;
+  List<String> respuestaA;
+  List<String> respuestaB;
+  List<String> respuestaC;
+  List<String> respuestaD;
 
   ActividadCuestionario(
       {required super.id,
@@ -15,7 +19,11 @@ class ActividadCuestionario extends Actividad {
       required super.estado,
       required super.tipoActividad,
       required this.dimension,
-      required this.casillaGanadora,
+      required this.casillaFinal,
       required this.casillaInicio,
-      required this.casillas});
+      required this.casillas,
+      required this.respuestaA,
+      required this.respuestaB,
+      required this.respuestaC,
+      required this.respuestaD});
 }
