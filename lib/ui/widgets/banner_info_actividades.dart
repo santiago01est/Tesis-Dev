@@ -15,7 +15,7 @@ class BannerInfoActividades extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             Opacity(
-              opacity: 0.7,
+              opacity: 0.9,
               child: Image.asset(
                 'assets/fondos/FondoInicio.png',
                 fit: BoxFit.cover,
