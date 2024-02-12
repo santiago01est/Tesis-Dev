@@ -1,7 +1,8 @@
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
 import 'package:dev_tesis/domain/model/casilla.dart';
-import 'package:dev_tesis/game/components/player.dart';
+import 'package:dev_tesis/game/player/player.dart';
+import 'package:dev_tesis/game/game_activity.dart';
 import 'package:dev_tesis/ui/bloc/game/instrucciones_bloc.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';

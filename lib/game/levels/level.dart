@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:dev_tesis/game/components/collision_block.dart';
-import 'package:dev_tesis/game/components/player.dart';
+import 'package:dev_tesis/game/player/player.dart';
 import 'package:dev_tesis/game/game_activity.dart';
 import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
-import 'animation_object.dart';
+import '../components/animation_object.dart';
 
 class Level extends World with HasGameRef<GameActivity>{
 
@@ -19,85 +19,47 @@ class Level extends World with HasGameRef<GameActivity>{
 
   @override
   FutureOr<void> onLoad() async{
-    const RUTA_DECORACION= 'map/decoracion/';
-    const RUTA_OBJETOS= 'map/objetos/';
-    const RUTA_OBJETOS_UP= 'map/objetos_up/';
-    const RUTA_SUELO= 'map/suelo/';
+    const RUTA_DECORACION_CAMPO= 'mapa/decoracion/unidad1-Campo/';
+    const RUTA_OBJETOS= 'mapa/objetos/';
+    const RUTA_OBJETOS_UP= 'mapa/objetos_up/';
+    const RUTA_SUELO_CAMPO= 'mapa/suelo/unidad1-Campo/';
     
-    level= await TiledComponent.load('Level-02.tmx', Vector2(16, 16));
+    level= await TiledComponent.load('Nivel01.tmx', Vector2(16, 16));
     
     add(level);
-    final levelMap= level.tileMap.getLayer<ObjectGroup>('Map');
-    if (levelMap != null){
+    final levelMap= level.tileMap.getLayer<ObjectGroup>('SueloBase');
+    if (levelMap != null && levelMap.class_== 'campo'){
       for(final itemMap in levelMap.objects){
-        switch(itemMap.class_){
-          case 'esquina-superior-izq':
-            final image= loadImage(itemMap, RUTA_SUELO);
+        final image= loadImage(itemMap, RUTA_SUELO_CAMPO);
+            image.priority=-1;
+            add(image);
+
+        /* switch(itemMap.class_){
+          case 'esquina':
+            final image= loadImage(itemMap, RUTA_SUELO_CAMPO);
             image.priority=-1;
             add(image);
             break;
-          case 'esquina-superior-derech':
-            final image= loadImage(itemMap, RUTA_SUELO);
+          case 'borde':
+            final image= loadImage(itemMap, RUTA_SUELO_CAMPO);
             image.priority=-1;
             add(image);
             break;
-          case 'esquina-inferior-izq':
-            final image= loadImage(itemMap, RUTA_SUELO);
+          case 'terreno':
+            final image= loadImage(itemMap, RUTA_SUELO_CAMPO);
             image.priority=-1;
             add(image);
             break;
-          case 'esquina-inferior-derech':
-            final image= loadImage(itemMap, RUTA_SUELO);
-            image.priority=-1;
-            add(image);
-            break;
-          case 'borde-izq':
-            final image= loadImage(itemMap, RUTA_SUELO);
-            image.priority=-1;
-            add(image);
-            break;
-          case 'borde-derech':
-            final image= loadImage(itemMap, RUTA_SUELO);
-            image.priority=-1;
-            add(image);
-            break;
-          case 'borde-superior':
-            final image= loadImage(itemMap, RUTA_SUELO);
-            image.priority=-1;
-            add(image);
-            break;
-          case 'borde-inferior':
-            final image= loadImage(itemMap, RUTA_SUELO);
-            image.priority=-1;
-            add(image);
-            break;
-          case 'suelo':
-            final image= loadImage(itemMap, RUTA_SUELO);
-            image.priority=-1;
-            add(image);
-            break;
-          
           default:
-        }
+        } */
       }
     }
-    final mapDecoration= level.tileMap.getLayer<ObjectGroup>('Decoration');
-
-    if (mapDecoration != null){
+    final mapDecoration= level.tileMap.getLayer<ObjectGroup>('DecoracionZ0');
+    if (mapDecoration != null && mapDecoration.class_== 'campo'){
       for(final decoration in mapDecoration.objects){
         switch(decoration.class_){
-          case 'hojas-1':
-            final image= loadImage(decoration, RUTA_DECORACION);
-            image.priority=0;
-            add(image);
-            break;
-          case 'flor-1':
-            final image= loadImage(decoration, RUTA_DECORACION);
-            image.priority=0;
-            add(image);
-            break;
-          case 'flor-2':
-            final image= loadImage(decoration, RUTA_DECORACION);
+          case 'decoracion-z0':
+            final image= loadImage(decoration, RUTA_DECORACION_CAMPO);
             image.priority=0;
             add(image);
             break;
@@ -106,11 +68,11 @@ class Level extends World with HasGameRef<GameActivity>{
       }
     }
 
-    final objectsLayer= level.tileMap.getLayer<ObjectGroup>('Objects');
-    if (objectsLayer != null){
+    final objectsLayer= level.tileMap.getLayer<ObjectGroup>('Objetos');
+    if (objectsLayer != null && objectsLayer.class_== 'campo'){
       for(final object in objectsLayer.objects){
         switch(object.class_){
-          case 'Animation_Object':
+          case 'objeto-animado':
             final animationObject= Animation_Object(
               Vector2(object.x, object.y), 
               Vector2(object.width, object.height),
@@ -119,7 +81,7 @@ class Level extends World with HasGameRef<GameActivity>{
             animationObject.priority=2;
             add(animationObject);
             break;
-          case 'Up-Object':
+          /* case 'Up-Object':
             final image= loadImage(object, RUTA_OBJETOS_UP);
             image.priority=3;
             add(image);
@@ -128,15 +90,15 @@ class Level extends World with HasGameRef<GameActivity>{
             final image= loadImage(object, RUTA_OBJETOS);
             image.priority=1;
             add(image);
-            break;
+            break; */
         }
       }
     }
-    final spawnPointsLayer= level.tileMap.getLayer<ObjectGroup>('SpawnPoints');
+    final spawnPointsLayer= level.tileMap.getLayer<ObjectGroup>('Jugador');
     if (spawnPointsLayer != null){
       for(final spawnPoint in spawnPointsLayer.objects){
         switch(spawnPoint.class_){
-          case 'Player':
+          case 'jugador':
             player.position= Vector2(spawnPoint.x, spawnPoint.y);
             player.priority= 4;
             add(player);
@@ -147,11 +109,11 @@ class Level extends World with HasGameRef<GameActivity>{
       }
     }
     
-    final collisionsLayer= level.tileMap.getLayer<ObjectGroup>('Collisions');
+    final collisionsLayer= level.tileMap.getLayer<ObjectGroup>('Colisiones');
     if (collisionsLayer != null){
       for(final collision in collisionsLayer.objects){
         switch(collision.class_){
-          case 'Wall':
+          case 'Collision':
             final block= CollisionBlock(
               position: Vector2(collision.x, collision.y),
               size: Vector2(collision.width, collision.height),
@@ -160,7 +122,8 @@ class Level extends World with HasGameRef<GameActivity>{
             collisionBlocks.add(block);
             add(block);
             break;
-          case 'Arrival_point':
+          default:
+          /* case 'Meta':
             final block= CollisionBlock(
               position: Vector2(collision.x, collision.y),
               size: Vector2(collision.width, collision.height),
@@ -168,7 +131,7 @@ class Level extends World with HasGameRef<GameActivity>{
             );
             collisionBlocks.add(block);
             add(block);
-            break;
+            break; */
         }
       }
     }
@@ -179,6 +142,7 @@ class Level extends World with HasGameRef<GameActivity>{
 
   SpriteComponent loadImage(TiledObject object, String ruta){
     String name= object.name;
+    print('$ruta$name.png');
     var image=SpriteComponent.fromImage(
               game.images.fromCache('$ruta$name.png'),
               position: Vector2(object.x, object.y),

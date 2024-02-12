@@ -14,8 +14,8 @@ class Animation_Object extends SpriteAnimationComponent with HasGameRef<GameActi
   FutureOr<void> onLoad() {
   
     switch(name){
-      case 'chickens':
-        chargeAnimation('animation_object/animals/',4, 32);
+      case 'gallinas':
+        chargeAnimation('objetos_animados/animales/',4, 32);
         break;
     }
     debugMode= false;

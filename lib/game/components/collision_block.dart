@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:dev_tesis/game/components/player.dart';
-import 'package:dev_tesis/game/components/utils.dart';
+import 'package:dev_tesis/game/player/player.dart';
+import 'package:dev_tesis/game/utilities/player_utils.dart';
 import 'package:flame/components.dart';
 
 class CollisionBlock extends PositionComponent{

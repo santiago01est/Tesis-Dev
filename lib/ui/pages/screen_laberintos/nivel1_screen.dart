@@ -1,5 +1,5 @@
 import 'package:dev_tesis/constants/styles.dart';
-import 'package:dev_tesis/game/components/player.dart';
+import 'package:dev_tesis/game/player/player.dart';
 import 'package:dev_tesis/game/game_activity.dart';
 import 'package:dev_tesis/ui/bloc/game/instrucciones_bloc.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
@@ -206,8 +206,7 @@ class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
                                                                 map.key)
                                                             .toList();
                                                     Future<bool> response =
-                                                        player
-                                                            .executeResponse();
+                                                        player.processMovementInstructions();
                                                     if (await response) {
                                                       Future.delayed(
                                                           Duration(seconds: 2),
@@ -408,7 +407,7 @@ class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
                                                       .map((map) => map.key)
                                                       .toList();
                                               Future<bool> response =
-                                                  player.executeResponse();
+                                                  player.processMovementInstructions();
                                               if (await response) {
                                                 Future.delayed(
                                                     Duration(seconds: 2), () {
