@@ -86,7 +86,7 @@ class _welcomeState extends State<welcome> {
             imagePaths: [
               "assets/PosterWelcome1.png",
               "assets/PosterWelcome2.png",
-              "assets/fondos/FondoInicio.png",
+              "assets/PosterWelcome3.png",
               // Agrega más rutas de imágenes según sea necesario
             ],
           )),
