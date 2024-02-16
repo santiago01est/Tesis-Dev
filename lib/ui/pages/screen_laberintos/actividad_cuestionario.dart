@@ -41,19 +41,19 @@ class _ActividadCuestionarioScreenState
           id: "1",
           numeroCasillas: [12],
           tipoCasilla: "Inicio",
-          recurso: "avatares/granjeroboy_avatar.png",
+          recurso: "assets/avatares/granjeroboy_avatar.png",
         ),
         Casilla(
           id: "2",
           numeroCasillas: [16],
           tipoCasilla: "Final",
-          recurso: "items/bulto_cafe.png",
+          recurso: "assets/items/bulto_cafe.png",
         ),
         Casilla(
           id: "3",
           numeroCasillas: [3, 4, 5, 7, 8, 23, 28],
           tipoCasilla: "obstaculo",
-          recurso: "items/planta.png",
+          recurso: "assets/items/planta.png",
         ),
         // Otras casillas...
       ],
@@ -100,7 +100,7 @@ class _ActividadCuestionarioScreenState
                                   texto:
                                       'Ayuda a Juan a encontrar el camino al saco de café que ha recolectado',
                                   rutaEjemplo:
-                                      'items/ejemplosImg/ejemplo_simple_secuencia.png'),
+                                      'assets/items/ejemplosImg/ejemplo_simple_secuencia.png'),
                             ),
                             const SizedBox(
                               height: 30,

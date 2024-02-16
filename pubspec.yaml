@@ -60,6 +60,7 @@ flutter:
   assets:
     - assets/
     - assets/items/
+    - assets/items/ejemplosImg/
     - assets/images/
     - assets/images/objetos_animados/
     - assets/images/objetos_animados/animales/
