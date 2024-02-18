@@ -1,5 +1,7 @@
 {
   "projects": {
     "default": "mundopc-58433"
-  }
+  },
+  "targets": {},
+  "etags": {}
 }
