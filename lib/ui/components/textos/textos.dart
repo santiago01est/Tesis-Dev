@@ -27,7 +27,7 @@ class BigText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-        fontSize: 50,
+        fontSize: MediaQuery.of(context).size.width > 700 ? 50 :40,
         fontWeight: FontWeight.bold,
       ),
     );
@@ -64,7 +64,7 @@ class SubtitleText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-        fontSize: 18,
+        fontSize: MediaQuery.of(context).size.width > 700 ? 18 :14,
         fontWeight: FontWeight.w700,
       ),
     );

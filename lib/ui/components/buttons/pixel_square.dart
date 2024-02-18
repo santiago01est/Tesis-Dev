@@ -1,12 +1,12 @@
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:flutter/material.dart';
 
-class PixelLargeBttn extends StatelessWidget {
+class PixelSquareBttn extends StatelessWidget {
   final String path;
   final VoidCallback onPressed;
   final String text;
 
-  const PixelLargeBttn(
+  const PixelSquareBttn(
       {Key? key,
       required this.path,
       required this.onPressed,
@@ -18,9 +18,8 @@ class PixelLargeBttn extends StatelessWidget {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: Container(
-        width: MediaQuery.of( context).size.width > 700 ? 300 : 150,
+        width: MediaQuery.of( context).size.width > 700 ? 100 : 50,
         height: MediaQuery.of( context).size.width > 700 ? 100 : 50,
-        margin: const EdgeInsets.symmetric(horizontal: 10),
         child: GestureDetector(
           onTap: onPressed,
           child: Stack(

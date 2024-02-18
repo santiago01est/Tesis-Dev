@@ -87,24 +87,20 @@ class _HomeWebState extends State<HomeWeb> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Container(
-                            width: 250,
-                            height: 100,
-                            margin: EdgeInsets.symmetric(horizontal: 10),
-                            child: PixelLargeBttn(
+                          PixelLargeBttn(
                               path: 'assets/items/ButtonBlue.png',
                               onPressed: () {
                                 router.go('/iniciosesion');
                               },
                               text: 'INICIAR SESIÓN',
                             ),
-                          )
+                          
                         ],
                       ),
 
                       // Fila con dos secciones
                       FractionallySizedBox(
-                        widthFactor: 0.6,
+                        widthFactor: 0.8,
                         child: Row(
                           children: [
                             // Sección de la izquierda con texto y botón
@@ -123,24 +119,21 @@ class _HomeWebState extends State<HomeWeb> {
                                   ),
                                   const SizedBox(height: 30.0),
                                   const Text(
-                                      'Nos emociona tenerte a bordo en este emocionante viaje hacia el mundo del pensamiento computacional. Mundo PC es más que una plataforma; somos un puente entre la innovación, la creatividad y la enseñanza.',
+                                      'Mundo PC es más que una plataforma; somos un puente entre la innovación, la creatividad y la enseñanza.',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 24,
                                         fontWeight: FontWeight.w400,
                                       )),
                                   const SizedBox(height: 20.0),
-                                  Container(
-                                    width: 250,
-                                    height: 100,
-                                    child: PixelLargeBttn(
+                                  PixelLargeBttn(
                                       path: 'assets/items/ButtonOrange.png',
                                       onPressed: () {
                                         router.go('/registroprofesor');
                                       },
                                       text: 'REGISTRARSE',
                                     ),
-                                  )
+                                  
                                 ],
                               ),
                             ),
@@ -171,12 +164,12 @@ class _HomeWebState extends State<HomeWeb> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 50),
+                const SizedBox(height: 40),
                 Padding(
                   padding: const EdgeInsets.all(0),
                   child: Center(
                     child: FractionallySizedBox(
-                      widthFactor: 0.6,
+                      widthFactor: 0.4,
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -186,7 +179,7 @@ class _HomeWebState extends State<HomeWeb> {
                           children: [
                             // Icono de lupa
                             Padding(
-                              padding: EdgeInsets.all(8.0),
+                              padding: EdgeInsets.all(10.0),
                               child: Icon(Icons.search),
                             ),
                             // Campo de texto de búsqueda
@@ -208,60 +201,45 @@ class _HomeWebState extends State<HomeWeb> {
                 Padding(
                   padding: const EdgeInsets.all(0),
                   child: Center(
-                    child: FractionallySizedBox(
-                      widthFactor: 0.6,
-                      child: BlocBuilder<BDCursosCubit, List<Curso>>(
+                     child :FractionallySizedBox(
+                      widthFactor: 0.8,
+child: BlocBuilder<BDCursosCubit, List<Curso>>(
                         builder: (context, cursos) {
                           if (cursos.isEmpty) {
                             return const CircularProgressIndicator();
                           } else {
-                            return ListView(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              children: [
-                                GridView.builder(
-                                  shrinkWrap: true,
-                                  gridDelegate:
-                                      const SliverGridDelegateWithMaxCrossAxisExtent(
-                                    maxCrossAxisExtent: 300,
-                                    crossAxisSpacing: 10,
-                                    mainAxisSpacing: 10,
-                                    childAspectRatio: 1,
-                                  ),
-                                  itemCount: cursos.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return GestureDetector(
-                                      /* */
-                                      onTap: () {
-                                        // dependiendo del rol abre el panel del profesor o ingreso a estudiante
-                                        if (rolCubit.state == 'profesor') {
-                                          router.go(
-                                              '/panelcurso/${cursos[index].id}');
-                                        } else {
-                                          PopupUtils.showCodeAccessPopup(
-                                            context,
-                                            cursos[index],
-                                          );
-                                        }
-                                      },
-                                      child: CursoCard(
-                                        curso: cursos[index],
-                                        nombreProfesor: obtenerNombreProfesor(
-                                            profesores,
-                                            cursos[index].profesor!),
-                                      ),
-                                    );
-                                    /** */
-                                  },
-                                ),
-                              ],
+                            return Wrap(
+                               alignment: WrapAlignment.start,
+                               crossAxisAlignment: WrapCrossAlignment.start,
+                      spacing: 8.0, // Espacio entre las imágenes
+                      runSpacing: 8.0,
+                              children: List.generate(
+                                cursos.length,
+                                (index) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      if (rolCubit.state == 'profesor') {
+                                        router.go(
+                                            '/panelcurso/${cursos[index].id}');
+                                      } else {
+                                        PopupUtils.showCodeAccessPopup(
+                                            context, cursos[index]);
+                                      }
+                                    },
+                                    child: CursoCard(
+                                      curso: cursos[index],
+                                      nombreProfesor: obtenerNombreProfesor(
+                                          profesores, cursos[index].profesor!),
+                                    ),
+                                  );
+                                },
+                              ),
                             );
                           }
                         },
                       ),
-                    ),
-                  ),
+                    
+                  ),)
                 ),
                 // Agrega otros widgets según sea necesario en la segunda sección
               ],

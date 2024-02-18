@@ -94,17 +94,13 @@ class _welcomeState extends State<welcome> {
             left: 0,
             right: 0,
             bottom: 20,
-            child: Container(
-                height: 100,
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                child: PixelLargeBttn(
+            child:  PixelLargeBttn(
                   path: 'assets/items/ButtonBlue.png',
                   onPressed: () {
                     router.go('/inicio');
                   },
                   text: 'Empezar',
                 )),
-          ),
         ],
       ),
     );
