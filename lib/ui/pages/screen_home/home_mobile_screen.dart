@@ -100,14 +100,12 @@ class _HomeMobileState extends State<HomeMobile> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // Sección de la izquierda con texto y botón
-                          const Text(
-                            'Mundo PC',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 50.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          Image.asset(
+                                    width: 200,
+                                    height: 50,
+                                    'assets/logomundopc.png',
+                                    fit: BoxFit.fill,
+                                  ),
                           const SizedBox(height: 20.0),
                           const Text(
                               'Mundo PC es más que una plataforma; somos un puente entre la innovación, la creatividad y la enseñanza.',

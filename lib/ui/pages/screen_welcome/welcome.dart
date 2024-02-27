@@ -71,22 +71,26 @@ class _welcomeState extends State<welcome> {
             fit: BoxFit.cover,
           ),
 
-          const Padding(
-              padding: EdgeInsets.all(50.0),
-              child: Text('Mundo PC',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 80,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ))),
+ Positioned(
+            right: 0,
+            left: 0,
+            top: 20,
+            child: Center(
+              child: Image.asset(
+                width: 800,
+                height:200,
+               
+              'assets/logomundopc.png',
+              fit: BoxFit.fill,
+                     ),
+            ),),
           //carrusel en el centro
           const Center(
               child: ImageCarousel(
             imagePaths: [
               "assets/PosterWelcome1.png",
               "assets/PosterWelcome2.png",
-              "assets/fondos/FondoInicio.png",
+              "assets/PosterWelcome3.png",
               // Agrega más rutas de imágenes según sea necesario
             ],
           )),

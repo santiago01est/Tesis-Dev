@@ -20,8 +20,8 @@ class PopupUtils {
             borderRadius: BorderRadius.circular(15.0),
           ),
           content: SizedBox(
-            width: 300, // Ajusta el ancho según tus necesidades
-            height: 300, // Ajusta la altura según tus necesidades
+            width: MediaQuery.of(context).size.width > 700 ? MediaQuery.of(context).size.width /3: MediaQuery.of(context).size.width/2, // Ajusta el ancho según tus necesidades
+            height: MediaQuery.of(context).size.width > 700 ? MediaQuery.of(context).size.height /3: MediaQuery.of(context).size.height/2 , // Ajusta la altura según tus necesidades
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[

@@ -88,13 +88,12 @@ class _HomeWebState extends State<HomeWeb> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           PixelLargeBttn(
-                              path: 'assets/items/ButtonBlue.png',
-                              onPressed: () {
-                                router.go('/iniciosesion');
-                              },
-                              text: 'INICIAR SESIÓN',
-                            ),
-                          
+                            path: 'assets/items/ButtonBlue.png',
+                            onPressed: () {
+                              router.go('/iniciosesion');
+                            },
+                            text: 'INICIAR SESIÓN',
+                          ),
                         ],
                       ),
 
@@ -109,13 +108,11 @@ class _HomeWebState extends State<HomeWeb> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
-                                    'Mundo PC',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 50.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                  Image.asset(
+                                    width: 400,
+                                    height: 100,
+                                    'assets/logomundopc.png',
+                                    fit: BoxFit.fill,
                                   ),
                                   const SizedBox(height: 30.0),
                                   const Text(
@@ -127,13 +124,12 @@ class _HomeWebState extends State<HomeWeb> {
                                       )),
                                   const SizedBox(height: 20.0),
                                   PixelLargeBttn(
-                                      path: 'assets/items/ButtonOrange.png',
-                                      onPressed: () {
-                                        router.go('/registroprofesor');
-                                      },
-                                      text: 'REGISTRARSE',
-                                    ),
-                                  
+                                    path: 'assets/items/ButtonOrange.png',
+                                    onPressed: () {
+                                      router.go('/registroprofesor');
+                                    },
+                                    text: 'REGISTRARSE',
+                                  ),
                                 ],
                               ),
                             ),
@@ -199,48 +195,48 @@ class _HomeWebState extends State<HomeWeb> {
                 ),
                 const SizedBox(height: 20),
                 Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: Center(
-                     child :FractionallySizedBox(
-                      widthFactor: 0.8,
-child: BlocBuilder<BDCursosCubit, List<Curso>>(
-                        builder: (context, cursos) {
-                          if (cursos.isEmpty) {
-                            return const CircularProgressIndicator();
-                          } else {
-                            return Wrap(
-                               alignment: WrapAlignment.start,
-                               crossAxisAlignment: WrapCrossAlignment.start,
-                      spacing: 8.0, // Espacio entre las imágenes
-                      runSpacing: 8.0,
-                              children: List.generate(
-                                cursos.length,
-                                (index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      if (rolCubit.state == 'profesor') {
-                                        router.go(
-                                            '/panelcurso/${cursos[index].id}');
-                                      } else {
-                                        PopupUtils.showCodeAccessPopup(
-                                            context, cursos[index]);
-                                      }
-                                    },
-                                    child: CursoCard(
-                                      curso: cursos[index],
-                                      nombreProfesor: obtenerNombreProfesor(
-                                          profesores, cursos[index].profesor!),
-                                    ),
-                                  );
-                                },
-                              ),
-                            );
-                          }
-                        },
+                    padding: const EdgeInsets.all(0),
+                    child: Center(
+                      child: FractionallySizedBox(
+                        widthFactor: 0.8,
+                        child: BlocBuilder<BDCursosCubit, List<Curso>>(
+                          builder: (context, cursos) {
+                            if (cursos.isEmpty) {
+                              return const CircularProgressIndicator();
+                            } else {
+                              return Wrap(
+                                alignment: WrapAlignment.start,
+                                crossAxisAlignment: WrapCrossAlignment.start,
+                                spacing: 8.0, // Espacio entre las imágenes
+                                runSpacing: 8.0,
+                                children: List.generate(
+                                  cursos.length,
+                                  (index) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        if (rolCubit.state == 'profesor') {
+                                          router.go(
+                                              '/panelcurso/${cursos[index].id}');
+                                        } else {
+                                          PopupUtils.showCodeAccessPopup(
+                                              context, cursos[index]);
+                                        }
+                                      },
+                                      child: CursoCard(
+                                        curso: cursos[index],
+                                        nombreProfesor: obtenerNombreProfesor(
+                                            profesores,
+                                            cursos[index].profesor!),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
+                            }
+                          },
+                        ),
                       ),
-                    
-                  ),)
-                ),
+                    )),
                 // Agrega otros widgets según sea necesario en la segunda sección
               ],
             ),
