@@ -65,8 +65,8 @@ final appRouter = GoRouter(
       },
     ),
     GoRoute(
-      path: '/estudio',
-      builder: (context, state) => CrearActividad(),
+      path: '/estudiocuestionario',
+      builder: (context, state) =>  CrearActividad(),
     ),
   ],
 );

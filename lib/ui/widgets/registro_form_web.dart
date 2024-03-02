@@ -251,11 +251,7 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
                 const SizedBox(
                   height: 10,
                 ),
-                Container(
-                  width: 300,
-                  height: 100,
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: PixelLargeBttn(
+               PixelLargeBttn(
                     path: "assets/items/ButtonBlue.png",
                     onPressed: () async {
                       // Marcamos el formulario como enviado
@@ -278,7 +274,7 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
                     },
                     text: 'Registrarse',
                   ),
-                ),
+                
               ],
             ),
           ),

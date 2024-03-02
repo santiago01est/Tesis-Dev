@@ -37,7 +37,7 @@ class CursosDataAdapter extends CursoRepository {
               nombre: 'Buscando el mejor camino',
               estado: 'Activa',
               descripcion: '',
-              tipoActividad: 'Laberinto',
+              tipoActividad: 'Cuestionario',
             ),
             Actividad(
               id: '3',
@@ -51,7 +51,7 @@ class CursosDataAdapter extends CursoRepository {
               nombre: 'Adelante, giro, adelante',
               estado: 'Activa',
               descripcion: '',
-              tipoActividad: 'Laberinto',
+              tipoActividad: 'Cuestionario',
             ),
             Actividad(
               id: '5',
@@ -143,18 +143,18 @@ class CursosDataAdapter extends CursoRepository {
         estudiantes: [
           Estudiante(
               nombre: 'Andres Perez Perez',
-              avatar: 'assets/avatares/gato_avatar.png'),
+              avatar: 'assets/avatares/aguila_avatar.png'),
           Estudiante(
             nombre: 'Sofia González Perez',
-            avatar: 'assets/avatares/gato_avatar.png',
+            avatar: 'assets/avatares/orquidea_avatar.png',
           ),
           Estudiante(
             nombre: 'Nicolas Rodriguez Hernandez',
-            avatar: 'assets/avatares/gato_avatar.png',
+            avatar: 'assets/avatares/pollitos_avatar.png',
           ),
           Estudiante(
             nombre: 'Sergio Torres Diaz',
-            avatar: 'assets/avatares/gato_avatar.png',
+            avatar: 'assets/avatares/osoanteojos_avatar.png',
           ),
           Estudiante(
             nombre: 'Estefania Gutierrez Gutierrez',
@@ -162,21 +162,21 @@ class CursosDataAdapter extends CursoRepository {
           ),
           Estudiante(
             nombre: 'Camila Salazar Salazar',
-            avatar: 'assets/avatares/gato_avatar.png',
+            avatar: 'assets/avatares/mujergranjera_avatar.png',
           )
         ]);
     Curso c2 = Curso(
         id: '2',
-        nombre: 'Curso 2',
+        nombre: 'Curso Cuarto B',
         codigoAcceso: '1234',
-        departamento: 'Departamento 2',
-        ciudad: 'Ciudad 2',
-        colegio: 'Colegio 2',
+        departamento: 'Huila',
+        ciudad: 'Neiva',
+        colegio: 'Camilo Torres',
         profesor: '2',
         portada: 'assets/fondos/FondoNevado.png',
         estado: true,
         numEstudiantes: 10,
-        descripcion: "Descripción 2",
+        descripcion: "Espacio de aprendizaje para mis estudiantes de cuarto grado para mejorar el pensamiento computacional",
         fechaCreacion: '2022-01-01',
         fechaFinalizacion: '2022-01-01',
         unidades: [
@@ -258,14 +258,14 @@ class CursosDataAdapter extends CursoRepository {
         estudiantes: [
           Estudiante(
               nombre: 'Andres Perez Perez',
-              avatar: 'assets/avatares/gato_avatar.png'),
+              avatar: 'assets/avatares/finca_avatar.png'),
           Estudiante(
             nombre: 'Sofia González Perez',
-            avatar: 'assets/avatares/gato_avatar.png',
+            avatar: 'assets/avatares/indio_avatar.png',
           ),
           Estudiante(
             nombre: 'Nicolas Rodriguez Hernandez',
-            avatar: 'assets/avatares/gato_avatar.png',
+            avatar: 'assets/avatares/cultivo_avatar.png',
           ),
           Estudiante(
             nombre: 'Sergio Torres Diaz',
@@ -273,7 +273,7 @@ class CursosDataAdapter extends CursoRepository {
           ),
           Estudiante(
             nombre: 'Estefania Gutierrez Gutierrez',
-            avatar: 'assets/gato.png',
+            avatar: 'assets/granjeroboy_avatar.png',
           ),
           Estudiante(
             nombre: 'Camila Salazar Salazar',
@@ -282,7 +282,7 @@ class CursosDataAdapter extends CursoRepository {
         ]);
     Curso c3 = Curso(
         id: '3',
-        nombre: 'Curso 3',
+        nombre: 'Curso Tercero A',
         codigoAcceso: '12345',
         departamento: 'Departamento 3',
         ciudad: 'Ciudad 3',
@@ -291,7 +291,7 @@ class CursosDataAdapter extends CursoRepository {
         portada: 'assets/fondos/FondoHome.png',
         estado: true,
         numEstudiantes: 10,
-        descripcion: "Descripción 3",
+        descripcion: "Curso para mis estudiantes de Tercer grado para el desarrollo del pensamiento computacional",
         fechaCreacion: '2022-01-01',
         fechaFinalizacion: '2022-01-01',
         unidades: [
@@ -397,7 +397,7 @@ class CursosDataAdapter extends CursoRepository {
         ]);
     Curso c4 = Curso(
         id: '4',
-        nombre: 'Curso 4',
+        nombre: 'Curso Quinto A',
         codigoAcceso: '12345',
         departamento: 'Departamento 4',
         ciudad: 'Ciudad 4',
@@ -406,7 +406,7 @@ class CursosDataAdapter extends CursoRepository {
         portada: 'assets/fondos/FondoRegistroProfesor.png',
         estado: true,
         numEstudiantes: 10,
-        descripcion: "Descripción 4",
+        descripcion: "Espacio para mi curso de Quinto A, donde repasaremos conceptos del pensamiento computacional",
         fechaCreacion: '2022-01-01',
         fechaFinalizacion: '2022-01-01',
         unidades: [
@@ -512,7 +512,7 @@ class CursosDataAdapter extends CursoRepository {
         ]);
     Curso c5 = Curso(
         id: '5',
-        nombre: 'Curso 5',
+        nombre: 'Curso Segundo A',
         codigoAcceso: '12345',
         departamento: 'Departamento 5',
         ciudad: 'Ciudad 5',
@@ -522,7 +522,7 @@ class CursosDataAdapter extends CursoRepository {
         estado: true,
         numEstudiantes: 10,
         descripcion:
-            "Descripción una muy larga descripcionnnn muy larga muy larga",
+            "Curso para mis niños de Segundo grado para introducirlos a conceptos del pensamiento computacional",
         fechaCreacion: '2022-01-01',
         fechaFinalizacion: '2022-01-01',
         unidades: [

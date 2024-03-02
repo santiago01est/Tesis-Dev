@@ -18,9 +18,10 @@ class Nivel1Laberinto extends StatefulWidget {
 }
 
 class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
-  final GameActivity game = GameActivity();
+ 
   @override
   Widget build(BuildContext context) {
+     final GameActivity game = GameActivity();
     final movementInstructionsCubit = context.watch<InstruccionesCubit>();
     Player player = game.player;
     return Scaffold(

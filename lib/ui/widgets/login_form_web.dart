@@ -107,11 +107,7 @@ class LoginForm extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                Container(
-                    width: 300,
-                    height: 100,
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    child: PixelLargeBttn(
+                PixelLargeBttn(
                         path: "assets/items/ButtonBlue.png",
                         onPressed: () async {
                           /*
@@ -151,7 +147,7 @@ class LoginForm extends StatelessWidget {
                             //Call sign in method of firebase & open home screen based on successfull login
                           }
                         },
-                        text: 'Ingresar')),
+                        text: 'Ingresar'),
                 const SizedBox(
                   height: 10,
                 ),

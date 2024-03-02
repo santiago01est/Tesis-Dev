@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         routerConfig: appRouter,
-        title: "Codex",
+        title: "Mundo PC",
         theme: ThemeData(
           scaffoldBackgroundColor: sixtyColor,
           textTheme:

@@ -89,7 +89,18 @@ class LayoutUnidadCurso extends StatelessWidget {
                                       margin: EdgeInsets.symmetric(vertical: 5),
                                       child: GestureDetector(
                                         onTap: () {
-                                          router.go('/laberinto');
+                                          if(unidades[index]
+                                                .actividades![activityIndex].tipoActividad=="Laberinto"){
+                                                   router.go('/laberinto');
+
+                                          }else if(unidades[index]
+                                                .actividades![activityIndex].tipoActividad=="Cuestionario"){
+                                                   router.go('/cuestionario');
+
+                                          }else{
+
+                                          }
+                                         
                                         },
                                         child: ListTile(
                                             leading: Icon(Icons.hexagon,

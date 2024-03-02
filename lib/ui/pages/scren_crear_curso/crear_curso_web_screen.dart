@@ -241,7 +241,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
               ),
               const SizedBox(height: 10),
               ComboboxUbicacion(
-                textoHint: 'Selecciona un Departamento',
+                textoHint: 'Elige un Departamento',
                 listaUbicaciones: departamentos,
                 onChanged: _selectDepto,
               ),
@@ -254,9 +254,45 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
               ),
               const SizedBox(height: 10),
               ComboboxUbicacion(
-                textoHint: 'Selecciona un Municipio',
+                textoHint: 'Elige un Municipio',
                 listaUbicaciones: municipios,
                 onChanged: _selectMunicipio,
+              ),
+            ])),
+        const SizedBox(height: 20),
+        Container(
+            width: 700,
+            padding: const EdgeInsets.only(left: 50, right: 50),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              const Text(
+                'Colegio *',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: _colegioCursoController,
+                keyboardType: TextInputType.text,
+                maxLines: null,
+                decoration: InputDecoration(
+                    hintText: "Ingresa Nombre del Colegio",
+                    prefixIcon: const Icon(Icons.book_online_rounded),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                            width: 0, style: BorderStyle.none)),
+                    filled: true,
+                    isDense: true,
+                    contentPadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+                    fillColor: Colors.white),
+                //Lets apply validation
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Colegio requerido";
+                  }
+                  return null;
+                },
+                //onChanged: (value) => _nadadorData.nombre = value,
               ),
             ])),
         const SizedBox(height: 20),
@@ -298,42 +334,6 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
         const SizedBox(
           height: 20,
         ),
-        Container(
-            width: 700,
-            padding: const EdgeInsets.only(left: 50, right: 50),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Text(
-                'Colegio *',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: _colegioCursoController,
-                keyboardType: TextInputType.text,
-                maxLines: null,
-                decoration: InputDecoration(
-                    hintText: "Ingresa Nombre del Colegio",
-                    prefixIcon: const Icon(Icons.book_online_rounded),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(
-                            width: 0, style: BorderStyle.none)),
-                    filled: true,
-                    isDense: true,
-                    contentPadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
-                    fillColor: Colors.white),
-                //Lets apply validation
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Colegio requerido";
-                  }
-                  return null;
-                },
-                //onChanged: (value) => _nadadorData.nombre = value,
-              ),
-            ])),
-        const SizedBox(height: 20),
         Container(
             width: 700,
             padding: const EdgeInsets.only(left: 50, right: 50),
@@ -527,7 +527,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const Text(
-                                    'Selecciona un avatar',
+                                    'Elige un avatar',
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500),
@@ -545,17 +545,12 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                                 _selectAvatar);
                                           },
                                           child: Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                              color: Colors.blue,
-                                              image: DecorationImage(
-                                                fit: BoxFit.contain,
-                                                image: AssetImage(
-                                                    selectedAvatar), // Reemplaza 'tu_imagen.png' con la ruta correcta
-                                              ),
+                                            width: 70,
+                                            height: 70,
+                                            child: CircleAvatar(
+                                              radius: 50,
+                                              backgroundImage:
+                                                  AssetImage(selectedAvatar),
                                             ),
                                           )),
                                     ),
@@ -563,29 +558,23 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                 ])))
                   ]),
 
-              const SizedBox(
-                height: 10,
-              ),
+              
               //boton
-              Container(
-                  width: 200,
-                  height: 100,
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: PixelLargeBttn(
-                      path: "assets/items/ButtonBlue.png",
-                      onPressed: () async {
-                        Estudiante estudiante = Estudiante(
-                          nombre: _nombreEstudianteController.text,
-                          avatar: selectedAvatar,
-                        );
-                        //agregar a la lista
-                        agregarEstudiante(estudiante);
-                        _nombreEstudianteController.clear();
-                      },
-                      text: "Registrar")),
+              PixelLargeBttn(
+                  path: "assets/items/ButtonBlue.png",
+                  onPressed: () async {
+                    Estudiante estudiante = Estudiante(
+                      nombre: _nombreEstudianteController.text,
+                      avatar: selectedAvatar,
+                    );
+                    //agregar a la lista
+                    agregarEstudiante(estudiante);
+                    _nombreEstudianteController.clear();
+                  },
+                  text: "Registrar"),
               Container(
                 padding: const EdgeInsets.all(8.0),
-                height: 400,
+                height: 300,
                 child: Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
@@ -666,7 +655,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
       body: Stack(
         children: [
           Container(
-            padding: const EdgeInsets.only(left: 60, right: 60, top: 50),
+            padding: const EdgeInsets.only(left: 60, right: 60, top: 30),
             child: Stepper(
               type: StepperType.horizontal,
               currentStep: _currentStep,
@@ -705,25 +694,17 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                       children: [
                         if (_currentStep > 0)
                           Expanded(
-                              child: Container(
-                            width: 150,
-                            height: 80,
-                            margin: const EdgeInsets.symmetric(horizontal: 10),
                             child: PixelLargeBttn(
                               path: 'assets/items/ButtonOrange.png',
                               onPressed: _onStepCancel,
                               text: 'Volver',
                             ),
-                          )),
+                          ),
                         const SizedBox(
                           width: 10,
                         ),
                         if (isLastStep)
                           Expanded(
-                              child: Container(
-                            width: 150,
-                            height: 80,
-                            margin: const EdgeInsets.symmetric(horizontal: 10),
                             child: PixelLargeBttn(
                               path: 'assets/items/ButtonBlue.png',
                               onPressed: () {
@@ -814,19 +795,14 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                               },
                               text: 'Confirmar',
                             ),
-                          )),
+                          ),
                         if (_currentStep < 3 - 1)
                           Expanded(
-                              child: Container(
-                                  width: 150,
-                                  height: 80,
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: PixelLargeBttn(
-                                    path: 'assets/items/ButtonBlue.png',
-                                    onPressed: _onStepContinue,
-                                    text: 'Continuar',
-                                  )))
+                              child: PixelLargeBttn(
+                            path: 'assets/items/ButtonBlue.png',
+                            onPressed: _onStepContinue,
+                            text: 'Continuar',
+                          ))
                       ],
                     ),
                   ],

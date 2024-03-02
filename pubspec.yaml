@@ -19,7 +19,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.0.3 <4.0.0"
+  sdk: ">=3.1.0 < 4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -62,8 +62,7 @@ flutter:
     - assets/
     - assets/items/
     - assets/items/ejemplosImg/
-    - assets/avatares/
-    - assets/fondos/
+    - assets/items/estudio/
     - assets/images/
     - assets/images/objetos_animados/
     - assets/images/objetos_animados/animales/
@@ -73,10 +72,8 @@ flutter:
     - assets/images/mapa/decoracion/
     - assets/images/mapa/decoracion/unidad1-Campo/
     - assets/images/mapa/objetos/
-    - assets/images/mapa/objetos_up/
     - assets/images/mapa/suelo/
     - assets/images/mapa/suelo/unidad1-Campo/
-    - assets/images/mapa/suelo/unidad2-templo/
     - assets/friends/
     - assets/buttons/
 

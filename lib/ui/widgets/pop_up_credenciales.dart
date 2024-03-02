@@ -71,7 +71,26 @@ class _PopupCredencialesState extends State<PopupCredenciales>
                 tabs: [
                   Tab(text: 'Solo Yo'),
                   Tab(text: 'En Equipo'),
+                  
                 ],
+                 labelColor:
+                      blueDarkColor, // Color del texto de la pestaña activa
+                  unselectedLabelColor:
+                      Colors.grey, // Color del texto de la pestaña inactiva
+                  labelStyle: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight
+                          .bold), // Estilo del texto de la pestaña activa
+                  unselectedLabelStyle: const TextStyle(
+                      fontSize: 14), // Estilo del texto de la pestaña inactiva
+                  indicator: BoxDecoration(
+                    // Estilo de la barra debajo del texto
+                    border: Border(
+                      bottom: BorderSide(
+                          color: blueColor,
+                          width: 2), // Color y grosor de la barra
+                    ),
+                  ),
                 indicatorColor: Colors.blue,
                 onTap: (index) {
                   setState(() {
@@ -85,6 +104,7 @@ class _PopupCredencialesState extends State<PopupCredenciales>
                   });
                 }),
             // TabBarView para contenido de los tabs
+            SizedBox(height: 20),
             Expanded(
               child: TabBarView(
                 controller: _tabController,
