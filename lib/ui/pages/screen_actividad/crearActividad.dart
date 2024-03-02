@@ -28,7 +28,6 @@ class _CrearActividadState extends State<CrearActividad> {
     'Avanzar.png',
     'GirarIzq.png',
     'GirarDerecha.png',
-   
   ];
 
   List<List<String>> imagesList = [[], [], [], []]; // Elementos en cada tarjeta
@@ -74,7 +73,7 @@ class _CrearActividadState extends State<CrearActividad> {
                                 const SizedBox(height: 20),
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width > 700
-                                      ? MediaQuery.of(context).size.width / 3
+                                      ? 600
                                       : MediaQuery.of(context).size.width,
                                   child: TextFormField(
                                     maxLines: null,
@@ -195,117 +194,155 @@ class _CrearActividadState extends State<CrearActividad> {
                           ),
                         ),
                         Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              // Lista de elementos arrastrables
-                              Wrap(
-                                children: opciones
-                                    .asMap()
-                                    .entries
-                                    .map(
-                                      (entry) => Draggable(
-                                        data: entry.value,
-                                        feedback: Image.asset(
-                                          'assets/buttons/${entry.value}',
-                                          width: 80,
-                                          height: 80,
-                                        ),
-                                        child: Container(
-                                          width: 80,
-                                          height: 80,
-                                          child: Center(
-                                            child: Image.asset(
-                                               'assets/buttons/${entry.value}',
-                                              width: 80,
-                                              height: 80,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 30),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                const ParagraphText(
+                                    text:
+                                        'Crea y selecciona la respuesta correcta '),
+                                // Lista de elementos arrastrables
+                                Wrap(
+                                  children: opciones
+                                      .asMap()
+                                      .entries
+                                      .map(
+                                        (entry) => Draggable(
+                                          data: entry.value,
+                                          feedback: Image.asset(
+                                            'assets/buttons/${entry.value}',
+                                            width: 80,
+                                            height: 80,
+                                          ),
+                                          child: Container(
+                                            width: 80,
+                                            height: 80,
+                                            child: Center(
+                                              child: Image.asset(
+                                                'assets/buttons/${entry.value}',
+                                                width: 80,
+                                                height: 80,
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
+                                      )
+                                      .toList(),
+                                ),
 
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: List.generate(
-                                  imagesList.length,
-                                  (index) => Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8.0),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Radio<int>(
-                                          value: index,
-                                          groupValue: _selectedOptionIndex,
-                                          onChanged: (int? value) {
-                                            setState(() {
-                                              _selectedOptionIndex = value!;
-                                            });
-                                          },
-                                        ),
-                                        Text(
-                                          String.fromCharCode(65 + index) +
-                                              ". ",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        SizedBox(height: 8),
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              4,
-                                            
-                                          child: DragTarget<String>(
-                                            builder: (context, candidateData,
-                                                rejectedData) {
-                                              return Card(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
-                                                ),
-                                                elevation: 6,
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(16),
-                                                  child: Wrap(
-                                                    alignment:
-                                                        WrapAlignment.start,
-                                                    spacing:
-                                                        8.0, // Espacio entre las imágenes
-                                                    runSpacing: 8.0,
-                                                    children: List.generate(
-                                                      imagesList[index].length,
-                                                      (imgIndex) => Image.asset(
-                                                         'assets/buttons/${imagesList[index][imgIndex]}',
-                                                        height: 50,
-                                                        width: 50,
-                                                        fit: BoxFit.fill,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                            onWillAccept: (data) => true,
-                                            onAccept: (data) {
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: List.generate(
+                                    imagesList.length,
+                                    (index) => Padding(
+                                      padding: const EdgeInsets.all(20.0),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Radio<int>(
+                                            value: index,
+                                            groupValue: _selectedOptionIndex,
+                                            onChanged: (int? value) {
                                               setState(() {
-                                                imagesList[index].add(data!);
+                                                _selectedOptionIndex = value!;
                                               });
                                             },
                                           ),
-                                        )
-                                      ],
+                                          Text(
+                                            String.fromCharCode(65 + index) +
+                                                ". ",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          SizedBox(height: 8),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                4,
+                                            child: DragTarget<String>(
+                                              builder: (context, candidateData,
+                                                  rejectedData) {
+                                                return Card(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12),
+                                                  ),
+                                                  elevation: 6,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            16),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Wrap(
+                                                          alignment:
+                                                              WrapAlignment
+                                                                  .start,
+                                                          spacing:
+                                                              8.0, // Espacio entre las imágenes
+                                                          runSpacing: 8.0,
+                                                          children:
+                                                              List.generate(
+                                                            imagesList[index]
+                                                                .length,
+                                                            (imgIndex) =>
+                                                                Image.asset(
+                                                              'assets/buttons/${imagesList[index][imgIndex]}',
+                                                              height: 50,
+                                                              width: 50,
+                                                              fit: BoxFit.fill,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 8),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            IconButton(
+                                                                icon: Icon(
+                                                                    Icons
+                                                                        .delete,
+                                                                    color:
+                                                                        orangeColor),
+                                                                onPressed: () {
+                                                                  setState(() {
+                                                                    imagesList[
+                                                                            index]
+                                                                        .clear();
+                                                                  });
+                                                                })
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                              onWillAccept: (data) => true,
+                                              onAccept: (data) {
+                                                setState(() {
+                                                  imagesList[index].add(data!);
+                                                });
+                                              },
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ],

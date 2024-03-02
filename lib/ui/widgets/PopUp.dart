@@ -279,154 +279,42 @@ class PopupUtils {
       },
     );
   }
-
-  // PopUp para ingresar credenciales de usuario
-  static void showCredencialesPopup(
-      BuildContext context, List<Estudiante> estudiantes) {
-    List<String> avatarPaths = RutasImagenes.getRutasAvatares();
+  /* PopUp para confirmarcion de eliminacion de una actividad */
+  static void showDeleteConfirmationDialog(BuildContext context, Function onDelete) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          title: Text("¿Estás seguro de eliminar esta actividad permanentemente?"),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
           ),
-          content: Container(
-            width: MediaQuery.of(context).size.width * 0.70,
-            height: MediaQuery.of(context).size.height * 0.90,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                 Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Ingresar',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: blackColor,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 16),
-                // TabBar para "Solo Yo" y "En Equipo"
-                TabBar(
-                  tabs: [
-                    Tab(text: 'Solo Yo'),
-                    Tab(text: 'En Equipo'),
-                  ],
-                  labelColor:
-                      blackColor, // Color del texto de la pestaña activa
-                  unselectedLabelColor:
-                      blackColor, // Color del texto de la pestaña inactiva
-                  labelStyle: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight
-                          .bold), // Estilo del texto de la pestaña activa
-                  unselectedLabelStyle: const TextStyle(
-                      fontSize: 14), // Estilo del texto de la pestaña inactiva
-                  indicator: BoxDecoration(
-                    // Estilo de la barra debajo del texto
-                    border: Border(
-                      bottom: BorderSide(
-                          color: blueDarkColor,
-                          width: 2), // Color y grosor de la barra
-                    ),
-                  ),
-                ),
-                // TabBarView para contenido de los tabs
-                Expanded(
-                  child: TabBarView(
-                    children: [
-                      // Contenido del tab "Solo Yo"
-                      _buildTabContent(estudiantes),
-                      // Contenido del tab "En Equipo"
-                      _buildTabContent(estudiantes),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 16),
-                // Fila con el botón de siguiente
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    PixelLargeBttn(
-                      path: "assets/items/ButtonBlue.png",
-                      onPressed: () {},
-                      text: 'Ingresar',
-                    ),
-                  ],
-                ),
-              ],
-            ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset('assets/avatares/perico_avatar.png',
+              width: 300,
+              height: 300,), // Reemplaza 'ruta_de_la_imagen' con la ruta real de tu imagen
+            ],
           ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Cierra el diálogo sin realizar ninguna acción
+              },
+              child: Text("Cancelar"),
+            ),
+            TextButton(
+              onPressed: () {
+                onDelete(); // Llama a la función onDelete para eliminar la actividad
+                Navigator.of(context).pop(); // Cierra el diálogo
+              },
+              child: Text("Eliminar"),
+            ),
+          ],
         );
       },
-    );
-  }
-
-  static _buildTabContent(List<Estudiante> estudiantes) {
-    List<String> avatarPaths = RutasImagenes.getRutasAvatares();
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Columna de nombres
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: estudiantes.map((estudiante) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  color: Colors.blue,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      estudiante.nombre,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
-        ),
-        SizedBox(width: 16),
-        // Columna de avatares en tres columnas
-        Expanded(
-          child: GridView.builder(
-            shrinkWrap: true,
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 90,
-              crossAxisSpacing: 14,
-              mainAxisSpacing: 14,
-            ),
-            itemCount: avatarPaths.length,
-            itemBuilder: (BuildContext context, int index) {
-              return InkWell(
-                onTap: () {
-                  /* onSelectAvatar(avatarPaths[index]);
-                    Navigator.of(context).pop(); */
-                },
-                child: CircleAvatar(
-                  radius: 30,
-                  backgroundImage: AssetImage(avatarPaths[index]),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
     );
   }
 }

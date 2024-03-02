@@ -55,7 +55,7 @@ class _welcomeState extends State<welcome> {
   }
 
   void _definirRol() {
-    context.read<RolCubit>().actualizarRol("Estudiante");
+    context.read<RolCubit>().actualizarRol("profesor");
   }
 
   @override
