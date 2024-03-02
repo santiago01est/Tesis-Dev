@@ -18,8 +18,8 @@ class PixelLargeBttn extends StatelessWidget {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: Container(
-        width: MediaQuery.of( context).size.width > 700 ? 300 : 150,
-        height: MediaQuery.of( context).size.width > 700 ? 100 : 50,
+        width: MediaQuery.of( context).size.width > 700 ? 200 : 120,
+        height: MediaQuery.of( context).size.width > 700 ? 80 : 50,
         margin: const EdgeInsets.symmetric(horizontal: 10),
         child: GestureDetector(
           onTap: onPressed,

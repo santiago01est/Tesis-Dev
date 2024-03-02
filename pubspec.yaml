@@ -61,6 +61,7 @@ flutter:
     - assets/
     - assets/items/
     - assets/items/ejemplosImg/
+    - assets/items/estudio/
     - assets/images/
     - assets/images/objetos_animados/
     - assets/images/objetos_animados/animales/
@@ -70,10 +71,8 @@ flutter:
     - assets/images/mapa/decoracion/
     - assets/images/mapa/decoracion/unidad1-Campo/
     - assets/images/mapa/objetos/
-    - assets/images/mapa/objetos_up/
     - assets/images/mapa/suelo/
     - assets/images/mapa/suelo/unidad1-Campo/
-    - assets/images/mapa/suelo/unidad2-templo/
     - assets/friends/
     - assets/buttons/
     - assets/avatares/

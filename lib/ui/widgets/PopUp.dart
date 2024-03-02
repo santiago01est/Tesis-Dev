@@ -20,8 +20,14 @@ class PopupUtils {
             borderRadius: BorderRadius.circular(15.0),
           ),
           content: SizedBox(
-            width: MediaQuery.of(context).size.width > 700 ? MediaQuery.of(context).size.width /3: MediaQuery.of(context).size.width/2, // Ajusta el ancho según tus necesidades
-            height: MediaQuery.of(context).size.width > 700 ? MediaQuery.of(context).size.height /3: MediaQuery.of(context).size.height/2 , // Ajusta la altura según tus necesidades
+            width: MediaQuery.of(context).size.width > 700
+                ? MediaQuery.of(context).size.width / 3
+                : MediaQuery.of(context).size.width /
+                    2, // Ajusta el ancho según tus necesidades
+            height: MediaQuery.of(context).size.width > 700
+                ? MediaQuery.of(context).size.height / 3
+                : MediaQuery.of(context).size.height /
+                    2, // Ajusta la altura según tus necesidades
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -150,18 +156,17 @@ class PopupUtils {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                         PixelSquareBttn(
-                            path: 'assets/items/buttn_close.png',
-                            onPressed: () {},
-                            text: '',
-                          ),
-                        
+                        PixelSquareBttn(
+                          path: 'assets/items/buttn_close.png',
+                          onPressed: () {},
+                          text: '',
+                        ),
                       ],
                     ),
 
                     // Fila con dos secciones
                     Padding(
-                    padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(20.0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -197,8 +202,8 @@ class PopupUtils {
                                         autocorrect: false,
                                         decoration: InputDecoration(
                                           hintText: "0 0 0 0",
-                                          prefixIcon:
-                                              Icon(Icons.code, color: blueColor),
+                                          prefixIcon: Icon(Icons.code,
+                                              color: blueColor),
                                           border: OutlineInputBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -233,31 +238,30 @@ class PopupUtils {
                                       ),
                                     ),
                                     const SizedBox(height: 10),
-                                   PixelLargeBttn(
-                                        path: "assets/items/ButtonBlue.png",
-                                        onPressed: () {
-                                          if (codigoEditingController
-                                                  .text.isNotEmpty &&
-                                              codigoEditingController.text ==
-                                                  curso.codigoAcceso) {
-                                            // se cierra la ventana
-                                            Navigator.of(context).pop();
-                                            // se abre la ventana showCredencialesPopup
-                                            showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return PopupCredenciales(
-                                                    estudiantes:
-                                                        curso.estudiantes!,
-                                                    idCurso: curso
-                                                        .id!); // Aquí debes crear una instancia del _PopupCredenciales
-                                              },
-                                            );
-                                          }
-                                        },
-                                        text: 'Verificar',
-                                      ),
-                                    
+                                    PixelLargeBttn(
+                                      path: "assets/items/ButtonBlue.png",
+                                      onPressed: () {
+                                        if (codigoEditingController
+                                                .text.isNotEmpty &&
+                                            codigoEditingController.text ==
+                                                curso.codigoAcceso) {
+                                          // se cierra la ventana
+                                          Navigator.of(context).pop();
+                                          // se abre la ventana showCredencialesPopup
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return PopupCredenciales(
+                                                  estudiantes:
+                                                      curso.estudiantes!,
+                                                  idCurso: curso
+                                                      .id!); // Aquí debes crear una instancia del _PopupCredenciales
+                                            },
+                                          );
+                                        }
+                                      },
+                                      text: 'Verificar',
+                                    ),
                                   ],
                                 ),
                               ),
@@ -294,13 +298,14 @@ class PopupUtils {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Align(
+                 Align(
                   alignment: Alignment.center,
                   child: Text(
                     'Ingresar',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
+                      color: blackColor,
                     ),
                   ),
                 ),
@@ -311,6 +316,24 @@ class PopupUtils {
                     Tab(text: 'Solo Yo'),
                     Tab(text: 'En Equipo'),
                   ],
+                  labelColor:
+                      blackColor, // Color del texto de la pestaña activa
+                  unselectedLabelColor:
+                      blackColor, // Color del texto de la pestaña inactiva
+                  labelStyle: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight
+                          .bold), // Estilo del texto de la pestaña activa
+                  unselectedLabelStyle: const TextStyle(
+                      fontSize: 14), // Estilo del texto de la pestaña inactiva
+                  indicator: BoxDecoration(
+                    // Estilo de la barra debajo del texto
+                    border: Border(
+                      bottom: BorderSide(
+                          color: blueDarkColor,
+                          width: 2), // Color y grosor de la barra
+                    ),
+                  ),
                 ),
                 // TabBarView para contenido de los tabs
                 Expanded(
@@ -328,12 +351,11 @@ class PopupUtils {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                   PixelLargeBttn(
-                        path: "assets/items/ButtonBlue.png",
-                        onPressed: () {},
-                        text: 'Ingresar',
-                      ),
-                    
+                    PixelLargeBttn(
+                      path: "assets/items/ButtonBlue.png",
+                      onPressed: () {},
+                      text: 'Ingresar',
+                    ),
                   ],
                 ),
               ],

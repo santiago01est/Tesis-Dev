@@ -236,7 +236,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
               ),
               const SizedBox(height: 10),
               ComboboxUbicacion(
-                textoHint: 'Seleccionar',
+                textoHint: 'Elegir',
                 listaUbicaciones: departamentos,
                 onChanged: _selectDepto,
               ),
@@ -249,7 +249,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
               ),
               const SizedBox(height: 10),
               ComboboxUbicacion(
-                textoHint: 'Seleccionar',
+                textoHint: 'Elegir',
                 listaUbicaciones: municipios,
                 onChanged: _selectMunicipio,
               ),
@@ -509,7 +509,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const Text(
-                                    'Selecciona un avatar',
+                                    'Elige un avatar',
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500),
@@ -526,18 +526,13 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                                     .getRutasAvatares(),
                                                 _selectAvatar);
                                           },
-                                          child: Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                              color: Colors.blue,
-                                              image: DecorationImage(
-                                                fit: BoxFit.contain,
-                                                image: AssetImage(
-                                                    selectedAvatar), // Reemplaza 'tu_imagen.png' con la ruta correcta
-                                              ),
+                                           child: Container(
+                                            width: 70,
+                                            height: 70,
+                                            child: CircleAvatar(
+                                              radius: 50,
+                                              backgroundImage:
+                                                  AssetImage(selectedAvatar),
                                             ),
                                           )),
                                     ),

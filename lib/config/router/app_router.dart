@@ -1,3 +1,4 @@
+import 'package:dev_tesis/ui/pages/screen_actividad/crearActividad.dart';
 import 'package:dev_tesis/ui/pages/screen_home/home.dart';
 import 'package:dev_tesis/ui/pages/screen_laberintos/actividad_cuestionario.dart';
 import 'package:dev_tesis/ui/pages/screen_laberintos/nivel1_screen.dart';
@@ -62,6 +63,10 @@ final appRouter = GoRouter(
         final String profesorId = state.pathParameters['profesorId'] ?? '1';
         return PanelPrincipalProfesorScreen(profesorId: profesorId);
       },
+    ),
+    GoRoute(
+      path: '/estudiocuestionario',
+      builder: (context, state) =>  CrearActividad(),
     ),
   ],
 );
