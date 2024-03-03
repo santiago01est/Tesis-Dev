@@ -44,6 +44,7 @@ dependencies:
 
   flame: ^1.11.0
   flame_tiled: ^1.18.0
+  number_inc_dec: ^0.8.0
 
 
 dev_dependencies:

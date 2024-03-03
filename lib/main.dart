@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           scaffoldBackgroundColor: sixtyColor,
           textTheme:
-              GoogleFonts.ibmPlexMonoTextTheme(Theme.of(context).textTheme)
+              GoogleFonts.lexendExaTextTheme(Theme.of(context).textTheme)
                   .apply(bodyColor: Colors.black),
           pageTransitionsTheme: const PageTransitionsTheme(builders: {
             TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),

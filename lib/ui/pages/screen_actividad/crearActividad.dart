@@ -2,9 +2,11 @@
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_profesor.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
+import 'package:dev_tesis/ui/components/buttons/pixel_small_bttn.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:dev_tesis/ui/widgets/radio_respuestas_estudio_creacion.dart';
 import 'package:flutter/material.dart';
+import 'package:number_inc_dec/number_inc_dec.dart';
 
 class CrearActividad extends StatefulWidget {
   const CrearActividad({super.key});
@@ -19,15 +21,27 @@ class _CrearActividadState extends State<CrearActividad> {
     'boytemploderecha.png',
     'cofre.png',
     'llave 1.png',
+    'gemaAmarilla.png',
+    'gemaAzul.png',
+    'gemaRoja.png',
+    'gemaVerde.png',
+    'gallinas.png',
+    'huevo.png',
     'trigo.png',
+    'calabaza.png',
     'pilar 1.png',
-    'piedra 1.png'
+    'pilarfuego.png',
+    'piedra 1.png',
+    'cajas.png',
+    'jarrones.png',
+    'abeja.png'
   ];
 
   List<String> opciones = [
     'Avanzar.png',
     'GirarIzq.png',
     'GirarDerecha.png',
+    'Agarrar.png'
   ];
 
   List<List<String>> imagesList = [[], [], [], []]; // Elementos en cada tarjeta
@@ -175,19 +189,32 @@ class _CrearActividadState extends State<CrearActividad> {
                                 ),
                               ),
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 40, top: 20),
-                                child: PixelLargeBttn(
-                                  path: 'assets/items/ButtonBlue.png',
-                                  onPressed: () {
-                                    setState(() {
-                                      board = List.generate(
-                                          36,
-                                          (index) =>
-                                              -1); // Restablece la matriz en blanco
-                                    });
-                                  },
-                                  text: 'Limpiar Tablero',
+                                padding: const EdgeInsets.only(left: 50),
+                                child: Wrap(
+                                  children: [
+                                    PixelSmallBttn(
+                                      path: 'assets/items/ButtonBlue.png',
+                                      onPressed: () {
+                                        setState(() {
+                                          board = List.generate(
+                                              36,
+                                              (index) =>
+                                                  -1); // Restablece la matriz en blanco
+                                        });
+                                      },
+                                      text: 'Limpiar',
+                                    ),
+                                    PixelSmallBttn(
+                                      path: 'assets/items/ButtonOrange.png',
+                                      onPressed: () {},
+                                      text: 'Cancelar',
+                                    ),
+                                    PixelSmallBttn(
+                                      path: 'assets/items/ButtonBlue.png',
+                                      onPressed: () {},
+                                      text: 'Publicar',
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
@@ -202,9 +229,16 @@ class _CrearActividadState extends State<CrearActividad> {
                               children: [
                                 const ParagraphText(
                                     text:
-                                        'Crea y selecciona la respuesta correcta '),
+                                        'Crea, selecciona la respuesta correcta y asignale una puntuación del 1 al 4'),
+                                SizedBox(height: 8),
+                                const ParagraphTextEnlace(
+                                    text:
+                                        'para más información sobre crear actividades clic aquí'),
+                                        SizedBox(height: 30),
                                 // Lista de elementos arrastrables
                                 Wrap(
+                                  spacing: 10,
+                                
                                   children: opciones
                                       .asMap()
                                       .entries
@@ -213,17 +247,17 @@ class _CrearActividadState extends State<CrearActividad> {
                                           data: entry.value,
                                           feedback: Image.asset(
                                             'assets/buttons/${entry.value}',
-                                            width: 80,
-                                            height: 80,
+                                            width: 40,
+                                            height: 40,
                                           ),
                                           child: Container(
-                                            width: 80,
-                                            height: 80,
+                                            width: 50,
+                                            height: 50,
                                             child: Center(
                                               child: Image.asset(
                                                 'assets/buttons/${entry.value}',
-                                                width: 80,
-                                                height: 80,
+                                                width: 50,
+                                                height: 50,
                                               ),
                                             ),
                                           ),
@@ -231,13 +265,13 @@ class _CrearActividadState extends State<CrearActividad> {
                                       )
                                       .toList(),
                                 ),
-
+                                const SizedBox(height: 12),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: List.generate(
                                     imagesList.length,
                                     (index) => Padding(
-                                      padding: const EdgeInsets.all(20.0),
+                                      padding: const EdgeInsets.all(10.0),
                                       child: Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -266,66 +300,83 @@ class _CrearActividadState extends State<CrearActividad> {
                                             child: DragTarget<String>(
                                               builder: (context, candidateData,
                                                   rejectedData) {
-                                                return Card(
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12),
-                                                  ),
-                                                  elevation: 6,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            16),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Wrap(
-                                                          alignment:
-                                                              WrapAlignment
-                                                                  .start,
-                                                          spacing:
-                                                              8.0, // Espacio entre las imágenes
-                                                          runSpacing: 8.0,
-                                                          children:
-                                                              List.generate(
-                                                            imagesList[index]
-                                                                .length,
-                                                            (imgIndex) =>
-                                                                Image.asset(
-                                                              'assets/buttons/${imagesList[index][imgIndex]}',
-                                                              height: 50,
-                                                              width: 50,
-                                                              fit: BoxFit.fill,
+                                                return Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Expanded(
+                                                      flex: 4,
+                                                      child: Card(
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(12),
+                                                        ),
+                                                        elevation: 6,
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(16),
+                                                          child: Wrap(
+                                                            alignment:
+                                                                WrapAlignment
+                                                                    .start,
+                                                            spacing:
+                                                                8.0, // Espacio entre las imágenes
+                                                            runSpacing: 8.0,
+                                                            children: List
+                                                                .generate(
+                                                              imagesList[
+                                                                      index]
+                                                                  .length,
+                                                              (imgIndex) =>
+                                                                  Image
+                                                                      .asset(
+                                                                'assets/buttons/${imagesList[index][imgIndex]}',
+                                                                height: 40,
+                                                                width: 40,
+                                                                fit: BoxFit
+                                                                    .fill,
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
-                                                        SizedBox(height: 8),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .end,
-                                                          children: [
-                                                            IconButton(
-                                                                icon: Icon(
-                                                                    Icons
-                                                                        .delete,
-                                                                    color:
-                                                                        orangeColor),
-                                                                onPressed: () {
-                                                                  setState(() {
-                                                                    imagesList[
-                                                                            index]
-                                                                        .clear();
-                                                                  });
-                                                                })
-                                                          ],
-                                                        ),
-                                                      ],
+                                                      ),
                                                     ),
-                                                  ),
+                                                     IconButton(
+                                                                  icon: Icon(
+                                                                      Icons
+                                                                          .delete,
+                                                                      color:
+                                                                          orangeColor),
+                                                                  onPressed:
+                                                                      () {
+                                                                    setState(
+                                                                        () {
+                                                                      imagesList[index]
+                                                                          .clear();
+                                                                    });
+                                                                  }),
+                                                    SizedBox(
+                                                      width: 8,
+                                                    ),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child:
+                                                          NumberInputPrefabbed
+                                                              .leafyButtons(
+                                                        controller:
+                                                            TextEditingController(),
+                                                        initialValue: 1,
+                                                        min: 1,
+                                                        max: 4,
+                                                        incDecBgColor: orangeColor,
+                                                      ),
+                                                    )
+                                                  ],
                                                 );
                                               },
                                               onWillAccept: (data) => true,
@@ -356,7 +407,7 @@ class _CrearActividadState extends State<CrearActividad> {
               child: Container(
             // ocupara el espacio disponible
             width: double.infinity,
-            height: double.infinity,
+           height: MediaQuery.of(context).size.height,
             padding: EdgeInsets.only(left: 20, right: 20),
 
             decoration: BoxDecoration(
@@ -367,42 +418,50 @@ class _CrearActividadState extends State<CrearActividad> {
               ),
             ),
             child: // Lista de elementos
-                Column(
+                SingleChildScrollView(
+                  child:
+                    Column(
               children: [
-                const SizedBox(height: 50),
-                const TitleText(text: 'Elementos'),
-                const SizedBox(height: 40),
-                const ParagraphText(
-                    text:
-                        'Arrastra y suelta los elementos al Mapa para construir la actividad'),
-                const SizedBox(height: 20),
-                Wrap(
-                  children: elements
-                      .asMap()
-                      .entries
-                      .map((entry) => Draggable(
-                            data: entry.key,
-                            feedback: Image.asset(
-                              'assets/items/estudio/${entry.value}',
-                              width: 80,
-                              height: 80,
-                            ),
-                            child: Container(
-                              width: 80,
-                              height: 80,
-                              child: Center(
-                                child: Image.asset(
+                    const SizedBox(height: 50),
+                    const TitleText(text: 'Elementos'),
+                    const SizedBox(height: 40),
+                    const ParagraphText(
+                        text:
+                            'Arrastra y suelta los elementos al Mapa para construir la actividad'),
+                    const SizedBox(height: 20),
+                    Wrap(
+                      spacing: 10,
+                      runSpacing: 26,
+
+                     
+                      children: elements
+                          .asMap()
+                          .entries
+                          .map((entry) => Draggable(
+                                data: entry.key,
+                                feedback: Image.asset(
                                   'assets/items/estudio/${entry.value}',
                                   width: 80,
                                   height: 80,
                                 ),
-                              ),
-                            ),
-                          ))
-                      .toList(),
-                ),
+                                child: Container(
+                                  width: 80,
+                                  height: 80,
+                                  child: Center(
+                                    child: Image.asset(
+                                      'assets/items/estudio/${entry.value}',
+                                      width: 80,
+                                      height: 80,
+                                    ),
+                                  ),
+                                ),
+                              ))
+                          .toList(),
+                    ),
               ],
             ),
+                  
+                ),
           ))
         ]));
   }
