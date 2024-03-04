@@ -65,6 +65,7 @@ flutter:
     - assets/items/ejemplosImg/
     - assets/items/estudio/
     - assets/images/
+    - assets/avatares/
     - assets/fondos/
     - assets/images/objetos_animados/
     - assets/images/objetos_animados/animales/

@@ -11,7 +11,6 @@ import 'package:go_router/go_router.dart';
 
 class LayoutUnidadCurso extends StatefulWidget {
   
-
   const LayoutUnidadCurso({Key? key}) : super(key: key);
 
   @override
@@ -24,7 +23,8 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
   @override
   Widget build(BuildContext context) {
     final rolCubit = context.watch<RolCubit>();
-    final router = GoRouter.of(context);
+    final router= GoRouter.of(context);
+    
     final unidadesCubit= context.watch<UnidadesCubit>();
 
 
@@ -159,7 +159,7 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                   ? PixelLargeBttn(
                                       path: 'assets/items/ButtonBlue.png',
                                       onPressed: () {
-                                        router.go('/estudiocuestionario/${unidadesCubit.state[index].id}');
+                                        router.push('/estudiocuestionario/${unidadesCubit.state[index].id}');
                                       },
                                       text: 'Crear Actividad')
                                   : SizedBox(),
