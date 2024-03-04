@@ -37,6 +37,9 @@ class _CrearActividadState extends State<CrearActividad> {
     'abeja.png'
   ];
 
+
+
+
   List<String> opciones = [
     'Avanzar.png',
     'GirarIzq.png',
@@ -47,7 +50,12 @@ class _CrearActividadState extends State<CrearActividad> {
   List<List<String>> imagesList = [[], [], [], []]; // Elementos en cada tarjeta
   int _selectedOptionIndex = -1; // Index of the selected card
 
+// lista del tablero a dibujar
   late List<int> board;
+
+// lista de elementos dentro del tablero inicia con la cantidad de casillas del tablero con el nuemro 0
+// lista para guardar la informacion del tablero
+  List<int> boardInfo = List.generate(36, (index) => -1);
 
   // Constructor
   _CrearActividadState() {
@@ -179,6 +187,7 @@ class _CrearActividadState extends State<CrearActividad> {
                                             onAccept: (data) {
                                               setState(() {
                                                 board[index] = data;
+                                                boardInfo[index] = data;
                                               });
                                             },
                                           ),
@@ -211,7 +220,10 @@ class _CrearActividadState extends State<CrearActividad> {
                                     ),
                                     PixelSmallBttn(
                                       path: 'assets/items/ButtonBlue.png',
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        // muestra lo que tienen boardInfo
+                                        print(boardInfo);
+                                      },
                                       text: 'Publicar',
                                     ),
                                   ],

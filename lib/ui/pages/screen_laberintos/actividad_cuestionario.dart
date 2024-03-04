@@ -34,8 +34,6 @@ class _ActividadCuestionarioScreenState
       estado: 'Activa',
       tipoActividad: "Cuestionario",
       dimension: 6,
-      casillaFinal: 3,
-      casillaInicio: 0,
       casillas: [
         Casilla(
           id: "1",
