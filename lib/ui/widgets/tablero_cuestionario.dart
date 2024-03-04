@@ -9,22 +9,48 @@ class TableroCuestionario extends StatelessWidget {
   const TableroCuestionario({Key? key, required this.actividadCuestionario})
       : super(key: key);
 
+      
+
   @override
   Widget build(BuildContext context) {
+
+     List<String> elements = [
+    'boycampoderecha.png',
+    'boytemploderecha.png',
+    'cofre.png',
+    'llave 1.png',
+    'gemaAmarilla.png',
+    'gemaAzul.png',
+    'gemaRoja.png',
+    'gemaVerde.png',
+    'gallinas.png',
+    'huevo.png',
+    'trigo.png',
+    'calabaza.png',
+    'pilar 1.png',
+    'pilarfuego.png',
+    'piedra 1.png',
+    'cajas.png',
+    'jarrones.png',
+    'abeja.png'
+  ];
+
+  List<int>? elementsInfoBoard= actividadCuestionario.casillas;
+
     return SizedBox(
-      width: actividadCuestionario.dimension *
+      width: actividadCuestionario.dimension! *
           90, // Tamaño del tablero (6 casillas * 90px por casilla)
-      height: actividadCuestionario.dimension *
+      height: actividadCuestionario.dimension! *
           90, // Tamaño del tablero (6 casillas * 90px por casilla)
       child: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount:
-              actividadCuestionario.dimension, // 6 casillas por fila
+              actividadCuestionario.dimension!, // 6 casillas por fila
         ),
-        itemCount: actividadCuestionario.dimension *
-            actividadCuestionario.dimension, // Total de casillas en el tablero
+        itemCount: actividadCuestionario.dimension! *
+            actividadCuestionario.dimension!, // Total de casillas en el tablero
         itemBuilder: (context, index) {
-          final casilla = obtenerCasilla(index, actividadCuestionario.casillas);
+          String casillarecurso = elementsInfoBoard![index] != -1 ? 'assets/items/estudio/${elements[elementsInfoBoard[index]]}' : 'assets/whiteCasilla.png';
           return Container(
             width: 90, // Tamaño de cada casilla
             height: 90, // Tamaño de cada casilla
@@ -34,13 +60,7 @@ class TableroCuestionario extends StatelessWidget {
               // color de relleno
               color: const Color.fromARGB(255, 255, 255, 255),
             ),
-            child: Image(
-              image: casilla != null
-                  ? AssetImage(casilla.recurso)
-                  : const AssetImage(
-                      'assets/whiteCasilla.png'), // Fondo de la casilla
-              //fit: BoxFit.fill, // Ajuste para cubrir el contenedor
-            ),
+            child: Image.asset(casillarecurso)
           );
         },
       ),

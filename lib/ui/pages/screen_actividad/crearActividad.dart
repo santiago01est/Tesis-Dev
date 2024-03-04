@@ -1,21 +1,25 @@
 // ignore: file_names
 import 'package:dev_tesis/constants/styles.dart';
+import 'package:dev_tesis/domain/model/actividad.dart';
+import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
+import 'package:dev_tesis/ui/bloc/actividad_custio_test.dart';
+import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_profesor.dart';
-import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_small_bttn.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
-import 'package:dev_tesis/ui/widgets/radio_respuestas_estudio_creacion.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
 
 class CrearActividad extends StatefulWidget {
-  const CrearActividad({super.key});
+  final String unidadId;
+  const CrearActividad({super.key, required this.unidadId});
 
   @override
-  _CrearActividadState createState() => _CrearActividadState();
+  CrearActividadState createState() => CrearActividadState();
 }
 
-class _CrearActividadState extends State<CrearActividad> {
+class CrearActividadState extends State<CrearActividad> {
   List<String> elements = [
     'boycampoderecha.png',
     'boytemploderecha.png',
@@ -51,23 +55,14 @@ class _CrearActividadState extends State<CrearActividad> {
   int _selectedOptionIndex = -1; // Index of the selected card
 
 // lista del tablero a dibujar
-  late List<int> board;
-
-// lista de elementos dentro del tablero inicia con la cantidad de casillas del tablero con el nuemro 0
-// lista para guardar la informacion del tablero
-  List<int> boardInfo = List.generate(36, (index) => -1);
-
-  // Constructor
-  _CrearActividadState() {
-    board =
-        List.generate(36, (index) => -1); // Inicializa con valores negativos
-  }
+  List<int> board= List.generate(36, (index) => -1);
 
   final TextEditingController descripcionTextEditingController =
       TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: AppBarProfesor(),
         body: Row(children: [
@@ -187,7 +182,7 @@ class _CrearActividadState extends State<CrearActividad> {
                                             onAccept: (data) {
                                               setState(() {
                                                 board[index] = data;
-                                                boardInfo[index] = data;
+                                               
                                               });
                                             },
                                           ),
@@ -221,8 +216,26 @@ class _CrearActividadState extends State<CrearActividad> {
                                     PixelSmallBttn(
                                       path: 'assets/items/ButtonBlue.png',
                                       onPressed: () {
-                                        // muestra lo que tienen boardInfo
-                                        print(boardInfo);
+                                        ActividadCuestionario actividadCuestionarioSave =
+                                            ActividadCuestionario(
+                                              id: '123',
+                                              nombre: 'ACTIVIDAD NUEVA',
+                                              descripcion: descripcionTextEditingController.text,
+                                              estado: 'Activo',
+                                              tipoActividad: 'Cuestionario',
+                                              dimension: 6,
+                                              casillas: board,
+                                              respuestas: imagesList,
+                                              respuestaCorrecta: _selectedOptionIndex
+                                            );
+
+                                            context.read<ActividadCuestionarioCubit>().addActividadCuestionario(actividadCuestionarioSave);
+                                            context.read<UnidadesCubit>().addActividad(Actividad(id: actividadCuestionarioSave.id,nombre: actividadCuestionarioSave.nombre,descripcion: actividadCuestionarioSave.descripcion, estado: actividadCuestionarioSave.estado, tipoActividad: actividadCuestionarioSave.tipoActividad), widget.unidadId);
+
+                                            // cerrar screen y volver
+                                            Navigator.pop(context); 
+                                            
+                                       
                                       },
                                       text: 'Publicar',
                                     ),
@@ -246,11 +259,10 @@ class _CrearActividadState extends State<CrearActividad> {
                                 const ParagraphTextEnlace(
                                     text:
                                         'para más información sobre crear actividades clic aquí'),
-                                        SizedBox(height: 30),
+                                SizedBox(height: 30),
                                 // Lista de elementos arrastrables
                                 Wrap(
                                   spacing: 10,
-                                
                                   children: opciones
                                       .asMap()
                                       .entries
@@ -339,39 +351,32 @@ class _CrearActividadState extends State<CrearActividad> {
                                                             spacing:
                                                                 8.0, // Espacio entre las imágenes
                                                             runSpacing: 8.0,
-                                                            children: List
-                                                                .generate(
-                                                              imagesList[
-                                                                      index]
+                                                            children:
+                                                                List.generate(
+                                                              imagesList[index]
                                                                   .length,
                                                               (imgIndex) =>
-                                                                  Image
-                                                                      .asset(
+                                                                  Image.asset(
                                                                 'assets/buttons/${imagesList[index][imgIndex]}',
                                                                 height: 40,
                                                                 width: 40,
-                                                                fit: BoxFit
-                                                                    .fill,
+                                                                fit:
+                                                                    BoxFit.fill,
                                                               ),
                                                             ),
                                                           ),
                                                         ),
                                                       ),
                                                     ),
-                                                     IconButton(
-                                                                  icon: Icon(
-                                                                      Icons
-                                                                          .delete,
-                                                                      color:
-                                                                          orangeColor),
-                                                                  onPressed:
-                                                                      () {
-                                                                    setState(
-                                                                        () {
-                                                                      imagesList[index]
-                                                                          .clear();
-                                                                    });
-                                                                  }),
+                                                    IconButton(
+                                                        icon: Icon(Icons.delete,
+                                                            color: orangeColor),
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            imagesList[index]
+                                                                .clear();
+                                                          });
+                                                        }),
                                                     SizedBox(
                                                       width: 8,
                                                     ),
@@ -385,7 +390,8 @@ class _CrearActividadState extends State<CrearActividad> {
                                                         initialValue: 1,
                                                         min: 1,
                                                         max: 4,
-                                                        incDecBgColor: orangeColor,
+                                                        incDecBgColor:
+                                                            orangeColor,
                                                       ),
                                                     )
                                                   ],
@@ -394,7 +400,7 @@ class _CrearActividadState extends State<CrearActividad> {
                                               onWillAccept: (data) => true,
                                               onAccept: (data) {
                                                 setState(() {
-                                                  imagesList[index].add(data!);
+                                                  imagesList[index].add(data);
                                                 });
                                               },
                                             ),
@@ -419,7 +425,7 @@ class _CrearActividadState extends State<CrearActividad> {
               child: Container(
             // ocupara el espacio disponible
             width: double.infinity,
-           height: MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height,
             padding: EdgeInsets.only(left: 20, right: 20),
 
             decoration: BoxDecoration(
@@ -431,49 +437,45 @@ class _CrearActividadState extends State<CrearActividad> {
             ),
             child: // Lista de elementos
                 SingleChildScrollView(
-                  child:
-                    Column(
-              children: [
-                    const SizedBox(height: 50),
-                    const TitleText(text: 'Elementos'),
-                    const SizedBox(height: 40),
-                    const ParagraphText(
-                        text:
-                            'Arrastra y suelta los elementos al Mapa para construir la actividad'),
-                    const SizedBox(height: 20),
-                    Wrap(
-                      spacing: 10,
-                      runSpacing: 26,
-
-                     
-                      children: elements
-                          .asMap()
-                          .entries
-                          .map((entry) => Draggable(
-                                data: entry.key,
-                                feedback: Image.asset(
-                                  'assets/items/estudio/${entry.value}',
-                                  width: 80,
-                                  height: 80,
-                                ),
-                                child: Container(
-                                  width: 80,
-                                  height: 80,
-                                  child: Center(
-                                    child: Image.asset(
-                                      'assets/items/estudio/${entry.value}',
-                                      width: 80,
-                                      height: 80,
-                                    ),
+              child: Column(
+                children: [
+                  const SizedBox(height: 50),
+                  const TitleText(text: 'Elementos'),
+                  const SizedBox(height: 40),
+                  const ParagraphText(
+                      text:
+                          'Arrastra y suelta los elementos al Mapa para construir la actividad'),
+                  const SizedBox(height: 20),
+                  Wrap(
+                    spacing: 10,
+                    runSpacing: 26,
+                    children: elements
+                        .asMap()
+                        .entries
+                        .map((entry) => Draggable(
+                              data: entry.key,
+                              feedback: Image.asset(
+                                'assets/items/estudio/${entry.value}',
+                                width: 80,
+                                height: 80,
+                              ),
+                              child: Container(
+                                width: 80,
+                                height: 80,
+                                child: Center(
+                                  child: Image.asset(
+                                    'assets/items/estudio/${entry.value}',
+                                    width: 80,
+                                    height: 80,
                                   ),
                                 ),
-                              ))
-                          .toList(),
-                    ),
-              ],
+                              ),
+                            ))
+                        .toList(),
+                  ),
+                ],
+              ),
             ),
-                  
-                ),
           ))
         ]));
   }

@@ -56,7 +56,8 @@ class _RadioRespuestasCuestionarioState
                       children: List.generate(
                         widget.imagesList[index].length,
                         (imgIndex) => Image.asset(
-                          _getImagePath(widget.imagesList[index][imgIndex]),
+                          'assets/buttons/${
+                          widget.imagesList[index][imgIndex]}',
                           height: 50,
                           width: 50,
                           fit: BoxFit.cover,

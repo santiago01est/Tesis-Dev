@@ -5,6 +5,7 @@ import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
+import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_profesor_panel.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:dev_tesis/ui/widgets/layout_curso_unidades.dart';
@@ -43,11 +44,13 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
         // buscar en cursos el curso con el id correspondiente
         final curso = cursos.firstWhere((c) => c.id == widget.cursoId);
         context.read<CursoCubit>().actualizarCurso(curso);
+        context.read<UnidadesCubit>().subirUnidades(curso.unidades!);
       } else {
         final cursos = context.read<BDCursosCubit>().state;
         // buscar en cursos el curso con el id correspondiente
         final curso = cursos.firstWhere((c) => c.id == widget.cursoId);
         context.read<CursoCubit>().actualizarCurso(curso);
+        context.read<UnidadesCubit>().subirUnidades(curso.unidades!);
       }
     } catch (e) {
       // Manejo de errores, puedes mostrar un mensaje de error
@@ -273,7 +276,6 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
                     // Contenido de la primera pestaña
                     // Utiliza tu LayoutUnidadCurso o el contenido que desees
                     LayoutUnidadCurso(
-                      unidades: cursoCubit.state.unidades!,
                     ),
                     const ListaEstudiantesWidget()
                     // Contenido de la segunda pestaña
