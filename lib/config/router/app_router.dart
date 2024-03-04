@@ -52,8 +52,10 @@ final appRouter = GoRouter(
     ),
 
     GoRoute(
-      path: '/cuestionario',
-      builder: (context, state) => const ActividadCuestionarioScreen(),
+      path: '/cuestionario/:actividadId',
+      builder: (context, state) { 
+        final String actividadId = state.pathParameters['actividadId'] ?? '1';
+        return ActividadCuestionarioScreen(actividadId: actividadId);}
     ),
 
     GoRoute(
@@ -65,8 +67,13 @@ final appRouter = GoRouter(
       },
     ),
     GoRoute(
-      path: '/estudiocuestionario',
-      builder: (context, state) =>  CrearActividad(),
+      path: '/estudiocuestionario/:unidadId',
+      builder: (context, state) {
+        // se valida que sea profesor y que este logueado
+ 
+        final String unidadId = state.pathParameters['unidadId'] ?? '0';
+        return CrearActividad(unidadId: unidadId);
+        }
     ),
   ],
 );

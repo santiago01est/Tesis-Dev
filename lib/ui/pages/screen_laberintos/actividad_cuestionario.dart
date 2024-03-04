@@ -1,8 +1,12 @@
 import 'package:dev_tesis/constants/styles.dart';
+import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
 import 'package:dev_tesis/domain/model/casilla.dart';
+import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/game/player/player.dart';
 import 'package:dev_tesis/game/game_activity.dart';
+import 'package:dev_tesis/ui/bloc/actividad_custio_test.dart';
+import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/game/instrucciones_bloc.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
@@ -15,8 +19,12 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+
 class ActividadCuestionarioScreen extends StatefulWidget {
-  const ActividadCuestionarioScreen({super.key});
+  final String actividadId;
+
+  const ActividadCuestionarioScreen({Key? key, required this.actividadId})
+      : super(key: key);
 
   @override
   State<ActividadCuestionarioScreen> createState() =>
@@ -25,53 +33,18 @@ class ActividadCuestionarioScreen extends StatefulWidget {
 
 class _ActividadCuestionarioScreenState
     extends State<ActividadCuestionarioScreen> {
+
+ 
+
   @override
   Widget build(BuildContext context) {
-    ActividadCuestionario actividadCuestionario = ActividadCuestionario(
-      id: "1",
-      nombre: "Cuestionario 1",
-      descripcion: "Descripción del cuestionario",
-      estado: 'Activa',
-      tipoActividad: "Cuestionario",
-      dimension: 6,
-      casillaFinal: 3,
-      casillaInicio: 0,
-      casillas: [
-        Casilla(
-          id: "1",
-          numeroCasillas: [12],
-          tipoCasilla: "Inicio",
-          recurso: "assets/avatares/granjeroboy_avatar.png",
-        ),
-        Casilla(
-          id: "2",
-          numeroCasillas: [16],
-          tipoCasilla: "Final",
-          recurso: "assets/items/bulto_cafe.png",
-        ),
-        Casilla(
-          id: "3",
-          numeroCasillas: [3, 4, 5, 7, 8, 23, 28],
-          tipoCasilla: "obstaculo",
-          recurso: "assets/items/planta.png",
-        ),
-        // Otras casillas...
-      ],
-      respuestaA: [
-        'derecha',
-        'derecha',
-        'derecha',
-        'derecha',
-        'derecha',
-        'derecha',
-        'derecha',
-        'derecha',
-        'derecha'
-      ],
-      respuestaB: ['izquierda', 'izquierda', 'izquierda'],
-      respuestaC: ['arriba', 'arriba', 'arriba'],
-      respuestaD: ['abajo', 'abajo', 'abajo'],
-    );
+
+     List<ActividadCuestionario> actividadesCuestionario= context.watch<ActividadCuestionarioCubit>().state;
+
+     //buscar actividad por id dentro del curso
+     ActividadCuestionario actividadCuestionario = actividadesCuestionario.firstWhere((actividad) => actividad.id == widget.actividadId);
+
+    
     return Scaffold(
       appBar: const CustomAppBar(userName: 'usuario'),
       // Responsive UI design for desktop and mobile
@@ -117,7 +90,7 @@ class _ActividadCuestionarioScreenState
                                         // Add content for the left section of the blue board
                                         TableroCuestionario(
                                             actividadCuestionario:
-                                                actividadCuestionario),
+                                               actividadCuestionario),
                                       ],
                                     ),
                                   ),
@@ -141,12 +114,10 @@ class _ActividadCuestionarioScreenState
                                         ),
                                         Container(
                                           child: RadioRespuestasCuestionario(
-                                            imagesList: [
-                                              actividadCuestionario.respuestaA,
-                                              actividadCuestionario.respuestaB,
-                                              actividadCuestionario.respuestaC,
-                                              actividadCuestionario.respuestaD
-                                            ],
+                                            imagesList: 
+                                               actividadCuestionario.respuestas!,
+                                               
+                                            
                                           ),
                                         )
                                       ],
