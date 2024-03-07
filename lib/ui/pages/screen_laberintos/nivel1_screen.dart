@@ -24,6 +24,7 @@ class Laberinto extends StatefulWidget {
 class _LaberintoState extends State<Laberinto> {
   @override
   Widget build(BuildContext context) {
+    // String nombreArchivo = 'Laberinto2';
     final curso = context.read<CursoCubit>();
     ActividadLaberinto? actividadLaberinto;
     for (var unidad in curso.state.unidades!) {
@@ -34,7 +35,7 @@ class _LaberintoState extends State<Laberinto> {
         for (Actividad actividad in unidad.actividades!) {
           if (actividad.id == widget.actividadId) {
           if (actividad is ActividadLaberinto) {
-            actividadLaberinto=actividad as ActividadLaberinto;
+            actividadLaberinto=actividad;
           }
           }
         }
@@ -152,23 +153,24 @@ class _LaberintoState extends State<Laberinto> {
                                               onPressed: () {
                                                 movementInstructionsCubit
                                                     .agregarIntruccion(
-                                                        'arriba');
+                                                        'avanzar');
                                               },
                                               iconSize: 100,
                                               icon: Image.asset(
-                                                  'assets/buttons/Arriba.png', // Reemplaza con la ruta de tu imagen en assets
+                                                  'assets/buttons/Derecha.png', // Reemplaza con la ruta de tu imagen en assets
                                                   fit: BoxFit.cover,
                                                   width: 60,
                                                   height: 60),
                                             ),
-                                            IconButton(
+                                            if(actividadLaberinto!.nombreArchivo != 'Laberinto1') ...[
+                                              IconButton(
                                               onPressed: () {
                                                 movementInstructionsCubit
-                                                    .agregarIntruccion('abajo');
+                                                    .agregarIntruccion('giroDeIzquierda');
                                               },
                                               iconSize: 100,
                                               icon: Image.asset(
-                                                  'assets/buttons/Abajo.png', // Reemplaza con la ruta de tu imagen en assets
+                                                  'assets/buttons/GirarIzq.png', // Reemplaza con la ruta de tu imagen en assets
                                                   fit: BoxFit.cover,
                                                   width: 60,
                                                   height: 60),
@@ -177,16 +179,16 @@ class _LaberintoState extends State<Laberinto> {
                                               onPressed: () {
                                                 movementInstructionsCubit
                                                     .agregarIntruccion(
-                                                        'izquierda');
+                                                        'giroDeDerecha');
                                               },
                                               iconSize: 100,
                                               icon: Image.asset(
-                                                  'assets/buttons/Izquierda.png', // Reemplaza con la ruta de tu imagen en assets
+                                                  'assets/buttons/GirarDerecha.png', // Reemplaza con la ruta de tu imagen en assets
                                                   fit: BoxFit.cover,
                                                   width: 60,
                                                   height: 60),
                                             ),
-                                            IconButton(
+                                            /* IconButton(
                                               onPressed: () {
                                                 movementInstructionsCubit
                                                     .agregarIntruccion(
@@ -198,7 +200,9 @@ class _LaberintoState extends State<Laberinto> {
                                                   fit: BoxFit.cover,
                                                   width: 60,
                                                   height: 60),
-                                            ),
+                                            ), */
+                                            ]
+                                            
                                           ],
                                         ),
                                       ),
