@@ -66,10 +66,9 @@ flutter:
     - assets/images/objetos_animados/jugador/
     - assets/tiles/
     - assets/images/mapa/
-    - assets/images/mapa/decoracion/
-    - assets/images/mapa/decoracion/unidad1-Campo/
-    - assets/images/mapa/objetos/
-    - assets/images/mapa/objetos_up/
+    - assets/images/mapa/decoracion-suelo/
+    - assets/images/mapa/decoracion-suelo/unidad1-Campo/
+    - assets/images/mapa/objetos-UpAndDown/
     - assets/images/mapa/suelo/
     - assets/images/mapa/suelo/unidad1-Campo/
     - assets/images/mapa/suelo/unidad2-templo/

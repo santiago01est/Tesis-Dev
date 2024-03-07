@@ -179,7 +179,7 @@ class Player extends SpriteAnimationGroupComponent
       add(MoveByEffect(movementVector, EffectController(duration: 0.333)));
       await Future.delayed(const Duration(milliseconds: 333));
       current = idleState;
-    } else if (block.type == 'Meta' && lastInstruction == true) {
+    } else if (block.type == 'meta' && lastInstruction == true) {
       current = movementState;
       add(MoveByEffect(movementVector, EffectController(duration: 0.333)));
       await Future.delayed(const Duration(milliseconds: 333));
