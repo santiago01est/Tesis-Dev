@@ -55,7 +55,7 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
             height: 20,
           ),
           const Text(
-            "Al unirte a Mundo PC, te convertirás en un pionero de la enseñanza del pensamiento computacional. Tu pasión y compromiso crearan un futuro lleno de posibilidades para nuestros estudiantes. ¡Acepta la mision!",
+            "Al unirte a Mundo PC, te convertirás en un pionero de la enseñanza del pensamiento computacional. Tu pasión y compromiso crearan un futuro lleno de posibilidades para los estudiantes. ¡Acepta la mision!",
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
           ),
           const SizedBox(
@@ -251,11 +251,7 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
                 const SizedBox(
                   height: 10,
                 ),
-                Container(
-                  width: 300,
-                  height: 100,
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: PixelLargeBttn(
+               PixelLargeBttn(
                     path: "assets/items/ButtonBlue.png",
                     onPressed: () async {
                       // Marcamos el formulario como enviado
@@ -278,7 +274,7 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
                     },
                     text: 'Registrarse',
                   ),
-                ),
+                
               ],
             ),
           ),

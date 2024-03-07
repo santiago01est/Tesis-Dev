@@ -2,9 +2,14 @@ import 'package:dev_tesis/ui/bloc/game/instrucciones_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class RespuestaLaberinto extends StatelessWidget {
+class RespuestaLaberinto extends StatefulWidget {
   const RespuestaLaberinto({super.key});
 
+  @override
+  State<RespuestaLaberinto> createState() => _RespuestaLaberintoState();
+}
+
+class _RespuestaLaberintoState extends State<RespuestaLaberinto> {
   @override
   Widget build(BuildContext context) {
     final movementInstructionsCubit = context.watch<InstruccionesCubit>();
@@ -33,7 +38,6 @@ class RespuestaLaberinto extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                //Text(clave),
                 Image.asset(
                   valor,
                   width:

@@ -21,7 +21,7 @@ class ProfesorDataAdapter extends ProfesorRepository {
             'Apasionada por la enseñanza del pensamiento computacional! 👩‍🏫, soy profesora de la Institución Educativa General Santander Calarcá, Quindío. Transformo el aprendizaje en aventuras emocionantes para mis estudiantes y fomentar el poder de la tecnologia y de la creatividad');
     Profesor p2 = Profesor(
         id: '2',
-        nombre: 'Profesor 1',
+        nombre: 'Sandra García Díaz',
         email: 'Correo 1',
         password: '',
         avatar: 'assets/items/perico_mascota.png',
@@ -35,7 +35,7 @@ class ProfesorDataAdapter extends ProfesorRepository {
         bio: '');
     Profesor p4 = Profesor(
         id: '4',
-        nombre: 'Profesor 1',
+        nombre: 'Martin Estrada',
         email: 'Correo 1',
         password: '',
         avatar: 'assets/items/perico_mascota.png',
@@ -43,7 +43,7 @@ class ProfesorDataAdapter extends ProfesorRepository {
 
     Profesor p5 = Profesor(
         id: '5',
-        nombre: 'Profesor 1',
+        nombre: 'Sergio Cardona',
         email: 'Correo 1',
         password: '',
         avatar: 'assets/items/perico_mascota.png',

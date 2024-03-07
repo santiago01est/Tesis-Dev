@@ -1,3 +1,4 @@
+import 'package:dev_tesis/ui/pages/screen_actividad/crearActividad.dart';
 import 'package:dev_tesis/ui/pages/screen_home/home.dart';
 import 'package:dev_tesis/ui/pages/screen_laberintos/actividad_cuestionario.dart';
 import 'package:dev_tesis/ui/pages/screen_laberintos/nivel1_screen.dart';
@@ -46,13 +47,17 @@ final appRouter = GoRouter(
       },
     ),
     GoRoute(
-      path: '/laberinto',
-      builder: (context, state) => const Nivel1Laberinto(),
+       path: '/laberinto/:actividadId',
+      builder: (context, state) { 
+        final String actividadId = state.pathParameters['actividadId'] ?? '-1';
+        return Laberinto(actividadId: actividadId);}
     ),
 
     GoRoute(
-      path: '/cuestionario',
-      builder: (context, state) => const ActividadCuestionarioScreen(),
+      path: '/cuestionario/:actividadId',
+      builder: (context, state) { 
+        final String actividadId = state.pathParameters['actividadId'] ?? '1';
+        return ActividadCuestionarioScreen(actividadId: actividadId);}
     ),
 
     GoRoute(
@@ -62,6 +67,15 @@ final appRouter = GoRouter(
         final String profesorId = state.pathParameters['profesorId'] ?? '1';
         return PanelPrincipalProfesorScreen(profesorId: profesorId);
       },
+    ),
+    GoRoute(
+      path: '/estudiocuestionario/:unidadId',
+      builder: (context, state) {
+        // se valida que sea profesor y que este logueado
+ 
+        final String unidadId = state.pathParameters['unidadId'] ?? '0';
+        return CrearActividad(unidadId: unidadId);
+        }
     ),
   ],
 );

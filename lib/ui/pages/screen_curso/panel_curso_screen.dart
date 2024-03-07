@@ -5,6 +5,7 @@ import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
+import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_profesor_panel.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:dev_tesis/ui/widgets/layout_curso_unidades.dart';
@@ -43,11 +44,13 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
         // buscar en cursos el curso con el id correspondiente
         final curso = cursos.firstWhere((c) => c.id == widget.cursoId);
         context.read<CursoCubit>().actualizarCurso(curso);
+        context.read<UnidadesCubit>().subirUnidades(curso.unidades!);
       } else {
         final cursos = context.read<BDCursosCubit>().state;
         // buscar en cursos el curso con el id correspondiente
         final curso = cursos.firstWhere((c) => c.id == widget.cursoId);
         context.read<CursoCubit>().actualizarCurso(curso);
+        context.read<UnidadesCubit>().subirUnidades(curso.unidades!);
       }
     } catch (e) {
       // Manejo de errores, puedes mostrar un mensaje de error
@@ -239,29 +242,47 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
               ),
 
               // Añadimos el TabBar
-              const TabBar(
-                tabs: [
+              TabBar(
+                tabs: const [
                   Tab(text: 'Contenido'),
                   Tab(text: 'Estudiantes'),
                 ],
+                labelColor: blackColor, // Color del texto de la pestaña activa
+                unselectedLabelColor:
+                    Colors.grey, // Color del texto de la pestaña inactiva
+                labelStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight
+                        .bold), // Estilo del texto de la pestaña activa
+                unselectedLabelStyle: TextStyle(
+                    fontSize: 14), // Estilo del texto de la pestaña inactiva
+                indicator: BoxDecoration(
+                  // Estilo de la barra debajo del texto
+                  border: Border(
+                    bottom: BorderSide(
+                        color: blueDarkColor,
+                        width: 2), // Color y grosor de la barra
+                  ),
+                ),
               ),
 
               // Añadimos el TabBarView
               SizedBox(
-                height: MediaQuery.of(context)
-                    .size
-                    .height, // Ajusta la altura según tus necesidades
-                child: TabBarView(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                
+               child: TabBarView(
                   children: [
                     // Contenido de la primera pestaña
                     // Utiliza tu LayoutUnidadCurso o el contenido que desees
                     LayoutUnidadCurso(
-                      unidades: cursoCubit.state.unidades!,
                     ),
-                    ListaEstudiantesWidget()
+                    const ListaEstudiantesWidget()
                     // Contenido de la segunda pestaña
                   ],
                 ),
+                // Ajusta la altura según tus necesidades
+               
               ),
             ],
           ),

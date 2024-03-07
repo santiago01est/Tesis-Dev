@@ -1,17 +1,41 @@
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
+import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
+import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
+import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
+import 'package:dev_tesis/ui/widgets/PopUp.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class LayoutUnidadCurso extends StatelessWidget {
-  final List<Unidad> unidades;
+class LayoutUnidadCurso extends StatefulWidget {
+  
 
-  const LayoutUnidadCurso({Key? key, required this.unidades}) : super(key: key);
+  const LayoutUnidadCurso({Key? key}) : super(key: key);
+
+  @override
+  State<LayoutUnidadCurso> createState() => _LayoutUnidadCursoState();
+}
+
+class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
+  
 
   @override
   Widget build(BuildContext context) {
+    final rolCubit = context.watch<RolCubit>();
     final router = GoRouter.of(context);
+    final unidadesCubit= context.watch<UnidadesCubit>();
+
+
+    void eliminarActividad(String idActividad) {
+    // Elimina la actividad del listado de actividades de la unidad
+    unidadesCubit.eliminarActividadDeUnidad(idActividad);
+
+    // Notifica a Flutter que los datos han cambiado y la interfaz de usuario necesita actualizarse
+    setState(() {});
+  }
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -33,7 +57,7 @@ class LayoutUnidadCurso extends StatelessWidget {
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: unidades.length,
+                    itemCount: unidadesCubit.state.length,
                     itemBuilder: (context, index) {
                       return Card(
                         shape: RoundedRectangleBorder(
@@ -58,7 +82,7 @@ class LayoutUnidadCurso extends StatelessWidget {
                                     ),
                                     padding: EdgeInsets.all(20),
                                     child: TitleText(
-                                      text: unidades[index].nombre!,
+                                      text: unidadesCubit.state[index].nombre!,
                                     ),
                                   ),
                                   SizedBox(width: 10),
@@ -78,7 +102,8 @@ class LayoutUnidadCurso extends StatelessWidget {
                               // Segunda fila con lista de actividades
                               ListView.builder(
                                 shrinkWrap: true,
-                                itemCount: unidades[index].actividades!.length,
+                                itemCount:
+                                    unidadesCubit.state[index].actividades!.length,
                                 itemBuilder: (context, activityIndex) {
                                   return Card(
                                       shape: RoundedRectangleBorder(
@@ -89,23 +114,56 @@ class LayoutUnidadCurso extends StatelessWidget {
                                       margin: EdgeInsets.symmetric(vertical: 5),
                                       child: GestureDetector(
                                         onTap: () {
-                                          router.go('/laberinto');
+                                          if (unidadesCubit.state[index]
+                                                  .actividades![activityIndex]
+                                                  .tipoActividad ==
+                                              "Laberinto") {
+                                            router.go('/laberinto/${unidadesCubit.state[index]
+                                                  .actividades![activityIndex].id}');
+                                          } else if (unidadesCubit.state[index]
+                                                  .actividades![activityIndex]
+                                                  .tipoActividad ==
+                                              "Cuestionario") {
+                                            router.go('/cuestionario/${unidadesCubit.state[index]
+                                                  .actividades![activityIndex].id}');
+                                          } else {}
                                         },
                                         child: ListTile(
-                                            leading: Icon(Icons.hexagon,
-                                                color: blueDarkColor),
-                                            title: Text(unidades[index]
-                                                .actividades![activityIndex]
-                                                .nombre!),
-                                            trailing: IconButton(
-                                                icon: Icon(Icons.delete,
-                                                    color: orangeColor),
-                                                onPressed: () {
-                                                  //eliminarEstudiante(index);
-                                                })),
+                                          leading: Icon(Icons.hexagon,
+                                              color: blueDarkColor),
+                                          title: Text(unidadesCubit.state[index]
+                                              .actividades![activityIndex]
+                                              .nombre!),
+                                          trailing: rolCubit.state ==
+                                                  'profesor' // Verifica si el rol es igual a 'profesor'
+                                              ? IconButton(
+                                                  icon: Icon(Icons.delete,
+                                                      color: orangeColor),
+                                                  onPressed: () {
+                                                    PopupUtils
+                                                        .showDeleteConfirmationDialog(
+                                                            context, () {
+                                                      // Lógica para eliminar la actividad
+                                                      eliminarActividad(unidadesCubit.state[index]
+                                                          .actividades![activityIndex].id!);
+                                                    });
+                                                  },
+                                                )
+                                              : SizedBox(),
+                                        ),
                                       ));
                                 },
                               ),
+                              //Boton
+                              SizedBox(height: 10),
+                              rolCubit.state == 'profesor'
+                                  ? PixelLargeBttn(
+                                      path: 'assets/items/ButtonBlue.png',
+                                      onPressed: () {
+                                        router.push('/estudiocuestionario/${unidadesCubit.state[index].id}');
+                                      },
+                                      text: 'Crear Actividad')
+                                  : SizedBox(),
                             ],
                           ),
                         ),

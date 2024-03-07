@@ -9,4 +9,6 @@ class Unidad {
 
   Unidad(
       {this.id, this.nombre, this.descripcion, this.estado, this.actividades});
+
+
 }

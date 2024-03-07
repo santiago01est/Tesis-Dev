@@ -23,7 +23,7 @@ class Level extends World with HasGameRef<GameActivity>{
     const RUTA_OBJETOS_UP_DOWN= 'mapa/objetos-UpAndDown/';
     const RUTA_SUELO_CAMPO= 'mapa/suelo/unidad1-Campo/';
     
-    level= await TiledComponent.load('Nivel01-renovado.tmx', Vector2(16, 16));
+    level= await TiledComponent.load('$levelName.tmx', Vector2(16, 16));
     
     add(level);
     final sueloMap= level.tileMap.getLayer<ObjectGroup>('Suelo');

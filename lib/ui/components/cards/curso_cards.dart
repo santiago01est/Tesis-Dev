@@ -14,40 +14,54 @@ class CursoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 400,
+      width: 300,
+      height: 250,
       child: Card(
         elevation: 5,
-        // estilo de la card con bordes redondos
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
-        //color de la card
         color: orangeColor,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(
-              curso.portada ?? 'assets/fondos/FondoInicio.png',
-              width: double.infinity,
+            Container(
               height: 100,
-              fit: BoxFit.cover,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10.0),
+                  topRight: Radius.circular(10.0),
+                ),
+                image: DecorationImage(
+                  image: AssetImage(
+                    curso.portada ?? 'assets/fondos/FondoInicio.png',
+                  ),
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     curso.nombre!, // Nombre del curso
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
+                  SizedBox(height: 4,),
+
                   Text(
                     curso.descripcion ?? '',
-                    maxLines: 3, // Número máximo de líneas
-                    overflow: TextOverflow.ellipsis, // Descripción del curso
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 3,
+                     // Descripción del curso
                   ),
+                  const SizedBox(height: 8,),
                   Text(
-                    'Profesor: $nombreProfesor', // Nombre del profesor
+                    'Profesor: $nombreProfesor',
+                    maxLines: 2, // Nombre del profesor
                   ),
                 ],
               ),

@@ -236,7 +236,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
               ),
               const SizedBox(height: 10),
               ComboboxUbicacion(
-                textoHint: 'Seleccionar',
+                textoHint: 'Elegir',
                 listaUbicaciones: departamentos,
                 onChanged: _selectDepto,
               ),
@@ -249,7 +249,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
               ),
               const SizedBox(height: 10),
               ComboboxUbicacion(
-                textoHint: 'Seleccionar',
+                textoHint: 'Elegir',
                 listaUbicaciones: municipios,
                 onChanged: _selectMunicipio,
               ),
@@ -413,7 +413,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
               ),
               CheckboxListTile(
                 title: const Text(
-                    "Plantilla básica\n* 3 Unidades\n* 10 Actividades por Unidad"),
+                    "Plantilla básica\n* 3 Unidades\n* de 8 a 9 Actividades por Unidad"),
                 value: _isPlantillaSeleccionada,
                 onChanged: (bool? value) {
                   setState(() {
@@ -509,7 +509,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const Text(
-                                    'Selecciona un avatar',
+                                    'Elige un avatar',
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500),
@@ -526,18 +526,13 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                                     .getRutasAvatares(),
                                                 _selectAvatar);
                                           },
-                                          child: Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                              color: Colors.blue,
-                                              image: DecorationImage(
-                                                fit: BoxFit.contain,
-                                                image: AssetImage(
-                                                    selectedAvatar), // Reemplaza 'tu_imagen.png' con la ruta correcta
-                                              ),
+                                           child: Container(
+                                            width: 70,
+                                            height: 70,
+                                            child: CircleAvatar(
+                                              radius: 50,
+                                              backgroundImage:
+                                                  AssetImage(selectedAvatar),
                                             ),
                                           )),
                                     ),
@@ -549,11 +544,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                 height: 10,
               ),
               //boton
-              Container(
-                  width: 150,
-                  height: 80,
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: PixelLargeBttn(
+             PixelLargeBttn(
                       path: "assets/items/ButtonBlue.png",
                       onPressed: () async {
                         Estudiante estudiante = Estudiante(
@@ -564,7 +555,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                         agregarEstudiante(estudiante);
                         _nombreEstudianteController.clear();
                       },
-                      text: 'Inscribir')),
+                      text: 'Inscribir'),
               Container(
                 padding: const EdgeInsets.all(8.0),
                 height: 400,
@@ -687,25 +678,18 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                       children: [
                         if (_currentStep > 0)
                           Expanded(
-                              child: Container(
-                            height: 80,
-                            margin: const EdgeInsets.symmetric(horizontal: 10),
-                            child: PixelLargeBttn(
+                              child: PixelLargeBttn(
                               path: 'assets/items/ButtonOrange.png',
                               onPressed: _onStepCancel,
                               text: 'Volver',
                             ),
-                          )),
+                          ),
                         const SizedBox(
                           width: 10,
                         ),
                         if (isLastStep)
                           Expanded(
-                              child: Container(
-                            width: 200,
-                            height: 80,
-                            margin: const EdgeInsets.symmetric(horizontal: 10),
-                            child: PixelLargeBttn(
+                              child: PixelLargeBttn(
                               path: 'assets/items/ButtonBlue.png',
                               onPressed: () {
                                 //TODO: Validar la información
@@ -793,19 +777,14 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                               },
                               text: 'Confirmar',
                             ),
-                          )),
+                          ),
                         if (_currentStep < 3 - 1)
                           Expanded(
-                              child: Container(
-                                  width: 200,
-                                  height: 80,
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: PixelLargeBttn(
+                              child: PixelLargeBttn(
                                     path: 'assets/items/ButtonBlue.png',
                                     onPressed: _onStepContinue,
                                     text: 'Continuar',
-                                  )))
+                                  ))
                       ],
                     ),
                   ],
