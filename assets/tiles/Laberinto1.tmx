@@ -61,7 +61,7 @@
  </objectgroup>
  <objectgroup id="9" name="Animales" class="campo" visible="0" locked="1">
   <object id="128" name="gallina" type="animal" x="136" y="84" width="32" height="32"/>
-  <object id="129" name="patoDerech" type="animal" x="72" y="116" width="32" height="32"/>
+  <object id="129" name="patoDerech" type="animal" x="88" y="84" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="7" name="Jugador" class="campo" visible="0" locked="1">
   <object id="60" name="jugador" x="40" y="84" width="32" height="32"/>
