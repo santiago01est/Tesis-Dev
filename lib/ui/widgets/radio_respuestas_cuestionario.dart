@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 class RadioRespuestasCuestionario extends StatefulWidget {
   final List<List<String>> imagesList;
+  final Function radioRespuesta;
 
-  const RadioRespuestasCuestionario({Key? key, required this.imagesList})
+   const RadioRespuestasCuestionario({Key? key, required this.imagesList, required this.radioRespuesta})
       : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _RadioRespuestasCuestionarioState createState() =>
       _RadioRespuestasCuestionarioState();
 }
@@ -32,6 +34,7 @@ class _RadioRespuestasCuestionarioState
                 onChanged: (int? value) {
                   setState(() {
                     _selectedOptionIndex = value!;
+                    widget.radioRespuesta(_selectedOptionIndex);
                   });
                 },
               ),
