@@ -20,7 +20,11 @@ class GameActivity extends FlameGame with HasKeyboardHandlerComponents, HasColli
 
     //Carga todas las imagenes en cache
     await images.loadAllImages();
+<<<<<<< HEAD
     final world = Level(levelName: nombretmx, player: player);
+=======
+    final world = Level(levelName: 'Nivel01-renovado', player: player);
+>>>>>>> 6fe767d462f097363ef2e1fa82e9a4fab4ed1d6b
     cam = CameraComponent.withFixedResolution(world: world, width: 192, height: 192);
     cam.viewfinder.anchor= Anchor.topLeft;
     
