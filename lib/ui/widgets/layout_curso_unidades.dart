@@ -118,7 +118,8 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                                   .actividades![activityIndex]
                                                   .tipoActividad ==
                                               "Laberinto") {
-                                            router.go('/laberinto');
+                                            router.go('/laberinto/${unidadesCubit.state[index]
+                                                  .actividades![activityIndex].id}');
                                           } else if (unidadesCubit.state[index]
                                                   .actividades![activityIndex]
                                                   .tipoActividad ==

@@ -38,8 +38,24 @@ class _ActividadCuestionarioScreenState
 
   @override
   Widget build(BuildContext context) {
+    final curso = context.read<CursoCubit>();
+    List<ActividadCuestionario> actividadesCuestionario= context.watch<ActividadCuestionarioCubit>().state;
+    for (var unidad in curso.state.unidades!) {
+      // Verifica si la unidad actual tiene la actividad a eliminar
+      if (unidad.actividades != null) {
+        // for que recorre las actividades
 
-     List<ActividadCuestionario> actividadesCuestionario= context.watch<ActividadCuestionarioCubit>().state;
+        for (Actividad actividad in unidad.actividades!) {
+          if (actividad.id == widget.actividadId) {
+          if (actividad is ActividadCuestionario) {
+            actividadesCuestionario.add(actividad);
+          }
+        }
+      }
+    }
+          }
+         
+    
 
      //buscar actividad por id dentro del curso
      ActividadCuestionario actividadCuestionario = actividadesCuestionario.firstWhere((actividad) => actividad.id == widget.actividadId);

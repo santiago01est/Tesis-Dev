@@ -1,4 +1,6 @@
 import 'package:dev_tesis/domain/model/actividad.dart';
+import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
+import 'package:dev_tesis/domain/model/actividad_laberinto.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
@@ -25,26 +27,55 @@ class CursosDataAdapter extends CursoRepository {
         fechaFinalizacion: '2022-01-01',
         unidades: [
           Unidad(id: '1', nombre: 'Unidad Uno', estado: 'Activa', actividades: [
-            Actividad(
+            ActividadLaberinto(
               id: '1',
               nombre: 'Primeros Pasos',
               estado: 'Activa',
               descripcion: '',
               tipoActividad: 'Laberinto',
+              nombreArchivo: "Laberinto1"
             ),
-            Actividad(
+            ActividadCuestionario(
               id: '2',
               nombre: 'Buscando el mejor camino',
               estado: 'Activa',
               descripcion: '',
               tipoActividad: 'Cuestionario',
+              dimension: 6,
+              casillas: [-1, 2, 3,-1,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,-1,-1,-1,-1,-1,1],
+              respuestas: [
+                [
+                'Avanzar.png',
+                'Avanzar.png',
+                'Avanzar.png',
+                'Avanzar.png',
+                ],
+                [
+                'Avanzar.png',
+                'Avanzar.png',
+                ],
+                [
+                  'Avanzar.png',
+                  'Avanzar.png',
+                  'Avanzar.png',
+                  'Avanzar.png',
+                  'Avanzar.png',
+                ],
+                [
+                  'Avanzar.png',
+                  'Avanzar.png',
+                ]],
+                respuestaCorrecta: 1
+
+
             ),
-            Actividad(
+            ActividadLaberinto(
               id: '3',
-              nombre: 'Diversión en el campo',
+              nombre: 'Primeros Pasos',
               estado: 'Activa',
               descripcion: '',
               tipoActividad: 'Laberinto',
+              nombreArchivo: "Laberinto2"
             ),
             Actividad(
               id: '4',

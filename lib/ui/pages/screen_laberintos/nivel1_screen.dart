@@ -1,6 +1,9 @@
 import 'package:dev_tesis/constants/styles.dart';
+import 'package:dev_tesis/domain/model/actividad.dart';
+import 'package:dev_tesis/domain/model/actividad_laberinto.dart';
 import 'package:dev_tesis/game/player/player.dart';
 import 'package:dev_tesis/game/game_activity.dart';
+import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/game/instrucciones_bloc.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
@@ -10,22 +13,36 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Nivel1Laberinto extends StatefulWidget {
-  const Nivel1Laberinto({super.key});
+class Laberinto extends StatefulWidget {
+  final String actividadId;
+  const Laberinto({super.key, required this.actividadId});
 
   @override
-  State<Nivel1Laberinto> createState() => _Nivel1LaberintoState();
+  State<Laberinto> createState() => _LaberintoState();
 }
 
-class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
-
-  
- 
+class _LaberintoState extends State<Laberinto> {
   @override
   Widget build(BuildContext context) {
-    
-    final movementInstructionsCubit = context.watch<InstruccionesCubit>();
-     final GameActivity game = GameActivity();
+    final curso = context.read<CursoCubit>();
+    ActividadLaberinto? actividadLaberinto;
+    for (var unidad in curso.state.unidades!) {
+      // Verifica si la unidad actual tiene la actividad a eliminar
+      if (unidad.actividades != null) {
+        // for que recorre las actividades
+
+        for (Actividad actividad in unidad.actividades!) {
+          if (actividad.id == widget.actividadId) {
+          if (actividad is ActividadLaberinto) {
+            actividadLaberinto=actividad as ActividadLaberinto;
+          }
+          }
+        }
+      }
+    }
+
+    final movementInstructionsCubit = context.read<InstruccionesCubit>();
+    final GameActivity game = GameActivity(actividadLaberinto == null ? 'Laberinto1':actividadLaberinto.nombreArchivo!);
     Player player = game.player;
     return Scaffold(
       appBar: const CustomAppBar(userName: 'usuario'),
@@ -209,8 +226,8 @@ class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
                                                             .map((map) =>
                                                                 map.key)
                                                             .toList();
-                                                    Future<bool> response =
-                                                        player.processMovementInstructions();
+                                                    Future<bool> response = player
+                                                        .processMovementInstructions();
                                                     if (await response) {
                                                       Future.delayed(
                                                           Duration(seconds: 2),
@@ -410,8 +427,8 @@ class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
                                                       .state
                                                       .map((map) => map.key)
                                                       .toList();
-                                              Future<bool> response =
-                                                  player.processMovementInstructions();
+                                              Future<bool> response = player
+                                                  .processMovementInstructions();
                                               if (await response) {
                                                 Future.delayed(
                                                     Duration(seconds: 2), () {
