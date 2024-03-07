@@ -159,7 +159,7 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                   ? PixelLargeBttn(
                                       path: 'assets/items/ButtonBlue.png',
                                       onPressed: () {
-                                        router.go('/estudiocuestionario/${unidadesCubit.state[index].id}');
+                                        router.push('/estudiocuestionario/${unidadesCubit.state[index].id}');
                                       },
                                       text: 'Crear Actividad')
                                   : SizedBox(),

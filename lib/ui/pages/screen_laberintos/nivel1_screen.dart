@@ -18,11 +18,14 @@ class Nivel1Laberinto extends StatefulWidget {
 }
 
 class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
+
+  
  
   @override
   Widget build(BuildContext context) {
-     final GameActivity game = GameActivity();
+    
     final movementInstructionsCubit = context.watch<InstruccionesCubit>();
+     final GameActivity game = GameActivity();
     Player player = game.player;
     return Scaffold(
       appBar: const CustomAppBar(userName: 'usuario'),

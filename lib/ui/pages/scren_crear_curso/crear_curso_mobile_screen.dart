@@ -413,7 +413,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
               ),
               CheckboxListTile(
                 title: const Text(
-                    "Plantilla básica\n* 3 Unidades\n* 10 Actividades por Unidad"),
+                    "Plantilla básica\n* 3 Unidades\n* de 8 a 9 Actividades por Unidad"),
                 value: _isPlantillaSeleccionada,
                 onChanged: (bool? value) {
                   setState(() {

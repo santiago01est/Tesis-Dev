@@ -195,7 +195,7 @@ class _HomeMobileState extends State<HomeMobile> {
                                   return GestureDetector(
                                     onTap: () {
                                       if (rolCubit.state == 'profesor') {
-                                        router.go(
+                                        router.push(
                                             '/panelcurso/${cursos[index].id}');
                                       } else {
                                         PopupUtils.showCodeAccessPopup(

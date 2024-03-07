@@ -9,6 +9,7 @@ import 'package:dev_tesis/ui/components/buttons/pixel_small_bttn.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
 
 class CrearActividad extends StatefulWidget {
@@ -59,6 +60,8 @@ class CrearActividadState extends State<CrearActividad> {
 
   @override
   Widget build(BuildContext context) {
+
+    final router= GoRouter.of(context);
 
     return Scaffold(
         appBar: AppBarProfesor(),
@@ -229,7 +232,7 @@ class CrearActividadState extends State<CrearActividad> {
                                             context.read<UnidadesCubit>().addActividad(Actividad(id: actividadCuestionarioSave.id,nombre: actividadCuestionarioSave.nombre,descripcion: actividadCuestionarioSave.descripcion, estado: actividadCuestionarioSave.estado, tipoActividad: actividadCuestionarioSave.tipoActividad), widget.unidadId);
 
                                             // cerrar screen y volver
-                                            Navigator.pop(context); 
+                                            router.pop();
                                             
                                        
                                       },
