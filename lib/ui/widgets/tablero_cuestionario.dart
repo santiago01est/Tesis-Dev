@@ -16,9 +16,11 @@ class TableroCuestionario extends StatelessWidget {
 
      List<String> elements = [
     'boycampoderecha.png',
+    'boycampofrente.png',
     'boytemploderecha.png',
     'cofre.png',
     'llave 1.png',
+    'sacocafe.png',
     'gemaAmarilla.png',
     'gemaAzul.png',
     'gemaRoja.png',

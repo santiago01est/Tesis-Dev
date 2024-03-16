@@ -31,7 +31,7 @@ class CursosDataAdapter extends CursoRepository {
               id: '1',
               nombre: 'Primeros Pasos',
               estado: 'Activa',
-              descripcion: '',
+              descripcion: 'Hola El granjero necesita de tu ayuda! Guíalo a encontrar a su GALLINA.',
               tipoActividad: 'Laberinto',
               nombreArchivo: "Laberinto1"
             ),
@@ -39,10 +39,10 @@ class CursosDataAdapter extends CursoRepository {
               id: '2',
               nombre: 'Buscando el mejor camino',
               estado: 'Activa',
-              descripcion: '',
+              descripcion: 'Ayuda a Juan a encontrar el camino al saco de café que ha recolectado.',
               tipoActividad: 'Cuestionario',
               dimension: 6,
-              casillas: [-1, 2, 3,-1,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,-1,-1,-1,-1,-1,1],
+              casillas: [1, 12, 12,12,12,12,-1,-1,12,12,12,12,-1,-1,-1,12,-1,-1,5,-1,12,12,12,-1,-1,12,12,-1,-1,12,17,-1,-1,12,12,-1],
               respuestas: [
                 [
                 'Avanzar.png',
@@ -53,19 +53,21 @@ class CursosDataAdapter extends CursoRepository {
                 [
                 'Avanzar.png',
                 'Avanzar.png',
+                 'Avanzar.png',
+                'Avanzar.png',
+                'Avanzar.png',
                 ],
                 [
                   'Avanzar.png',
                   'Avanzar.png',
-                  'Avanzar.png',
-                  'Avanzar.png',
-                  'Avanzar.png',
+                  'Avanzar.png'
+                  
                 ],
                 [
                   'Avanzar.png',
                   'Avanzar.png',
                 ]],
-                respuestaCorrecta: 1
+                respuestaCorrecta: 2
 
 
             ),
@@ -73,7 +75,7 @@ class CursosDataAdapter extends CursoRepository {
               id: '3',
               nombre: 'Primeros Pasos',
               estado: 'Activa',
-              descripcion: '',
+              descripcion: 'Hola El granjero necesita de tu ayuda! Guíalo a encontrar a la CALABAZA.',
               tipoActividad: 'Laberinto',
               nombreArchivo: "Laberinto2"
             ),

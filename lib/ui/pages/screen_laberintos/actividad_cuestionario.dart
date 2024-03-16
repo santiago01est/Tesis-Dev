@@ -1,6 +1,7 @@
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
+import 'package:dev_tesis/domain/model/actividad_laberinto.dart';
 import 'package:dev_tesis/domain/model/casilla.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/game/player/player.dart';
@@ -8,6 +9,7 @@ import 'package:dev_tesis/game/game_activity.dart';
 import 'package:dev_tesis/ui/bloc/actividad_custio_test.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/game/instrucciones_bloc.dart';
+import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:dev_tesis/ui/widgets/banner_info_actividades.dart';
@@ -18,7 +20,7 @@ import 'package:dev_tesis/ui/widgets/tablero_cuestionario.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:go_router/go_router.dart';
 
 class ActividadCuestionarioScreen extends StatefulWidget {
   final String actividadId;
@@ -33,13 +35,15 @@ class ActividadCuestionarioScreen extends StatefulWidget {
 
 class _ActividadCuestionarioScreenState
     extends State<ActividadCuestionarioScreen> {
-
- 
-
   @override
   Widget build(BuildContext context) {
+    final router = GoRouter.of(context);
+    final unidadesCubit = context.watch<UnidadesCubit>();
+
     final curso = context.read<CursoCubit>();
-    List<ActividadCuestionario> actividadesCuestionario= context.watch<ActividadCuestionarioCubit>().state;
+    int selectedOptionIndex =2;
+    List<ActividadCuestionario> actividadesCuestionario =
+        context.watch<ActividadCuestionarioCubit>().state;
     for (var unidad in curso.state.unidades!) {
       // Verifica si la unidad actual tiene la actividad a eliminar
       if (unidad.actividades != null) {
@@ -47,20 +51,18 @@ class _ActividadCuestionarioScreenState
 
         for (Actividad actividad in unidad.actividades!) {
           if (actividad.id == widget.actividadId) {
-          if (actividad is ActividadCuestionario) {
-            actividadesCuestionario.add(actividad);
+            if (actividad is ActividadCuestionario) {
+              actividadesCuestionario.add(actividad);
+            }
           }
         }
       }
     }
-          }
-         
-    
 
-     //buscar actividad por id dentro del curso
-     ActividadCuestionario actividadCuestionario = actividadesCuestionario.firstWhere((actividad) => actividad.id == widget.actividadId);
+    //buscar actividad por id dentro del curso
+    ActividadCuestionario actividadCuestionario = actividadesCuestionario
+        .firstWhere((actividad) => actividad.id == widget.actividadId);
 
-    
     return Scaffold(
       appBar: const CustomAppBar(userName: 'usuario'),
       // Responsive UI design for desktop and mobile
@@ -89,7 +91,7 @@ class _ActividadCuestionarioScreenState
                                   texto:
                                       'Ayuda a Juan a encontrar el camino al saco de café que ha recolectado',
                                   rutaEjemplo:
-                                      'assets/items/ejemplosImg/ejemplo_simple_secuencia.png'),
+                                      'assets/items/ejemplosImg/ejemplocuestionario.png'),
                             ),
                             const SizedBox(
                               height: 30,
@@ -106,7 +108,7 @@ class _ActividadCuestionarioScreenState
                                         // Add content for the left section of the blue board
                                         TableroCuestionario(
                                             actividadCuestionario:
-                                               actividadCuestionario),
+                                                actividadCuestionario),
                                       ],
                                     ),
                                   ),
@@ -130,11 +132,69 @@ class _ActividadCuestionarioScreenState
                                         ),
                                         Container(
                                           child: RadioRespuestasCuestionario(
-                                            imagesList: 
-                                               actividadCuestionario.respuestas!,
-                                               
-                                            
-                                          ),
+                                              imagesList: actividadCuestionario
+                                                  .respuestas!,
+                                              radioRespuesta: (respuesta) {
+                                                setState(() {
+                                                  selectedOptionIndex =
+                                                      2;
+                                                });
+                                              }),
+                                        ),
+                                        Container(
+                                          margin: const EdgeInsets.only(
+                                              left: 10, bottom: 20),
+                                          child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                PixelLargeBttn(
+                                                    path:
+                                                        "assets/items/ButtonBlue.png",
+                                                    text: 'Siguiente',
+                                                    onPressed: () {
+
+                                                      selectedOptionIndex == -1 ? showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return AlertDialog(
+                                                            title: const Text(
+                                                                'Tu Respuesta No ha sido guardada'),
+                                                            content:
+                                                                const SingleChildScrollView(
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                      'Por favor responde para poder continuar con la siguiente Actividad'),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            actions: <Widget>[
+                                                              PixelLargeBttn(
+                                                                  path:
+                                                                      "assets/items/ButtonBlue.png",
+                                                                  text:
+                                                                      'Volver',
+                                                                  onPressed:
+                                                                      () {
+                                                                        
+                                                                        Navigator.of(context).pop();
+                                                                      })
+                                                            ],
+                                                          );
+                                                        },
+                                                      )
+                                                       :
+                                                      _mostrarDialogoSiguienteActividad( context,
+                                                      router,
+                                                      unidadesCubit,
+                                                      actividadCuestionario);
+                                                    })
+                                              ]),
                                         )
                                       ],
                                     ),
@@ -163,28 +223,40 @@ class _ActividadCuestionarioScreenState
     );
   }
 
-  void _mostrarDialogoVictoria(BuildContext context) {
+  void _mostrarDialogoSiguienteActividad(BuildContext context, GoRouter router,
+      UnidadesCubit unidadesCubit, ActividadCuestionario actividadLaberinto) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Haz llegado a la meta'),
-          content: Text(
-              'El granjero ha encontrado a sus GALLINAS y esta muy agradecido contigo, !te ha dado un cafeto como recompensa!'),
+          title: const Text('Tu Respuesta ha sido guardada'),
+          content: const Text('Continuemos con la siguiente Actividad!'),
           actions: <Widget>[
-            TextButton(
+            PixelLargeBttn(
+              path: "assets/items/ButtonOrange.png",
+              text: 'Volver',
               onPressed: () {
                 Navigator.of(context).pop(); // Cierra el diálogo
               },
-              child: Text('Cerrar'),
             ),
-            TextButton(
+            PixelLargeBttn(
+              path: "assets/items/ButtonBlue.png",
+              text: 'Siguiente',
               onPressed: () {
+                SiguienteActividadInfo siguienteActividadInfo = unidadesCubit
+                    .siguienteActividadInfo(actividadLaberinto.id!);
+                if (siguienteActividadInfo
+                        .tipoActividad ==
+                    "Laberinto") {
+                  router.go(
+                      '/laberinto/${siguienteActividadInfo.idActividad}');
+                } else if (siguienteActividadInfo.tipoActividad == "Cuestionario") {
+                  router.go(
+                      '/cuestionario/${siguienteActividadInfo.idActividad}');
+                }
+               
                 Navigator.of(context).pop(); // Cierra el diálogo
-                // Lógica para limpiar las instrucciones
-                context.read<InstruccionesCubit>().limpiarInstrucciones();
               },
-              child: Text('Seguir aprendiendo'),
             ),
           ],
         );

@@ -37,6 +37,8 @@ void eliminarActividadDeUnidad(String idActividad){
   emit(nuevasUnidades);
 }
 
+
+
 void addActividad(Actividad actividad, String idUnidad) {
    List<Unidad> nuevasUnidades = [];
    for (var unidad in state) {
@@ -50,4 +52,28 @@ void addActividad(Actividad actividad, String idUnidad) {
 
 }
 
+  SiguienteActividadInfo siguienteActividadInfo(String idActividad) {
+    for (var i = 0; i < state.length; i++) {
+      for (var j = 0; j < state[i].actividades!.length; j++) {
+        if (state[i].actividades![j].id == idActividad) {
+          if (i == state.length - 1 && j == state[i].actividades!.length - 1) {
+            return SiguienteActividadInfo('-1', ''); // Última actividad de la última unidad
+          } else if (j == state[i].actividades!.length - 1) {
+            return SiguienteActividadInfo(state[i + 1].actividades![0].id!, state[i + 1].actividades![0].tipoActividad!); // Primera actividad de la siguiente unidad
+          } else {
+            return SiguienteActividadInfo(state[i].actividades![j + 1].id!, state[i].actividades![j + 1].tipoActividad!); // Siguiente actividad de la misma unidad
+          }
+        }
+      }
+    }
+    return SiguienteActividadInfo('', ''); // Si no se encuentra la actividad
+  }
+
+}
+
+class SiguienteActividadInfo {
+  final String idActividad;
+  final String tipoActividad;
+
+  SiguienteActividadInfo(this.idActividad, this.tipoActividad);
 }
