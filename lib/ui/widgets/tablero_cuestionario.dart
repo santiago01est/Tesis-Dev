@@ -14,18 +14,21 @@ class TableroCuestionario extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-     List<String> elements = [
+    List<String> elements = [
     'boycampoderecha.png',
     'boycampofrente.png',
     'boytemploderecha.png',
+    'pollitoUnidad0.jpg',
     'cofre.png',
     'llave 1.png',
     'sacocafe.png',
+    'florUnidad0.png',
     'gemaAmarilla.png',
     'gemaAzul.png',
     'gemaRoja.png',
     'gemaVerde.png',
     'gallinas.png',
+    'gallinaUnidad0.png',
     'huevo.png',
     'trigo.png',
     'calabaza.png',
@@ -34,7 +37,8 @@ class TableroCuestionario extends StatelessWidget {
     'piedra 1.png',
     'cajas.png',
     'jarrones.png',
-    'abeja.png'
+    'abeja.png',
+    'gatoUnidad0.png',
   ];
 
   List<int>? elementsInfoBoard= actividadCuestionario.casillas;

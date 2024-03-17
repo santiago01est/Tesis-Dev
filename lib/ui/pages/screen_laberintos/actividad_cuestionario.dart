@@ -41,7 +41,7 @@ class _ActividadCuestionarioScreenState
     final unidadesCubit = context.watch<UnidadesCubit>();
 
     final curso = context.read<CursoCubit>();
-    int selectedOptionIndex =2;
+    int selectedOptionIndex = 2;
     List<ActividadCuestionario> actividadesCuestionario =
         context.watch<ActividadCuestionarioCubit>().state;
     for (var unidad in curso.state.unidades!) {
@@ -80,18 +80,19 @@ class _ActividadCuestionarioScreenState
                         padding: const EdgeInsets.all(20.0),
                         child: Column(
                           children: [
-                            const IntrinsicHeight(
-                              child: BannerInfoActividades(),
+                             IntrinsicHeight(
+                              child: BannerInfoActividades(
+                                titulo: actividadCuestionario.nombre!,
+                              ),
                             ),
                             const SizedBox(
                               height: 20,
                             ),
-                            const SizedBox(
+                            SizedBox(
                               child: BannerInstruccionesActividad(
-                                  texto:
-                                      'Ayuda a Juan a encontrar el camino al saco de café que ha recolectado',
+                                  texto: actividadCuestionario.descripcion!,
                                   rutaEjemplo:
-                                      'assets/items/ejemplosImg/ejemplocuestionario.png'),
+                                      'assets/items/ejemplosImg/${actividadCuestionario.ejemploImage}'),
                             ),
                             const SizedBox(
                               height: 30,
@@ -106,9 +107,22 @@ class _ActividadCuestionarioScreenState
                                           MainAxisAlignment.start,
                                       children: [
                                         // Add content for the left section of the blue board
-                                        TableroCuestionario(
-                                            actividadCuestionario:
-                                                actividadCuestionario),
+                                        actividadCuestionario.ejercicioImage ==
+                                                ''
+                                            ? TableroCuestionario(
+                                                actividadCuestionario:
+                                                    actividadCuestionario)
+                                            : SizedBox(
+                                                width: actividadCuestionario
+                                                        .dimension! *
+                                                    90, // Tamaño del tablero (6 casillas * 90px por casilla)
+                                                height: actividadCuestionario
+                                                        .dimension! *
+                                                    90, // Tamaño del tablero (6 casillas * 90px por casilla)
+                                                child: Image.asset(
+                                                    '${actividadCuestionario.ejercicioImage}',
+                                                    fit: BoxFit.contain
+                                                ))
                                       ],
                                     ),
                                   ),
@@ -136,8 +150,7 @@ class _ActividadCuestionarioScreenState
                                                   .respuestas!,
                                               radioRespuesta: (respuesta) {
                                                 setState(() {
-                                                  selectedOptionIndex =
-                                                      2;
+                                                  selectedOptionIndex = 2;
                                                 });
                                               }),
                                         ),
@@ -153,46 +166,48 @@ class _ActividadCuestionarioScreenState
                                                         "assets/items/ButtonBlue.png",
                                                     text: 'Siguiente',
                                                     onPressed: () {
-
-                                                      selectedOptionIndex == -1 ? showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                            context) {
-                                                          return AlertDialog(
-                                                            title: const Text(
-                                                                'Tu Respuesta No ha sido guardada'),
-                                                            content:
-                                                                const SingleChildScrollView(
-                                                              child: Column(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Text(
-                                                                      'Por favor responde para poder continuar con la siguiente Actividad'),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            actions: <Widget>[
-                                                              PixelLargeBttn(
-                                                                  path:
-                                                                      "assets/items/ButtonBlue.png",
-                                                                  text:
-                                                                      'Volver',
-                                                                  onPressed:
-                                                                      () {
-                                                                        
-                                                                        Navigator.of(context).pop();
-                                                                      })
-                                                            ],
-                                                          );
-                                                        },
-                                                      )
-                                                       :
-                                                      _mostrarDialogoSiguienteActividad( context,
-                                                      router,
-                                                      unidadesCubit,
-                                                      actividadCuestionario);
+                                                      selectedOptionIndex == -1
+                                                          ? showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (BuildContext
+                                                                      context) {
+                                                                return AlertDialog(
+                                                                  title: const Text(
+                                                                      'Tu Respuesta No ha sido guardada'),
+                                                                  content:
+                                                                      const SingleChildScrollView(
+                                                                    child:
+                                                                        Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Text(
+                                                                            'Por favor responde para poder continuar con la siguiente Actividad'),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  actions: <Widget>[
+                                                                    PixelLargeBttn(
+                                                                        path:
+                                                                            "assets/items/ButtonBlue.png",
+                                                                        text:
+                                                                            'Volver',
+                                                                        onPressed:
+                                                                            () {
+                                                                          Navigator.of(context)
+                                                                              .pop();
+                                                                        })
+                                                                  ],
+                                                                );
+                                                              },
+                                                            )
+                                                          : _mostrarDialogoSiguienteActividad(
+                                                              context,
+                                                              router,
+                                                              unidadesCubit,
+                                                              actividadCuestionario);
                                                     })
                                               ]),
                                         )
@@ -245,16 +260,14 @@ class _ActividadCuestionarioScreenState
               onPressed: () {
                 SiguienteActividadInfo siguienteActividadInfo = unidadesCubit
                     .siguienteActividadInfo(actividadLaberinto.id!);
-                if (siguienteActividadInfo
-                        .tipoActividad ==
-                    "Laberinto") {
-                  router.go(
-                      '/laberinto/${siguienteActividadInfo.idActividad}');
-                } else if (siguienteActividadInfo.tipoActividad == "Cuestionario") {
+                if (siguienteActividadInfo.tipoActividad == "Laberinto") {
+                  router.go('/laberinto/${siguienteActividadInfo.idActividad}');
+                } else if (siguienteActividadInfo.tipoActividad ==
+                    "Cuestionario") {
                   router.go(
                       '/cuestionario/${siguienteActividadInfo.idActividad}');
                 }
-               
+
                 Navigator.of(context).pop(); // Cierra el diálogo
               },
             ),
