@@ -65,8 +65,10 @@ class _LaberintoState extends State<Laberinto> {
                       padding: const EdgeInsets.all(20.0),
                       child: Column(
                         children: [
-                          const IntrinsicHeight(
-                            child: BannerInfoActividades(),
+                           IntrinsicHeight(
+                            child: BannerInfoActividades(
+                               titulo: actividadLaberinto!.nombre!,
+                            ),
                           ),
                           Center(
                             child: Row(
@@ -291,8 +293,10 @@ class _LaberintoState extends State<Laberinto> {
                       padding: const EdgeInsets.all(20.0),
                       child: Column(
                         children: [
-                          const IntrinsicHeight(
-                            child: BannerInfoActividades(),
+                           IntrinsicHeight(
+                            child: BannerInfoActividades(
+                              titulo:actividadLaberinto!.nombre!,
+                            ),
                           ),
                           Center(
                             child: Column(
