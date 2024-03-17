@@ -113,12 +113,9 @@ class _ActividadCuestionarioScreenState
                                                 actividadCuestionario:
                                                     actividadCuestionario)
                                             : SizedBox(
-                                                width: actividadCuestionario
-                                                        .dimension! *
-                                                    90, // Tamaño del tablero (6 casillas * 90px por casilla)
-                                                height: actividadCuestionario
-                                                        .dimension! *
-                                                    90, // Tamaño del tablero (6 casillas * 90px por casilla)
+                                                width: 500
+                                                    , // Tamaño del tablero (6 casillas * 90px por casilla)
+                                                height: 500,// Tamaño del tablero (6 casillas * 90px por casilla)
                                                 child: Image.asset(
                                                     '${actividadCuestionario.ejercicioImage}',
                                                     fit: BoxFit.contain
