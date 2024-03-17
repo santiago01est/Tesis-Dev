@@ -109,8 +109,11 @@ class CursosDataAdapter extends CursoRepository {
                         'Lleva al pollito con su mamá.\nRecoge la flor por el camino.\nCuidado con el gato: no pases por su casilla.',
                     tipoActividad: 'Cuestionario',
                     dimension: 4,
-                    casillas: [-1, -1, -1, -1, 13, 23, 7, 3, -1, -1, -1, -1],
-                    ejemploImage: 'ejemploUnidad0A2.png',
+                    casillas: [-1, -1, -1, -1, 
+                    13, 23, 7, 3, 
+                    -1, -1, -1, -1,
+                    -1, -1, -1, -1],
+                    ejemploImage: 'ejemploUnidad0.png',
                     ejercicioImage: '',
                     respuestas: [
                       [
