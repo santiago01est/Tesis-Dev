@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:dev_tesis/game/components/animation_object.dart';
 import 'package:dev_tesis/game/components/collision_block.dart';
 import 'package:dev_tesis/game/components/custom_hitbox.dart';
+import 'package:dev_tesis/game/components/item_drop.dart';
 import 'package:dev_tesis/game/utilities/player_utils.dart';
 import 'package:dev_tesis/game/game_activity.dart';
 import 'package:flame/collisions.dart';
@@ -21,7 +23,8 @@ enum PlayerState {
   deathL,
   deathU,
   deathD,
-  victory
+  victory,
+  itemDrop
 }
 
 class Player extends SpriteAnimationGroupComponent
@@ -44,13 +47,17 @@ class Player extends SpriteAnimationGroupComponent
   late final SpriteAnimation leftDeathAnimation;
   late final SpriteAnimation upDeathAnimation;
   late final SpriteAnimation victoryAnimation;
+  late final SpriteAnimation itemDropAnimation;
 
   late final double startPositionX;
   late final double startPositionY;
 
-  final double stepTime = 1 / 6;
+  final double stepTimeIdle = 1 / 6;
+  final double stepTimeRun = 1 / 12;
 
   List<CollisionBlock> collisionBlocks = [];
+  late Animation_Object itemDropComponent;
+  CollisionBlock itemDrop = CollisionBlock();
 
   /*
   * hitbox: Es usado en el metodo onLoad para ajustar el hitbox del jugador en el juego,
@@ -73,19 +80,20 @@ class Player extends SpriteAnimationGroupComponent
   }
   
   void _loadAllAnimations() {
-    idleRightAnimation = _spriteAnimationsGenerator('right', 'idle-', 6);
-    idleLeftAnimation = _spriteAnimationsGenerator('left', 'idle-', 6);
-    idleUpAnimation = _spriteAnimationsGenerator('up', 'idle-', 6);
-    idleDownAnimation = _spriteAnimationsGenerator('down', 'idle-', 6);
-    runningRightAnimation = _spriteAnimationsGenerator('right', 'run-', 6);
-    runningLeftAnimation = _spriteAnimationsGenerator('left', 'run-', 6);
-    runningUpAnimation = _spriteAnimationsGenerator('up', 'run-', 6);
-    runningDownAnimation = _spriteAnimationsGenerator('down', 'run-', 6);
-    downDeathAnimation = _spriteAnimationsGenerator('down', 'death-', 6);
-    rightDeathAnimation = _spriteAnimationsGenerator('right', 'death-', 6);
-    leftDeathAnimation = _spriteAnimationsGenerator('left', 'death-', 6);
-    upDeathAnimation = _spriteAnimationsGenerator('up', 'death-', 6);
-    victoryAnimation = _spriteAnimationsGenerator('', 'victory2', 4);
+    idleRightAnimation = _spriteAnimationsGenerator('right', 'idle-', 6, stepTimeIdle);
+    idleLeftAnimation = _spriteAnimationsGenerator('left', 'idle-', 6, stepTimeIdle);
+    idleUpAnimation = _spriteAnimationsGenerator('up', 'idle-', 6, stepTimeIdle);
+    idleDownAnimation = _spriteAnimationsGenerator('down', 'idle-', 6, stepTimeIdle);
+    runningRightAnimation = _spriteAnimationsGenerator('right', 'run-', 6, stepTimeRun);
+    runningLeftAnimation = _spriteAnimationsGenerator('left', 'run-', 6, stepTimeRun);
+    runningUpAnimation = _spriteAnimationsGenerator('up', 'run-', 6, stepTimeRun);
+    runningDownAnimation = _spriteAnimationsGenerator('down', 'run-', 6, stepTimeRun);
+    downDeathAnimation = _spriteAnimationsGenerator('down', 'death-', 6, stepTimeIdle);
+    rightDeathAnimation = _spriteAnimationsGenerator('right', 'death-', 6, stepTimeIdle);
+    leftDeathAnimation = _spriteAnimationsGenerator('left', 'death-', 6, stepTimeIdle);
+    upDeathAnimation = _spriteAnimationsGenerator('up', 'death-', 6, stepTimeIdle);
+    victoryAnimation = _spriteAnimationsGenerator('', 'victory2', 4, stepTimeIdle);
+    itemDropAnimation = _spriteAnimationsGenerator('', 'item-drop', 8, stepTimeIdle);
 
 
     animations = {
@@ -101,7 +109,8 @@ class Player extends SpriteAnimationGroupComponent
       PlayerState.deathL: leftDeathAnimation,
       PlayerState.deathU: upDeathAnimation,
       PlayerState.deathD: downDeathAnimation,
-      PlayerState.victory: victoryAnimation
+      PlayerState.victory: victoryAnimation,
+      PlayerState.itemDrop: itemDropAnimation
     };
     current = PlayerState.idleR;
   }
@@ -131,7 +140,7 @@ class Player extends SpriteAnimationGroupComponent
     return response;
   }
 
-  Future<bool> _executeInstruction(
+  Future<bool> _executeInstruction (
       String instruction, bool lastInstruction) async {
     String finalInstruction= '';
     if (instruction == 'avanzar') {
@@ -140,11 +149,58 @@ class Player extends SpriteAnimationGroupComponent
       if (current == PlayerState.idleU) finalInstruction = 'arriba';
       if (current == PlayerState.idleD) finalInstruction = 'abajo';
     }
+
+    if (instruction == 'recoger'){
+      finalInstruction = 'recoger';
+    }
+
+    if (instruction == 'giroDeDerecha') {
+      await Future.delayed(const Duration(milliseconds: 333));
+      if (current == PlayerState.idleR) {
+        current = PlayerState.idleD;
+      } else if (current == PlayerState.idleD) {
+        current = PlayerState.idleL;
+      } else if (current == PlayerState.idleL) {
+        current = PlayerState.idleU;
+      } else if (current == PlayerState.idleU) {
+        current = PlayerState.idleR;
+      }
+      await Future.delayed(const Duration(milliseconds: 333));
+      return false;
+    }
+
+    if (instruction == 'giroDeIzquierda') {
+      await Future.delayed(const Duration(milliseconds: 333));
+      if (current == PlayerState.idleL) {
+        current = PlayerState.idleD;
+      } else if (current == PlayerState.idleD) {
+        current = PlayerState.idleR;
+      } else if (current == PlayerState.idleR) {
+        current = PlayerState.idleU;
+      } else if (current == PlayerState.idleU) {
+        current = PlayerState.idleL;
+      }
+      await Future.delayed(const Duration(milliseconds: 333));
+      return false;
+    }
+
     final block = _checkNextBlockForCollision(finalInstruction);
 
     if (block.type == 'err') {
       // ignore: avoid_print
       print('Hubo un error');
+    }
+    if (block.type == 'item-drop') {
+      itemDrop = block;
+    }
+    if (itemDrop.type == 'item-drop' && finalInstruction == 'recoger') {
+      PlayerState currentBeforeDrop = current;
+      priority= 7;
+      itemDropComponent.itemDropRemove();
+      current= PlayerState.itemDrop;
+      await Future.delayed(const Duration(milliseconds: 1360));
+      priority= 5;
+      current= currentBeforeDrop;
     }
     if (finalInstruction == 'derecha') {
       return _executeDisplacement(
@@ -163,29 +219,6 @@ class Player extends SpriteAnimationGroupComponent
           block, lastInstruction, PlayerState.runningD, PlayerState.idleD, Vector2(0, 16));
     }
 
-    if (instruction == 'giroDeDerecha') {
-      await Future.delayed(const Duration(milliseconds: 333));
-      if (current == PlayerState.idleR) {
-        current = PlayerState.idleD;
-      } else if (current == PlayerState.idleD) {
-        current = PlayerState.idleL;
-      } else if (current == PlayerState.idleL) {
-        current = PlayerState.idleU;
-      }
-      await Future.delayed(const Duration(milliseconds: 333));
-    }
-
-    if (instruction == 'giroDeIzquierda') {
-      await Future.delayed(const Duration(milliseconds: 333));
-      if (current == PlayerState.idleL) {
-        current = PlayerState.idleD;
-      } else if (current == PlayerState.idleD) {
-        current = PlayerState.idleR;
-      } else if (current == PlayerState.idleR) {
-        current = PlayerState.idleU;
-      }
-      await Future.delayed(const Duration(milliseconds: 333));
-    }
     return false;
   }
 
@@ -195,21 +228,22 @@ class Player extends SpriteAnimationGroupComponent
         bool lastInstruction,
         PlayerState movementState,
         PlayerState idleState,
-        Vector2 movementVector
+        Vector2 movementVector,
+        [bool? recoger= false]
 
       ) async {
-    if (block.type == 'null') {
+    if (block.type == 'null' || block.type == 'item-drop') {
       current = movementState;
-      add(MoveByEffect(movementVector, EffectController(duration: 0.333)));
-      await Future.delayed(const Duration(milliseconds: 333));
+      add(MoveByEffect(movementVector, EffectController(duration: 0.51)));
+      await Future.delayed(const Duration(milliseconds: 510));
       current = idleState;
     /* if (block.type == 'colision') {
       
     } */
     } else if (block.type == 'meta' && lastInstruction == true) {
       current = movementState;
-      add(MoveByEffect(movementVector, EffectController(duration: 0.333)));
-      await Future.delayed(const Duration(milliseconds: 333));
+      add(MoveByEffect(movementVector, EffectController(duration: 0.51)));
+      await Future.delayed(const Duration(milliseconds: 510));
       current = PlayerState.victory;
       return true;
     }
@@ -277,7 +311,7 @@ class Player extends SpriteAnimationGroupComponent
   *  _spriteAnimationsGenerator: Metodo generador de animaciones
   * */
   SpriteAnimation _spriteAnimationsGenerator(
-      String direction, String state, int amount) {
+      String direction, String state, int amount, double stepTime) {
     SpriteAnimation spriteAnimation = SpriteAnimation.fromFrameData(
         game.images.fromCache('objetos_animados/jugador/$state$direction.png'),
         SpriteAnimationData.sequenced(

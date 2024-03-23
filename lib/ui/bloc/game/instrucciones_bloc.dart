@@ -30,6 +30,8 @@ class InstruccionesCubit extends Cubit<List<MapEntry<String, String>>> {
         return 'assets/buttons/GirarIzq.png';
       case 'giroDeDerecha':
         return 'assets/buttons/GirarDerecha.png';
+      case 'recoger':
+        return 'assets/buttons/Agarrar.png';
       default:
         return '';
     }

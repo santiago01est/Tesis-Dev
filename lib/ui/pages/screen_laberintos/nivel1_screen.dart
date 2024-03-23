@@ -168,9 +168,7 @@ class _LaberintoState extends State<Laberinto> {
                                                   width: 60,
                                                   height: 60),
                                             ),
-                                            if (actividadLaberinto!
-                                                    .nombreArchivo !=
-                                                'Laberinto1') ...[
+                                            if (true) ...[
                                               IconButton(
                                                 onPressed: () {
                                                   movementInstructionsCubit
@@ -197,19 +195,19 @@ class _LaberintoState extends State<Laberinto> {
                                                     width: 60,
                                                     height: 60),
                                               ),
-                                              /* IconButton(
+                                              IconButton(
                                               onPressed: () {
                                                 movementInstructionsCubit
                                                     .agregarIntruccion(
-                                                        'derecha');
+                                                        'recoger');
                                               },
                                               iconSize: 100,
                                               icon: Image.asset(
-                                                  'assets/buttons/Derecha.png', // Reemplaza con la ruta de tu imagen en assets
+                                                  'assets/buttons/Agarrar.png', // Reemplaza con la ruta de tu imagen en assets
                                                   fit: BoxFit.cover,
                                                   width: 60,
                                                   height: 60),
-                                            ), */
+                                            ),
                                             ]
                                           ],
                                         ),
