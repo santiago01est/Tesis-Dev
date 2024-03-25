@@ -22,16 +22,21 @@ class CrearActividad extends StatefulWidget {
 }
 
 class CrearActividadState extends State<CrearActividad> {
-  List<String> elements = [
+   List<String> elements = [
     'boycampoderecha.png',
+    'boycampofrente.png',
     'boytemploderecha.png',
+    'pollitoUnidad0.jpg',
     'cofre.png',
     'llave 1.png',
+    'sacocafe.png',
+    'florUnidad0.png',
     'gemaAmarilla.png',
     'gemaAzul.png',
     'gemaRoja.png',
     'gemaVerde.png',
     'gallinas.png',
+    'gallinaUnidad0.png',
     'huevo.png',
     'trigo.png',
     'calabaza.png',
@@ -40,7 +45,8 @@ class CrearActividadState extends State<CrearActividad> {
     'piedra 1.png',
     'cajas.png',
     'jarrones.png',
-    'abeja.png'
+    'abeja.png',
+    'gatoUnidad0.png',
   ];
 
 
@@ -57,15 +63,14 @@ class CrearActividadState extends State<CrearActividad> {
   int _selectedOptionIndex = -1; // Index of the selected card
 
 // lista del tablero a dibujar
-  List<int> board= List.generate(36, (index) => -1);
+  List<int> board = List.generate(36, (index) => -1);
 
   final TextEditingController descripcionTextEditingController =
       TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-
-      final router = GoRouter.of(context);
+    final router = GoRouter.of(context);
 
     return Scaffold(
         appBar: AppBarProfesor(),
@@ -220,27 +225,67 @@ class CrearActividadState extends State<CrearActividad> {
                                     PixelSmallBttn(
                                       path: 'assets/items/ButtonBlue.png',
                                       onPressed: () {
-                                        ActividadCuestionario actividadCuestionarioSave =
+                                        ActividadCuestionario
+                                            actividadCuestionarioSave =
                                             ActividadCuestionario(
-                                              id: '123',
-                                              nombre: 'ACTIVIDAD NUEVA',
-                                              descripcion: descripcionTextEditingController.text,
-                                              estado: 'Activo',
-                                              tipoActividad: 'Cuestionario',
-                                              dimension: 6,
-                                              casillas: board,
-                                              respuestas: imagesList,
-                                              respuestaCorrecta: _selectedOptionIndex
-                                            );
+                                                id: '123',
+                                                nombre: 'ACTIVIDAD NUEVA',
+                                                descripcion:
+                                                    descripcionTextEditingController
+                                                        .text,
+                                                estado: 'Activo',
+                                                tipoActividad: 'Cuestionario',
+                                                dimension: 6,
+                                                casillas: board,
+                                                respuestas: imagesList,
+                                                respuestaCorrecta:
+                                                    _selectedOptionIndex);
 
-                                            context.read<ActividadCuestionarioCubit>().addActividadCuestionario(actividadCuestionarioSave);
-                                            context.read<UnidadesCubit>().addActividad(Actividad(id: actividadCuestionarioSave.id,nombre: actividadCuestionarioSave.nombre,descripcion: actividadCuestionarioSave.descripcion, estado: actividadCuestionarioSave.estado, tipoActividad: actividadCuestionarioSave.tipoActividad), widget.unidadId);
+                                        context.read<ActividadCuestionarioCubit>().addActividadCuestionario(actividadCuestionarioSave);
+                                        context.read<UnidadesCubit>().addActividad(Actividad(id: actividadCuestionarioSave.id,nombre: actividadCuestionarioSave.nombre,descripcion: actividadCuestionarioSave.descripcion, estado: actividadCuestionarioSave.estado, tipoActividad: actividadCuestionarioSave.tipoActividad), widget.unidadId);
 
-                                            // cerrar screen y volver
-                                            //router.go('/panelcurso/${context.read<CursoCubit>().state.id}');
-                                            router.pop();
+                                        // cerrar screen y volver
+
                                         
-                                       
+                                        /*
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text(
+                                                  'Contenido de la actividad'),
+                                              content: SingleChildScrollView(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                        'Nombre: ${actividadCuestionarioSave.nombre}'),
+                                                    Text(
+                                                        'Descripción: ${actividadCuestionarioSave.descripcion}'),
+                                                        Text(
+                                                        'Descripción: ${actividadCuestionarioSave.casillas}'),
+                                                        Text(
+                                                        'Descripción: ${actividadCuestionarioSave.respuestas}'),
+                                                        Text(
+                                                        'Descripción: ${actividadCuestionarioSave.respuestaCorrecta}'),
+                                                    // Agrega más detalles de la actividad según sea necesario
+                                                  ],
+                                                ),
+                                              ),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text('Cerrar'),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                        */
+                                        router.pop();
                                       },
                                       text: 'Publicar',
                                     ),

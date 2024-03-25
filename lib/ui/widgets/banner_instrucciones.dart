@@ -39,7 +39,7 @@ class _BannerInstruccionesActividadState
                 // card blanca con boredes redondos y texto dentro
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 4,
-                  height: 130,
+                  
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
@@ -51,7 +51,7 @@ class _BannerInstruccionesActividadState
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           widget.texto,
-                          textAlign: TextAlign.center,
+                          textAlign: TextAlign.start,
                         ),
                       ),
                     ),
@@ -62,6 +62,8 @@ class _BannerInstruccionesActividadState
           ),
           Expanded(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
@@ -75,6 +77,8 @@ class _BannerInstruccionesActividadState
                     Image.asset(
                       widget.rutaEjemplo,
                       width: MediaQuery.of(context).size.width / 3,
+                      height: 100,
+                
                     ),
                   ],
                 ),

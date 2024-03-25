@@ -1,7 +1,11 @@
 import 'package:dev_tesis/constants/styles.dart';
+import 'package:dev_tesis/domain/model/actividad.dart';
+import 'package:dev_tesis/domain/model/actividad_laberinto.dart';
 import 'package:dev_tesis/game/player/player.dart';
 import 'package:dev_tesis/game/game_activity.dart';
+import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/game/instrucciones_bloc.dart';
+import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:dev_tesis/ui/widgets/banner_info_actividades.dart';
@@ -9,20 +13,43 @@ import 'package:dev_tesis/ui/widgets/response_game_flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
-class Nivel1Laberinto extends StatefulWidget {
-  const Nivel1Laberinto({super.key});
+class Laberinto extends StatefulWidget {
+  final String actividadId;
+  const Laberinto({super.key, required this.actividadId});
 
   @override
-  State<Nivel1Laberinto> createState() => _Nivel1LaberintoState();
+  State<Laberinto> createState() => _LaberintoState();
 }
 
-class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
- 
+class _LaberintoState extends State<Laberinto> {
   @override
   Widget build(BuildContext context) {
-     final GameActivity game = GameActivity();
-    final movementInstructionsCubit = context.watch<InstruccionesCubit>();
+    final router = GoRouter.of(context);
+    final unidadesCubit = context.watch<UnidadesCubit>();
+
+    final curso = context.read<CursoCubit>();
+    ActividadLaberinto? actividadLaberinto;
+    for (var unidad in curso.state.unidades!) {
+      // Verifica si la unidad actual tiene la actividad a eliminar
+      if (unidad.actividades != null) {
+        // for que recorre las actividades
+
+        for (Actividad actividad in unidad.actividades!) {
+          if (actividad.id == widget.actividadId) {
+            if (actividad is ActividadLaberinto) {
+              actividadLaberinto = actividad;
+            }
+          }
+        }
+      }
+    }
+
+    final movementInstructionsCubit = context.read<InstruccionesCubit>();
+    final GameActivity game = GameActivity(actividadLaberinto == null
+        ? 'Laberinto1'
+        : actividadLaberinto.nombreArchivo!);
     Player player = game.player;
     return Scaffold(
       appBar: const CustomAppBar(userName: 'usuario'),
@@ -38,8 +65,10 @@ class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
                       padding: const EdgeInsets.all(20.0),
                       child: Column(
                         children: [
-                          const IntrinsicHeight(
-                            child: BannerInfoActividades(),
+                           IntrinsicHeight(
+                            child: BannerInfoActividades(
+                               titulo: actividadLaberinto!.nombre!,
+                            ),
                           ),
                           Center(
                             child: Row(
@@ -87,8 +116,8 @@ class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
                                                       left: 20,
                                                       right: 60,
                                                       bottom: 20),
-                                                  child: const Text(
-                                                    "El granjero necesita de tu ayuda \n!Guíalo para que encuentre a sus GALLINAS ",
+                                                  child:  Text(
+                                                    actividadLaberinto!.descripcion!,
                                                     style: TextStyle(
                                                       fontSize: 16,
                                                       color: Colors.black,
@@ -132,41 +161,45 @@ class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
                                               onPressed: () {
                                                 movementInstructionsCubit
                                                     .agregarIntruccion(
-                                                        'arriba');
+                                                        'avanzar');
                                               },
                                               iconSize: 100,
                                               icon: Image.asset(
-                                                  'assets/buttons/Arriba.png', // Reemplaza con la ruta de tu imagen en assets
+                                                  'assets/buttons/Derecha.png', // Reemplaza con la ruta de tu imagen en assets
                                                   fit: BoxFit.cover,
                                                   width: 60,
                                                   height: 60),
                                             ),
-                                            IconButton(
-                                              onPressed: () {
-                                                movementInstructionsCubit
-                                                    .agregarIntruccion('abajo');
-                                              },
-                                              iconSize: 100,
-                                              icon: Image.asset(
-                                                  'assets/buttons/Abajo.png', // Reemplaza con la ruta de tu imagen en assets
-                                                  fit: BoxFit.cover,
-                                                  width: 60,
-                                                  height: 60),
-                                            ),
-                                            IconButton(
-                                              onPressed: () {
-                                                movementInstructionsCubit
-                                                    .agregarIntruccion(
-                                                        'izquierda');
-                                              },
-                                              iconSize: 100,
-                                              icon: Image.asset(
-                                                  'assets/buttons/Izquierda.png', // Reemplaza con la ruta de tu imagen en assets
-                                                  fit: BoxFit.cover,
-                                                  width: 60,
-                                                  height: 60),
-                                            ),
-                                            IconButton(
+                                            if (actividadLaberinto!
+                                                    .nombreArchivo !=
+                                                'Laberinto1') ...[
+                                              IconButton(
+                                                onPressed: () {
+                                                  movementInstructionsCubit
+                                                      .agregarIntruccion(
+                                                          'giroDeIzquierda');
+                                                },
+                                                iconSize: 100,
+                                                icon: Image.asset(
+                                                    'assets/buttons/GirarIzq.png', // Reemplaza con la ruta de tu imagen en assets
+                                                    fit: BoxFit.cover,
+                                                    width: 60,
+                                                    height: 60),
+                                              ),
+                                              IconButton(
+                                                onPressed: () {
+                                                  movementInstructionsCubit
+                                                      .agregarIntruccion(
+                                                          'giroDeDerecha');
+                                                },
+                                                iconSize: 100,
+                                                icon: Image.asset(
+                                                    'assets/buttons/GirarDerecha.png', // Reemplaza con la ruta de tu imagen en assets
+                                                    fit: BoxFit.cover,
+                                                    width: 60,
+                                                    height: 60),
+                                              ),
+                                              /* IconButton(
                                               onPressed: () {
                                                 movementInstructionsCubit
                                                     .agregarIntruccion(
@@ -178,7 +211,8 @@ class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
                                                   fit: BoxFit.cover,
                                                   width: 60,
                                                   height: 60),
-                                            ),
+                                            ), */
+                                            ]
                                           ],
                                         ),
                                       ),
@@ -206,15 +240,18 @@ class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
                                                             .map((map) =>
                                                                 map.key)
                                                             .toList();
-                                                    Future<bool> response =
-                                                        player.processMovementInstructions();
+                                                    Future<bool> response = player
+                                                        .processMovementInstructions();
                                                     if (await response) {
                                                       Future.delayed(
-                                                          Duration(seconds: 2),
-                                                          () {
+                                                          const Duration(
+                                                              seconds: 2), () {
                                                         // ignore: use_build_context_synchronously
                                                         _mostrarDialogoVictoria(
-                                                            context);
+                                                            context,
+                                                            router,
+                                                            unidadesCubit,
+                                                            actividadLaberinto!);
                                                       });
                                                     }
                                                   }),
@@ -256,8 +293,10 @@ class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
                       padding: const EdgeInsets.all(20.0),
                       child: Column(
                         children: [
-                          const IntrinsicHeight(
-                            child: BannerInfoActividades(),
+                           IntrinsicHeight(
+                            child: BannerInfoActividades(
+                              titulo:actividadLaberinto!.nombre!,
+                            ),
                           ),
                           Center(
                             child: Column(
@@ -287,8 +326,8 @@ class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
                                                 left: 20,
                                                 right: 60,
                                                 bottom: 20),
-                                            child: const Text(
-                                              "El granjero necesita de tu ayuda \n!Guíalo para que encuentre a sus GALLINAS ",
+                                            child:  Text(
+                                              actividadLaberinto!.descripcion!,
                                               style: TextStyle(
                                                 fontSize: 16,
                                                 color: Colors.black,
@@ -407,14 +446,17 @@ class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
                                                       .state
                                                       .map((map) => map.key)
                                                       .toList();
-                                              Future<bool> response =
-                                                  player.processMovementInstructions();
+                                              Future<bool> response = player
+                                                  .processMovementInstructions();
                                               if (await response) {
                                                 Future.delayed(
                                                     Duration(seconds: 2), () {
                                                   // ignore: use_build_context_synchronously
                                                   _mostrarDialogoVictoria(
-                                                      context);
+                                                      context,
+                                                      router,
+                                                      unidadesCubit,
+                                                      actividadLaberinto!);
                                                 });
                                               }
                                             }),
@@ -445,28 +487,40 @@ class _Nivel1LaberintoState extends State<Nivel1Laberinto> {
     );
   }
 
-  void _mostrarDialogoVictoria(BuildContext context) {
+  void _mostrarDialogoVictoria(BuildContext context, GoRouter router,
+      UnidadesCubit unidadesCubit, ActividadLaberinto actividadLaberinto) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Haz llegado a la meta'),
-          content: Text(
-              'El granjero ha encontrado a sus GALLINAS y esta muy agradecido contigo, !te ha dado un cafeto como recompensa!'),
+          title: const Text('Bien Hecho!! 🏆 Haz llegado a tu Objetivo'),
+          content: const Text('Continuemos con la siguiente Actividad!'),
           actions: <Widget>[
-            TextButton(
+            PixelLargeBttn(
+              path: "assets/items/ButtonOrange.png",
+              text: 'Volver al Curso',
               onPressed: () {
                 Navigator.of(context).pop(); // Cierra el diálogo
               },
-              child: Text('Cerrar'),
             ),
-            TextButton(
+            PixelLargeBttn(
+              path: "assets/items/ButtonBlue.png",
+              text: 'Siguiente',
               onPressed: () {
+                SiguienteActividadInfo siguienteActividadInfo = unidadesCubit
+                    .siguienteActividadInfo(actividadLaberinto.id!);
+                if (siguienteActividadInfo
+                        .tipoActividad ==
+                    "Laberinto") {
+                  router.go(
+                      '/laberinto/${siguienteActividadInfo.idActividad}');
+                } else if (siguienteActividadInfo.tipoActividad == "Cuestionario") {
+                  router.go(
+                      '/cuestionario/${siguienteActividadInfo.idActividad}');
+                }
+               
                 Navigator.of(context).pop(); // Cierra el diálogo
-                // Lógica para limpiar las instrucciones
-                context.read<InstruccionesCubit>().limpiarInstrucciones();
               },
-              child: Text('Seguir aprendiendo'),
             ),
           ],
         );

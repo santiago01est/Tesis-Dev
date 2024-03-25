@@ -14,16 +14,21 @@ class TableroCuestionario extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-     List<String> elements = [
+    List<String> elements = [
     'boycampoderecha.png',
+    'boycampofrente.png',
     'boytemploderecha.png',
+    'pollitoUnidad0.jpg',
     'cofre.png',
     'llave 1.png',
+    'sacocafe.png',
+    'florUnidad0.png',
     'gemaAmarilla.png',
     'gemaAzul.png',
     'gemaRoja.png',
     'gemaVerde.png',
     'gallinas.png',
+    'gallinaUnidad0.png',
     'huevo.png',
     'trigo.png',
     'calabaza.png',
@@ -32,16 +37,17 @@ class TableroCuestionario extends StatelessWidget {
     'piedra 1.png',
     'cajas.png',
     'jarrones.png',
-    'abeja.png'
+    'abeja.png',
+    'gatoUnidad0.png',
   ];
 
   List<int>? elementsInfoBoard= actividadCuestionario.casillas;
 
     return SizedBox(
       width: actividadCuestionario.dimension! *
-          90, // Tamaño del tablero (6 casillas * 90px por casilla)
+          100, // Tamaño del tablero (6 casillas * 90px por casilla)
       height: actividadCuestionario.dimension! *
-          90, // Tamaño del tablero (6 casillas * 90px por casilla)
+          100, // Tamaño del tablero (6 casillas * 90px por casilla)
       child: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount:
@@ -52,15 +58,18 @@ class TableroCuestionario extends StatelessWidget {
         itemBuilder: (context, index) {
           String casillarecurso = elementsInfoBoard![index] != -1 ? 'assets/items/estudio/${elements[elementsInfoBoard[index]]}' : 'assets/whiteCasilla.png';
           return Container(
-            width: 90, // Tamaño de cada casilla
-            height: 90, // Tamaño de cada casilla
+            width: 100, // Tamaño de cada casilla
+            height: 100, // Tamaño de cada casilla
             decoration: BoxDecoration(
               //color del borde
               border: Border.all(color: Colors.black),
               // color de relleno
               color: const Color.fromARGB(255, 255, 255, 255),
             ),
-            child: Image.asset(casillarecurso)
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.asset(casillarecurso),
+            )
           );
         },
       ),

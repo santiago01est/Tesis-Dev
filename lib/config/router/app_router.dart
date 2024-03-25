@@ -47,8 +47,10 @@ final appRouter = GoRouter(
       },
     ),
     GoRoute(
-      path: '/laberinto',
-      builder: (context, state) => const Nivel1Laberinto(),
+       path: '/laberinto/:actividadId',
+      builder: (context, state) { 
+        final String actividadId = state.pathParameters['actividadId'] ?? '-1';
+        return Laberinto(actividadId: actividadId);}
     ),
 
     GoRoute(

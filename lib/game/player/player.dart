@@ -87,6 +87,7 @@ class Player extends SpriteAnimationGroupComponent
     upDeathAnimation = _spriteAnimationsGenerator('up', 'death-', 6);
     victoryAnimation = _spriteAnimationsGenerator('', 'victory2', 4);
 
+
     animations = {
       PlayerState.idleR: idleRightAnimation,
       PlayerState.idleL: idleLeftAnimation,
@@ -132,34 +133,58 @@ class Player extends SpriteAnimationGroupComponent
 
   Future<bool> _executeInstruction(
       String instruction, bool lastInstruction) async {
-    final block = _checkNextBlockForCollision(instruction);
+    String finalInstruction= '';
+    if (instruction == 'avanzar') {
+      if (current == PlayerState.idleR) finalInstruction = 'derecha';
+      if (current == PlayerState.idleL) finalInstruction = 'izquierda';
+      if (current == PlayerState.idleU) finalInstruction = 'arriba';
+      if (current == PlayerState.idleD) finalInstruction = 'abajo';
+    }
+    final block = _checkNextBlockForCollision(finalInstruction);
+
     if (block.type == 'err') {
       // ignore: avoid_print
       print('Hubo un error');
     }
-    if (instruction == 'derecha') {
+    if (finalInstruction == 'derecha') {
       return _executeDisplacement(
           block, lastInstruction, PlayerState.runningR, PlayerState.idleR, Vector2(16, 0));
     }
-    if (instruction == 'izquierda') {
+    if (finalInstruction == 'izquierda') {
       return _executeDisplacement(
           block, lastInstruction, PlayerState.runningL, PlayerState.idleL, Vector2(-16, 0));
     }
-    if (instruction == 'arriba') {
+    if (finalInstruction == 'arriba') {
       return _executeDisplacement(
           block, lastInstruction, PlayerState.runningU, PlayerState.idleU, Vector2(0, -16));
     }
-    if (instruction == 'abajo') {
+    if (finalInstruction == 'abajo') {
       return _executeDisplacement(
           block, lastInstruction, PlayerState.runningD, PlayerState.idleD, Vector2(0, 16));
     }
 
     if (instruction == 'giroDeDerecha') {
-      
+      await Future.delayed(const Duration(milliseconds: 333));
+      if (current == PlayerState.idleR) {
+        current = PlayerState.idleD;
+      } else if (current == PlayerState.idleD) {
+        current = PlayerState.idleL;
+      } else if (current == PlayerState.idleL) {
+        current = PlayerState.idleU;
+      }
+      await Future.delayed(const Duration(milliseconds: 333));
     }
 
     if (instruction == 'giroDeIzquierda') {
-      
+      await Future.delayed(const Duration(milliseconds: 333));
+      if (current == PlayerState.idleL) {
+        current = PlayerState.idleD;
+      } else if (current == PlayerState.idleD) {
+        current = PlayerState.idleR;
+      } else if (current == PlayerState.idleR) {
+        current = PlayerState.idleU;
+      }
+      await Future.delayed(const Duration(milliseconds: 333));
     }
     return false;
   }
@@ -173,13 +198,15 @@ class Player extends SpriteAnimationGroupComponent
         Vector2 movementVector
 
       ) async {
-        
     if (block.type == 'null') {
       current = movementState;
       add(MoveByEffect(movementVector, EffectController(duration: 0.333)));
       await Future.delayed(const Duration(milliseconds: 333));
       current = idleState;
-    } else if (block.type == 'Meta' && lastInstruction == true) {
+    /* if (block.type == 'colision') {
+      
+    } */
+    } else if (block.type == 'meta' && lastInstruction == true) {
       current = movementState;
       add(MoveByEffect(movementVector, EffectController(duration: 0.333)));
       await Future.delayed(const Duration(milliseconds: 333));

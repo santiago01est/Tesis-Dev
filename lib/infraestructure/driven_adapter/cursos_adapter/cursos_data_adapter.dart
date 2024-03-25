@@ -1,4 +1,6 @@
 import 'package:dev_tesis/domain/model/actividad.dart';
+import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
+import 'package:dev_tesis/domain/model/actividad_laberinto.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
@@ -8,6 +10,7 @@ class CursosDataAdapter extends CursoRepository {
   @override
   Future<List<Curso>> getCursos() {
     /* TODO: implement getCursos BD mientras sera por mapas */
+
     Curso c1 = Curso(
         id: '1',
         nombre: 'Curso Quinto C',
@@ -24,28 +27,181 @@ class CursosDataAdapter extends CursoRepository {
         fechaCreacion: '2023-12-01',
         fechaFinalizacion: '2022-01-01',
         unidades: [
+          Unidad(
+              id: '0',
+              nombre: 'Unidad Cero - Diagnóstico',
+              estado: 'Activa',
+              actividades: [
+                ActividadCuestionario(
+                    id: '1',
+                    nombre: 'Actividad 01',
+                    estado: 'Activa',
+                    descripcion:
+                        'Lleva al pollito con su mamá \nRecoge la flor por el camino \nCuidado con el gato: no pases por su casilla',
+                    tipoActividad: 'Cuestionario',
+                    dimension: 3,
+                    casillas: [3, -1, -1, -1, 7, 23, -1, -1, 13],
+                    ejemploImage: 'ejemploUnidad0.png',
+                    ejercicioImage: '',
+                    respuestas: [
+                      [
+                        'Avanzar.png',
+                        'Abajo.png',
+                        'Avanzar.png',
+                        'Abajo.png',
+                      ],
+                      [
+                        'Avanzar.png',
+                        'Abajo.png',
+                        'Abajo.png',
+                        'Avanzar.png',
+                      ],
+                      ['Avanzar.png', 'Avanzar.png', 'Abajo.png', 'Abajo.png'],
+                      [
+                        'Avanzar.png',
+                        'Abajo.png',
+                        'Avanzar.png',
+                      ]
+                    ],
+                    respuestaCorrecta: 2),
+                ActividadCuestionario(
+                    id: '2',
+                    nombre: 'Actividad 02',
+                    estado: 'Activa',
+                    descripcion:
+                        'Lleva al pollito con su mamá \nRecoge la flor por el camino \nCuidado con el gato: no pases por su casilla',
+                    tipoActividad: 'Cuestionario',
+                    dimension: 3,
+                    casillas: [3, -1, -1, -1, 7, 23, -1, -1, 13],
+                    ejemploImage: 'ejemploUnidad0A2.png',
+                    ejercicioImage:
+                        'assets/items/ejemplosImg/ejercicioImage02.png',
+                    respuestas: [
+                      [
+                        'Abajo.png',
+                        'Abajo.png',
+                        'Avanzar.png',
+                        'Avanzar.png',
+                      ],
+                      [
+                        'Avanzar.png',
+                        'Abajo.png',
+                        'Avanzar.png',
+                        'Abajo.png',
+                      ],
+                      [
+                        'Abajo.png',
+                        'Avanzar.png',
+                      ],
+                      [
+                        'Abajo.png',
+                        'Avanzar.png',
+                        'Abajo.png',
+                        'Avanzar.png',
+                      ]
+                    ],
+                    respuestaCorrecta: 2),
+                ActividadCuestionario(
+                    id: '3',
+                    nombre: 'Actividad 03',
+                    estado: 'Activa',
+                    descripcion:
+                        'Lleva al pollito con su mamá.\nRecoge la flor por el camino.\nCuidado con el gato: no pases por su casilla.',
+                    tipoActividad: 'Cuestionario',
+                    dimension: 4,
+                    casillas: [-1, -1, -1, -1, 
+                    13, 23, 7, 3, 
+                    -1, -1, -1, -1,
+                    -1, -1, -1, -1],
+                    ejemploImage: 'ejemploUnidad0.png',
+                    ejercicioImage: '',
+                    respuestas: [
+                      [
+                        'Izquierda.png',
+                        'Abajo.png',
+                        'Izquierda.png',
+                        'Izquierda.png',
+                        'Arriba.png',
+                      ],
+                      [
+                        'Izquierda.png',
+                        'Arriba.png',
+                        'Izquierda.png',
+                        'Abajo.png',
+                      ],
+                      [
+                        'Izquierda.png',
+                        'Arriba.png',
+                        'Izquierda.png',
+                        'Abajo.png',
+                        'Izquierda.png'
+                      ],
+                      [
+                        'Arriba.png',
+                        'Izquierda.png',
+                        'Izquierda.png',
+                        'Izquierda.png',
+                        'Abajo.png',
+                      ]
+                    ],
+                    respuestaCorrecta: 2),
+              ]),
           Unidad(id: '1', nombre: 'Unidad Uno', estado: 'Activa', actividades: [
-            Actividad(
-              id: '1',
-              nombre: 'Primeros Pasos',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '2',
-              nombre: 'Buscando el mejor camino',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Cuestionario',
-            ),
-            Actividad(
-              id: '3',
-              nombre: 'Diversión en el campo',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
+            ActividadLaberinto(
+                id: '11',
+                nombre: 'Primeros Pasos',
+                estado: 'Activa',
+                descripcion:
+                    'Hola El granjero necesita de tu ayuda! Guíalo a encontrar a su GALLINA.',
+                tipoActividad: 'Laberinto',
+                nombreArchivo: "Laberinto1"),
+            ActividadCuestionario(
+                id: '12',
+                nombre: 'Buscando el mejor camino',
+                estado: 'Activa',
+                descripcion:
+                    'Ayuda a Juan a encontrar el camino al saco de café que ha recolectado.',
+                tipoActividad: 'Cuestionario',
+                dimension: 6,
+                 ejemploImage: 'ejemplo_simple_secuencia.png',
+                ejercicioImage: '',
+                casillas: [
+                  1,15,15,15,15,15,
+                  -1,-1,15,15,15,15,
+                  -1,-1,-1,15,-1,-1,
+                  6,-1,15,15,15,-1,
+                  -1,15,15, -1,-1,15,
+                  20,-1,-1,15,15,-1
+                ],
+                respuestas: [
+                  [
+                    'Avanzar.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
+                  ],
+                  [
+                    'Avanzar.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
+                  ],
+                  ['Avanzar.png', 'Avanzar.png', 'Avanzar.png'],
+                  [
+                    'Avanzar.png',
+                    'Avanzar.png',
+                  ]
+                ],
+                respuestaCorrecta: 2),
+            ActividadLaberinto(
+                id: '13',
+                nombre: 'Primeros Pasos',
+                estado: 'Activa',
+                descripcion:
+                    'Hola El granjero necesita de tu ayuda! Guíalo a encontrar a la CALABAZA.',
+                tipoActividad: 'Laberinto',
+                nombreArchivo: "Laberinto2"),
             Actividad(
               id: '4',
               nombre: 'Adelante, giro, adelante',
@@ -63,35 +219,35 @@ class CursosDataAdapter extends CursoRepository {
           ]),
           Unidad(id: '2', nombre: 'Unidad Dos', estado: 'Activa', actividades: [
             Actividad(
-              id: '6',
+              id: '21',
               nombre: 'El mejor camino',
               estado: 'Activa',
               descripcion: '',
               tipoActividad: 'Laberinto',
             ),
             Actividad(
-              id: '7',
+              id: '22',
               nombre: 'Recoge las recompensas',
               estado: 'Activa',
               descripcion: '',
               tipoActividad: 'Laberinto',
             ),
             Actividad(
-              id: '8',
+              id: '23',
               nombre: 'Diversión en clase',
               estado: 'Activa',
               descripcion: '',
               tipoActividad: 'Laberinto',
             ),
             Actividad(
-              id: '9',
+              id: '24',
               nombre: 'Si pasa esto hago aquello',
               estado: 'Activa',
               descripcion: '',
               tipoActividad: 'Laberinto',
             ),
             Actividad(
-              id: '10',
+              id: '25',
               nombre: 'Estoy en un ciclo',
               estado: 'Activa',
               descripcion: '',
@@ -104,35 +260,35 @@ class CursosDataAdapter extends CursoRepository {
               estado: 'Activa',
               actividades: [
                 Actividad(
-                  id: '11',
+                  id: '31',
                   nombre: 'Mi decision',
                   estado: 'Activa',
                   descripcion: '',
                   tipoActividad: 'Laberinto',
                 ),
                 Actividad(
-                  id: '12',
+                  id: '32',
                   nombre: 'Recoge todas las recompensas',
                   estado: 'Activa',
                   descripcion: '',
                   tipoActividad: 'Laberinto',
                 ),
                 Actividad(
-                  id: '13',
+                  id: '33',
                   nombre: 'Diversión en clase',
                   estado: 'Activa',
                   descripcion: '',
                   tipoActividad: 'Laberinto',
                 ),
                 Actividad(
-                  id: '14',
+                  id: '34',
                   nombre: 'Si pasa esto hago aquello',
                   estado: 'Activa',
                   descripcion: '',
                   tipoActividad: 'Laberinto',
                 ),
                 Actividad(
-                  id: '15',
+                  id: '35',
                   nombre: 'Estoy en un ciclo',
                   estado: 'Activa',
                   descripcion: '',
@@ -176,7 +332,8 @@ class CursosDataAdapter extends CursoRepository {
         portada: 'assets/fondos/FondoNevado.png',
         estado: true,
         numEstudiantes: 10,
-        descripcion: "Espacio de aprendizaje para mis estudiantes de cuarto grado para mejorar el pensamiento computacional",
+        descripcion:
+            "Espacio de aprendizaje para mis estudiantes de cuarto grado para mejorar el pensamiento computacional",
         fechaCreacion: '2022-01-01',
         fechaFinalizacion: '2022-01-01',
         unidades: [
@@ -291,7 +448,8 @@ class CursosDataAdapter extends CursoRepository {
         portada: 'assets/fondos/FondoHome.png',
         estado: true,
         numEstudiantes: 10,
-        descripcion: "Curso para mis estudiantes de Tercer grado para el desarrollo del pensamiento computacional",
+        descripcion:
+            "Curso para mis estudiantes de Tercer grado para el desarrollo del pensamiento computacional",
         fechaCreacion: '2022-01-01',
         fechaFinalizacion: '2022-01-01',
         unidades: [
@@ -406,7 +564,8 @@ class CursosDataAdapter extends CursoRepository {
         portada: 'assets/fondos/FondoRegistroProfesor.png',
         estado: true,
         numEstudiantes: 10,
-        descripcion: "Espacio para mi curso de Quinto A, donde repasaremos conceptos del pensamiento computacional",
+        descripcion:
+            "Espacio para mi curso de Quinto A, donde repasaremos conceptos del pensamiento computacional",
         fechaCreacion: '2022-01-01',
         fechaFinalizacion: '2022-01-01',
         unidades: [
