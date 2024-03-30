@@ -35,13 +35,15 @@ class ActividadCuestionarioScreen extends StatefulWidget {
 
 class _ActividadCuestionarioScreenState
     extends State<ActividadCuestionarioScreen> {
+      
+  int _selectedOptionIndex = -1;
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
     final unidadesCubit = context.watch<UnidadesCubit>();
 
     final curso = context.read<CursoCubit>();
-    int selectedOptionIndex = 2;
+    
     List<ActividadCuestionario> actividadesCuestionario =
         context.watch<ActividadCuestionarioCubit>().state;
     for (var unidad in curso.state.unidades!) {
@@ -80,7 +82,7 @@ class _ActividadCuestionarioScreenState
                         padding: const EdgeInsets.all(20.0),
                         child: Column(
                           children: [
-                             IntrinsicHeight(
+                            IntrinsicHeight(
                               child: BannerInfoActividades(
                                 titulo: actividadCuestionario.nombre!,
                               ),
@@ -113,13 +115,13 @@ class _ActividadCuestionarioScreenState
                                                 actividadCuestionario:
                                                     actividadCuestionario)
                                             : SizedBox(
-                                                width: 500
-                                                    , // Tamaño del tablero (6 casillas * 90px por casilla)
-                                                height: 500,// Tamaño del tablero (6 casillas * 90px por casilla)
+                                                width:
+                                                    500, // Tamaño del tablero (6 casillas * 90px por casilla)
+                                                height:
+                                                    500, // Tamaño del tablero (6 casillas * 90px por casilla)
                                                 child: Image.asset(
                                                     '${actividadCuestionario.ejercicioImage}',
-                                                    fit: BoxFit.contain
-                                                ))
+                                                    fit: BoxFit.contain))
                                       ],
                                     ),
                                   ),
@@ -141,16 +143,23 @@ class _ActividadCuestionarioScreenState
                                             textAlign: TextAlign.left,
                                           ),
                                         ),
-                                        Container(
-                                          child: RadioRespuestasCuestionario(
-                                              imagesList: actividadCuestionario
-                                                  .respuestas!,
-                                              radioRespuesta: (respuesta) {
-                                                setState(() {
-                                                  selectedOptionIndex = 2;
-                                                });
-                                              }),
-                                        ),
+                                        RadioRespuestasCuestionario(
+                                            imagesList: actividadCuestionario
+                                                .respuestas!,
+                                            radioRespuesta: (int respuesta) {
+                                              setState(() {
+                                                _selectedOptionIndex = respuesta+1;
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      'Opción seleccionada en screen: $_selectedOptionIndex',
+                                                    ),
+                                                  ),
+                                                );
+                                              });
+                                            },
+                                            initialValue: -1),
                                         Container(
                                           margin: const EdgeInsets.only(
                                               left: 10, bottom: 20),
@@ -163,7 +172,9 @@ class _ActividadCuestionarioScreenState
                                                         "assets/items/ButtonBlue.png",
                                                     text: 'Siguiente',
                                                     onPressed: () {
-                                                      selectedOptionIndex == -1
+
+                                                      
+                                                      _selectedOptionIndex == -1
                                                           ? showDialog(
                                                               context: context,
                                                               builder:
@@ -258,10 +269,10 @@ class _ActividadCuestionarioScreenState
                 SiguienteActividadInfo siguienteActividadInfo = unidadesCubit
                     .siguienteActividadInfo(actividadLaberinto.id!);
                 if (siguienteActividadInfo.tipoActividad == "Laberinto") {
-                  router.go('/laberinto/${siguienteActividadInfo.idActividad}');
+                  router.push('/laberinto/${siguienteActividadInfo.idActividad}');
                 } else if (siguienteActividadInfo.tipoActividad ==
                     "Cuestionario") {
-                  router.go(
+                  router.push(
                       '/cuestionario/${siguienteActividadInfo.idActividad}');
                 }
 
