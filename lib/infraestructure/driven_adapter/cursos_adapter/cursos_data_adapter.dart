@@ -220,6 +220,7 @@ class CursosDataAdapter extends CursoRepository {
                     descripcion: 'Lleva al pollito con su mamá.',
                     tipoActividad: 'Cuestionario',
                     dimension: 4,
+                    pista:'assets/items/ejemplosImg/pistaCiclos.png',
                     casillas: [
                       -1,
                       -1,

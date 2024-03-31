@@ -35,15 +35,15 @@ class ActividadCuestionarioScreen extends StatefulWidget {
 
 class _ActividadCuestionarioScreenState
     extends State<ActividadCuestionarioScreen> {
-      
   int _selectedOptionIndex = -1;
+  bool _mostrarPista = true;
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
     final unidadesCubit = context.watch<UnidadesCubit>();
 
     final curso = context.read<CursoCubit>();
-    
+
     List<ActividadCuestionario> actividadesCuestionario =
         context.watch<ActividadCuestionarioCubit>().state;
     for (var unidad in curso.state.unidades!) {
@@ -65,8 +65,37 @@ class _ActividadCuestionarioScreenState
     ActividadCuestionario actividadCuestionario = actividadesCuestionario
         .firstWhere((actividad) => actividad.id == widget.actividadId);
 
-    String nombreUnidad=unidadesCubit.nombreUnidadDeActividad(actividadCuestionario.id!);
+    String nombreUnidad =
+        unidadesCubit.nombreUnidadDeActividad(actividadCuestionario.id!);
 
+    // Verificar si la actividad tiene una pista
+    if (actividadCuestionario.pista != null &&
+        actividadCuestionario.pista!.isNotEmpty &&
+        _mostrarPista) {
+      _mostrarPista = false;
+      // Mostrar el diálogo después de que se haya construido la pantalla
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        // Mostrar el diálogo después de que se haya construido la pantalla
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Información '),
+              content:
+                  Image.asset(actividadCuestionario.pista!, fit: BoxFit.cover),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Cerrar'),
+                ),
+              ],
+            );
+          },
+        );
+      });
+    }
     return Scaffold(
       appBar: const CustomAppBar(userName: 'usuario'),
       // Responsive UI design for desktop and mobile
@@ -82,11 +111,12 @@ class _ActividadCuestionarioScreenState
                       //height: MediaQuery.of(context).size.height,
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
-                        child: Column( 
+                        child: Column(
                           children: [
                             IntrinsicHeight(
                               child: BannerInfoActividades(
-                                titulo: '$nombreUnidad \n${actividadCuestionario.nombre!}',
+                                titulo:
+                                    '$nombreUnidad \n${actividadCuestionario.nombre!}',
                               ),
                             ),
                             const SizedBox(
@@ -150,7 +180,8 @@ class _ActividadCuestionarioScreenState
                                                 .respuestas!,
                                             radioRespuesta: (int respuesta) {
                                               setState(() {
-                                                _selectedOptionIndex = respuesta+1;
+                                                _selectedOptionIndex =
+                                                    respuesta + 1;
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                   SnackBar(
@@ -174,8 +205,6 @@ class _ActividadCuestionarioScreenState
                                                         "assets/items/ButtonBlue.png",
                                                     text: 'Siguiente',
                                                     onPressed: () {
-
-                                                      
                                                       _selectedOptionIndex == -1
                                                           ? showDialog(
                                                               context: context,
@@ -245,6 +274,35 @@ class _ActividadCuestionarioScreenState
                 ],
               ),
             ),
+      floatingActionButton: actividadCuestionario.pista != null && actividadCuestionario.pista!.isNotEmpty
+        ? 
+      FloatingActionButton(
+        onPressed: () {
+          // Acción al hacer clic en el botón flotante
+          // Aquí puedes mostrar el showDialog de la pista
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Información '),
+                content: Image.asset(actividadCuestionario.pista!,
+                    fit: BoxFit.cover),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('Cerrar'),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        child: Icon(Icons.lightbulb),
+      )
+      : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
@@ -271,7 +329,8 @@ class _ActividadCuestionarioScreenState
                 SiguienteActividadInfo siguienteActividadInfo = unidadesCubit
                     .siguienteActividadInfo(actividadLaberinto.id!);
                 if (siguienteActividadInfo.tipoActividad == "Laberinto") {
-                  router.push('/laberinto/${siguienteActividadInfo.idActividad}');
+                  router
+                      .push('/laberinto/${siguienteActividadInfo.idActividad}');
                 } else if (siguienteActividadInfo.tipoActividad ==
                     "Cuestionario") {
                   router.push(
