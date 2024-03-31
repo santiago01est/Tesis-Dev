@@ -69,6 +69,17 @@ void addActividad(Actividad actividad, String idUnidad) {
     return SiguienteActividadInfo('', ''); // Si no se encuentra la actividad
   }
 
+  String nombreUnidadDeActividad(String idActividad) {
+    for (var unidad in state) {
+      for (var actividad in unidad.actividades ?? []) {
+        if (actividad.id == idActividad) {
+          return unidad.nombre!; // Retorna el nombre de la unidad
+        }
+      }
+    }
+    return ''; // Si no se encuentra la actividad
+  }
+
 }
 
 class SiguienteActividadInfo {
@@ -77,3 +88,6 @@ class SiguienteActividadInfo {
 
   SiguienteActividadInfo(this.idActividad, this.tipoActividad);
 }
+
+
+

@@ -65,6 +65,8 @@ class _ActividadCuestionarioScreenState
     ActividadCuestionario actividadCuestionario = actividadesCuestionario
         .firstWhere((actividad) => actividad.id == widget.actividadId);
 
+    String nombreUnidad=unidadesCubit.nombreUnidadDeActividad(actividadCuestionario.id!);
+
     return Scaffold(
       appBar: const CustomAppBar(userName: 'usuario'),
       // Responsive UI design for desktop and mobile
@@ -80,11 +82,11 @@ class _ActividadCuestionarioScreenState
                       //height: MediaQuery.of(context).size.height,
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
-                        child: Column(
+                        child: Column( 
                           children: [
                             IntrinsicHeight(
                               child: BannerInfoActividades(
-                                titulo: actividadCuestionario.nombre!,
+                                titulo: '$nombreUnidad \n${actividadCuestionario.nombre!}',
                               ),
                             ),
                             const SizedBox(
