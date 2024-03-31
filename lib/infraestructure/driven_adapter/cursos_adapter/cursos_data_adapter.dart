@@ -41,7 +41,7 @@ class CursosDataAdapter extends CursoRepository {
                     tipoActividad: 'Cuestionario',
                     dimension: 3,
                     casillas: [3, -1, -1, -1, 7, 23, -1, -1, 13],
-                    ejemploImage: 'ejemploUnidad0.png',
+                    ejemploImage: 'ejemploUnidad0A0.png',
                     ejercicioImage: '',
                     respuestas: [
                       [
@@ -68,8 +68,7 @@ class CursosDataAdapter extends CursoRepository {
                     id: '2',
                     nombre: 'Actividad 02',
                     estado: 'Activa',
-                    descripcion:
-                        'Lleva al pollito con su mamá \nRecoge la flor por el camino \nCuidado con el gato: no pases por su casilla',
+                    descripcion: 'Dibuja la siguiente figura:',
                     tipoActividad: 'Cuestionario',
                     dimension: 3,
                     casillas: [3, -1, -1, -1, 7, 23, -1, -1, 13],
@@ -100,7 +99,7 @@ class CursosDataAdapter extends CursoRepository {
                         'Avanzar.png',
                       ]
                     ],
-                    respuestaCorrecta: 2),
+                    respuestaCorrecta: 4),
                 ActividadCuestionario(
                     id: '3',
                     nombre: 'Actividad 03',
@@ -109,10 +108,24 @@ class CursosDataAdapter extends CursoRepository {
                         'Lleva al pollito con su mamá.\nRecoge la flor por el camino.\nCuidado con el gato: no pases por su casilla.',
                     tipoActividad: 'Cuestionario',
                     dimension: 4,
-                    casillas: [-1, -1, -1, -1, 
-                    13, 23, 7, 3, 
-                    -1, -1, -1, -1,
-                    -1, -1, -1, -1],
+                    casillas: [
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      13,
+                      23,
+                      7,
+                      3,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1
+                    ],
                     ejemploImage: 'ejemploUnidad0.png',
                     ejercicioImage: '',
                     respuestas: [
@@ -144,11 +157,735 @@ class CursosDataAdapter extends CursoRepository {
                         'Abajo.png',
                       ]
                     ],
+                    respuestaCorrecta: 4),
+                ActividadCuestionario(
+                    id: '4',
+                    nombre: 'Actividad 04',
+                    estado: 'Activa',
+                    descripcion: 'Dibuja la siguiente figura:',
+                    tipoActividad: 'Cuestionario',
+                    dimension: 4,
+                    casillas: [
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      13,
+                      23,
+                      7,
+                      3,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1
+                    ],
+                    ejemploImage: 'ejemploUnidad0A4.png',
+                    ejercicioImage:
+                        'assets/items/ejemplosImg/ejercicioImage04.png',
+                    respuestas: [
+                      [
+                        'Abajo.png',
+                        'Izquierda.png',
+                        'Arriba.png',
+                        'Derecha.png',
+                      ],
+                      [
+                        'Abajo.png',
+                        'Derecha.png',
+                        'Izquierda.png',
+                        'Arriba.png',
+                      ],
+                      [
+                        'Abajo.png',
+                        'Derecha.png',
+                        'Arriba.png',
+                        'Izquierda.png'
+                      ],
+                      [
+                        'Izquierda.png',
+                        'Abajo.png',
+                        'Derecha.png',
+                        'Arriba.png',
+                      ]
+                    ],
+                    respuestaCorrecta: 3),
+                ActividadCuestionario(
+                    id: '5',
+                    nombre: 'Actividad 05',
+                    estado: 'Activa',
+                    descripcion: 'Lleva al pollito con su mamá.',
+                    tipoActividad: 'Cuestionario',
+                    dimension: 4,
+                    pista:'assets/items/ejemplosImg/pistaCiclos.png',
+                    casillas: [
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      3,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      13,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1
+                    ],
+                    ejemploImage: 'ejemploUnidad0A5.png',
+                    ejercicioImage: '',
+                    respuestas: [
+                      [
+                        'Derecha.png',
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Abajo.png']
+                        },
+                      ],
+                      [
+                        {
+                          'Repeticion': 3,
+                          'Respuestas': ['Derecha.png']
+                        },
+                        'Abajo.png',
+                      ],
+                      [
+                        'Abajo.png',
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Derecha.png']
+                        },
+                      ],
+                      [
+                        'Derecha.png',
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Abajo.png']
+                        },
+                        'Derecha.png',
+                      ]
+                    ],
+                    respuestaCorrecta: 3),
+                ActividadCuestionario(
+                    id: '6',
+                    nombre: 'Actividad 06',
+                    estado: 'Activa',
+                    descripcion:
+                        'Lleva al pollito con su mamá.\nCuidado con el gato: no pases por su casilla.',
+                    tipoActividad: 'Cuestionario',
+                    dimension: 4,
+                    casillas: [
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      3,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      23,
+                      13,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1
+                    ],
+                    ejemploImage: 'ejemploUnidad0A6.png',
+                    ejercicioImage: '',
+                    respuestas: [
+                      [
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Derecha.png']
+                        },
+                        'Abajo.png',
+                      ],
+                      [
+                        'Derecha.png',
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Abajo.png']
+                        },
+                      ],
+                      [
+                        'Abajo.png',
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Derecha.png']
+                        },
+                      ],
+                      [
+                        'Derecha.png',
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Derecha.png']
+                        },
+                        'Abajo.png',
+                      ]
+                    ],
+                    respuestaCorrecta: 1),
+                ActividadCuestionario(
+                    id: '7',
+                    nombre: 'Actividad 07',
+                    estado: 'Activa',
+                    descripcion:
+                        'Lleva al pollito con su mamá.\nRecoge la flor por el camino.',
+                    tipoActividad: 'Cuestionario',
+                    dimension: 4,
+                    casillas: [
+                      -1,
+                      7,
+                      -1,
+                      3,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      13,
+                      -1
+                    ],
+                    ejemploImage: 'ejemploUnidad0A7.png',
+                    ejercicioImage: '',
+                    respuestas: [
+                      [
+                        {
+                          'Repeticion': 3,
+                          'Respuestas': ['Abajo.png']
+                        },
+                        'Izquierda.png',
+                      ],
+                      [
+                        {
+                          'Repeticion': 3,
+                          'Respuestas': ['Izquierda.png']
+                        },
+                        'Abajo.png',
+                        'Derecha.png'
+                      ],
+                      [
+                        {
+                          'Repeticion': 3,
+                          'Respuestas': ['Izquierda.png']
+                        },
+                        {
+                          'Repeticion': 3,
+                          'Respuestas': ['Abajo.png']
+                        },
+                        'Derecha.png',
+                      ],
+                      [
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Izquierda.png']
+                        },
+                        {
+                          'Repeticion': 3,
+                          'Respuestas': ['Abajo.png']
+                        },
+                        'Derecha.png',
+                      ]
+                    ],
+                    respuestaCorrecta: 4),
+                ActividadCuestionario(
+                    id: '8',
+                    nombre: 'Actividad 08',
+                    estado: 'Activa',
+                    descripcion:
+                        'Lleva al pollito con su mamá.\nRecoge la flor por el camino.\nCuidado con el gato: no pases por su casilla.',
+                    tipoActividad: 'Cuestionario',
+                    dimension: 4,
+                    casillas: [
+                      3,
+                      -1,
+                      -1,
+                      7,
+                      -1,
+                      -1,
+                      -1,
+                      23,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      13
+                    ],
+                    ejemploImage: 'ejemploUnidad0A0.png',
+                    ejercicioImage: '',
+                    respuestas: [
+                      [
+                        {
+                          'Repeticion': 3,
+                          'Respuestas': ['Derecha.png']
+                        },
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Izquierda.png']
+                        },
+                        {
+                          'Repeticion': 3,
+                          'Respuestas': ['Abajo.png']
+                        },
+                        'Derecha.png',
+                      ],
+                      [
+                        {
+                          'Repeticion': 3,
+                          'Respuestas': ['Derecha.png']
+                        },
+                        'Izquierda.png',
+                        {
+                          'Repeticion': 3,
+                          'Respuestas': ['Abajo.png']
+                        },
+                        'Derecha.png',
+                      ],
+                      [
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Derecha.png']
+                        },
+                        'Izquierda.png',
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Abajo.png']
+                        },
+                        'Derecha.png',
+                      ],
+                      [
+                        {
+                          'Repeticion': 3,
+                          'Respuestas': ['Derecha.png']
+                        },
+                        {
+                          'Repeticion': 3,
+                          'Respuestas': ['Abajo.png']
+                        },
+                      ]
+                    ],
                     respuestaCorrecta: 2),
+                ActividadCuestionario(
+                    id: '9',
+                    nombre: 'Actividad 09',
+                    estado: 'Activa',
+                    descripcion: 'Lleva al pollito con su mamá.',
+                    tipoActividad: 'Cuestionario',
+                    dimension: 4,
+                    casillas: [
+                      -1,
+                      -1,
+                      -1,
+                      3,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      13,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1
+                    ],
+                    ejemploImage: 'ejemploUnidad0A5.png',
+                    ejercicioImage: '',
+                    respuestas: [
+                      [
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Izquierda.png']
+                        },
+                        'Abajo.png',
+                      ],
+                      [
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Izquierda.png', 'Abajo.png']
+                        },
+                      ],
+                      [
+                        'Izquierda.png',
+                        'Abajo.png',
+                        'Abajo.png',
+                      ],
+                      [
+
+                        'Izquierda.png',
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Izquierda.png', 'Abajo.png']
+                        },
+                        'Abajo.png',
+                      ]
+                    ],
+                    respuestaCorrecta: 2),
+                    ActividadCuestionario(
+                    id: '10',
+                    nombre: 'Actividad 10',
+                    estado: 'Activa',
+                    descripcion: 'Dibuja la figura',
+                    tipoActividad: 'Cuestionario',
+                    dimension: 4,
+                    casillas: [
+                      -1,
+                      -1,
+                      -1,
+                      3,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      13,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1
+                    ],
+                    ejemploImage: 'ejemploUnidad0A10.png',
+                    ejercicioImage: 'assets/items/ejemplosImg/ejercicioImage10.png',
+                    respuestas: [
+                      [
+                        {
+                          'Repeticion': 3,
+                          'Respuestas': ['Derecha.png']
+                        },
+                         {
+                          'Repeticion': 3,
+                          'Respuestas': ['Abajo.png']
+                        },
+                        
+                      ],
+                      [
+                         'Derecha.png',
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Abajo.png', 'Derecha.png']
+                        },
+                      ],
+                      [
+                         {
+                          'Repeticion': 3,
+                          'Respuestas': ['Derecha.png', 'Abajo.png']
+                        },
+                      ],
+                      [
+
+                         {
+                          'Repeticion': 3,
+                          'Respuestas': ['Abajo.png', 'Derecha.png']
+                        },
+                      ]
+                    ],
+                    respuestaCorrecta: 3),
+                     ActividadCuestionario(
+                    id: '11',
+                    nombre: 'Actividad 11',
+                    estado: 'Activa',
+                    descripcion: 'Lleva al pollito con su mamá\nCuidado con el gato: no pases por su casilla',
+                    tipoActividad: 'Cuestionario',
+                    dimension: 4,
+                    casillas: [
+                      3,-1,-1,-1,
+                      -1,-1,-1,-1,
+                      23,-1,-1,13,
+                      -1,-1,-1,-1
+                    ],
+                    ejemploImage: 'ejemploUnidad0A6.png',
+                    ejercicioImage: '',
+                    respuestas: [
+                      [
+                        {
+                          'Repeticion': 3,
+                          'Respuestas': ['Abajo.png', 'Derecha.png']
+                        },
+                        'Arriba.png',
+                      ],
+                      [
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Abajo.png', 'Derecha.png']
+                        },
+                         'Abajo.png',
+                      ],
+                      [
+                       {
+                          'Repeticion': 2,
+                          'Respuestas': ['Abajo.png', 'Derecha.png']
+                        },
+                         'Abajo.png',
+                          {
+                          'Repeticion': 2,
+                          'Respuestas': ['Derecha.png']
+                        },
+                      ],
+                      [
+
+                       
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Abajo.png']
+                        },
+                          {
+                          'Repeticion': 3,
+                          'Respuestas': ['Derecha.png']
+                        },
+                      ]
+                    ],
+                    respuestaCorrecta: 1),
+                    ActividadCuestionario(
+                    id: '12',
+                    nombre: 'Actividad 12',
+                    estado: 'Activa',
+                    descripcion: 'Lleva al pollito con su mamá\nRecoge la flor por el camino',
+                    tipoActividad: 'Cuestionario',
+                    dimension: 4,
+                    casillas: [
+                      3,-1,-1,-1,
+                      -1,7,-1,-1,
+                      -1,-1,-1,13,
+                      -1,-1,-1,-1
+                    ],
+                    ejemploImage: 'ejemploUnidad0A7.png',
+                    ejercicioImage: '',
+                    respuestas: [
+                      [
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Derecha.png','Abajo.png']
+                        },
+                        'Derecha.png',
+                      ],
+                      [
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Derecha.png']
+                        },
+                         {
+                          'Repeticion': 2,
+                          'Respuestas': ['Abajo.png']
+                        },
+                        'Derecha.png'
+                         
+                      ],
+                      [
+                        'Derecha.png',
+                        'Abajo.png',
+                       {
+                          'Repeticion': 2,
+                          'Respuestas': ['Derecha.png']
+                        },
+                       
+                      ],
+                      [                     
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Derecha.png','Abajo.png']
+                        },
+                        'Abajo.png',
+                          {
+                          'Repeticion': 2,
+                          'Respuestas': ['Derecha.png']
+                        },
+                      ]
+                    ],
+                    respuestaCorrecta: 1),
+                    ActividadCuestionario(
+                    id: '13',
+                    nombre: 'Actividad 13',
+                    estado: 'Activa',
+                    descripcion: 'Lleva al pollito con su mamá\nRecoge la flor por el camino\nCuidado con el gato: no pases por su casilla',
+                    tipoActividad: 'Cuestionario',
+                    dimension: 4,
+                    casillas: [
+                      -1,-1,-1,-1,
+                      7,-1,13,-1,
+                      -1,-1,-1,-1,
+                      23,-1,3,-1
+                    ],
+                    ejemploImage: 'ejemploUnidad0A0.png',
+                    ejercicioImage: '',
+                    respuestas: [
+                      [
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Izquierda.png','Arriba.png']
+                        },
+                        'Derecha.png',
+                      ],
+                      [
+                         {
+                          'Repeticion': 2,
+                          'Respuestas': ['Izquierda.png','Arriba.png']
+                        },
+                         
+                        'Izquierda.png',
+                        'Arriba.png',
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Derecha.png']
+                        },
+                         
+                      ],
+                      [
+                        'Derecha.png',
+                        'Derecha.png',
+                        'Arriba.png',
+                        'Arriba.png',
+                       {
+                          'Repeticion': 2,
+                          'Respuestas': ['Derecha.png']
+                        },
+                       
+                      ],
+                      [                     
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Izquierda.png','Arriba.png']
+                        },
+                  
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Derecha.png']
+                        },
+                      ]
+                    ],
+                    respuestaCorrecta: 4),
+                    ActividadCuestionario(
+                    id: '14',
+                    nombre: 'Actividad 14',
+                    estado: 'Activa',
+                    descripcion: 'Dibuja la figura',
+                    dimension: 4,
+                    tipoActividad: 'Cuestionario',
+                    casillas: [
+                      -1,-1,-1,-1,
+                      7,-1,13,-1,
+                      -1,-1,-1,-1,
+                      23,-1,3,-1
+                    ],
+                    ejemploImage: 'ejemploUnidad0A14.png',
+                    ejercicioImage: 'assets/items/ejemplosImg/ejercicioImage14.png',
+                    respuestas: [
+                      [
+                        {
+                          'Repeticion': 4,
+                          'Respuestas': ['Abajo.png','Derecha.png']
+                        },
+                       
+                      ],
+                      [
+                         {
+                          'Repeticion': 2,
+                          'Respuestas': ['Abajo.png','Derecha.png', 'Abajo.png', 'Derecha.png']
+                        },
+                         
+                       
+                         
+                      ],
+                      [
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Abajo.png','Derecha.png', 'Arriba.png', 'Derecha.png']
+                        },
+                       
+                      ],
+                      [                     
+                        {
+                          'Repeticion': 4,
+                          'Respuestas': ['Abajo.png','Derecha.png', 'Arriba.png', 'Izquierda.png']
+                        },
+                      ]
+                    ],
+                    respuestaCorrecta: 3),
+                    ActividadCuestionario(
+                    id: '15',
+                    nombre: 'Actividad 15',
+                    estado: 'Activa',
+                    descripcion: 'Lleva al pollito con su mamá\nRecoge la flor por el camino\nCuidado con el gato: no pases por su casilla',
+                    tipoActividad: 'Cuestionario',
+                    dimension: 4,
+                    casillas: [
+                      -1,-1,-1,13,
+                      23,-1,7,-1,
+                      -1,-1,-1,-1,
+                      3,-1,-1,-1
+                    ],
+                    ejemploImage: 'ejemploUnidad0A0.png',
+                    ejercicioImage: '',
+                    respuestas: [
+                      [
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Derecha.png','Arriba.png']
+                        },
+                        'Derecha.png',
+                        
+                      ],
+                      [
+                         {
+                          'Repeticion': 2,
+                          'Respuestas': ['Derecha.png','Arriba.png', 'Derecha.png']
+                        },
+                         
+                        
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': ['Arriba.png']
+                        },
+
+                        'Derecha.png',
+                         
+                      ],
+                      [
+                      
+                       {
+                          'Repeticion': 2,
+                          'Respuestas': ['Arriba.png']
+                        },
+                         {
+                          'Repeticion': 3,
+                          'Respuestas': ['Derecha.png']
+                        },
+
+                        'Arriba.png'
+                       
+                      ],
+                      [                     
+                        {
+                          'Repeticion': 3,
+                          'Respuestas': ['Derecha.png','Arriba.png']
+                        },
+                  
+                         
+                      ]
+                    ],
+                    respuestaCorrecta: 4),
               ]),
           Unidad(id: '1', nombre: 'Unidad Uno', estado: 'Activa', actividades: [
             ActividadLaberinto(
-                id: '11',
+                id: '16',
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
                 descripcion:
@@ -163,15 +900,45 @@ class CursosDataAdapter extends CursoRepository {
                     'Ayuda a Juan a encontrar el camino al saco de café que ha recolectado.',
                 tipoActividad: 'Cuestionario',
                 dimension: 6,
-                 ejemploImage: 'ejemplo_simple_secuencia.png',
+                ejemploImage: 'ejemplo_simple_secuencia.png',
                 ejercicioImage: '',
                 casillas: [
-                  1,15,15,15,15,15,
-                  -1,-1,15,15,15,15,
-                  -1,-1,-1,15,-1,-1,
-                  6,-1,15,15,15,-1,
-                  -1,15,15, -1,-1,15,
-                  20,-1,-1,15,15,-1
+                  1,
+                  15,
+                  15,
+                  15,
+                  15,
+                  15,
+                  -1,
+                  -1,
+                  15,
+                  15,
+                  15,
+                  15,
+                  -1,
+                  -1,
+                  -1,
+                  15,
+                  -1,
+                  -1,
+                  6,
+                  -1,
+                  15,
+                  15,
+                  15,
+                  -1,
+                  -1,
+                  15,
+                  15,
+                  -1,
+                  -1,
+                  15,
+                  20,
+                  -1,
+                  -1,
+                  15,
+                  15,
+                  -1
                 ],
                 respuestas: [
                   [
@@ -195,7 +962,7 @@ class CursosDataAdapter extends CursoRepository {
                 ],
                 respuestaCorrecta: 2),
             ActividadLaberinto(
-                id: '13',
+                id: '17',
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
                 descripcion:
@@ -203,14 +970,14 @@ class CursosDataAdapter extends CursoRepository {
                 tipoActividad: 'Laberinto',
                 nombreArchivo: "Laberinto2"),
             Actividad(
-              id: '4',
+              id: '18',
               nombre: 'Adelante, giro, adelante',
               estado: 'Activa',
               descripcion: '',
               tipoActividad: 'Cuestionario',
             ),
             Actividad(
-              id: '5',
+              id: '19',
               nombre: 'Hora del café',
               estado: 'Activa',
               descripcion: '',

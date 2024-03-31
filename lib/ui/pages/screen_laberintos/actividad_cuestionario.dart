@@ -35,13 +35,15 @@ class ActividadCuestionarioScreen extends StatefulWidget {
 
 class _ActividadCuestionarioScreenState
     extends State<ActividadCuestionarioScreen> {
+  int _selectedOptionIndex = -1;
+  bool _mostrarPista = true;
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
     final unidadesCubit = context.watch<UnidadesCubit>();
 
     final curso = context.read<CursoCubit>();
-    int selectedOptionIndex = 2;
+
     List<ActividadCuestionario> actividadesCuestionario =
         context.watch<ActividadCuestionarioCubit>().state;
     for (var unidad in curso.state.unidades!) {
@@ -63,6 +65,37 @@ class _ActividadCuestionarioScreenState
     ActividadCuestionario actividadCuestionario = actividadesCuestionario
         .firstWhere((actividad) => actividad.id == widget.actividadId);
 
+    String nombreUnidad =
+        unidadesCubit.nombreUnidadDeActividad(actividadCuestionario.id!);
+
+    // Verificar si la actividad tiene una pista
+    if (actividadCuestionario.pista != null &&
+        actividadCuestionario.pista!.isNotEmpty &&
+        _mostrarPista) {
+      _mostrarPista = false;
+      // Mostrar el diálogo después de que se haya construido la pantalla
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        // Mostrar el diálogo después de que se haya construido la pantalla
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Información '),
+              content:
+                  Image.asset(actividadCuestionario.pista!, fit: BoxFit.cover),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Cerrar'),
+                ),
+              ],
+            );
+          },
+        );
+      });
+    }
     return Scaffold(
       appBar: const CustomAppBar(userName: 'usuario'),
       // Responsive UI design for desktop and mobile
@@ -80,9 +113,10 @@ class _ActividadCuestionarioScreenState
                         padding: const EdgeInsets.all(20.0),
                         child: Column(
                           children: [
-                             IntrinsicHeight(
+                            IntrinsicHeight(
                               child: BannerInfoActividades(
-                                titulo: actividadCuestionario.nombre!,
+                                titulo:
+                                    '$nombreUnidad \n${actividadCuestionario.nombre!}',
                               ),
                             ),
                             const SizedBox(
@@ -113,13 +147,13 @@ class _ActividadCuestionarioScreenState
                                                 actividadCuestionario:
                                                     actividadCuestionario)
                                             : SizedBox(
-                                                width: 500
-                                                    , // Tamaño del tablero (6 casillas * 90px por casilla)
-                                                height: 500,// Tamaño del tablero (6 casillas * 90px por casilla)
+                                                width:
+                                                    500, // Tamaño del tablero (6 casillas * 90px por casilla)
+                                                height:
+                                                    500, // Tamaño del tablero (6 casillas * 90px por casilla)
                                                 child: Image.asset(
                                                     '${actividadCuestionario.ejercicioImage}',
-                                                    fit: BoxFit.contain
-                                                ))
+                                                    fit: BoxFit.contain))
                                       ],
                                     ),
                                   ),
@@ -141,16 +175,24 @@ class _ActividadCuestionarioScreenState
                                             textAlign: TextAlign.left,
                                           ),
                                         ),
-                                        Container(
-                                          child: RadioRespuestasCuestionario(
-                                              imagesList: actividadCuestionario
-                                                  .respuestas!,
-                                              radioRespuesta: (respuesta) {
-                                                setState(() {
-                                                  selectedOptionIndex = 2;
-                                                });
-                                              }),
-                                        ),
+                                        RadioRespuestasCuestionario(
+                                            imagesList: actividadCuestionario
+                                                .respuestas!,
+                                            radioRespuesta: (int respuesta) {
+                                              setState(() {
+                                                _selectedOptionIndex =
+                                                    respuesta + 1;
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      'Opción seleccionada en screen: $_selectedOptionIndex',
+                                                    ),
+                                                  ),
+                                                );
+                                              });
+                                            },
+                                            initialValue: -1),
                                         Container(
                                           margin: const EdgeInsets.only(
                                               left: 10, bottom: 20),
@@ -163,7 +205,7 @@ class _ActividadCuestionarioScreenState
                                                         "assets/items/ButtonBlue.png",
                                                     text: 'Siguiente',
                                                     onPressed: () {
-                                                      selectedOptionIndex == -1
+                                                      _selectedOptionIndex == -1
                                                           ? showDialog(
                                                               context: context,
                                                               builder:
@@ -232,6 +274,35 @@ class _ActividadCuestionarioScreenState
                 ],
               ),
             ),
+      floatingActionButton: actividadCuestionario.pista != null && actividadCuestionario.pista!.isNotEmpty
+        ? 
+      FloatingActionButton(
+        onPressed: () {
+          // Acción al hacer clic en el botón flotante
+          // Aquí puedes mostrar el showDialog de la pista
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Información '),
+                content: Image.asset(actividadCuestionario.pista!,
+                    fit: BoxFit.cover),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('Cerrar'),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        child: Icon(Icons.lightbulb),
+      )
+      : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
@@ -258,10 +329,11 @@ class _ActividadCuestionarioScreenState
                 SiguienteActividadInfo siguienteActividadInfo = unidadesCubit
                     .siguienteActividadInfo(actividadLaberinto.id!);
                 if (siguienteActividadInfo.tipoActividad == "Laberinto") {
-                  router.go('/laberinto/${siguienteActividadInfo.idActividad}');
+                  router
+                      .push('/laberinto/${siguienteActividadInfo.idActividad}');
                 } else if (siguienteActividadInfo.tipoActividad ==
                     "Cuestionario") {
-                  router.go(
+                  router.push(
                       '/cuestionario/${siguienteActividadInfo.idActividad}');
                 }
 
