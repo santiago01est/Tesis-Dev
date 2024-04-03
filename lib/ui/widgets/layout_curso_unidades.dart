@@ -10,8 +10,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class LayoutUnidadCurso extends StatefulWidget {
-  
-
   const LayoutUnidadCurso({Key? key}) : super(key: key);
 
   @override
@@ -19,22 +17,19 @@ class LayoutUnidadCurso extends StatefulWidget {
 }
 
 class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
-  
-
   @override
   Widget build(BuildContext context) {
     final rolCubit = context.watch<RolCubit>();
     final router = GoRouter.of(context);
-    final unidadesCubit= context.watch<UnidadesCubit>();
-
+    final unidadesCubit = context.watch<UnidadesCubit>();
 
     void eliminarActividad(String idActividad) {
-    // Elimina la actividad del listado de actividades de la unidad
-    unidadesCubit.eliminarActividadDeUnidad(idActividad);
+      // Elimina la actividad del listado de actividades de la unidad
+      unidadesCubit.eliminarActividadDeUnidad(idActividad);
 
-    // Notifica a Flutter que los datos han cambiado y la interfaz de usuario necesita actualizarse
-    setState(() {});
-  }
+      // Notifica a Flutter que los datos han cambiado y la interfaz de usuario necesita actualizarse
+      setState(() {});
+    }
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -100,67 +95,71 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                               ),
                               SizedBox(height: 10),
                               // Segunda fila con lista de actividades
-                              ListView.builder(
-                                shrinkWrap: true,
-                                itemCount:
-                                    unidadesCubit.state[index].actividades!.length,
-                                itemBuilder: (context, activityIndex) {
-                                  return Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                      ),
-                                      color: Colors.white,
-                                      margin: EdgeInsets.symmetric(vertical: 5),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          if (unidadesCubit.state[index]
-                                                  .actividades![activityIndex]
-                                                  .tipoActividad ==
-                                              "Laberinto") {
-                                            router.go('/laberinto/${unidadesCubit.state[index]
-                                                  .actividades![activityIndex].id}');
-                                          } else if (unidadesCubit.state[index]
-                                                  .actividades![activityIndex]
-                                                  .tipoActividad ==
-                                              "Cuestionario") {
-                                            router.go('/cuestionario/${unidadesCubit.state[index]
-                                                  .actividades![activityIndex].id}');
-                                          } else {}
-                                        },
-                                        child: ListTile(
-                                          leading: Icon(Icons.hexagon,
-                                              color: blueDarkColor),
-                                          title: Text(unidadesCubit.state[index]
-                                              .actividades![activityIndex]
-                                              .nombre!),
-                                          trailing: rolCubit.state ==
-                                                  'profesor' // Verifica si el rol es igual a 'profesor'
-                                              ? IconButton(
-                                                  icon: Icon(Icons.delete,
-                                                      color: orangeColor),
-                                                  onPressed: () {
-                                                    PopupUtils
-                                                        .showDeleteConfirmationDialog(
-                                                            context, () {
-                                                      // Lógica para eliminar la actividad
-                                                      eliminarActividad(unidadesCubit.state[index]
-                                                          .actividades![activityIndex].id!);
-                                                    });
-                                                  },
-                                                )
-                                              : SizedBox(),
+                              Wrap(
+                                spacing:
+                                    8.0, // Espacio horizontal entre los elementos
+                                runSpacing:
+                                    8.0, // Espacio vertical entre las filas de elementos
+                                children: List.generate(
+                                  unidadesCubit
+                                      .state[index].actividades!.length,
+                                  (activityIndex) {
+                                    return SizedBox(
+                                      width: 50,
+                                      height: 50,
+                                      child: Card(
+                                        elevation: 2,
+                                        shadowColor: Colors.grey,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
                                         ),
-                                      ));
-                                },
+                                        color: Colors.white,
+                                        margin:
+                                            EdgeInsets.symmetric(vertical: 5),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            if (unidadesCubit
+                                                    .state[index]
+                                                    .actividades![activityIndex]
+                                                    .tipoActividad ==
+                                                "Laberinto") {
+                                              router.go(
+                                                  '/laberinto/${unidadesCubit.state[index].actividades![activityIndex].id}');
+                                            } else if (unidadesCubit
+                                                    .state[index]
+                                                    .actividades![activityIndex]
+                                                    .tipoActividad ==
+                                                "Cuestionario") {
+                                              router.go(
+                                                  '/cuestionario/${unidadesCubit.state[index].actividades![activityIndex].id}');
+                                            }
+                                          },
+                                          child: Center(
+                                            // Envuelve el Texto con un Widget Center
+                                            child: Text(
+                                              '${activityIndex + 1}',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
+
                               //Boton
                               SizedBox(height: 10),
                               rolCubit.state == 'profesor'
                                   ? PixelLargeBttn(
                                       path: 'assets/items/ButtonBlue.png',
                                       onPressed: () {
-                                        router.push('/estudiocuestionario/${unidadesCubit.state[index].id}');
+                                        router.push(
+                                            '/estudiocuestionario/${unidadesCubit.state[index].id}');
                                       },
                                       text: 'Crear Actividad')
                                   : SizedBox(),

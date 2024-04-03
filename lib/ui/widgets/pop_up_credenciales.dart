@@ -71,26 +71,25 @@ class _PopupCredencialesState extends State<PopupCredenciales>
                 tabs: [
                   Tab(text: 'Solo Yo'),
                   Tab(text: 'En Equipo'),
-                  
                 ],
-                 labelColor:
-                      blueDarkColor, // Color del texto de la pestaña activa
-                  unselectedLabelColor:
-                      Colors.grey, // Color del texto de la pestaña inactiva
-                  labelStyle: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight
-                          .bold), // Estilo del texto de la pestaña activa
-                  unselectedLabelStyle: const TextStyle(
-                      fontSize: 14), // Estilo del texto de la pestaña inactiva
-                  indicator: BoxDecoration(
-                    // Estilo de la barra debajo del texto
-                    border: Border(
-                      bottom: BorderSide(
-                          color: blueColor,
-                          width: 2), // Color y grosor de la barra
-                    ),
+                labelColor:
+                    blueDarkColor, // Color del texto de la pestaña activa
+                unselectedLabelColor:
+                    Colors.grey, // Color del texto de la pestaña inactiva
+                labelStyle: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight
+                        .bold), // Estilo del texto de la pestaña activa
+                unselectedLabelStyle: const TextStyle(
+                    fontSize: 14), // Estilo del texto de la pestaña inactiva
+                indicator: BoxDecoration(
+                  // Estilo de la barra debajo del texto
+                  border: Border(
+                    bottom: BorderSide(
+                        color: blueColor,
+                        width: 2), // Color y grosor de la barra
                   ),
+                ),
                 indicatorColor: Colors.blue,
                 onTap: (index) {
                   setState(() {
@@ -128,9 +127,71 @@ class _PopupCredencialesState extends State<PopupCredenciales>
                   child: PixelLargeBttn(
                     path: "assets/items/ButtonBlue.png",
                     onPressed: () {
-                      router.go('/panelcurso/${widget.idCurso}');
-                      print(
-                          "${isSelectListStudents[0]} - ${isSelectListAvatar[0]} \n ${isSelectListStudents[1]} - ${isSelectListAvatar[1]}");
+                      if (_tabController.index == 0) {
+                        // Validar individual
+                        if (selectedStudentIndividualIndex != -1 &&
+                            selectedAvatarIndex != -1) {
+                          String selectedStudentName = widget
+                              .estudiantes[selectedStudentIndividualIndex]
+                              .nombre;
+                          String selectedAvatarPath = RutasImagenes
+                              .getRutasAvatares()[selectedAvatarIndex];
+                          bool isValid = widget.estudiantes.any((estudiante) =>
+                              estudiante.nombre == selectedStudentName &&
+                              estudiante.avatar == selectedAvatarPath);
+                          if (isValid) {
+                            router.go('/panelcurso/${widget.idCurso}');
+                          } else {
+                            // Mostrar mensaje de error
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                  'La combinación de nombre y avatar no es válida.'),
+                            ));
+                          }
+                        } else {
+                          // Mostrar mensaje de error
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                                'Debes seleccionar un nombre y un avatar.'),
+                          ));
+                        }
+                      }
+                      if (_tabController.index == 1) {
+                        // Verificar que se hayan seleccionado exactamente dos estudiantes y dos avatares
+                        if (isSelectListStudents.length == 2 &&
+                            isSelectListAvatar.length == 2) {
+                          // Obtener los nombres y avatares seleccionados
+                          String student1Name = isSelectListStudents[0].nombre;
+                          String student2Name = isSelectListStudents[1].nombre;
+                          String avatar1Path = isSelectListAvatar[0];
+                          String avatar2Path = isSelectListAvatar[1];
+
+                          // Validar si los pares de estudiantes y avatares corresponden a la información recibida
+                          bool isValid = widget.estudiantes.any((estudiante) =>
+                                  estudiante.nombre == student1Name &&
+                                  estudiante.avatar == avatar1Path) &&
+                              widget.estudiantes.any((estudiante) =>
+                                  estudiante.nombre == student2Name &&
+                                  estudiante.avatar == avatar2Path);
+
+                          if (isValid) {
+                            // Si la validación es exitosa, redirigir al usuario a la siguiente pantalla
+                            router.go('/panelcurso/${widget.idCurso}');
+                          } else {
+                            // Si la validación falla, mostrar un mensaje de error
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                  'La combinación de nombres y avatares no es válida.'),
+                            ));
+                          }
+                        } else {
+                          // Si no se han seleccionado los pares requeridos, mostrar un mensaje de error
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                                'Debes seleccionar dos estudiantes y dos avatares.'),
+                          ));
+                        }
+                      }
                     },
                     text: 'Ingresar',
                   ),

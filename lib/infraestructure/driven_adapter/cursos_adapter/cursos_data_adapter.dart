@@ -29,7 +29,7 @@ class CursosDataAdapter extends CursoRepository {
         unidades: [
           Unidad(
               id: '0',
-              nombre: 'Unidad Cero - Diagnóstico',
+              nombre: 'Unidad Diagnóstico',
               estado: 'Activa',
               actividades: [
                 ActividadCuestionario(
