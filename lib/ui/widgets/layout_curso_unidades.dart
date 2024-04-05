@@ -1,6 +1,8 @@
 import 'package:dev_tesis/constants/styles.dart';
+import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
+import 'package:dev_tesis/ui/bloc/seguimiento.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
@@ -17,11 +19,45 @@ class LayoutUnidadCurso extends StatefulWidget {
 }
 
 class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
+
+ bool _isLoading = true; // Estado de carga inicial
+   @override
+  void initState() {
+    super.initState();
+    // Escuchar cambios en el estado del cubit
+    context.read<SeguimientoCubit>().stream.listen((state) {
+      // Actualizar el estado de carga del widget cuando los datos estén cargados
+      if (_isLoading && state.respuestasActividades != null) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    });
+  }
+
+ Color getBackgroundColor(int activityIndex, Seguimiento seguimientoState) {
+    // Verificar si hay un cero en la lista en el índice de la actividad
+    if (seguimientoState.respuestasActividades != null &&
+        seguimientoState.respuestasActividades![activityIndex] == 0) {
+      // Si hay un cero, devolver gris
+      return Colors.grey;
+    } else {
+      // Si no hay un cero, devolver verde
+      return Colors.green;
+    }
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     final rolCubit = context.watch<RolCubit>();
     final router = GoRouter.of(context);
     final unidadesCubit = context.watch<UnidadesCubit>();
+    final seguimientoCubit= context.watch<SeguimientoCubit>();
+    
+
+
 
     void eliminarActividad(String idActividad) {
       // Elimina la actividad del listado de actividades de la unidad
@@ -109,7 +145,9 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                       height: 50,
                                       child: Card(
                                         elevation: 2,
-                                        shadowColor: Colors.grey,
+                                        shadowColor:  Colors.grey ,
+//llamada a la funcion del color de estado,
+
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(10.0),

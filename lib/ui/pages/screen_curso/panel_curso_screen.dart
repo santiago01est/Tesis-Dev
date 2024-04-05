@@ -1,10 +1,14 @@
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/unidad_casos_uso/unidad_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
+import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
+import 'package:dev_tesis/ui/bloc/seguimiento.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_profesor_panel.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
@@ -27,11 +31,27 @@ class PanelCursoScreen extends StatefulWidget {
 class _PanelCursoScreenState extends State<PanelCursoScreen> {
   final CursosCasoUso cursosCasoUso = getIt<CursosCasoUso>();
   final UnidadCasoUso unidadCasoUso = getIt<UnidadCasoUso>();
+  final ProfesorCasoUso profesorCasoUso = getIt<ProfesorCasoUso>();
+
+  late CursosProfesoresCasoUso _cursosProfesoresCasoUso;
 
   @override
   void initState() {
     super.initState();
-    // si el cubit no tiene datos, los obtiene
+
+     if (context.read<SeguimientoCubit>().state.respuestasActividades!.isEmpty) {
+       Seguimiento seguimiento = Seguimiento(
+      id: 1,
+      respuestasActividades: List.generate(80, (index) => -1),
+      test: [],
+      calificacion: 0
+    );
+    context.read<SeguimientoCubit>().actualizarSeguimiento(seguimiento);
+
+     }
+
+   
+
     _fetchCurso();
   }
 
@@ -39,13 +59,18 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
     /* forma local */
     try {
       if (context.read<BDCursosCubit>().state.isEmpty) {
+       //Cuando la BDCursosCubit esta vacia y se trae toda la info
         final cursos = await cursosCasoUso.getCursos();
         context.read<BDCursosCubit>().subirCursos(cursos);
+        final profesores = await profesorCasoUso.getProfesores();
+      context.read<ProfesoresCubit>().subirProfesores(profesores);
         // buscar en cursos el curso con el id correspondiente
         final curso = cursos.firstWhere((c) => c.id == widget.cursoId);
         context.read<CursoCubit>().actualizarCurso(curso);
         context.read<UnidadesCubit>().subirUnidades(curso.unidades!);
       } else {
+        final profesores = await profesorCasoUso.getProfesores();
+      context.read<ProfesoresCubit>().subirProfesores(profesores);
         final cursos = context.read<BDCursosCubit>().state;
         // buscar en cursos el curso con el id correspondiente
         final curso = cursos.firstWhere((c) => c.id == widget.cursoId);
@@ -57,6 +82,8 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
       print('Error al obtener cursos: $e');
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -241,14 +268,15 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
                     ],
                   ),
                 ),
-            
+
                 // Añadimos el TabBar
                 TabBar(
                   tabs: const [
                     Tab(text: 'Contenido'),
                     Tab(text: 'Estudiantes'),
                   ],
-                  labelColor: blackColor, // Color del texto de la pestaña activa
+                  labelColor:
+                      blackColor, // Color del texto de la pestaña activa
                   unselectedLabelColor:
                       Colors.grey, // Color del texto de la pestaña inactiva
                   labelStyle: TextStyle(
@@ -266,24 +294,22 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
                     ),
                   ),
                 ),
-            
+
                 // Añadimos el TabBarView
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
-                  
-                 child: TabBarView(
+
+                  child: TabBarView(
                     children: [
                       // Contenido de la primera pestaña
                       // Utiliza tu LayoutUnidadCurso o el contenido que desees
-                      LayoutUnidadCurso(
-                      ),
+                      LayoutUnidadCurso(),
                       const ListaEstudiantesWidget()
                       // Contenido de la segunda pestaña
                     ],
                   ),
                   // Ajusta la altura según tus necesidades
-                 
                 ),
               ],
             ),

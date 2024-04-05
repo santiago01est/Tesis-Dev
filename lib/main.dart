@@ -13,6 +13,7 @@ import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/game/instrucciones_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
+import 'package:dev_tesis/ui/bloc/seguimiento.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -76,6 +77,10 @@ class MyApp extends StatelessWidget {
         BlocProvider<ActividadCuestionarioCubit>(
           create: (context) => ActividadCuestionarioCubit(),
         ),
+         BlocProvider<SeguimientoCubit>(
+          create: (context) => SeguimientoCubit(),
+        ),
+
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

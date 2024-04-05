@@ -9,6 +9,7 @@ import 'package:dev_tesis/game/game_activity.dart';
 import 'package:dev_tesis/ui/bloc/actividad_custio_test.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/game/instrucciones_bloc.dart';
+import 'package:dev_tesis/ui/bloc/seguimiento.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
@@ -41,6 +42,8 @@ class _ActividadCuestionarioScreenState
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
     final unidadesCubit = context.watch<UnidadesCubit>();
+    final seguimientoCubit= context.watch<SeguimientoCubit>();
+    final seguimiento = seguimientoCubit.state;
 
     final curso = context.read<CursoCubit>();
 
@@ -179,17 +182,20 @@ class _ActividadCuestionarioScreenState
                                             imagesList: actividadCuestionario
                                                 .respuestas!,
                                             radioRespuesta: (int respuesta) {
-                                              setState(() {
+                                              setState(() { 
                                                 _selectedOptionIndex =
                                                     respuesta + 1;
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                   SnackBar(
                                                     content: Text(
-                                                      'Opción seleccionada en screen: $_selectedOptionIndex',
+                                                      'Opción seleccionada: $_selectedOptionIndex',
                                                     ),
                                                   ),
                                                 );
+                                                seguimiento.respuestasActividades!.add(_selectedOptionIndex);
+                                                    
+                                                context.read<SeguimientoCubit>().actualizarSeguimiento(seguimiento);
                                               });
                                             },
                                             initialValue: -1),
