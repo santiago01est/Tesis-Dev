@@ -37,12 +37,13 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
     */
   }
 
-  Color getBackgroundColor(int activityIndex, Seguimiento seguimientoState) {
+  Color getBackgroundColor(String? activityIndex, Seguimiento seguimientoState, UnidadesCubit unidades) {
+    int index=unidades.indiceActividadPorId(activityIndex!)!;
     // Verificar si hay un cero en la lista en el índice de la actividad
     if (seguimientoState.respuestasActividades != null &&
-        (seguimientoState.respuestasActividades![activityIndex] == 0 || seguimientoState.respuestasActividades![activityIndex] == -1) ){
+        (seguimientoState.respuestasActividades![index] == 0 || seguimientoState.respuestasActividades![index] == -1) ){
       // Si hay un cero, devolver gris
-      return Colors.grey;
+      return Color.fromARGB(255, 245, 245, 245);
     } else {
       // Si no hay un cero, devolver verde
       return Colors.green;
@@ -153,8 +154,8 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                                           10.0),
                                                 ),
                                                 color: getBackgroundColor(
-                                                    activityIndex,
-                                                    seguimientoCubit.state),
+                                                    unidadesCubit.state[index].actividades![activityIndex].id,
+                                                    seguimientoCubit.state, unidadesCubit),
                                                 margin: EdgeInsets.symmetric(
                                                     vertical: 5),
                                                 child: GestureDetector(

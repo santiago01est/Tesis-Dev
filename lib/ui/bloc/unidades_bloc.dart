@@ -81,17 +81,29 @@ void addActividad(Actividad actividad, String idUnidad) {
   }
 
   int? indiceActividadPorId(String idActividad) {
+
+     List<Actividad> todasLasActividades = [];
     for (var i = 0; i < state.length; i++) {
       for (var j = 0; j < state[i].actividades!.length; j++) {
-        if (state[i].actividades![j].id == idActividad) {
-          return j; // Devuelve el índice de la actividad en la lista de unidades
-        }
+        todasLasActividades.add(state[i].actividades![j]);
       }
     }
+
+    for (var i = 0; i < todasLasActividades.length; i++) {
+      if (todasLasActividades[i].id == idActividad) {
+        return i; // Devuelve el índice de la actividad en la lista de unidades
+      }
+    }
+
+
     return null; // Si no se encuentra la actividad
   }
 
- 
+ /*
+if (state[i].actividades![j].id == idActividad) {
+          return j; // Devuelve el índice de la actividad en la lista de unidades
+        }
+ */
 
 }
 

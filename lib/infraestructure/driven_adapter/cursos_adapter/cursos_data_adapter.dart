@@ -893,7 +893,7 @@ class CursosDataAdapter extends CursoRepository {
                 tipoActividad: 'Laberinto',
                 nombreArchivo: "Laberinto1"),
             ActividadCuestionario(
-                id: '12',
+                id: '17',
                 nombre: 'Buscando el mejor camino',
                 estado: 'Activa',
                 descripcion:
@@ -962,7 +962,7 @@ class CursosDataAdapter extends CursoRepository {
                 ],
                 respuestaCorrecta: 2),
             ActividadLaberinto(
-                id: '17',
+                id: '18',
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
                 descripcion:
@@ -970,14 +970,14 @@ class CursosDataAdapter extends CursoRepository {
                 tipoActividad: 'Laberinto',
                 nombreArchivo: "Laberinto2"),
             Actividad(
-              id: '18',
+              id: '19',
               nombre: 'Adelante, giro, adelante',
               estado: 'Activa',
               descripcion: '',
               tipoActividad: 'Cuestionario',
             ),
             Actividad(
-              id: '19',
+              id: '20',
               nombre: 'Hora del café',
               estado: 'Activa',
               descripcion: '',
@@ -1022,40 +1022,40 @@ class CursosDataAdapter extends CursoRepository {
             ),
           ]),
           Unidad(
-              id: '3',
+              id: '26',
               nombre: 'Unidad Tres',
               estado: 'Activa',
               actividades: [
                 Actividad(
-                  id: '31',
+                  id: '27',
                   nombre: 'Mi decision',
                   estado: 'Activa',
                   descripcion: '',
                   tipoActividad: 'Laberinto',
                 ),
                 Actividad(
-                  id: '32',
+                  id: '28',
                   nombre: 'Recoge todas las recompensas',
                   estado: 'Activa',
                   descripcion: '',
                   tipoActividad: 'Laberinto',
                 ),
                 Actividad(
-                  id: '33',
+                  id: '29',
                   nombre: 'Diversión en clase',
                   estado: 'Activa',
                   descripcion: '',
                   tipoActividad: 'Laberinto',
                 ),
                 Actividad(
-                  id: '34',
+                  id: '30',
                   nombre: 'Si pasa esto hago aquello',
                   estado: 'Activa',
                   descripcion: '',
                   tipoActividad: 'Laberinto',
                 ),
                 Actividad(
-                  id: '35',
+                  id: '31',
                   nombre: 'Estoy en un ciclo',
                   estado: 'Activa',
                   descripcion: '',

@@ -11,6 +11,7 @@ import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_profesor_panel.dart';
+import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:dev_tesis/ui/widgets/layout_curso_unidades.dart';
 import 'package:dev_tesis/ui/widgets/lista_estudiantes.dart';
@@ -267,6 +268,13 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
                           }
                         },
                       ),
+                      const SizedBox(height: 20.0),
+                       Center(
+                          child: PixelLargeBttn(
+                            path: 'assets/items/ButtonBlue.png',
+                        text: 'Seguimiento',
+                        onPressed: () => router.push('/seguimientoprofesor'),
+                          )),
                       const SizedBox(height: 20.0),
                     ],
                   ),
