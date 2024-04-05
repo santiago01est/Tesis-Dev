@@ -80,6 +80,19 @@ void addActividad(Actividad actividad, String idUnidad) {
     return ''; // Si no se encuentra la actividad
   }
 
+  int? indiceActividadPorId(String idActividad) {
+    for (var i = 0; i < state.length; i++) {
+      for (var j = 0; j < state[i].actividades!.length; j++) {
+        if (state[i].actividades![j].id == idActividad) {
+          return j; // Devuelve el índice de la actividad en la lista de unidades
+        }
+      }
+    }
+    return null; // Si no se encuentra la actividad
+  }
+
+ 
+
 }
 
 class SiguienteActividadInfo {

@@ -4,6 +4,7 @@ import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
 import 'package:dev_tesis/domain/model/actividad_laberinto.dart';
 import 'package:dev_tesis/domain/model/casilla.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
+import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:dev_tesis/game/player/player.dart';
 import 'package:dev_tesis/game/game_activity.dart';
 import 'package:dev_tesis/ui/bloc/actividad_custio_test.dart';
@@ -42,7 +43,7 @@ class _ActividadCuestionarioScreenState
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
     final unidadesCubit = context.watch<UnidadesCubit>();
-    final seguimientoCubit= context.watch<SeguimientoCubit>();
+    final seguimientoCubit = context.watch<SeguimientoCubit>();
     final seguimiento = seguimientoCubit.state;
 
     final curso = context.read<CursoCubit>();
@@ -182,7 +183,9 @@ class _ActividadCuestionarioScreenState
                                             imagesList: actividadCuestionario
                                                 .respuestas!,
                                             radioRespuesta: (int respuesta) {
-                                              setState(() { 
+                                              setState(() {
+                                              
+                                                
                                                 _selectedOptionIndex =
                                                     respuesta + 1;
                                                 ScaffoldMessenger.of(context)
@@ -193,9 +196,17 @@ class _ActividadCuestionarioScreenState
                                                     ),
                                                   ),
                                                 );
-                                                seguimiento.respuestasActividades!.add(_selectedOptionIndex);
-                                                    
-                                                context.read<SeguimientoCubit>().actualizarSeguimiento(seguimiento);
+
+                                                 seguimiento.respuestasActividades![unidadesCubit.indiceActividadPorId(actividadCuestionario.id!)!]=_selectedOptionIndex;
+                                               seguimientoCubit.actualizarSeguimiento(seguimiento);
+                                                 ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      'Seguimiento: ${seguimiento.respuestasActividades}',
+                                                    ),
+                                                  ),
+                                                );
                                               });
                                             },
                                             initialValue: -1),
@@ -248,11 +259,14 @@ class _ActividadCuestionarioScreenState
                                                                 );
                                                               },
                                                             )
-                                                          : _mostrarDialogoSiguienteActividad(
+                                                          : 
+                                                          
+                                                          _mostrarDialogoSiguienteActividad(
                                                               context,
                                                               router,
                                                               unidadesCubit,
-                                                              actividadCuestionario);
+                                                              actividadCuestionario,
+                                                              seguimiento);
                                                     })
                                               ]),
                                         )
@@ -280,40 +294,46 @@ class _ActividadCuestionarioScreenState
                 ],
               ),
             ),
-      floatingActionButton: actividadCuestionario.pista != null && actividadCuestionario.pista!.isNotEmpty
-        ? 
-      FloatingActionButton(
-        onPressed: () {
-          // Acción al hacer clic en el botón flotante
-          // Aquí puedes mostrar el showDialog de la pista
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('Información '),
-                content: Image.asset(actividadCuestionario.pista!,
-                    fit: BoxFit.cover),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text('Cerrar'),
-                  ),
-                ],
-              );
-            },
-          );
-        },
-        child: Icon(Icons.lightbulb),
-      )
-      : null,
+      floatingActionButton: actividadCuestionario.pista != null &&
+              actividadCuestionario.pista!.isNotEmpty
+          ? FloatingActionButton(
+              onPressed: () {
+                // Acción al hacer clic en el botón flotante
+                // Aquí puedes mostrar el showDialog de la pista
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Información '),
+                      content: Image.asset(actividadCuestionario.pista!,
+                          fit: BoxFit.cover),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('Cerrar'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: Icon(Icons.lightbulb),
+            )
+          : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
-  void _mostrarDialogoSiguienteActividad(BuildContext context, GoRouter router,
-      UnidadesCubit unidadesCubit, ActividadCuestionario actividadLaberinto) {
+  void _mostrarDialogoSiguienteActividad(
+      BuildContext context,
+      GoRouter router,
+      UnidadesCubit unidadesCubit,
+      ActividadCuestionario actividadLaberinto,
+      Seguimiento seguimiento) {
+
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -332,13 +352,18 @@ class _ActividadCuestionarioScreenState
               path: "assets/items/ButtonBlue.png",
               text: 'Siguiente',
               onPressed: () {
+                
+
                 SiguienteActividadInfo siguienteActividadInfo = unidadesCubit
                     .siguienteActividadInfo(actividadLaberinto.id!);
                 if (siguienteActividadInfo.tipoActividad == "Laberinto") {
+                  
+                  
                   router
                       .push('/laberinto/${siguienteActividadInfo.idActividad}');
                 } else if (siguienteActividadInfo.tipoActividad ==
                     "Cuestionario") {
+                     
                   router.push(
                       '/cuestionario/${siguienteActividadInfo.idActividad}');
                 }
@@ -349,6 +374,23 @@ class _ActividadCuestionarioScreenState
           ],
         );
       },
+    );
+  }
+}
+
+void actualizacionSeguimiento(
+    int _selectedOptionIndex, BuildContext context, Seguimiento seguimiento) {
+  if (_selectedOptionIndex != -1) {
+    seguimiento.respuestasActividades!.add(_selectedOptionIndex);
+
+    context.read<SeguimientoCubit>().actualizarSeguimiento(seguimiento);
+    // toast
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'seguimiento seleccionada: $seguimiento',
+        ),
+      ),
     );
   }
 }

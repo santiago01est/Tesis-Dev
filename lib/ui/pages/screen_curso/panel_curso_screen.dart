@@ -38,20 +38,6 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
   @override
   void initState() {
     super.initState();
-
-     if (context.read<SeguimientoCubit>().state.respuestasActividades!.isEmpty) {
-       Seguimiento seguimiento = Seguimiento(
-      id: 1,
-      respuestasActividades: List.generate(80, (index) => -1),
-      test: [],
-      calificacion: 0
-    );
-    context.read<SeguimientoCubit>().actualizarSeguimiento(seguimiento);
-
-     }
-
-   
-
     _fetchCurso();
   }
 
@@ -59,31 +45,48 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
     /* forma local */
     try {
       if (context.read<BDCursosCubit>().state.isEmpty) {
-       //Cuando la BDCursosCubit esta vacia y se trae toda la info
+        //Cuando la BDCursosCubit esta vacia y se trae toda la info
         final cursos = await cursosCasoUso.getCursos();
         context.read<BDCursosCubit>().subirCursos(cursos);
         final profesores = await profesorCasoUso.getProfesores();
-      context.read<ProfesoresCubit>().subirProfesores(profesores);
+        context.read<ProfesoresCubit>().subirProfesores(profesores);
         // buscar en cursos el curso con el id correspondiente
         final curso = cursos.firstWhere((c) => c.id == widget.cursoId);
         context.read<CursoCubit>().actualizarCurso(curso);
         context.read<UnidadesCubit>().subirUnidades(curso.unidades!);
+        
+   
       } else {
         final profesores = await profesorCasoUso.getProfesores();
-      context.read<ProfesoresCubit>().subirProfesores(profesores);
+        context.read<ProfesoresCubit>().subirProfesores(profesores);
         final cursos = context.read<BDCursosCubit>().state;
         // buscar en cursos el curso con el id correspondiente
         final curso = cursos.firstWhere((c) => c.id == widget.cursoId);
         context.read<CursoCubit>().actualizarCurso(curso);
         context.read<UnidadesCubit>().subirUnidades(curso.unidades!);
+        
+    if (context.read<SeguimientoCubit>().state.respuestasActividades!.isEmpty) {
+      Seguimiento seguimiento = Seguimiento(
+          id: 1,
+          respuestasActividades: List.generate(80, (index) => -1),
+          test: [],
+          calificacion: 0);
+      context.read<SeguimientoCubit>().actualizarSeguimiento(seguimiento);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Opción seleccionada: ${context.read<SeguimientoCubit>().state}',
+          ),
+        ),
+      );
+    }
       }
     } catch (e) {
       // Manejo de errores, puedes mostrar un mensaje de error
       print('Error al obtener cursos: $e');
     }
+
   }
-
-
 
   @override
   Widget build(BuildContext context) {
