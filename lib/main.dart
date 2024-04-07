@@ -10,10 +10,11 @@ import 'package:dev_tesis/infraestructure/driven_adapter/unidad_adapter/unidad_d
 import 'package:dev_tesis/ui/bloc/actividad_custio_test.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
+import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/game/instrucciones_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
-import 'package:dev_tesis/ui/bloc/seguimiento.dart';
+import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -79,6 +80,12 @@ class MyApp extends StatelessWidget {
         ),
          BlocProvider<SeguimientoCubit>(
           create: (context) => SeguimientoCubit(),
+        ),
+         BlocProvider<EstudiantesCubit>(
+          create: (context) => EstudiantesCubit(),
+        ),
+        BlocProvider<SeguimientosEstudiantesCubit>(
+          create: (context) => SeguimientosEstudiantesCubit(),
         ),
 
       ],

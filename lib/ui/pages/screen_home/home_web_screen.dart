@@ -5,8 +5,10 @@ import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
 import 'package:dev_tesis/domain/model/profesor.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
+import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
+import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/components/cards/curso_cards.dart';
 import 'package:dev_tesis/ui/widgets/PopUp.dart';
 import 'package:dev_tesis/utils/rutasImagenes.dart';
@@ -44,6 +46,9 @@ class _HomeWebState extends State<HomeWeb> {
     final router = GoRouter.of(context);
     final profesoresCubit = context.watch<ProfesoresCubit>();
     final rolCubit = context.watch<RolCubit>();
+    final seguimientosEstudiantesCubit = context.watch<SeguimientosEstudiantesCubit>();
+    seguimientosEstudiantesCubit.subirSeguimientos();
+  
     List<Profesor> profesores = profesoresCubit.state;
     return Scaffold(
       backgroundColor: blueColor,

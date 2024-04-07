@@ -9,9 +9,11 @@ import 'package:dev_tesis/game/player/player.dart';
 import 'package:dev_tesis/game/game_activity.dart';
 import 'package:dev_tesis/ui/bloc/actividad_custio_test.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
+import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/game/instrucciones_bloc.dart';
-import 'package:dev_tesis/ui/bloc/seguimiento.dart';
+import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
+import 'package:dev_tesis/ui/components/appbar/appbar_estudiantes.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:dev_tesis/ui/widgets/banner_info_actividades.dart';
@@ -45,6 +47,12 @@ class _ActividadCuestionarioScreenState
     final unidadesCubit = context.watch<UnidadesCubit>();
     final seguimientoCubit = context.watch<SeguimientoCubit>();
     final seguimiento = seguimientoCubit.state;
+    final estudiantes = context.read<EstudiantesCubit>().state;
+    List<String> avatares=[];
+    for (var estudiante in estudiantes) {
+      avatares.add(estudiante.avatar!);
+      
+    }
 
     final curso = context.read<CursoCubit>();
 
@@ -78,7 +86,7 @@ class _ActividadCuestionarioScreenState
         _mostrarPista) {
       _mostrarPista = false;
       // Mostrar el diálogo después de que se haya construido la pantalla
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         // Mostrar el diálogo después de que se haya construido la pantalla
         showDialog(
           context: context,
@@ -101,7 +109,15 @@ class _ActividadCuestionarioScreenState
       });
     }
     return Scaffold(
-      appBar: const CustomAppBar(userName: 'usuario'),
+      appBar:  CustomNavigationBar(
+          platformName: 'MiPlataforma',
+          userName: 'Usuario1',
+          userAvatars: avatares,
+          onLogout: () {
+            // Aquí implementa la lógica para cerrar sesión
+            print('Cerrar sesión');
+          },
+        ),
       // Responsive UI design for desktop and mobile
       body: MediaQuery.of(context).size.width > 700
           ? Container(

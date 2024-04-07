@@ -619,11 +619,11 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                             //clic al avatar
 
                                             backgroundImage: AssetImage(
-                                                listaEstudiantes[index].avatar),
+                                                listaEstudiantes[index].avatar!),
                                           ),
                                         ),
                                         title: Text(
-                                            listaEstudiantes[index].nombre),
+                                            listaEstudiantes[index].nombre!),
                                         // icono de eliminar
                                         trailing: IconButton(
                                             icon: Icon(Icons.delete,

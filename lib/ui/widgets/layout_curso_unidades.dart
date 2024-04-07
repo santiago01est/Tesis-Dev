@@ -2,7 +2,7 @@ import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
-import 'package:dev_tesis/ui/bloc/seguimiento.dart';
+import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';

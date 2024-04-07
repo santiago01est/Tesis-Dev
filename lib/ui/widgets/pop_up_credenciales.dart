@@ -1,10 +1,13 @@
 import 'dart:math';
 
 import 'package:dev_tesis/constants/styles.dart';
+import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
+import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/utils/rutasImagenes.dart';
 import 'package:flutter/material.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class PopupCredenciales extends StatefulWidget {
@@ -41,6 +44,7 @@ class _PopupCredencialesState extends State<PopupCredenciales>
 
   @override
   Widget build(BuildContext context) {
+    final estudiantesCubit= context.watch<EstudiantesCubit>();
     final router = GoRouter.of(context);
     return AlertDialog(
       shape: RoundedRectangleBorder(
@@ -133,14 +137,26 @@ class _PopupCredencialesState extends State<PopupCredenciales>
                             selectedAvatarIndex != -1) {
                           String selectedStudentName = widget
                               .estudiantes[selectedStudentIndividualIndex]
-                              .nombre;
+                              .nombre!;
                           String selectedAvatarPath = RutasImagenes
                               .getRutasAvatares()[selectedAvatarIndex];
                           bool isValid = widget.estudiantes.any((estudiante) =>
                               estudiante.nombre == selectedStudentName &&
                               estudiante.avatar == selectedAvatarPath);
                           if (isValid) {
-                            router.go('/panelcurso/${widget.idCurso}');
+                            estudiantesCubit.agregarEstudiante(buscarEstudiantePorNombre(selectedStudentName));
+                            // Toast
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                  'La combinación de nombre y avatar es válida. ${estudiantesCubit.state[0].nombre} ${estudiantesCubit.state[0].avatar}'),
+                            ));
+                            // espera de 2 segundos
+                            Future.delayed(const Duration(seconds: 2), () {
+                              router.go('/panelcurso/${widget.idCurso}');
+                              
+                            });
+                            // Navegar a la siguiente pantalla
+                            
                           } else {
                             // Mostrar mensaje de error
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -175,6 +191,8 @@ class _PopupCredencialesState extends State<PopupCredenciales>
                                   estudiante.avatar == avatar2Path);
 
                           if (isValid) {
+                            estudiantesCubit.agregarEstudiante(buscarEstudiantePorNombre(student1Name));
+                            estudiantesCubit.agregarEstudiante(buscarEstudiantePorNombre(student2Name));
                             // Si la validación es exitosa, redirigir al usuario a la siguiente pantalla
                             router.go('/panelcurso/${widget.idCurso}');
                           } else {
@@ -241,7 +259,7 @@ class _PopupCredencialesState extends State<PopupCredenciales>
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
-                        estudiantes[index].nombre,
+                        estudiantes[index].nombre!,
                         style: TextStyle(
                           color: selectedStudentIndividualIndex == index
                               ? Colors.white
@@ -358,7 +376,7 @@ class _PopupCredencialesState extends State<PopupCredenciales>
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
-                        estudiantes[index].nombre,
+                        estudiantes[index].nombre!,
                         style: TextStyle(
                           color: isSelectListStudents.contains(index)
                               ? Colors.white
@@ -441,5 +459,11 @@ class _PopupCredencialesState extends State<PopupCredenciales>
         ),
       ],
     );
+  }
+  
+  Estudiante buscarEstudiantePorNombre(String selectedStudentName) {
+    return widget.estudiantes.firstWhere((estudiante) =>
+        estudiante.nombre == selectedStudentName);
+  
   }
 }

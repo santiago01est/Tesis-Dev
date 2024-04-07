@@ -3,13 +3,16 @@ import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/unidad_casos_uso/unidad_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
+import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
+import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
-import 'package:dev_tesis/ui/bloc/seguimiento.dart';
+import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
+import 'package:dev_tesis/ui/components/appbar/appbar_estudiantes.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_profesor_panel.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
@@ -97,12 +100,40 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
     String? nombreProfesor = profesoresCubit.state
         .firstWhere((profesor) => profesor.id == cursoCubit.state.profesor)
         .nombre;
+    final estudiantesCubit = context.watch<EstudiantesCubit>();
+
+   
 
     return DefaultTabController(
       length: 2, // Número de pestañas
       child: Scaffold(
         backgroundColor: thirtyColor,
-        appBar: AppBarProfesorPanel(profesorId: cursoCubit.state.profesor!),
+        appBar: AppBar(
+          title: Text('Curso'),
+          actions: [
+            // Aquí puedes mostrar el avatar cuando esté listo
+            FutureBuilder<List<String>>(
+              future: _fetchAvatar(estudiantesCubit.state),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else {
+                  if (snapshot.hasData) {
+                   return Row(
+          children: snapshot.data!.map((avatarPath) {
+            return CircleAvatar(
+              backgroundImage: AssetImage(avatarPath),
+            );
+          }).toList(),
+        );
+                  } else {
+                    return Icon(Icons.error); // Manejo de error
+                  }
+                }
+              },
+            ),
+          ],
+        ),
         body: SingleChildScrollView(
           child: Expanded(
             child: Column(
@@ -413,6 +444,20 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
         ),
       ),
     );
+  }
+
+   // Este método simula la carga del avatar
+  Future<List<String>> _fetchAvatar(List<Estudiante> state) async {
+
+     List<String> avatares=[];
+    for (var estudiante in state) {
+      avatares.add(estudiante.avatar!);
+    }
+    await Future.delayed(Duration(seconds: 2)); // Simula la carga
+    
+
+      
+    return avatares; // Ruta del avatar
   }
 
   Widget buildCardWithImageAndGraph(String descripcion) {

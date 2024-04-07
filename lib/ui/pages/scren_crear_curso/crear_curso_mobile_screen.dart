@@ -603,11 +603,11 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                             //clic al avatar
 
                                             backgroundImage: AssetImage(
-                                                listaEstudiantes[index].avatar),
+                                                listaEstudiantes[index].avatar!),
                                           ),
                                         ),
                                         title: Text(
-                                            listaEstudiantes[index].nombre),
+                                            listaEstudiantes[index].nombre!),
                                         // icono de eliminar
                                         trailing: IconButton(
                                             icon: Icon(Icons.delete,
