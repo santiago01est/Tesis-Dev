@@ -45,9 +45,10 @@ class _ActividadCuestionarioScreenState
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
     final unidadesCubit = context.watch<UnidadesCubit>();
-    final seguimientoCubit = context.watch<SeguimientoCubit>();
-    final seguimiento = seguimientoCubit.state;
-    final estudiantes = context.read<EstudiantesCubit>().state;
+    final seguimientosCubit = context.watch<SeguimientosEstudiantesCubit>();
+    final estudiantesCubit= context.watch<EstudiantesCubit>();
+  
+    final estudiantes = context.watch<EstudiantesCubit>().state;
     List<String> avatares=[];
     for (var estudiante in estudiantes) {
       avatares.add(estudiante.avatar!);
@@ -212,17 +213,14 @@ class _ActividadCuestionarioScreenState
                                                     ),
                                                   ),
                                                 );
+                                                // identifica el actual estudiante y actualiza su respectivo seguimiento
 
-                                                 seguimiento.respuestasActividades![unidadesCubit.indiceActividadPorId(actividadCuestionario.id!)!]=_selectedOptionIndex;
-                                               seguimientoCubit.actualizarSeguimiento(seguimiento);
-                                                 ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                    content: Text(
-                                                      'Seguimiento: ${seguimiento.respuestasActividades}',
-                                                    ),
-                                                  ),
-                                                );
+
+                                                //seguimiento.respuestasActividades![unidadesCubit.indiceActividadPorId(actividadCuestionario.id!)!]=_selectedOptionIndex;
+                                               //seguimientoCubit.actualizarSeguimiento(seguimiento);
+                                               seguimientosCubit.actualizarRespuestasActividadesEstudiantes(estudiantesCubit.obtenerIds() , _selectedOptionIndex, unidadesCubit.indiceActividadPorId(actividadCuestionario.id!)!);
+
+                                                 
                                               });
                                             },
                                             initialValue: -1),
@@ -281,8 +279,8 @@ class _ActividadCuestionarioScreenState
                                                               context,
                                                               router,
                                                               unidadesCubit,
-                                                              actividadCuestionario,
-                                                              seguimiento);
+                                                              actividadCuestionario
+                                                        );
                                                     })
                                               ]),
                                         )
@@ -347,7 +345,7 @@ class _ActividadCuestionarioScreenState
       GoRouter router,
       UnidadesCubit unidadesCubit,
       ActividadCuestionario actividadLaberinto,
-      Seguimiento seguimiento) {
+      ) {
 
 
     showDialog(
@@ -394,22 +392,7 @@ class _ActividadCuestionarioScreenState
   }
 }
 
-void actualizacionSeguimiento(
-    int _selectedOptionIndex, BuildContext context, Seguimiento seguimiento) {
-  if (_selectedOptionIndex != -1) {
-    seguimiento.respuestasActividades!.add(_selectedOptionIndex);
 
-    context.read<SeguimientoCubit>().actualizarSeguimiento(seguimiento);
-    // toast
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'seguimiento seleccionada: $seguimiento',
-        ),
-      ),
-    );
-  }
-}
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String userName;

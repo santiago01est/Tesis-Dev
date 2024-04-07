@@ -69,20 +69,19 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
         context.read<CursoCubit>().actualizarCurso(curso);
         context.read<UnidadesCubit>().subirUnidades(curso.unidades!);
         
-    if (context.read<SeguimientoCubit>().state.respuestasActividades!.isEmpty) {
-      Seguimiento seguimiento = Seguimiento(
-          id: 1,
-          respuestasActividades: List.generate(80, (index) => -1),
-          test: [],
-          calificacion: 0);
-      context.read<SeguimientoCubit>().actualizarSeguimiento(seguimiento);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Opción seleccionada: ${context.read<SeguimientoCubit>().state}',
-          ),
-        ),
+    if (context.read<SeguimientosEstudiantesCubit>().state.isEmpty) {
+      
+      context.read<SeguimientosEstudiantesCubit>().subirSeguimientos(
+        [
+    Seguimiento(id: 1, respuestasActividades: List.generate(80, (index) => -1), test: [], calificacion: 0, userId:1, cursoId: 0),
+    Seguimiento(id: 2, respuestasActividades: List.generate(80, (index) => -1), test: [], calificacion: 0, userId:2, cursoId:0 ),
+    Seguimiento(id: 3, respuestasActividades: List.generate(80, (index) => -1), test: [], calificacion: 0, userId:3, cursoId:0 ),
+    Seguimiento(id: 4, respuestasActividades: List.generate(80, (index) => -1), test: [], calificacion: 0,  userId:4, cursoId:0),
+    Seguimiento(id: 5, respuestasActividades: List.generate(80, (index) => -1), test: [], calificacion: 0, userId:5, cursoId:0),
+    Seguimiento(id: 6, respuestasActividades: List.generate(80, (index) => -1), test: [], calificacion: 0,   userId:6, cursoId:0),
+  ]
       );
+      
     }
       }
     } catch (e) {

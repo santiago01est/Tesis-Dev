@@ -22,4 +22,13 @@ class EstudiantesCubit extends Cubit<List<Estudiante>> {
     estudiantes.add(nuevoEstudiante);
     emit(estudiantes);
   }
+
+  //metodo que retorna una lista con los ids de los estudiantes
+  List<int> obtenerIds() {
+    List<int> ids = [];
+    for (Estudiante estudiante in state) {
+      ids.add(estudiante.id!);
+    }
+    return ids;
+  }
 }

@@ -4,6 +4,7 @@ class Actividad {
   String? descripcion;
   String? estado;
   String? tipoActividad;
+  List<int>? pesoRespuestas;
 
   Actividad({
     this.id,
@@ -11,5 +12,6 @@ class Actividad {
     this.descripcion,
     this.estado,
     this.tipoActividad,
+    this.pesoRespuestas,
   });
 }

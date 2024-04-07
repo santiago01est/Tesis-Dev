@@ -1,6 +1,7 @@
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
+import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
@@ -55,7 +56,8 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
     final rolCubit = context.watch<RolCubit>();
     final router = GoRouter.of(context);
     final unidadesCubit = context.watch<UnidadesCubit>();
-    final seguimientoCubit = context.watch<SeguimientoCubit>();
+    final seguimientosCubit = context.watch<SeguimientosEstudiantesCubit>();
+    final estudianteId= context.watch<EstudiantesCubit>().state.first.id!;
 
     void eliminarActividad(String idActividad) {
       // Elimina la actividad del listado de actividades de la unidad
@@ -83,7 +85,7 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                         // si el ancho de la pantalla es menor a 700 es un dispositivo movil
                         widthFactor:
                             MediaQuery.of(context).size.width < 700 ? 0.8 : 0.6,
-                        child: BlocBuilder<SeguimientoCubit, Seguimiento>(
+                        child: BlocBuilder<SeguimientosEstudiantesCubit, List<Seguimiento>>(
                             builder: (context, seguimientoState) {
                           return ListView.builder(
                             shrinkWrap: true,
@@ -155,7 +157,7 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                                 ),
                                                 color: getBackgroundColor(
                                                     unidadesCubit.state[index].actividades![activityIndex].id,
-                                                    seguimientoCubit.state, unidadesCubit),
+                                                    seguimientosCubit.obtenerSeguimientoEstudiante(estudianteId), unidadesCubit),
                                                 margin: EdgeInsets.symmetric(
                                                     vertical: 5),
                                                 child: GestureDetector(

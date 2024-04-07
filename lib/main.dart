@@ -78,9 +78,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<ActividadCuestionarioCubit>(
           create: (context) => ActividadCuestionarioCubit(),
         ),
-         BlocProvider<SeguimientoCubit>(
-          create: (context) => SeguimientoCubit(),
-        ),
+        
          BlocProvider<EstudiantesCubit>(
           create: (context) => EstudiantesCubit(),
         ),

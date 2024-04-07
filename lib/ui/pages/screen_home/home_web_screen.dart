@@ -3,6 +3,7 @@ import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
 import 'package:dev_tesis/domain/model/profesor.dart';
+import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
@@ -47,7 +48,16 @@ class _HomeWebState extends State<HomeWeb> {
     final profesoresCubit = context.watch<ProfesoresCubit>();
     final rolCubit = context.watch<RolCubit>();
     final seguimientosEstudiantesCubit = context.watch<SeguimientosEstudiantesCubit>();
-    seguimientosEstudiantesCubit.subirSeguimientos();
+    seguimientosEstudiantesCubit.subirSeguimientos(
+      [
+    Seguimiento(id: 1, respuestasActividades: List.generate(80, (index) => -1), test: [], calificacion: 0, userId:1, cursoId: 0),
+    Seguimiento(id: 2, respuestasActividades: List.generate(80, (index) => -1), test: [], calificacion: 0, userId:2, cursoId:0 ),
+    Seguimiento(id: 3, respuestasActividades: List.generate(80, (index) => -1), test: [], calificacion: 0, userId:3, cursoId:0 ),
+    Seguimiento(id: 4, respuestasActividades: List.generate(80, (index) => -1), test: [], calificacion: 0,  userId:4, cursoId:0),
+    Seguimiento(id: 5, respuestasActividades: List.generate(80, (index) => -1), test: [], calificacion: 0, userId:5, cursoId:0),
+    Seguimiento(id: 6, respuestasActividades: List.generate(80, (index) => -1), test: [], calificacion: 0,   userId:6, cursoId:0),
+  ]
+    );
   
     List<Profesor> profesores = profesoresCubit.state;
     return Scaffold(

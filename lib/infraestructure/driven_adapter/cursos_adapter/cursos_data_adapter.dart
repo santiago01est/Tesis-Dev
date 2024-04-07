@@ -5,6 +5,7 @@ import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
+import 'package:flutter/material.dart';
 
 class CursosDataAdapter extends CursoRepository {
   @override
@@ -63,6 +64,7 @@ class CursosDataAdapter extends CursoRepository {
                         'Avanzar.png',
                       ]
                     ],
+                    pesoRespuestas: [3, 4, 2, 1],
                     respuestaCorrecta: 2),
                 ActividadCuestionario(
                     id: '2',
@@ -99,6 +101,7 @@ class CursosDataAdapter extends CursoRepository {
                         'Avanzar.png',
                       ]
                     ],
+                    pesoRespuestas: [2, 3, 1, 4],
                     respuestaCorrecta: 4),
                 ActividadCuestionario(
                     id: '3',
@@ -157,7 +160,8 @@ class CursosDataAdapter extends CursoRepository {
                         'Abajo.png',
                       ]
                     ],
-                    respuestaCorrecta: 4),
+                    pesoRespuestas: [4, 1, 3, 2],
+                    respuestaCorrecta: 1),
                 ActividadCuestionario(
                     id: '4',
                     nombre: 'Actividad 04',
@@ -212,6 +216,7 @@ class CursosDataAdapter extends CursoRepository {
                         'Arriba.png',
                       ]
                     ],
+                    pesoRespuestas: [1, 2, 4, 3],
                     respuestaCorrecta: 3),
                 ActividadCuestionario(
                     id: '5',
@@ -272,6 +277,7 @@ class CursosDataAdapter extends CursoRepository {
                         'Derecha.png',
                       ]
                     ],
+                    pesoRespuestas: [1, 3, 4, 2],
                     respuestaCorrecta: 3),
                 ActividadCuestionario(
                     id: '6',
@@ -332,6 +338,7 @@ class CursosDataAdapter extends CursoRepository {
                         'Abajo.png',
                       ]
                     ],
+                    pesoRespuestas: [4, 2, 3, 1],
                     respuestaCorrecta: 1),
                 ActividadCuestionario(
                     id: '7',
@@ -400,6 +407,7 @@ class CursosDataAdapter extends CursoRepository {
                         'Derecha.png',
                       ]
                     ],
+                    pesoRespuestas: [3, 1, 2, 4],
                     respuestaCorrecta: 4),
                 ActividadCuestionario(
                     id: '8',
@@ -480,6 +488,7 @@ class CursosDataAdapter extends CursoRepository {
                         },
                       ]
                     ],
+                    pesoRespuestas: [2, 4 ,1 ,3],
                     respuestaCorrecta: 2),
                 ActividadCuestionario(
                     id: '9',
@@ -537,6 +546,7 @@ class CursosDataAdapter extends CursoRepository {
                         'Abajo.png',
                       ]
                     ],
+                    pesoRespuestas: [3, 4, 2, 1],
                     respuestaCorrecta: 2),
                     ActividadCuestionario(
                     id: '10',
@@ -598,6 +608,7 @@ class CursosDataAdapter extends CursoRepository {
                         },
                       ]
                     ],
+                    pesoRespuestas: [1, 2, 4, 3],
                     respuestaCorrecta: 3),
                      ActividadCuestionario(
                     id: '11',
@@ -653,6 +664,7 @@ class CursosDataAdapter extends CursoRepository {
                         },
                       ]
                     ],
+                    pesoRespuestas: [4, 2, 1, 3],
                     respuestaCorrecta: 1),
                     ActividadCuestionario(
                     id: '12',
@@ -710,6 +722,7 @@ class CursosDataAdapter extends CursoRepository {
                         },
                       ]
                     ],
+                    pesoRespuestas: [4, 3, 2 ,1],
                     respuestaCorrecta: 1),
                     ActividadCuestionario(
                     id: '13',
@@ -771,6 +784,7 @@ class CursosDataAdapter extends CursoRepository {
                         },
                       ]
                     ],
+                    pesoRespuestas: [2, 1, 3, 4],
                     respuestaCorrecta: 4),
                     ActividadCuestionario(
                     id: '14',
@@ -818,6 +832,7 @@ class CursosDataAdapter extends CursoRepository {
                         },
                       ]
                     ],
+                    pesoRespuestas: [1, 3, 4, 2],
                     respuestaCorrecta: 3),
                     ActividadCuestionario(
                     id: '15',
@@ -876,11 +891,10 @@ class CursosDataAdapter extends CursoRepository {
                         {
                           'Repeticion': 3,
                           'Respuestas': ['Derecha.png','Arriba.png']
-                        },
-                  
-                         
+                        },                        
                       ]
                     ],
+                    pesoRespuestas: [2, 1, 3, 4],
                     respuestaCorrecta: 4),
               ]),
           Unidad(id: '1', nombre: 'Unidad Uno', estado: 'Activa', actividades: [
@@ -1065,25 +1079,31 @@ class CursosDataAdapter extends CursoRepository {
         ],
         estudiantes: [
           Estudiante(
+            id:1,
               nombre: 'Andres Perez Perez',
               avatar: 'assets/avatares/aguila_avatar.png'),
           Estudiante(
+            id:2,
             nombre: 'Sofia González Perez',
             avatar: 'assets/avatares/orquidea_avatar.png',
           ),
           Estudiante(
+            id:3,
             nombre: 'Nicolas Rodriguez Hernandez',
             avatar: 'assets/avatares/pollitos_avatar.png',
           ),
           Estudiante(
+            id:4,
             nombre: 'Sergio Torres Diaz',
             avatar: 'assets/avatares/osoanteojos_avatar.png',
           ),
           Estudiante(
+            id:5,
             nombre: 'Estefania Gutierrez Gutierrez',
             avatar: 'assets/avatares/chiguiro_avatar.png',
           ),
           Estudiante(
+            id:6,
             nombre: 'Camila Salazar Salazar',
             avatar: 'assets/avatares/mujergranjera_avatar.png',
           )

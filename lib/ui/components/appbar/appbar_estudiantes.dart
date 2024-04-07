@@ -1,4 +1,7 @@
+import 'package:dev_tesis/domain/model/estudiante.dart';
+import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomNavigationBar extends StatelessWidget implements PreferredSizeWidget {
   final String platformName;
@@ -16,31 +19,44 @@ class CustomNavigationBar extends StatelessWidget implements PreferredSizeWidget
 
   @override
   Widget build(BuildContext context) {
+    final estudiantesCubit = context.watch<EstudiantesCubit>();
     return AppBar(
-      title: Row(
-        children: [
-          Text(platformName),
-          Row(
-            children: [
-              
-            
-                CircleAvatar(
-                  radius: 20, // Ajusta el radio del avatar según tus necesidades
-                  backgroundImage: AssetImage('avatar'), // Establece la imagen de fondo del avatar
-                ),
-              SizedBox(width: 8), // Espacio entre el avatar y el nombre
-              Text(userName), // Nombre del usuario
-              IconButton(
-                icon: Icon(Icons.arrow_drop_down),
-                onPressed: () {
-                  _showLogoutMenu(context);
-                },
-              ),
-            ],
-          ),
-        ],
-      ),
+      title: Text('Curso'),
+          actions: [
+            // Aquí puedes mostrar el avatar cuando esté listo
+            FutureBuilder<List<String>>(
+              future: _fetchAvatar(estudiantesCubit.state),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else {
+                  if (snapshot.hasData) {
+                   return Row(
+          children: snapshot.data!.map((avatarPath) {
+            return CircleAvatar(
+              backgroundImage: AssetImage(avatarPath),
+            );
+          }).toList(),
+        );
+                  } else {
+                    return Icon(Icons.error); // Manejo de error
+                  }
+                }
+              },
+            ),
+          ],
     );
+  }
+
+    // Este método simula la carga del avatar
+  Future<List<String>> _fetchAvatar(List<Estudiante> state) async {
+
+     List<String> avatares=[];
+    for (var estudiante in state) {
+      avatares.add(estudiante.avatar!);
+    } 
+     
+    return avatares; // Ruta del avatar
   }
 
   void _showLogoutMenu(BuildContext context) {
@@ -65,8 +81,8 @@ class CustomNavigationBar extends StatelessWidget implements PreferredSizeWidget
   }
   
   @override
-  // TODO: implement preferredSize
-  Size get preferredSize => throw UnimplementedError();
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
 }
 
 
