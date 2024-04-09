@@ -148,7 +148,7 @@ class _PopupCredencialesState extends State<PopupCredenciales>
                             // Toast
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(
-                                  'La combinación de nombre y avatar es válida. ${estudiantesCubit.state[0].nombre} ${estudiantesCubit.state[0].avatar}'),
+                                  'Bienvenido ${estudiantesCubit.state[0].nombre}'),
                             ));
                             // espera de 2 segundos
                             Future.delayed(const Duration(seconds: 2), () {
@@ -199,8 +199,8 @@ class _PopupCredencialesState extends State<PopupCredenciales>
                             // Si la validación falla, mostrar un mensaje de error
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(
-                                  'La combinación de nombres y avatares no es válida.'),
-                            ));
+                                  'Bienvenidos $student1Name y $student2Name'),
+                            )); 
                           }
                         } else {
                           // Si no se han seleccionado los pares requeridos, mostrar un mensaje de error

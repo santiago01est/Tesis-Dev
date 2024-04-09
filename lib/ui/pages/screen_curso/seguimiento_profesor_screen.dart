@@ -1,11 +1,13 @@
 import 'dart:math'; // Importa la librería math para generar números aleatorios
 
+import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
+import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,9 +20,83 @@ class SeguimientoProfesorScreen extends StatelessWidget {
     final estudiantes = cursoCubit.state.estudiantes!;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Resultados'),
+        backgroundColor: sixtyColor,
+        title: Text('Seguimiento General'),
       ),
-      body: DataTableWidget(estudiantes: estudiantes),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              Center(
+                child: TitleText(text: '${cursoCubit.state.nombre}'),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              const Center(
+                child: SubtitleText(text: 'Unidad Diagnóstica'),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Center(
+                child: Wrap(
+                  children: [
+                    //cuadro de color azul y un texto al lado
+                    Container(
+                      width: 20,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFB6C979),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text('Actividades Secuencia'),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      width: 20,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF4A662),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text('Actividades Ciclos'),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                      width: 20,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF69B5D8),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text('Actividades Ciclos Anidados'),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              DataTableWidget(estudiantes: estudiantes),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -62,12 +138,21 @@ class _DataTableWidgetState extends State<DataTableWidget> {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         controller: _scrollController,
-        child: DataTable(
-          columns: _buildColumns(),
-          rows: _buildRows(),
-          columnSpacing: 16.0,
-          dataRowHeight: 48.0,
-          headingRowHeight: 56.0,
+        child: Container(
+          // Container para aplicar el color de fondo a toda la tabla
+          decoration: BoxDecoration(
+            // Decoración para el color de fondo de la tabla
+            color: Color(0xFFACD8ED),
+            borderRadius:
+                BorderRadius.circular(8.0), // Color de fondo de la tabla
+          ),
+          child: DataTable(
+            columns: _buildColumns(),
+            rows: _buildRows(),
+            columnSpacing: 12.0,
+            dataRowHeight: 48.0,
+            headingRowHeight: 56.0,
+          ),
         ),
       ),
     );
@@ -173,23 +258,20 @@ class _DataTableWidgetState extends State<DataTableWidget> {
 
     // toast
 
-   
     if (respuestaEstudiante == -1) {
       return 0;
     } else {
-      
-        return actividad.pesoRespuestas![respuestaEstudiante-1];
-   
+      return actividad.pesoRespuestas![respuestaEstudiante - 1];
     }
   }
 
   Color asignarColor(int colIndex) {
     if (colIndex < 4) {
-      return Colors.green;
+      return Color(0xFFB6C979);
     } else if (colIndex >= 4 && colIndex < 8) {
-      return Colors.orange;
+      return Color(0xFFF4A662);
     } else {
-      return Colors.blue;
+      return Color(0xFF69B5D8);
     }
   }
 }

@@ -19,7 +19,7 @@ class CustomNavigationBar extends StatelessWidget implements PreferredSizeWidget
 
   @override
   Widget build(BuildContext context) {
-    final estudiantesCubit = context.watch<EstudiantesCubit>();
+    final estudiantesCubit = context.read<EstudiantesCubit>();
     return AppBar(
       title: Text('Curso'),
           actions: [
