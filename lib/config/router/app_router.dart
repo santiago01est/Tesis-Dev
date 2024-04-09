@@ -1,4 +1,5 @@
 import 'package:dev_tesis/ui/pages/screen_actividad/crearActividad.dart';
+import 'package:dev_tesis/ui/pages/screen_curso/seguimiento_profesor_screen.dart';
 import 'package:dev_tesis/ui/pages/screen_home/home.dart';
 import 'package:dev_tesis/ui/pages/screen_laberintos/actividad_cuestionario.dart';
 import 'package:dev_tesis/ui/pages/screen_laberintos/nivel1_screen.dart';
@@ -76,6 +77,10 @@ final appRouter = GoRouter(
         final String unidadId = state.pathParameters['unidadId'] ?? '0';
         return CrearActividad(unidadId: unidadId);
         }
+    ),
+       GoRoute(
+      path: '/seguimientoprofesor',
+      builder: (context, state) => const SeguimientoProfesorScreen(),
     ),
   ],
 );

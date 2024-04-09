@@ -258,6 +258,14 @@ class PopupUtils {
                                                       .id!); // Aquí debes crear una instancia del _PopupCredenciales
                                             },
                                           );
+                                        }else{
+                                          //toast
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(
+                                              content: Text('Código de acceso incorrecto'),
+                                              backgroundColor: Colors.red,
+                                            ),
+                                          );
                                         }
                                       },
                                       text: 'Verificar',

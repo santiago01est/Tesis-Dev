@@ -88,11 +88,11 @@ class _ListaEstudiantesWidgetState extends State<ListaEstudiantesWidget> {
                                         child: CircleAvatar(
                                           radius: 20,
                                           backgroundImage: AssetImage(
-                                              state.estudiantes![index].avatar),
+                                              state.estudiantes![index].avatar!),
                                         ),
                                       ),
                                       title: Text(
-                                          state.estudiantes![index].nombre),
+                                          state.estudiantes![index].nombre!),
                                       trailing: IconButton(
                                         icon: Icon(Icons.delete,
                                             color: orangeColor),
