@@ -72,7 +72,6 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
       children: [
         const SizedBox(height: 10),
         // Mostrar la lista de unidades
-
         Expanded(
             child: SingleChildScrollView(
           child:
