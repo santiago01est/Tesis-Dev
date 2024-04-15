@@ -4,12 +4,16 @@ import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
 import 'package:dev_tesis/domain/model/actividad_laberinto.dart';
 import 'package:dev_tesis/domain/model/casilla.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
+import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:dev_tesis/game/player/player.dart';
 import 'package:dev_tesis/game/game_activity.dart';
 import 'package:dev_tesis/ui/bloc/actividad_custio_test.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
+import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/game/instrucciones_bloc.dart';
+import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
+import 'package:dev_tesis/ui/components/appbar/appbar_estudiantes.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:dev_tesis/ui/widgets/banner_info_actividades.dart';
@@ -35,13 +39,22 @@ class ActividadCuestionarioScreen extends StatefulWidget {
 
 class _ActividadCuestionarioScreenState
     extends State<ActividadCuestionarioScreen> {
+  int _selectedOptionIndex = -1;
+  bool _mostrarPista = true;
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
     final unidadesCubit = context.watch<UnidadesCubit>();
+    final seguimientosCubit = context.watch<SeguimientosEstudiantesCubit>();
+
+    final estudiantes = context.read<EstudiantesCubit>();
+    List<String> avatares = [];
+    for (var estudiante in estudiantes.state) {
+      avatares.add(estudiante.avatar!);
+    }
 
     final curso = context.read<CursoCubit>();
-    int selectedOptionIndex =2;
+
     List<ActividadCuestionario> actividadesCuestionario =
         context.watch<ActividadCuestionarioCubit>().state;
     for (var unidad in curso.state.unidades!) {
@@ -63,8 +76,47 @@ class _ActividadCuestionarioScreenState
     ActividadCuestionario actividadCuestionario = actividadesCuestionario
         .firstWhere((actividad) => actividad.id == widget.actividadId);
 
+    String nombreUnidad =
+        unidadesCubit.nombreUnidadDeActividad(actividadCuestionario.id!);
+
+    // Verificar si la actividad tiene una pista
+    if (actividadCuestionario.pista != null &&
+        actividadCuestionario.pista!.isNotEmpty &&
+        _mostrarPista) {
+      _mostrarPista = false;
+      // Mostrar el diálogo después de que se haya construido la pantalla
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        // Mostrar el diálogo después de que se haya construido la pantalla
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Información '),
+              content:
+                  Image.asset(actividadCuestionario.pista!, fit: BoxFit.cover),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Cerrar'),
+                ),
+              ],
+            );
+          },
+        );
+      });
+    }
     return Scaffold(
-      appBar: const CustomAppBar(userName: 'usuario'),
+      appBar: CustomNavigationBar(
+        platformName: 'MiPlataforma',
+        userName: 'Usuario1',
+        userAvatars: avatares,
+        onLogout: () {
+          // Aquí implementa la lógica para cerrar sesión
+          print('Cerrar sesión');
+        },
+      ),
       // Responsive UI design for desktop and mobile
       body: MediaQuery.of(context).size.width > 700
           ? Container(
@@ -80,18 +132,20 @@ class _ActividadCuestionarioScreenState
                         padding: const EdgeInsets.all(20.0),
                         child: Column(
                           children: [
-                            const IntrinsicHeight(
-                              child: BannerInfoActividades(),
+                            IntrinsicHeight(
+                              child: BannerInfoActividades(
+                                titulo:
+                                    '$nombreUnidad \n${actividadCuestionario.nombre!}',
+                              ),
                             ),
                             const SizedBox(
                               height: 20,
                             ),
-                            const SizedBox(
+                            SizedBox(
                               child: BannerInstruccionesActividad(
-                                  texto:
-                                      'Ayuda a Juan a encontrar el camino al saco de café que ha recolectado',
+                                  texto: actividadCuestionario.descripcion!,
                                   rutaEjemplo:
-                                      'assets/items/ejemplosImg/ejemplocuestionario.png'),
+                                      'assets/items/ejemplosImg/${actividadCuestionario.ejemploImage}'),
                             ),
                             const SizedBox(
                               height: 30,
@@ -106,9 +160,19 @@ class _ActividadCuestionarioScreenState
                                           MainAxisAlignment.start,
                                       children: [
                                         // Add content for the left section of the blue board
-                                        TableroCuestionario(
-                                            actividadCuestionario:
-                                                actividadCuestionario),
+                                        actividadCuestionario.ejercicioImage ==
+                                                ''
+                                            ? TableroCuestionario(
+                                                actividadCuestionario:
+                                                    actividadCuestionario)
+                                            : SizedBox(
+                                                width:
+                                                    500, // Tamaño del tablero (6 casillas * 90px por casilla)
+                                                height:
+                                                    500, // Tamaño del tablero (6 casillas * 90px por casilla)
+                                                child: Image.asset(
+                                                    '${actividadCuestionario.ejercicioImage}',
+                                                    fit: BoxFit.contain))
                                       ],
                                     ),
                                   ),
@@ -130,17 +194,30 @@ class _ActividadCuestionarioScreenState
                                             textAlign: TextAlign.left,
                                           ),
                                         ),
-                                        Container(
-                                          child: RadioRespuestasCuestionario(
-                                              imagesList: actividadCuestionario
-                                                  .respuestas!,
-                                              radioRespuesta: (respuesta) {
-                                                setState(() {
-                                                  selectedOptionIndex =
-                                                      2;
-                                                });
-                                              }),
-                                        ),
+                                        RadioRespuestasCuestionario(
+                                            imagesList: actividadCuestionario
+                                                .respuestas!,
+                                            radioRespuesta: (int respuesta) {
+                                              setState(() {
+                                                _selectedOptionIndex =
+                                                    respuesta + 1;
+                                                
+                                                // identifica el actual estudiante y actualiza su respectivo seguimiento
+
+                                                //seguimiento.respuestasActividades![unidadesCubit.indiceActividadPorId(actividadCuestionario.id!)!]=_selectedOptionIndex;
+                                                //seguimientoCubit.actualizarSeguimiento(seguimiento);
+                                                seguimientosCubit
+                                                    .actualizarRespuestasActividadesEstudiantes(
+                                                        estudiantes
+                                                            .obtenerIds(),
+                                                        _selectedOptionIndex,
+                                                        unidadesCubit
+                                                            .indiceActividadPorId(
+                                                                actividadCuestionario
+                                                                    .id!)!);
+                                              });
+                                            },
+                                            initialValue: -1),
                                         Container(
                                           margin: const EdgeInsets.only(
                                               left: 10, bottom: 20),
@@ -153,46 +230,48 @@ class _ActividadCuestionarioScreenState
                                                         "assets/items/ButtonBlue.png",
                                                     text: 'Siguiente',
                                                     onPressed: () {
-
-                                                      selectedOptionIndex == -1 ? showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                            context) {
-                                                          return AlertDialog(
-                                                            title: const Text(
-                                                                'Tu Respuesta No ha sido guardada'),
-                                                            content:
-                                                                const SingleChildScrollView(
-                                                              child: Column(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Text(
-                                                                      'Por favor responde para poder continuar con la siguiente Actividad'),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            actions: <Widget>[
-                                                              PixelLargeBttn(
-                                                                  path:
-                                                                      "assets/items/ButtonBlue.png",
-                                                                  text:
-                                                                      'Volver',
-                                                                  onPressed:
-                                                                      () {
-                                                                        
-                                                                        Navigator.of(context).pop();
-                                                                      })
-                                                            ],
-                                                          );
-                                                        },
-                                                      )
-                                                       :
-                                                      _mostrarDialogoSiguienteActividad( context,
-                                                      router,
-                                                      unidadesCubit,
-                                                      actividadCuestionario);
+                                                      _selectedOptionIndex == -1
+                                                          ? showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (BuildContext
+                                                                      context) {
+                                                                return AlertDialog(
+                                                                  title: const Text(
+                                                                      'Tu Respuesta No ha sido guardada'),
+                                                                  content:
+                                                                      const SingleChildScrollView(
+                                                                    child:
+                                                                        Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Text(
+                                                                            'Por favor responde para poder continuar con la siguiente Actividad'),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  actions: <Widget>[
+                                                                    PixelLargeBttn(
+                                                                        path:
+                                                                            "assets/items/ButtonBlue.png",
+                                                                        text:
+                                                                            'Volver',
+                                                                        onPressed:
+                                                                            () {
+                                                                          Navigator.of(context)
+                                                                              .pop();
+                                                                        })
+                                                                  ],
+                                                                );
+                                                              },
+                                                            )
+                                                          : _mostrarDialogoSiguienteActividad(
+                                                              context,
+                                                              router,
+                                                              unidadesCubit,
+                                                              actividadCuestionario);
                                                     })
                                               ]),
                                         )
@@ -220,11 +299,44 @@ class _ActividadCuestionarioScreenState
                 ],
               ),
             ),
+      floatingActionButton: actividadCuestionario.pista != null &&
+              actividadCuestionario.pista!.isNotEmpty
+          ? FloatingActionButton(
+              onPressed: () {
+                // Acción al hacer clic en el botón flotante
+                // Aquí puedes mostrar el showDialog de la pista
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Información '),
+                      content: Image.asset(actividadCuestionario.pista!,
+                          fit: BoxFit.cover),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('Cerrar'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: Icon(Icons.lightbulb),
+            )
+          : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
-  void _mostrarDialogoSiguienteActividad(BuildContext context, GoRouter router,
-      UnidadesCubit unidadesCubit, ActividadCuestionario actividadLaberinto) {
+  void _mostrarDialogoSiguienteActividad(
+    BuildContext context,
+    GoRouter router,
+    UnidadesCubit unidadesCubit,
+    ActividadCuestionario actividadCuestionario,
+  ) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -243,18 +355,21 @@ class _ActividadCuestionarioScreenState
               path: "assets/items/ButtonBlue.png",
               text: 'Siguiente',
               onPressed: () {
-                SiguienteActividadInfo siguienteActividadInfo = unidadesCubit
-                    .siguienteActividadInfo(actividadLaberinto.id!);
-                if (siguienteActividadInfo
-                        .tipoActividad ==
-                    "Laberinto") {
-                  router.go(
-                      '/laberinto/${siguienteActividadInfo.idActividad}');
-                } else if (siguienteActividadInfo.tipoActividad == "Cuestionario") {
-                  router.go(
-                      '/cuestionario/${siguienteActividadInfo.idActividad}');
+                if (actividadCuestionario.id! == '15') {
+                  router.push('/seguimientoprofesor');
+                } else {
+                  SiguienteActividadInfo siguienteActividadInfo = unidadesCubit
+                      .siguienteActividadInfo(actividadCuestionario.id!);
+                  if (siguienteActividadInfo.tipoActividad == "Laberinto") {
+                    router.push(
+                        '/laberinto/${siguienteActividadInfo.idActividad}');
+                  } else if (siguienteActividadInfo.tipoActividad ==
+                      "Cuestionario") {
+                    router.push(
+                        '/cuestionario/${siguienteActividadInfo.idActividad}');
+                  }
                 }
-               
+
                 Navigator.of(context).pop(); // Cierra el diálogo
               },
             ),

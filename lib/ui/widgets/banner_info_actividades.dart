@@ -2,7 +2,8 @@ import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:flutter/material.dart';
 
 class BannerInfoActividades extends StatelessWidget {
-  const BannerInfoActividades({super.key});
+  final String titulo;
+  const BannerInfoActividades({super.key, required this.titulo});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class BannerInfoActividades extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0),
                   child: TitleText(
-                    text: 'Actividad 1: \nUn mundo por explorar',
+                    text: titulo,
                     color: Colors.white,
                   ),
                 ),

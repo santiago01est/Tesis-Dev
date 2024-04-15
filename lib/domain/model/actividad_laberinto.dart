@@ -10,6 +10,7 @@ class ActividadLaberinto extends Actividad{
        super.descripcion,
        super.estado,
        super.tipoActividad,
+       super.pesoRespuestas,
         this.nombreArchivo
   });
 

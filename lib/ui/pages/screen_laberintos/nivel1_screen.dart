@@ -51,6 +51,8 @@ class _LaberintoState extends State<Laberinto> {
         ? 'Laberinto1'
         : actividadLaberinto.nombreArchivo!);
     Player player = game.player;
+
+     String nombreUnidad=unidadesCubit.nombreUnidadDeActividad(actividadLaberinto!.id!);
     return Scaffold(
       appBar: const CustomAppBar(userName: 'usuario'),
       // Responsive UI design for desktop and mobile
@@ -65,8 +67,10 @@ class _LaberintoState extends State<Laberinto> {
                       padding: const EdgeInsets.all(20.0),
                       child: Column(
                         children: [
-                          const IntrinsicHeight(
-                            child: BannerInfoActividades(),
+                           IntrinsicHeight(
+                            child: BannerInfoActividades(
+                               titulo: '$nombreUnidad \n${actividadLaberinto!.nombre!}',
+                            ),
                           ),
                           Center(
                             child: Row(
@@ -289,8 +293,10 @@ class _LaberintoState extends State<Laberinto> {
                       padding: const EdgeInsets.all(20.0),
                       child: Column(
                         children: [
-                          const IntrinsicHeight(
-                            child: BannerInfoActividades(),
+                           IntrinsicHeight(
+                            child: BannerInfoActividades(
+                              titulo:'$nombreUnidad \n${actividadLaberinto!.nombre!}',
+                            ),
                           ),
                           Center(
                             child: Column(

@@ -1,6 +1,7 @@
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/profesor.dart';
 import 'package:dev_tesis/main.dart';
@@ -22,36 +23,17 @@ class HomeMobile extends StatefulWidget {
 }
 
 class _HomeMobileState extends State<HomeMobile> {
-  final CursosCasoUso cursosCasoUso = getIt<CursosCasoUso>();
-  final ProfesorCasoUso profesorCasoUso = getIt<ProfesorCasoUso>();
+ late CursosProfesoresCasoUso _cursosProfesoresCasoUso;
+
   @override
   void initState() {
     super.initState();
-    // si el cubit no tiene datos, los obtiene
-    if (context.read<BDCursosCubit>().state.isEmpty) {
-      _fetchCursos();
-      _fetchProfesores();
-    }
-  }
-
-  void _fetchCursos() async {
-    try {
-      final cursos = await cursosCasoUso.getCursos();
-      context.read<BDCursosCubit>().subirCursos(cursos);
-    } catch (e) {
-      // Manejo de errores, puedes mostrar un mensaje de error
-      print('Error al obtener cursos: $e');
-    }
-  }
-
-  void _fetchProfesores() async {
-    try {
-      final profesores = await profesorCasoUso.getProfesores();
-      context.read<ProfesoresCubit>().subirProfesores(profesores);
-    } catch (e) {
-      // Manejo de errores, puedes mostrar un mensaje de error
-      print('Error al obtener cursos: $e');
-    }
+    _cursosProfesoresCasoUso = CursosProfesoresCasoUso(
+      cursosCasoUso: getIt<CursosCasoUso>(),
+      profesorCasoUso: getIt<ProfesorCasoUso>(),
+      context: context,
+    );
+    _cursosProfesoresCasoUso.obtenerCursosYProfesores();
   }
 
   @override

@@ -1,4 +1,6 @@
 import 'package:dev_tesis/domain/model/actividad.dart';
+import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
+import 'package:dev_tesis/domain/model/actividad_laberinto.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -69,6 +71,64 @@ void addActividad(Actividad actividad, String idUnidad) {
     return SiguienteActividadInfo('', ''); // Si no se encuentra la actividad
   }
 
+  String nombreUnidadDeActividad(String idActividad) {
+    for (var unidad in state) {
+      for (var actividad in unidad.actividades ?? []) {
+        if (actividad.id == idActividad) {
+          return unidad.nombre!; // Retorna el nombre de la unidad
+        }
+      }
+    }
+    return ''; // Si no se encuentra la actividad
+  }
+
+  int? indiceActividadPorId(String idActividad) {
+
+     List<Actividad> todasLasActividades = [];
+    for (var i = 0; i < state.length; i++) {
+      for (var j = 0; j < state[i].actividades!.length; j++) {
+        todasLasActividades.add(state[i].actividades![j]);
+      }
+    }
+
+    for (var i = 0; i < todasLasActividades.length; i++) {
+      if (todasLasActividades[i].id == idActividad) {
+        return i; // Devuelve el índice de la actividad en la lista de unidades
+      }
+    }
+
+
+    return null; // Si no se encuentra la actividad
+  }
+
+  Actividad? actividadPorId(String idActividad) {
+
+     List<Actividad> todasLasActividades = [];
+    for (var i = 0; i < state.length; i++) {
+      for (var j = 0; j < state[i].actividades!.length; j++) {
+        todasLasActividades.add(state[i].actividades![j]);
+      }
+    }
+
+    for (var i = 0; i < todasLasActividades.length; i++) {
+      if (todasLasActividades[i].id == idActividad) {
+        
+          return todasLasActividades[i];
+        
+         // Devuelve el índice de la actividad en la lista de unidades
+      }
+    }
+
+
+    return null; // Si no se encuentra la actividad
+  }
+
+ /*
+if (state[i].actividades![j].id == idActividad) {
+          return j; // Devuelve el índice de la actividad en la lista de unidades
+        }
+ */
+
 }
 
 class SiguienteActividadInfo {
@@ -77,3 +137,6 @@ class SiguienteActividadInfo {
 
   SiguienteActividadInfo(this.idActividad, this.tipoActividad);
 }
+
+
+

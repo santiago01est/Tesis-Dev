@@ -1,10 +1,12 @@
 //clase estudiante
 class Estudiante {
-  String nombre;
-  String avatar;
+  int? id;
+  String? nombre;
+  String? avatar;
 
   Estudiante({
-    required this.nombre,
-    required this.avatar,
+    this.id,
+     this.nombre,
+     this.avatar,
   });
 }
