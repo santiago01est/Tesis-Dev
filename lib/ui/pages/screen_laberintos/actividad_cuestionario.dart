@@ -107,6 +107,23 @@ class _ActividadCuestionarioScreenState
         );
       });
     }
+
+
+    // Obtener Peso de la actividad segun la respuesta del estudiante
+    int obtenerPesoActividad(int respuestaEstudiante, String id) {
+    
+    final unidad = context.read<UnidadesCubit>();
+    Actividad actividad = unidad.actividadPorId(id)!;
+    
+
+    // toast
+
+    if (respuestaEstudiante == -1) {
+      return 0;
+    } else {
+      return actividad.pesoRespuestas![respuestaEstudiante - 1];
+    }
+  }
     return Scaffold(
       appBar: CustomNavigationBar(
         platformName: 'MiPlataforma',
@@ -210,7 +227,7 @@ class _ActividadCuestionarioScreenState
                                                     .actualizarRespuestasActividadesEstudiantes(
                                                         estudiantes
                                                             .obtenerIds(),
-                                                        _selectedOptionIndex,
+                                                        obtenerPesoActividad(_selectedOptionIndex, actividadCuestionario.id!), 
                                                         unidadesCubit
                                                             .indiceActividadPorId(
                                                                 actividadCuestionario

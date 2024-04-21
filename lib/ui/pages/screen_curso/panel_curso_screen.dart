@@ -134,226 +134,224 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
           ],
         ),
         body: SingleChildScrollView(
-          child: Expanded(
-            child: Column(
-              children: [
-                // Encabezado (header)
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(
-                        cursoCubit.state.portada!,
-                      ),
-                      fit: BoxFit.cover,
+          child: Column(
+            children: [
+              // Encabezado (header)
+              Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(
+                      cursoCubit.state.portada!,
                     ),
+                    fit: BoxFit.cover,
                   ),
-                  child: Column(
-                    children: [
-                      // Contenido superpuesto en la primera sección
-                      // Fila con botón en la parte superior derecha
-                      const SizedBox(height: 20.0),
-                      Center(
-                          child: TitleText(
-                        text: cursoCubit.state.nombre!,
-                      )),
-                      LayoutBuilder(
-                        builder: (context, constraints) {
-                          // Verifica el ancho de la pantalla
-                          if (constraints.maxWidth > 700) {
-                            // Pantalla grande: utiliza una fila
-                            return FractionallySizedBox(
-                                widthFactor: 0.6,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    cardInfoCurso(
-                                      cursoCubit.state.nombre!,
-                                      cursoCubit.state.colegio!,
-                                      cursoCubit.state.ciudad!,
-                                      cursoCubit.state.departamento!,
-                                      cursoCubit.state.fechaCreacion!,
-                                      cursoCubit.state.unidades!.length,
-                                      unidadCasoUso.numeroTotalActividades(
-                                          cursoCubit.state),
-                                      cursoCubit.state.estado!,
-                                      nombreProfesor!,
-                                    ),
-                                    buildCardWithImageAndGraph(
-                                        cursoCubit.state.descripcion!)
-                                  ],
-                                ));
-                          } else {
-                            // retorna para Pantalla pequeña: utiliza una columna
-                            return Column(
-                              children: [
-                                Container(
-                                  width: 600,
-                                  padding: const EdgeInsets.all(16),
-                                  child: Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                    ),
-                                    color: blueColor,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(
-                                          16), // Ajusta el padding del contenido
-                                      child: Column(
-                                        children: [
-                                          Row(children: [
+                ),
+                child: Column(
+                  children: [
+                    // Contenido superpuesto en la primera sección
+                    // Fila con botón en la parte superior derecha
+                    const SizedBox(height: 20.0),
+                    Center(
+                        child: TitleText(
+                      text: cursoCubit.state.nombre!,
+                    )),
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        // Verifica el ancho de la pantalla
+                        if (constraints.maxWidth > 700) {
+                          // Pantalla grande: utiliza una fila
+                          return FractionallySizedBox(
+                              widthFactor: 0.6,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  cardInfoCurso(
+                                    cursoCubit.state.nombre!,
+                                    cursoCubit.state.colegio!,
+                                    cursoCubit.state.ciudad!,
+                                    cursoCubit.state.departamento!,
+                                    cursoCubit.state.fechaCreacion!,
+                                    cursoCubit.state.unidades!.length,
+                                    unidadCasoUso.numeroTotalActividades(
+                                        cursoCubit.state),
+                                    cursoCubit.state.estado!,
+                                    nombreProfesor!,
+                                  ),
+                                  buildCardWithImageAndGraph(
+                                      cursoCubit.state.descripcion!)
+                                ],
+                              ));
+                        } else {
+                          // retorna para Pantalla pequeña: utiliza una columna
+                          return Column(
+                            children: [
+                              Container(
+                                width: 600,
+                                padding: const EdgeInsets.all(16),
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                  color: blueColor,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(
+                                        16), // Ajusta el padding del contenido
+                                    child: Column(
+                                      children: [
+                                        Row(children: [
+                                          Expanded(
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  SubtitleText(
+                                                    text:
+                                                        'Información general del curso',
+                                                  ),
+                                                  const SizedBox(height: 10),
+                                                  ParagraphText(
+                                                    text:
+                                                        "${cursoCubit.state.nombre!} del Colegio ${cursoCubit.state.colegio!} de ${cursoCubit.state.ciudad!}, ${cursoCubit.state.departamento!}.",
+                                                  ),
+                                                ]),
+                                          ),
+                                        ]),
+                                        const SizedBox(height: 20),
+                                        Row(
+                                          children: [
                                             Expanded(
+                                              flex: 4,
                                               child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    SubtitleText(
-                                                      text:
-                                                          'Información general del curso',
-                                                    ),
-                                                    const SizedBox(height: 10),
-                                                    ParagraphText(
-                                                      text:
-                                                          "${cursoCubit.state.nombre!} del Colegio ${cursoCubit.state.colegio!} de ${cursoCubit.state.ciudad!}, ${cursoCubit.state.departamento!}.",
-                                                    ),
-                                                  ]),
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  ParagraphText(
+                                                    text:
+                                                        'Profesor: $nombreProfesor!',
+                                                  ),
+                                                  ParagraphText(
+                                                    text:
+                                                        'Número de Unidades: ${cursoCubit.state.unidades!}',
+                                                  ),
+                                                  ParagraphText(
+                                                    text:
+                                                        'Número de Actividades: ${unidadCasoUso.numeroTotalActividades(cursoCubit.state)}',
+                                                  ),
+                                                  ParagraphText(
+                                                    text:
+                                                        'Fecha Creación: ${cursoCubit.state.fechaCreacion!}',
+                                                  ),
+                                                  ParagraphText(
+                                                    text: cursoCubit
+                                                            .state.estado!
+                                                        ? 'Estado: Activo'
+                                                        : 'Estado: Inactivo',
+                                                  )
+                                                ],
+                                              ),
                                             ),
-                                          ]),
-                                          const SizedBox(height: 20),
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                flex: 4,
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    ParagraphText(
-                                                      text:
-                                                          'Profesor: $nombreProfesor!',
-                                                    ),
-                                                    ParagraphText(
-                                                      text:
-                                                          'Número de Unidades: ${cursoCubit.state.unidades!}',
-                                                    ),
-                                                    ParagraphText(
-                                                      text:
-                                                          'Número de Actividades: ${unidadCasoUso.numeroTotalActividades(cursoCubit.state)}',
-                                                    ),
-                                                    ParagraphText(
-                                                      text:
-                                                          'Fecha Creación: ${cursoCubit.state.fechaCreacion!}',
-                                                    ),
-                                                    ParagraphText(
-                                                      text: cursoCubit
-                                                              .state.estado!
-                                                          ? 'Estado: Activo'
-                                                          : 'Estado: Inactivo',
-                                                    )
-                                                  ],
-                                                ),
+                                            Expanded(
+                                              child: Image.asset(
+                                                'assets/avatares/perico_avatar.png',
+                                                width: 80,
+                                                height: 80,
+                                                fit: BoxFit.contain,
                                               ),
-                                              Expanded(
-                                                child: Image.asset(
-                                                  'assets/avatares/perico_avatar.png',
-                                                  width: 80,
-                                                  height: 80,
-                                                  fit: BoxFit.contain,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  padding: const EdgeInsets.all(16),
-                                  child: Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                    ),
-                                    color: blueColor,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(16),
-                                      child: Column(
-                                        children: [
-                                          SubtitleText(
-                                            text: 'Descripción del curso',
-                                          ),
-                                          const SizedBox(height: 10),
-                                          ParagraphText(
-                                            text: cursoCubit.state.descripcion!,
-                                          ),
-                                          // Agrega cualquier contenido adicional que desees aquí
-                                        ],
-                                      ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.all(16),
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                  color: blueColor,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16),
+                                    child: Column(
+                                      children: [
+                                        SubtitleText(
+                                          text: 'Descripción del curso',
+                                        ),
+                                        const SizedBox(height: 10),
+                                        ParagraphText(
+                                          text: cursoCubit.state.descripcion!,
+                                        ),
+                                        // Agrega cualquier contenido adicional que desees aquí
+                                      ],
                                     ),
                                   ),
                                 ),
-                              ],
-                            );
-                          }
-                        },
-                      ),
-                      const SizedBox(height: 20.0),
-                       Center(
-                          child: PixelLargeBttn(
-                            path: 'assets/items/ButtonBlue.png',
-                        text: 'Seguimiento',
-                        onPressed: () => router.push('/seguimientoprofesor'),
-                          )),
-                      const SizedBox(height: 20.0),
-                    ],
-                  ),
-                ),
-
-                // Añadimos el TabBar
-                TabBar(
-                  tabs: const [
-                    Tab(text: 'Contenido'),
-                    Tab(text: 'Estudiantes'),
-                  ],
-                  labelColor:
-                      blackColor, // Color del texto de la pestaña activa
-                  unselectedLabelColor:
-                      Colors.grey, // Color del texto de la pestaña inactiva
-                  labelStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight
-                          .bold), // Estilo del texto de la pestaña activa
-                  unselectedLabelStyle: TextStyle(
-                      fontSize: 14), // Estilo del texto de la pestaña inactiva
-                  indicator: BoxDecoration(
-                    // Estilo de la barra debajo del texto
-                    border: Border(
-                      bottom: BorderSide(
-                          color: blueDarkColor,
-                          width: 2), // Color y grosor de la barra
+                              ),
+                            ],
+                          );
+                        }
+                      },
                     ),
+                    const SizedBox(height: 20.0),
+                     Center(
+                        child: PixelLargeBttn(
+                          path: 'assets/items/ButtonBlue.png',
+                      text: 'Seguimiento',
+                      onPressed: () => router.push('/seguimientoprofesor'),
+                        )),
+                    const SizedBox(height: 20.0),
+                  ],
+                ),
+              ),
+
+              // Añadimos el TabBar
+              TabBar(
+                tabs: const [
+                  Tab(text: 'Contenido'),
+                  Tab(text: 'Estudiantes'),
+                ],
+                labelColor:
+                    blackColor, // Color del texto de la pestaña activa
+                unselectedLabelColor:
+                    Colors.grey, // Color del texto de la pestaña inactiva
+                labelStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight
+                        .bold), // Estilo del texto de la pestaña activa
+                unselectedLabelStyle: TextStyle(
+                    fontSize: 14), // Estilo del texto de la pestaña inactiva
+                indicator: BoxDecoration(
+                  // Estilo de la barra debajo del texto
+                  border: Border(
+                    bottom: BorderSide(
+                        color: blueDarkColor,
+                        width: 2), // Color y grosor de la barra
                   ),
                 ),
+              ),
 
-                // Añadimos el TabBarView
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
+              // Añadimos el TabBarView
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
 
-                  child: TabBarView(
-                    children: [
-                      // Contenido de la primera pestaña
-                      // Utiliza tu LayoutUnidadCurso o el contenido que desees
-                      LayoutUnidadCurso(),
-                      const ListaEstudiantesWidget()
-                      // Contenido de la segunda pestaña
-                    ],
-                  ),
-                  // Ajusta la altura según tus necesidades
+                child: TabBarView(
+                  children: [
+                    // Contenido de la primera pestaña
+                    // Utiliza tu LayoutUnidadCurso o el contenido que desees
+                    LayoutUnidadCurso(),
+                    const ListaEstudiantesWidget()
+                    // Contenido de la segunda pestaña
+                  ],
                 ),
-              ],
-            ),
+                // Ajusta la altura según tus necesidades
+              ),
+            ],
           ),
         ),
       ),
