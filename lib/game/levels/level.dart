@@ -26,7 +26,7 @@ class Level extends World with HasGameRef<GameActivity>{
     const RUTA_DECORACION_TEMPO= 'mapa/decoracion-suelo/unidad2-Templo/';
     const RUTA_SUELO_TEMPLO= 'mapa/suelo/unidad2-Templo/';
     
-    level= await TiledComponent.load('Laberinto5.tmx', Vector2(16, 16));
+    level= await TiledComponent.load('$levelName.tmx', Vector2(16, 16));
     
     add(level);
     final sueloMap= level.tileMap.getLayer<ObjectGroup>('Suelo');
@@ -203,6 +203,7 @@ class Level extends World with HasGameRef<GameActivity>{
             );
             animationObject.priority=7;
             add(animationObject);
+            //Cargamos el objeto en el jugador
             player.itemDropComponent=animationObject;
             break;
         }

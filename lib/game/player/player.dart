@@ -6,6 +6,7 @@ import 'package:dev_tesis/game/components/custom_hitbox.dart';
 import 'package:dev_tesis/game/components/item_drop.dart';
 import 'package:dev_tesis/game/utilities/player_utils.dart';
 import 'package:dev_tesis/game/game_activity.dart';
+import 'package:dev_tesis/game/utilities/qualifying_profiles.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
@@ -56,8 +57,14 @@ class Player extends SpriteAnimationGroupComponent
   final double stepTimeRun = 1 / 12;
 
   List<CollisionBlock> collisionBlocks = [];
-  late Animation_Object itemDropComponent;
+  Animation_Object? itemDropComponent;
   CollisionBlock itemDrop = CollisionBlock();
+  Map<String, bool> playerRespuesta = {
+    "Llego a la meta": false,
+    "Mejor camino": true,
+    "No choco con obstaculos": true,
+    "Recogio el objeto/item": false,
+  };
 
   /*
   * hitbox: Es usado en el metodo onLoad para ajustar el hitbox del jugador en el juego,
@@ -121,27 +128,50 @@ class Player extends SpriteAnimationGroupComponent
   * que indica si se llego a la meta o no.
   **/
   Future<bool> processMovementInstructions() async {
+    if(itemDropComponent == null){
+      playerRespuesta["Recogio el objeto/item"]= true;
+    }
     // ignore: unnecessary_null_comparison
     if (movementInstructions != null || movementInstructions.isNotEmpty) {
-      return await _executeInstructions();
+      bool ejecucionRespuesta= await _executeInstructions();
+      print(playerRespuesta);
+      return ejecucionRespuesta;
     }
     return false;
   }
-
-  Future<bool> _executeInstructions() async {
+  
+  processMovementInstructionsResponse() async {
+    Map<String, dynamic> respuesta;
+    if(itemDropComponent == null){
+      playerRespuesta["Recogio el objeto/item"]= true;
+    }
+    // ignore: unnecessary_null_comparison
+    if (movementInstructions != null || movementInstructions.isNotEmpty) {
+      await _executeInstructions();
+      return generalProfile(playerRespuesta);
+    }
+    else{
+      respuesta = {
+        "ejecucion": false,
+        "perfilGenerator": 0,
+      };
+    }
+    return respuesta;
+  }
+  _executeInstructions() async {
     var i = 0;
-    bool response = false;
     for (var movement in movementInstructions) {
       i++;
       final instruction = movement;
-      response = i == movementInstructions.length ? 
+      print("Numero de la intruccion: "+i.toString());
+      print("Instruccions: "+ movementInstructions.toString());
+      i == movementInstructions.length ? 
       await _executeInstruction(instruction, true) : await _executeInstruction(instruction, false);
     }
-    return response;
   }
 
-  Future<bool> _executeInstruction (
-      String instruction, bool lastInstruction) async {
+  _executeInstruction (
+    String instruction, bool lastInstruction) async {
     String finalInstruction= '';
     if (instruction == 'avanzar') {
       if (current == PlayerState.idleR) finalInstruction = 'derecha';
@@ -166,7 +196,7 @@ class Player extends SpriteAnimationGroupComponent
         current = PlayerState.idleR;
       }
       await Future.delayed(const Duration(milliseconds: 333));
-      return false;
+      return;
     }
 
     if (instruction == 'giroDeIzquierda') {
@@ -181,7 +211,7 @@ class Player extends SpriteAnimationGroupComponent
         current = PlayerState.idleL;
       }
       await Future.delayed(const Duration(milliseconds: 333));
-      return false;
+      return;
     }
 
     final block = _checkNextBlockForCollision(finalInstruction);
@@ -196,10 +226,11 @@ class Player extends SpriteAnimationGroupComponent
     if (itemDrop.type == 'item-drop' && finalInstruction == 'recoger') {
       PlayerState currentBeforeDrop = current;
       priority= 7;
-      itemDropComponent.itemDropRemove();
+      itemDropComponent!.itemDropRemove();
       current= PlayerState.itemDrop;
       await Future.delayed(const Duration(milliseconds: 1360));
       priority= 5;
+      playerRespuesta["Recogio el objeto/item"] = true;
       current= currentBeforeDrop;
     }
     if (finalInstruction == 'derecha') {
@@ -219,10 +250,10 @@ class Player extends SpriteAnimationGroupComponent
           block, lastInstruction, PlayerState.runningD, PlayerState.idleD, Vector2(0, 16));
     }
 
-    return false;
+    return;
   }
 
-  Future<bool> _executeDisplacement(
+  _executeDisplacement(
 
         CollisionBlock block,
         bool lastInstruction,
@@ -241,14 +272,19 @@ class Player extends SpriteAnimationGroupComponent
       
     } */
     } else if (block.type == 'meta' && lastInstruction == true) {
+      print(lastInstruction);
       current = movementState;
       add(MoveByEffect(movementVector, EffectController(duration: 0.51)));
       await Future.delayed(const Duration(milliseconds: 510));
       current = PlayerState.victory;
-      return true;
+      playerRespuesta["Llego a la meta"] = true;
+      return;
+      
+    } else if (block.type == 'meta' && lastInstruction == false) {
+      playerRespuesta["Mejor camino"] = false;
     }
     currentInstructionIndex += 1;
-    return false;
+    return;
   }
 
   /*
