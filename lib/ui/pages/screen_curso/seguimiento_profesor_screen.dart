@@ -199,7 +199,16 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     activities.forEach((activity) {
       int randomNumber = random.nextInt(4) + 1;
       Color cellColor = asignarColor(activities.indexOf(activity));
-      int peso = obtenerPesoActividad(student.id, activities.indexOf(activity));
+      final seguimientos = context.read<SeguimientosEstudiantesCubit>();
+      final seguimiento =
+          seguimientos.obtenerSeguimientoEstudiante(student.id!);
+
+      int peso =
+          seguimiento.respuestasActividades![activities.indexOf(activity)];
+
+      if (peso == -1) {
+        peso = 0;
+      }
 
       cells.add(
         DataCell(

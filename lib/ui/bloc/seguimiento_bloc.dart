@@ -1,3 +1,4 @@
+
 import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -47,6 +48,8 @@ class SeguimientosEstudiantesCubit extends Cubit<List<Seguimiento>>{
       }
     }).toList());
   }
+
+   
 
   Seguimiento obtenerSeguimientoEstudiante(int userId) {
   final seguimientoEstudiante = state.firstWhere((seguimiento) => seguimiento.userId == userId);
