@@ -20,8 +20,17 @@ class SeguimientoProfesorScreen extends StatelessWidget {
     final estudiantes = cursoCubit.state.estudiantes!;
     return Scaffold(
       appBar: AppBar(
+         iconTheme: IconThemeData(color: blueDarkColor), // Cambia el color aquí
         backgroundColor: sixtyColor,
-        title: Text('Seguimiento General'),
+// Suggested code may be subject to a license. Learn more: ~LicenseLog:2822823910.
+        title: Text('Seguimiento General', style: TextStyle(color: Colors.black),),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.home, color: blueDarkColor),
+            tooltip: 'Inicio', // Aquí personalizas el texto de ayuda
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(

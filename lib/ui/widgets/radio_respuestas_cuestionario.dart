@@ -84,8 +84,8 @@ class _RadioRespuestasCuestionarioState
                           } else {
                             return Image.asset(
                               'assets/buttons/$img',
-                              height: 50,
-                              width: 50,
+                              height: 40,
+                              width: 40,
                               fit: BoxFit.cover,
                             );
                           }}
@@ -136,8 +136,8 @@ class _RadioRespuestasCuestionarioState
 
               (imgIndex) => Image.asset(
                 'assets/buttons/${respuesta['Respuestas'][imgIndex]}',
-                height: 50,
-                width: 50,
+                height: 40,
+                width: 40,
                 fit: BoxFit.cover,
               ),
             ),

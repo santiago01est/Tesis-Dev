@@ -167,7 +167,7 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                                                 activityIndex]
                                                             .tipoActividad ==
                                                         "Laberinto") {
-                                                      router.go(
+                                                      router.push(
                                                           '/laberinto/${unidadesCubit.state[index].actividades![activityIndex].id}');
                                                     } else if (unidadesCubit
                                                             .state[index]
@@ -175,7 +175,7 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                                                 activityIndex]
                                                             .tipoActividad ==
                                                         "Cuestionario") {
-                                                      router.go(
+                                                      router.push(
                                                           '/cuestionario/${unidadesCubit.state[index].actividades![activityIndex].id}');
                                                     }
                                                   },

@@ -3,6 +3,7 @@ class Actividad {
   String? nombre;
   String? descripcion;
   String? estado;
+  int? indice;
   String? tipoActividad;
   List<int>? pesoRespuestas;
 
@@ -11,6 +12,7 @@ class Actividad {
     this.nombre,
     this.descripcion,
     this.estado,
+    this.indice,
     this.tipoActividad,
     this.pesoRespuestas,
   });
