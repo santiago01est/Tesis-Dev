@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="12" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="145">
- <objectgroup id="2" name="Borde" class="campo" locked="1">
+ <objectgroup id="2" name="Borde" class="campo" visible="0" locked="1">
   <object id="1" name="borde" type="campo" x="0" y="16" width="192" height="176"/>
  </objectgroup>
- <objectgroup id="3" name="Suelo" class="campo" locked="1">
+ <objectgroup id="3" name="Suelo" class="campo" visible="0" locked="1">
   <object id="2" name="suelo" type="campo" x="16" y="16" width="160" height="160"/>
  </objectgroup>
- <objectgroup id="4" name="Suelo-z0" class="campo" visible="0" locked="1">
+ <objectgroup id="4" name="Suelo-z0" class="campo" visible="0">
   <object id="6" name="lago-AIzq" type="campo" x="32" y="32" width="16" height="16"/>
   <object id="7" name="lago-A" type="campo" x="48" y="32" width="16" height="16"/>
   <object id="8" name="lago-A" type="campo" x="64" y="32" width="16" height="16"/>
@@ -36,7 +36,7 @@
   <object id="35" name="lago-B" type="campo" x="48" y="144" width="16" height="16"/>
   <object id="37" name="lago-BIzq" type="campo" x="32" y="144" width="16" height="16"/>
  </objectgroup>
- <objectgroup id="5" name="Suelo-decoracion" class="campo" locked="1">
+ <objectgroup id="5" name="Suelo-decoracion" class="campo" visible="0">
   <object id="38" name="pasto" x="16" y="64" width="16" height="16"/>
   <object id="39" name="floresV6" x="32" y="64" width="16" height="16"/>
   <object id="40" name="pasto" x="80" y="80" width="16" height="16"/>
@@ -59,11 +59,11 @@
   <object id="58" name="tree-down" type="32x16" x="144" y="144" width="32" height="16"/>
   <object id="59" name="tree-down" type="32x16" x="64" y="160" width="32" height="16"/>
  </objectgroup>
- <objectgroup id="9" name="Animales" class="campo" visible="0" locked="1">
+ <objectgroup id="9" name="Animales" class="campo">
   <object id="128" name="gallina" type="animal" x="136" y="84" width="32" height="32"/>
-  <object id="129" name="patoDerech" type="animal" x="88" y="84" width="32" height="32"/>
+  <object id="129" name="patoDerech" type="animal" x="88" y="68" width="32" height="32"/>
  </objectgroup>
- <objectgroup id="7" name="Jugador" class="campo" visible="0" locked="1">
+ <objectgroup id="7" name="Jugador" class="campo">
   <object id="60" name="jugador" x="40" y="84" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="10" name="Decoracion-up" class="campo">
@@ -73,7 +73,7 @@
   <object id="136" name="tree-up" type="32x16" x="144" y="128" width="32" height="16"/>
   <object id="137" name="tree-up" type="32x16" x="64" y="144" width="32" height="16"/>
  </objectgroup>
- <objectgroup id="8" name="Colisiones" visible="0">
+ <objectgroup id="8" name="Colisiones">
   <object id="61" name="colision" x="16" y="16" width="16" height="16"/>
   <object id="66" name="colision" x="160" y="16" width="16" height="16"/>
   <object id="67" name="colision" x="176" y="32" width="16" height="16"/>

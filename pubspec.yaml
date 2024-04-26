@@ -66,14 +66,17 @@ flutter:
     - assets/images/
     - assets/images/objetos_animados/
     - assets/images/objetos_animados/animales/
+    - assets/images/objetos_animados/items/
     - assets/images/objetos_animados/jugador/
     - assets/tiles/
     - assets/images/mapa/
     - assets/images/mapa/decoracion-suelo/
     - assets/images/mapa/decoracion-suelo/unidad1-Campo/
+    - assets/images/mapa/decoracion-suelo/unidad2-Templo/
     - assets/images/mapa/objetos-UpAndDown/
     - assets/images/mapa/suelo/
     - assets/images/mapa/suelo/unidad1-Campo/
+    - assets/images/mapa/suelo/unidad2-Templo/
     - assets/friends/
     - assets/buttons/
     - assets/avatares/

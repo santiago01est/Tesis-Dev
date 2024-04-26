@@ -79,8 +79,11 @@ final appRouter = GoRouter(
         }
     ),
        GoRoute(
-      path: '/seguimientoprofesor',
-      builder: (context, state) => const SeguimientoProfesorScreen(),
+      path: '/seguimientoprofesor/:cursoId',
+      builder: (context, state){
+        final String cursodId = state.pathParameters['cursoId'] ?? '0';
+        return SeguimientoProfesorScreen(cursoId: cursodId);
+      }
     ),
   ],
 );

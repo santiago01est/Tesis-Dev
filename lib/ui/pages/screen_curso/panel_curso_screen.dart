@@ -302,7 +302,7 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
                         child: PixelLargeBttn(
                           path: 'assets/items/ButtonBlue.png',
                       text: 'Seguimiento',
-                      onPressed: () => router.push('/seguimientoprofesor'),
+                      onPressed: () => router.push('/seguimientoprofesor/${cursoCubit.state.id}'),
                         )),
                     const SizedBox(height: 20.0),
                   ],

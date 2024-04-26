@@ -28,4 +28,8 @@ class GameActivity extends FlameGame with HasKeyboardHandlerComponents, HasColli
     return super.onLoad();
   }
 
+  /* asignarRespuesta(int respuesta){
+    player.asignarRespuesta(respuesta);
+  } */
+
 }

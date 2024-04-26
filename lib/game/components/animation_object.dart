@@ -17,11 +17,23 @@ class Animation_Object extends SpriteAnimationComponent with HasGameRef<GameActi
       case 'gallina':
         chargeAnimation('objetos_animados/animales/',4, 32);
         break;
+      case 'gallinaDerech':
+        chargeAnimation('objetos_animados/animales/',4, 32);
+        break;
       case 'gallinaV2':
         chargeAnimation('objetos_animados/animales/',4, 32);
         break;
       case 'patoDerech':
         chargeAnimation('objetos_animados/animales/',4, 32);
+        break;
+      case 'pato':
+        chargeAnimation('objetos_animados/animales/',4, 32);
+        break;
+      case 'huevo':
+        chargeAnimation('objetos_animados/items/',4, 32);
+        break;
+      case 'tim':
+        chargeAnimation('objetos_animados/items/',8, 32);
         break;
     }
     debugMode= false;
@@ -37,6 +49,10 @@ class Animation_Object extends SpriteAnimationComponent with HasGameRef<GameActi
         textureSize: Vector2.all(size)
       )
     );
+  }
+
+  void itemDropRemove(){
+    removeFromParent();
   }
 
 }

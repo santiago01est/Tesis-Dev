@@ -2,6 +2,7 @@ import 'package:dev_tesis/domain/model/actividad.dart';
 
 class ActividadLaberinto extends Actividad {
   String? nombreArchivo;
+  Map<String, bool>? respuesta;
 
   ActividadLaberinto(
       {super.id,
@@ -11,5 +12,7 @@ class ActividadLaberinto extends Actividad {
       super.indice,
       super.tipoActividad,
       super.pesoRespuestas,
-      this.nombreArchivo});
+      this.nombreArchivo,
+      this.respuesta
+  });
 }

@@ -919,7 +919,7 @@ class CursosDataAdapter extends CursoRepository {
                 estado: 'Activa',
                 indice: 16,
                 descripcion:
-                    'Hola El granjero necesita de tu ayuda! Guíalo a encontrar a su GALLINA.',
+                    'Hola El granjero necesita de tu ayuda! Guíalo a encontrar a su gallina.',
                 tipoActividad: 'Laberinto',
                 nombreArchivo: "Laberinto1"),
             ActividadCuestionario(
