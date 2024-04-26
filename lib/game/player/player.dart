@@ -140,23 +140,17 @@ class Player extends SpriteAnimationGroupComponent
     return false;
   }
   
-  processMovementInstructionsResponse() async {
-    Map<String, dynamic> respuesta;
+  Future<int> processMovementInstructionsResponse() async {
     if(itemDropComponent == null){
       playerRespuesta["Recogio el objeto/item"]= true;
     }
     // ignore: unnecessary_null_comparison
-    if (movementInstructions != null || movementInstructions.isNotEmpty) {
+    if (movementInstructions != null) {
       await _executeInstructions();
       return generalProfile(playerRespuesta);
     }
-    else{
-      respuesta = {
-        "ejecucion": false,
-        "perfilGenerator": 0,
-      };
-    }
-    return respuesta;
+
+    return generalProfile(playerRespuesta);
   }
   _executeInstructions() async {
     var i = 0;

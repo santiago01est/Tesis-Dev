@@ -21,6 +21,6 @@ int generalProfile(Map<String, bool> respuesta) {
   } else if (!llegoAMeta && !mejorCamino && !noChoco && !recogioObjeto) {
     return 1;
   } else {
-    return 0; // No ha realizado el ejercicio
+    return 1; // No ha realizado el ejercicio
   }
 }

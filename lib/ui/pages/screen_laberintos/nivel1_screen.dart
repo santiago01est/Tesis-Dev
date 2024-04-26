@@ -4,11 +4,11 @@ import 'package:dev_tesis/domain/model/actividad_laberinto.dart';
 import 'package:dev_tesis/game/player/player.dart';
 import 'package:dev_tesis/game/game_activity.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
+import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/game/instrucciones_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
-import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:dev_tesis/ui/widgets/banner_info_actividades.dart';
 import 'package:dev_tesis/ui/widgets/response_game_flame.dart';
 import 'package:flame/game.dart';
@@ -29,9 +29,10 @@ class _LaberintoState extends State<Laberinto> {
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
-    final unidadesCubit = context.watch<UnidadesCubit>();
-    final seguimientosCubit = context.watch<SeguimientosEstudiantesCubit>();
-
+    final unidadesCubit = context.read<UnidadesCubit>();
+    final seguimientosCubit = context.read<SeguimientosEstudiantesCubit>();
+    
+    final estudiantes = context.read<EstudiantesCubit>();
     final curso = context.read<CursoCubit>();
     ActividadLaberinto? actividadLaberinto;
     for (var unidad in curso.state.unidades!) {
@@ -54,7 +55,9 @@ class _LaberintoState extends State<Laberinto> {
         ? 'Laberinto1'
         : actividadLaberinto.nombreArchivo!);
     Player player = game.player;
-
+    print(seguimientosCubit.state);
+    print(actividadLaberinto!.id);
+    print(estudiantes.obtenerIds());
     String nombreUnidad=unidadesCubit.nombreUnidadDeActividad(actividadLaberinto!.id!);
     return Scaffold(
       appBar: const CustomAppBar(userName: 'usuario'),
@@ -243,9 +246,10 @@ class _LaberintoState extends State<Laberinto> {
                                                         .state
                                                         .map((map) => map.key)
                                                         .toList();
-                                                Future<bool> response = player
-                                                    .processMovementInstructions();
-                                                if (await response) {
+                                                int response = await player
+                                                    .processMovementInstructionsResponse();
+                                                print(response);
+                                                if (true) {
                                                   Future.delayed(
                                                       Duration(seconds: 2), () {
                                                     // ignore: use_build_context_synchronously
@@ -255,6 +259,16 @@ class _LaberintoState extends State<Laberinto> {
                                                         unidadesCubit,
                                                         actividadLaberinto!);
                                                   });
+                                                  seguimientosCubit
+                                                    .actualizarRespuestasActividadesEstudiantes(
+                                                        estudiantes
+                                                            .obtenerIds(),
+                                                        response, 
+                                                        unidadesCubit
+                                                            .indiceActividadPorId(
+                                                                actividadLaberinto!
+                                                                    .id!)!);
+                                                  print(seguimientosCubit.state.map((e) => e.respuestasActividades));
                                                 }
                                               }),
                                         ),
@@ -460,9 +474,12 @@ class _LaberintoState extends State<Laberinto> {
                                                         .state
                                                         .map((map) => map.key)
                                                         .toList();
-                                                Future<bool> response = player
-                                                    .processMovementInstructions();
-                                                if (await response) {
+                                                final response = player
+                                                    .processMovementInstructionsResponse();
+                                                print(response);
+                                                if (true) {
+                                                  
+                                                  
                                                   Future.delayed(
                                                       Duration(seconds: 2), () {
                                                     // ignore: use_build_context_synchronously
@@ -511,6 +528,20 @@ class _LaberintoState extends State<Laberinto> {
               ),
             ),
     );
+  }
+  int obtenerPesoActividad(int respuestaEstudiante, String id) {
+    
+    final unidad = context.read<UnidadesCubit>();
+    Actividad actividad = unidad.actividadPorId(id)!;
+    
+
+    // toast
+
+    if (respuestaEstudiante == -1) {
+      return 0;
+    } else {
+      return actividad.pesoRespuestas![respuestaEstudiante - 1];
+    }
   }
 
   void _mostrarDialogoVictoria(BuildContext context, GoRouter router,
