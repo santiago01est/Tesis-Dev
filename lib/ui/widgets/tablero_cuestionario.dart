@@ -9,45 +9,43 @@ class TableroCuestionario extends StatelessWidget {
   const TableroCuestionario({Key? key, required this.actividadCuestionario})
       : super(key: key);
 
-      
-
   @override
   Widget build(BuildContext context) {
-
     List<String> elements = [
-    'boycampoderecha.png',
-    'boycampofrente.png',
-    'boytemploderecha.png',
-    'pollitoUnidad0.jpg',
-    'cofre.png',
-    'llave 1.png',
-    'sacocafe.png',
-    'florUnidad0.png',
-    'gemaAmarilla.png',
-    'gemaAzul.png',
-    'gemaRoja.png',
-    'gemaVerde.png',
-    'gallinas.png',
-    'gallinaUnidad0.png',
-    'huevo.png',
-    'trigo.png',
-    'calabaza.png',
-    'pilar 1.png',
-    'pilarfuego.png',
-    'piedra 1.png',
-    'cajas.png',
-    'jarrones.png',
-    'abeja.png',
-    'gatoUnidad0.png',
-  ];
+      'boycampoderecha.png', // 0
+      'boycampofrente.png', // 1
+      'boytemploderecha.png', // 2
+      'pollitoUnidad0.jpg', // 3
+      'cofre.png', // 4
+      'llave 1.png', // 5
+      'sacocafe.png', // 6
+      'florUnidad0.png', // 7
+      'gemaAmarilla.png', // 8
+      'gemaAzul.png', // 9
+      'gemaRoja.png', // 10
+      'gemaVerde.png', // 11
+      'gallinas.png', // 12
+      'gallinaUnidad0.png', // 13
+      'huevo.png', // 14
+      'trigo.png', // 15
+      'calabaza.png', // 16
+      'pilar 1.png', // 17
+      'pilarfuego.png', // 18
+      'piedra 1.png', // 19
+      'cajas.png', // 20
+      'jarrones.png', // 21
+      'abeja.png', // 22
+      'gatoUnidad0.png', // 23
+      'trigocosecha.png' // 24
+    ];
 
-  List<int>? elementsInfoBoard= actividadCuestionario.casillas;
+    List<int>? elementsInfoBoard = actividadCuestionario.casillas;
 
     return SizedBox(
       width: actividadCuestionario.dimension! *
-          100, // Tamaño del tablero (6 casillas * 90px por casilla)
+          110, // Tamaño del tablero (6 casillas * 110px por casilla)
       height: actividadCuestionario.dimension! *
-          100, // Tamaño del tablero (6 casillas * 90px por casilla)
+          110, // Tamaño del tablero (6 casillas * 110px por casilla)
       child: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount:
@@ -56,21 +54,22 @@ class TableroCuestionario extends StatelessWidget {
         itemCount: actividadCuestionario.dimension! *
             actividadCuestionario.dimension!, // Total de casillas en el tablero
         itemBuilder: (context, index) {
-          String casillarecurso = elementsInfoBoard![index] != -1 ? 'assets/items/estudio/${elements[elementsInfoBoard[index]]}' : 'assets/whiteCasilla.png';
+          String casillarecurso = elementsInfoBoard![index] != -1
+              ? 'assets/items/estudio/${elements[elementsInfoBoard[index]]}'
+              : 'assets/whiteCasilla.png';
           return Container(
-            width: 100, // Tamaño de cada casilla
-            height: 100, // Tamaño de cada casilla
-            decoration: BoxDecoration(
-              //color del borde
-              border: Border.all(color: Colors.black),
-              // color de relleno
-              color: const Color.fromARGB(255, 255, 255, 255),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset(casillarecurso),
-            )
-          );
+              width: 110, // Tamaño de cada casilla
+              height: 110, // Tamaño de cada casilla
+              decoration: BoxDecoration(
+                //color del borde
+                border: Border.all(color: Colors.black),
+                // color de relleno
+                color: const Color.fromARGB(255, 255, 255, 255),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset(casillarecurso),
+              ));
         },
       ),
     );
