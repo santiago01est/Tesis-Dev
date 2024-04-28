@@ -101,6 +101,8 @@ void addActividad(Actividad actividad, String idUnidad) {
     return null; // Si no se encuentra la actividad
   }
 
+
+// indice global en el curso entre todas las actividades
   Actividad? actividadPorId(String idActividad) {
 
      List<Actividad> todasLasActividades = [];
@@ -122,6 +124,19 @@ void addActividad(Actividad actividad, String idUnidad) {
 
     return null; // Si no se encuentra la actividad
   }
+
+  int? obtenerIndiceActividadEnUnidad(String idActividad) {
+  for (int i = 0; i < state.length; i++) {
+    if (state[i].actividades != null) {
+      for (int j = 0; j < state[i].actividades!.length; j++) {
+        if (state[i].actividades![j].id == idActividad) {
+          return j; // Devuelve el índice de la actividad dentro de la unidad
+        }
+      }
+    }
+  }
+  return null; // Retorna null si no se encuentra la actividad en ninguna unidad
+}
 
  /*
 if (state[i].actividades![j].id == idActividad) {

@@ -296,16 +296,16 @@ class _DataTableWidgetState extends State<DataTableWidget> {
   }
 
   List<DataRow> _buildRows() {
-    Random random = Random();
+  
     return widget.estudiantes.map((student) {
       int rowIndex = widget.estudiantes.indexOf(student);
       return DataRow(
-        cells: _buildCells(student, rowIndex, random),
+        cells: _buildCells(student, rowIndex),
       );
     }).toList();
   }
 
-  List<DataCell> _buildCells(Estudiante student, int rowIndex, Random random) {
+  List<DataCell> _buildCells(Estudiante student, int rowIndex) {
     List<DataCell> cells = [];
 
     // Agregar la celda con el nombre del estudiante
@@ -315,14 +315,14 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     List<int> activityValues =
         []; // Lista para almacenar los valores de actividades
     widget.actividades.forEach((activity) {
-      int randomNumber = random.nextInt(4) + 1;
-      Color cellColor = asignarColor(widget.actividades.indexOf(activity));
+     
+      Color cellColor = asignarColor(activity.indice! -1);
       final seguimientos = context.read<SeguimientosEstudiantesCubit>();
       final seguimiento =
           seguimientos.obtenerSeguimientoEstudiante(student.id!);
 
       int peso = seguimiento
-          .respuestasActividades![widget.actividades.indexOf(activity)];
+          .respuestasActividades![activity.indice! - 1];
 
       if (peso == -1) {
         peso = 0;

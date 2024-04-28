@@ -378,7 +378,7 @@ class _LaberintoState extends State<Laberinto> {
                                   margin: const EdgeInsets.only(
                                       left: 10, bottom: 20),
                                   child: const Text(
-                                    "Selecciona los pasos necesarios para\nllegar a la meta:",
+                                    "Presiona los pasos necesarios para lograr tu objetivo:",
                                     style: TextStyle(
                                       fontSize: 16,
                                       color: Colors.black,

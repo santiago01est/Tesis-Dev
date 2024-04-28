@@ -152,7 +152,7 @@ class _ActividadCuestionarioScreenState
                             IntrinsicHeight(
                               child: BannerInfoActividades(
                                 titulo:
-                                    '$nombreUnidad \n${actividadCuestionario.nombre!}',
+                                    '$nombreUnidad \n Actividad ${unidadesCubit.obtenerIndiceActividadEnUnidad(actividadCuestionario.id!)!}',
                               ),
                             ),
                             const SizedBox(
@@ -202,7 +202,7 @@ class _ActividadCuestionarioScreenState
                                           margin: const EdgeInsets.only(
                                               left: 10, bottom: 20),
                                           child: const Text(
-                                            "Selecciona la mejor respuesta para llegar a la meta:",
+                                            "Prueba A, B, C y D y elige la correcta",
                                             style: TextStyle(
                                               fontSize: 16,
                                               color: Colors.black,
