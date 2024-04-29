@@ -42,6 +42,7 @@ class TableroCuestionario extends StatelessWidget {
       'canasta.png', // 27
       'cerdito.png', // 28
       'corralcerditos.png', // 29
+      'fuego.png', // 30
     ];
 
     List<int>? elementsInfoBoard = actividadCuestionario.casillas;

@@ -152,7 +152,7 @@ class _ActividadCuestionarioScreenState
                             IntrinsicHeight(
                               child: BannerInfoActividades(
                                 titulo:
-                                    '$nombreUnidad \n Actividad ${unidadesCubit.obtenerIndiceActividadEnUnidad(actividadCuestionario.id!)!}',
+                                    '$nombreUnidad \nActividad ${unidadesCubit.obtenerIndiceActividadEnUnidad(actividadCuestionario.id!)!}',
                               ),
                             ),
                             const SizedBox(

@@ -20,8 +20,6 @@ class LayoutUnidadCurso extends StatefulWidget {
 }
 
 class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
-  bool _isLoading = true; // Estado de carga inicial
-  @override
   void initState() {
     super.initState();
     // Escuchar cambios en el estado del cubit
@@ -38,11 +36,13 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
     */
   }
 
-  Color getBackgroundColor(String? activityIndex, Seguimiento seguimientoState, UnidadesCubit unidades) {
-    int index=unidades.indiceActividadPorId(activityIndex!)!;
+  Color getBackgroundColor(String? activityIndex, Seguimiento seguimientoState,
+      UnidadesCubit unidades) {
+    int index = unidades.indiceActividadPorId(activityIndex!)!;
     // Verificar si hay un cero en la lista en el índice de la actividad
     if (seguimientoState.respuestasActividades != null &&
-        (seguimientoState.respuestasActividades![index] == 0 || seguimientoState.respuestasActividades![index] == -1) ){
+        (seguimientoState.respuestasActividades![index] == 0 ||
+            seguimientoState.respuestasActividades![index] == -1)) {
       // Si hay un cero, devolver gris
       return Color.fromARGB(255, 245, 245, 245);
     } else {
@@ -57,7 +57,7 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
     final router = GoRouter.of(context);
     final unidadesCubit = context.watch<UnidadesCubit>();
     final seguimientosCubit = context.watch<SeguimientosEstudiantesCubit>();
-    final estudianteId= context.watch<EstudiantesCubit>().state.first.id!;
+    final estudianteId = context.watch<EstudiantesCubit>().state.first.id!;
 
     void eliminarActividad(String idActividad) {
       // Elimina la actividad del listado de actividades de la unidad
@@ -84,7 +84,8 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                         // si el ancho de la pantalla es menor a 700 es un dispositivo movil
                         widthFactor:
                             MediaQuery.of(context).size.width < 700 ? 0.8 : 0.6,
-                        child: BlocBuilder<SeguimientosEstudiantesCubit, List<Seguimiento>>(
+                        child: BlocBuilder<SeguimientosEstudiantesCubit,
+                                List<Seguimiento>>(
                             builder: (context, seguimientoState) {
                           return ListView.builder(
                             shrinkWrap: true,
@@ -155,8 +156,15 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                                           10.0),
                                                 ),
                                                 color: getBackgroundColor(
-                                                    unidadesCubit.state[index].actividades![activityIndex].id,
-                                                    seguimientosCubit.obtenerSeguimientoEstudiante(estudianteId), unidadesCubit),
+                                                    unidadesCubit
+                                                        .state[index]
+                                                        .actividades![
+                                                            activityIndex]
+                                                        .id,
+                                                    seguimientosCubit
+                                                        .obtenerSeguimientoEstudiante(
+                                                            estudianteId),
+                                                    unidadesCubit),
                                                 margin: EdgeInsets.symmetric(
                                                     vertical: 5),
                                                 child: GestureDetector(

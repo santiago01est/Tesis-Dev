@@ -52,6 +52,7 @@ class CrearActividadState extends State<CrearActividad> {
       'canasta.png', // 27
       'cerdito.png', // 28
            'corralcerditos.png', // 29
+            'fuego.png', // 30
   ];
 
   List<String> opciones = [

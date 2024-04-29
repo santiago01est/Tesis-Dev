@@ -230,7 +230,7 @@ class CursosDataAdapter extends CursoRepository {
                     descripcion: 'Lleva al pollito con su mamá.',
                     tipoActividad: 'Cuestionario',
                     dimension: 4,
-                    pista:'assets/items/ejemplosImg/pistaCiclos.png',
+                    pista: 'assets/items/ejemplosImg/pistaCiclos.png',
                     casillas: [
                       -1,
                       -1,
@@ -496,7 +496,7 @@ class CursosDataAdapter extends CursoRepository {
                         },
                       ]
                     ],
-                    pesoRespuestas: [2, 4 ,1 ,3],
+                    pesoRespuestas: [2, 4, 1, 3],
                     respuestaCorrecta: 2),
                 ActividadCuestionario(
                     id: '9',
@@ -546,7 +546,6 @@ class CursosDataAdapter extends CursoRepository {
                         'Abajo.png',
                       ],
                       [
-
                         'Izquierda.png',
                         {
                           'Repeticion': 2,
@@ -557,7 +556,7 @@ class CursosDataAdapter extends CursoRepository {
                     ],
                     pesoRespuestas: [3, 4, 2, 1],
                     respuestaCorrecta: 2),
-                    ActividadCuestionario(
+                ActividadCuestionario(
                     id: '10',
                     nombre: 'Actividad 10',
                     estado: 'Activa',
@@ -584,35 +583,34 @@ class CursosDataAdapter extends CursoRepository {
                       -1
                     ],
                     ejemploImage: 'ejemploUnidad0A10.png',
-                    ejercicioImage: 'assets/items/ejemplosImg/ejercicioImage10.png',
+                    ejercicioImage:
+                        'assets/items/ejemplosImg/ejercicioImage10.png',
                     respuestas: [
                       [
                         {
                           'Repeticion': 3,
                           'Respuestas': ['Derecha.png']
                         },
-                         {
+                        {
                           'Repeticion': 3,
                           'Respuestas': ['Abajo.png']
                         },
-                        
                       ],
                       [
-                         'Derecha.png',
+                        'Derecha.png',
                         {
                           'Repeticion': 2,
                           'Respuestas': ['Abajo.png', 'Derecha.png']
                         },
                       ],
                       [
-                         {
+                        {
                           'Repeticion': 3,
                           'Respuestas': ['Derecha.png', 'Abajo.png']
                         },
                       ],
                       [
-
-                         {
+                        {
                           'Repeticion': 3,
                           'Respuestas': ['Abajo.png', 'Derecha.png']
                         },
@@ -620,19 +618,32 @@ class CursosDataAdapter extends CursoRepository {
                     ],
                     pesoRespuestas: [1, 2, 4, 3],
                     respuestaCorrecta: 3),
-                     ActividadCuestionario(
+                ActividadCuestionario(
                     id: '11',
                     nombre: 'Actividad 11',
                     estado: 'Activa',
                     indice: 11,
-                    descripcion: 'Lleva al pollito con su mamá\nCuidado con el gato: no pases por su casilla',
+                    descripcion:
+                        'Lleva al pollito con su mamá\nCuidado con el gato: no pases por su casilla',
                     tipoActividad: 'Cuestionario',
                     dimension: 4,
                     casillas: [
-                      3,-1,-1,-1,
-                      -1,-1,-1,-1,
-                      23,-1,-1,13,
-                      -1,-1,-1,-1
+                      3,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      23,
+                      -1,
+                      -1,
+                      13,
+                      -1,
+                      -1,
+                      -1,
+                      -1
                     ],
                     ejemploImage: 'ejemploUnidad0A6.png',
                     ejercicioImage: '',
@@ -649,27 +660,25 @@ class CursosDataAdapter extends CursoRepository {
                           'Repeticion': 2,
                           'Respuestas': ['Abajo.png', 'Derecha.png']
                         },
-                         'Abajo.png',
+                        'Abajo.png',
                       ],
                       [
-                       {
+                        {
                           'Repeticion': 2,
                           'Respuestas': ['Abajo.png', 'Derecha.png']
                         },
-                         'Abajo.png',
-                          {
+                        'Abajo.png',
+                        {
                           'Repeticion': 2,
                           'Respuestas': ['Derecha.png']
                         },
                       ],
                       [
-
-                       
                         {
                           'Repeticion': 2,
                           'Respuestas': ['Abajo.png']
                         },
-                          {
+                        {
                           'Repeticion': 3,
                           'Respuestas': ['Derecha.png']
                         },
@@ -677,19 +686,32 @@ class CursosDataAdapter extends CursoRepository {
                     ],
                     pesoRespuestas: [4, 2, 1, 3],
                     respuestaCorrecta: 1),
-                    ActividadCuestionario(
+                ActividadCuestionario(
                     id: '12',
                     nombre: 'Actividad 12',
                     estado: 'Activa',
                     indice: 12,
-                    descripcion: 'Lleva al pollito con su mamá\nRecoge la flor por el camino',
+                    descripcion:
+                        'Lleva al pollito con su mamá\nRecoge la flor por el camino',
                     tipoActividad: 'Cuestionario',
                     dimension: 4,
                     casillas: [
-                      3,-1,-1,-1,
-                      -1,7,-1,-1,
-                      -1,-1,-1,13,
-                      -1,-1,-1,-1
+                      3,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      7,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      13,
+                      -1,
+                      -1,
+                      -1,
+                      -1
                     ],
                     ejemploImage: 'ejemploUnidad0A7.png',
                     ejercicioImage: '',
@@ -697,7 +719,7 @@ class CursosDataAdapter extends CursoRepository {
                       [
                         {
                           'Repeticion': 2,
-                          'Respuestas': ['Derecha.png','Abajo.png']
+                          'Respuestas': ['Derecha.png', 'Abajo.png']
                         },
                         'Derecha.png',
                       ],
@@ -706,49 +728,60 @@ class CursosDataAdapter extends CursoRepository {
                           'Repeticion': 2,
                           'Respuestas': ['Derecha.png']
                         },
-                         {
+                        {
                           'Repeticion': 2,
                           'Respuestas': ['Abajo.png']
                         },
                         'Derecha.png'
-                         
                       ],
                       [
                         'Derecha.png',
                         'Abajo.png',
-                       {
+                        {
                           'Repeticion': 2,
                           'Respuestas': ['Derecha.png']
                         },
-                       
                       ],
-                      [                     
+                      [
                         {
                           'Repeticion': 2,
-                          'Respuestas': ['Derecha.png','Abajo.png']
+                          'Respuestas': ['Derecha.png', 'Abajo.png']
                         },
                         'Abajo.png',
-                          {
+                        {
                           'Repeticion': 2,
                           'Respuestas': ['Derecha.png']
                         },
                       ]
                     ],
-                    pesoRespuestas: [4, 3, 2 ,1],
+                    pesoRespuestas: [4, 3, 2, 1],
                     respuestaCorrecta: 1),
-                    ActividadCuestionario(
+                ActividadCuestionario(
                     id: '13',
                     nombre: 'Actividad 13',
                     estado: 'Activa',
                     indice: 13,
-                    descripcion: 'Lleva al pollito con su mamá\nRecoge la flor por el camino\nCuidado con el gato: no pases por su casilla',
+                    descripcion:
+                        'Lleva al pollito con su mamá\nRecoge la flor por el camino\nCuidado con el gato: no pases por su casilla',
                     tipoActividad: 'Cuestionario',
                     dimension: 4,
                     casillas: [
-                      -1,-1,-1,-1,
-                      7,-1,13,-1,
-                      -1,-1,-1,-1,
-                      23,-1,3,-1
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      7,
+                      -1,
+                      13,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      23,
+                      -1,
+                      3,
+                      -1
                     ],
                     ejemploImage: 'ejemploUnidad0A0.png',
                     ejercicioImage: '',
@@ -756,41 +789,37 @@ class CursosDataAdapter extends CursoRepository {
                       [
                         {
                           'Repeticion': 2,
-                          'Respuestas': ['Izquierda.png','Arriba.png']
+                          'Respuestas': ['Izquierda.png', 'Arriba.png']
                         },
                         'Derecha.png',
                       ],
                       [
-                         {
+                        {
                           'Repeticion': 2,
-                          'Respuestas': ['Izquierda.png','Arriba.png']
+                          'Respuestas': ['Izquierda.png', 'Arriba.png']
                         },
-                         
                         'Izquierda.png',
                         'Arriba.png',
                         {
                           'Repeticion': 2,
                           'Respuestas': ['Derecha.png']
                         },
-                         
                       ],
                       [
                         'Derecha.png',
                         'Derecha.png',
                         'Arriba.png',
                         'Arriba.png',
-                       {
+                        {
                           'Repeticion': 2,
                           'Respuestas': ['Derecha.png']
                         },
-                       
                       ],
-                      [                     
+                      [
                         {
                           'Repeticion': 2,
-                          'Respuestas': ['Izquierda.png','Arriba.png']
+                          'Respuestas': ['Izquierda.png', 'Arriba.png']
                         },
-                  
                         {
                           'Repeticion': 2,
                           'Respuestas': ['Derecha.png']
@@ -799,7 +828,7 @@ class CursosDataAdapter extends CursoRepository {
                     ],
                     pesoRespuestas: [2, 1, 3, 4],
                     respuestaCorrecta: 4),
-                    ActividadCuestionario(
+                ActividadCuestionario(
                     id: '14',
                     nombre: 'Actividad 14',
                     estado: 'Activa',
@@ -808,59 +837,95 @@ class CursosDataAdapter extends CursoRepository {
                     dimension: 4,
                     tipoActividad: 'Cuestionario',
                     casillas: [
-                      -1,-1,-1,-1,
-                      7,-1,13,-1,
-                      -1,-1,-1,-1,
-                      23,-1,3,-1
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      7,
+                      -1,
+                      13,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      23,
+                      -1,
+                      3,
+                      -1
                     ],
                     ejemploImage: 'ejemploUnidad0A14.png',
-                    ejercicioImage: 'assets/items/ejemplosImg/ejercicioImage14.png',
+                    ejercicioImage:
+                        'assets/items/ejemplosImg/ejercicioImage14.png',
                     respuestas: [
                       [
                         {
                           'Repeticion': 4,
-                          'Respuestas': ['Abajo.png','Derecha.png']
+                          'Respuestas': ['Abajo.png', 'Derecha.png']
                         },
-                       
-                      ],
-                      [
-                         {
-                          'Repeticion': 2,
-                          'Respuestas': ['Abajo.png','Derecha.png', 'Abajo.png', 'Derecha.png']
-                        },
-                         
-                       
-                         
                       ],
                       [
                         {
                           'Repeticion': 2,
-                          'Respuestas': ['Abajo.png','Derecha.png', 'Arriba.png', 'Derecha.png']
+                          'Respuestas': [
+                            'Abajo.png',
+                            'Derecha.png',
+                            'Abajo.png',
+                            'Derecha.png'
+                          ]
                         },
-                       
                       ],
-                      [                     
+                      [
+                        {
+                          'Repeticion': 2,
+                          'Respuestas': [
+                            'Abajo.png',
+                            'Derecha.png',
+                            'Arriba.png',
+                            'Derecha.png'
+                          ]
+                        },
+                      ],
+                      [
                         {
                           'Repeticion': 4,
-                          'Respuestas': ['Abajo.png','Derecha.png', 'Arriba.png', 'Izquierda.png']
+                          'Respuestas': [
+                            'Abajo.png',
+                            'Derecha.png',
+                            'Arriba.png',
+                            'Izquierda.png'
+                          ]
                         },
                       ]
                     ],
                     pesoRespuestas: [1, 3, 4, 2],
                     respuestaCorrecta: 3),
-                    ActividadCuestionario(
+                ActividadCuestionario(
                     id: '15',
                     nombre: 'Actividad 15',
                     estado: 'Activa',
                     indice: 15,
-                    descripcion: 'Lleva al pollito con su mamá\nRecoge la flor por el camino\nCuidado con el gato: no pases por su casilla',
+                    descripcion:
+                        'Lleva al pollito con su mamá\nRecoge la flor por el camino\nCuidado con el gato: no pases por su casilla',
                     tipoActividad: 'Cuestionario',
                     dimension: 4,
                     casillas: [
-                      -1,-1,-1,13,
-                      23,-1,7,-1,
-                      -1,-1,-1,-1,
-                      3,-1,-1,-1
+                      -1,
+                      -1,
+                      -1,
+                      13,
+                      23,
+                      -1,
+                      7,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      -1,
+                      3,
+                      -1,
+                      -1,
+                      -1
                     ],
                     ejemploImage: 'ejemploUnidad0A0.png',
                     ejercicioImage: '',
@@ -868,45 +933,41 @@ class CursosDataAdapter extends CursoRepository {
                       [
                         {
                           'Repeticion': 2,
-                          'Respuestas': ['Derecha.png','Arriba.png']
+                          'Respuestas': ['Derecha.png', 'Arriba.png']
                         },
                         'Derecha.png',
-                        
                       ],
                       [
-                         {
+                        {
                           'Repeticion': 2,
-                          'Respuestas': ['Derecha.png','Arriba.png', 'Derecha.png']
+                          'Respuestas': [
+                            'Derecha.png',
+                            'Arriba.png',
+                            'Derecha.png'
+                          ]
                         },
-                         
-                        
                         {
                           'Repeticion': 2,
                           'Respuestas': ['Arriba.png']
                         },
-
                         'Derecha.png',
-                         
                       ],
                       [
-                      
-                       {
+                        {
                           'Repeticion': 2,
                           'Respuestas': ['Arriba.png']
                         },
-                         {
+                        {
                           'Repeticion': 3,
                           'Respuestas': ['Derecha.png']
                         },
-
                         'Arriba.png'
-                       
                       ],
-                      [                     
+                      [
                         {
                           'Repeticion': 3,
-                          'Respuestas': ['Derecha.png','Arriba.png']
-                        },                        
+                          'Respuestas': ['Derecha.png', 'Arriba.png']
+                        },
                       ]
                     ],
                     pesoRespuestas: [2, 1, 3, 4],
@@ -991,9 +1052,8 @@ class CursosDataAdapter extends CursoRepository {
                     'Avanzar.png',
                   ]
                 ],
-                 pesoRespuestas: [3, 2, 4, 1],
-                    respuestaCorrecta: 3),
-                    
+                pesoRespuestas: [3, 2, 4, 1],
+                respuestaCorrecta: 3),
             ActividadLaberinto(
                 id: '18',
                 nombre: 'Primeros Pasos',
@@ -1015,14 +1075,43 @@ class CursosDataAdapter extends CursoRepository {
                 ejemploImage: 'ejemplocuestionarioN2Giros.png',
                 ejercicioImage: '',
                 casillas: [
-  -1, -1, -1, -1, 15, -1,
-  15, 15 , 15, 15, 15, 15,
-  15, -1, -1, -1, 24, -1,
-  15, 0, -1, -1, -1, -1,
-  -1, -1, 15, 15, 15, 15,
-  -1, 15, 15, 15, 15, 15
-],
-
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  15,
+                  -1,
+                  15,
+                  15,
+                  15,
+                  15,
+                  15,
+                  15,
+                  15,
+                  -1,
+                  -1,
+                  -1,
+                  24,
+                  -1,
+                  15,
+                  0,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  15,
+                  15,
+                  15,
+                  15,
+                  -1,
+                  15,
+                  15,
+                  15,
+                  15,
+                  15
+                ],
                 respuestas: [
                   [
                     'Avanzar.png',
@@ -1037,26 +1126,26 @@ class CursosDataAdapter extends CursoRepository {
                     'Avanzar.png',
                     'GirarDerecha.png',
                     'Avanzar.png',
-              
                   ],
-                  ['Avanzar.png', 
-                    'Avanzar.png', 
-                    'Avanzar.png',
-                    'Avanzar.png',
-                'GirarDerecha.png',
-                 'Avanzar.png',
-                 'GirarIzq.png',
-                    'Avanzar.png',
-                    ],
                   [
                     'Avanzar.png',
                     'Avanzar.png',
-                     'Avanzar.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
+                    'GirarDerecha.png',
+                    'Avanzar.png',
+                    'GirarIzq.png',
+                    'Avanzar.png',
+                  ],
+                  [
+                    'Avanzar.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
                   ]
                 ],
-                 pesoRespuestas: [4, 3, 2, 1],
-                    respuestaCorrecta: 1),
-                     ActividadLaberinto(
+                pesoRespuestas: [4, 3, 2, 1],
+                respuestaCorrecta: 1),
+            ActividadLaberinto(
                 id: '20',
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
@@ -1065,7 +1154,7 @@ class CursosDataAdapter extends CursoRepository {
                     'Hola El granjero necesita de tu ayuda! Guíalo a encontrar a la CALABAZA.',
                 tipoActividad: 'Laberinto',
                 nombreArchivo: "Laberinto3"),
-                ActividadCuestionario(
+            ActividadCuestionario(
                 id: '21',
                 nombre: 'Buscando el mejor camino',
                 estado: 'Activa',
@@ -1077,13 +1166,43 @@ class CursosDataAdapter extends CursoRepository {
                 ejemploImage: 'ejemplocuestionarioN2Giros.png',
                 ejercicioImage: '',
                 casillas: [
-  25, 25, -1, -1, -1, 26,
-  25, -1 , 27, -1, -1, -1,
-  0, -1, -1, -1, -1, -1,
-  -1, -1, -1, -1, -1, -1,
-  -1, 25, 25, 25, 25, 25,
-  25, 25, 25, 25, 25, 25],
-
+                  25,
+                  25,
+                  -1,
+                  -1,
+                  -1,
+                  26,
+                  25,
+                  -1,
+                  27,
+                  -1,
+                  -1,
+                  -1,
+                  0,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  25,
+                  25,
+                  25,
+                  25,
+                  25,
+                  25,
+                  25,
+                  25,
+                  25,
+                  25,
+                  25
+                ],
                 respuestas: [
                   [
                     'Avanzar.png',
@@ -1103,34 +1222,33 @@ class CursosDataAdapter extends CursoRepository {
                     'Avanzar.png',
                     'Avanzar.png',
                     'Avanzar.png',
-              
                   ],
-                  ['Avanzar.png', 
-                    'Avanzar.png',
-                    'GirarIzq.png', 
-                     'Avanzar.png',
-                     'Agarrar.png',
-                'GirarDerecha.png',
-                 'Avanzar.png',
-                 'Avanzar.png',
-                 'GirarIzq.png',
-                    'Avanzar.png',
-                    ],
                   [
                     'Avanzar.png',
                     'Avanzar.png',
                     'GirarIzq.png',
-                     'Avanzar.png',
-                     'Avanzar.png',
-                        'GirarDerecha.png',
-                        'Avanzar.png',
                     'Avanzar.png',
-
+                    'Agarrar.png',
+                    'GirarDerecha.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
+                    'GirarIzq.png',
+                    'Avanzar.png',
+                  ],
+                  [
+                    'Avanzar.png',
+                    'Avanzar.png',
+                    'GirarIzq.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
+                    'GirarDerecha.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
                   ]
                 ],
-                 pesoRespuestas: [2,1, 4, 3],
-                    respuestaCorrecta: 3),
-                    ActividadLaberinto(
+                pesoRespuestas: [2, 1, 4, 3],
+                respuestaCorrecta: 3),
+            ActividadLaberinto(
                 id: '22',
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
@@ -1139,7 +1257,7 @@ class CursosDataAdapter extends CursoRepository {
                     'El pequeño pollito Tito se ha perdido cerca del puente. Recogelo  y llévalo al gallinero con su familia',
                 tipoActividad: 'Laberinto',
                 nombreArchivo: "Laberinto4"),
-                ActividadCuestionario(
+            ActividadCuestionario(
                 id: '23',
                 nombre: 'Buscando el mejor camino',
                 estado: 'Activa',
@@ -1151,13 +1269,43 @@ class CursosDataAdapter extends CursoRepository {
                 ejemploImage: 'ejemplocuestionarioN3GirosPeligro.png',
                 ejercicioImage: '',
                 casillas: [
-  25, 25, 25, 25, 25, 25,
-  25, -1 , 22, -1, -1, 25,
-  25, 22, -1, 28, 29, 25,
-  25, 22, -1, -1, -1, 25,
-  25, 0, -1, -1, -1, 25,
-  25, 25, 25, 25, 25, 25],
-
+                  25,
+                  25,
+                  25,
+                  25,
+                  25,
+                  25,
+                  25,
+                  -1,
+                  22,
+                  -1,
+                  -1,
+                  25,
+                  25,
+                  22,
+                  -1,
+                  28,
+                  29,
+                  25,
+                  25,
+                  22,
+                  -1,
+                  -1,
+                  -1,
+                  25,
+                  25,
+                  0,
+                  -1,
+                  -1,
+                  -1,
+                  25,
+                  25,
+                  25,
+                  25,
+                  25,
+                  25,
+                  25
+                ],
                 respuestas: [
                   [
                     'GirarIzq.png',
@@ -1170,150 +1318,347 @@ class CursosDataAdapter extends CursoRepository {
                     'Agarrar.png',
                   ],
                   [
-                     'Avanzar.png',
+                    'Avanzar.png',
                     'GirarIzq.png',
                     'Avanzar.png',
                     'Avanzar.png',
-                  
                     'GirarDerecha.png',
                     'Avanzar.png',
                     'Agarrar.png',
                     'Avanzar.png',
-              
                   ],
-                  ['Avanzar.png', 
-                    'GirarIzq.png', 
-                     'Avanzar.png',
-                'GirarDerecha.png',
-                 'Avanzar.png',
-                 'GirarIzq.png',
+                  [
+                    'Avanzar.png',
+                    'GirarIzq.png',
+                    'Avanzar.png',
+                    'GirarDerecha.png',
+                    'Avanzar.png',
+                    'GirarIzq.png',
                     'Avanzar.png',
                     'Avanzar.png',
-                    ],
+                  ],
                   [
                     'Avanzar.png',
                     'Avanzar.png',
                     'GirarIzq.png',
-                     'Avanzar.png',
-                        'GirarDerecha.png',
-                        'Avanzar.png',
                     'Avanzar.png',
-                     'GirarIzq.png',
-                     'Avanzar.png',
-
+                    'GirarDerecha.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
+                    'GirarIzq.png',
+                    'Avanzar.png',
                   ]
                 ],
-                 pesoRespuestas: [2, 4, 3, 1],
-                    respuestaCorrecta: 2),
-                
-            
+                pesoRespuestas: [2, 4, 3, 1],
+                respuestaCorrecta: 2),
           ]),
           Unidad(id: '2', nombre: 'Unidad Dos', estado: 'Activa', actividades: [
-            Actividad(
-              id: '21',
-              nombre: 'El mejor camino',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '22',
-              nombre: 'Recoge las recompensas',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '23',
-              nombre: 'Diversión en clase',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '24',
-              nombre: 'Si pasa esto hago aquello',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '25',
-              nombre: 'Estoy en un ciclo',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
+            ActividadLaberinto(
+                id: '24',
+                nombre: 'Primeros Pasos',
+                estado: 'Activa',
+                indice: 24,
+                descripcion:
+                    'El pequeño pollito Tito se ha perdido cerca del puente. Recogelo  y llévalo al gallinero con su familia',
+                tipoActividad: 'Laberinto',
+                nombreArchivo: "Laberinto4"),
+            ActividadCuestionario(
+                id: '25',
+                nombre: 'Actividad Cuestionario de ',
+                estado: 'Activa',
+                indice: 25,
+                descripcion:
+                    'Ayuda a Juan a recoger la gema del bosque que es de color verde.\nRecuerda llegar con el menor número de instrucciones.',
+                tipoActividad: 'Cuestionario',
+                dimension: 6,
+                pista: 'assets/items/ejemplosImg/pistaCiclos.png',
+                casillas: [
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  18,
+                  -1,
+                  -1,
+                  -1,
+                  18,
+                  18,
+                  -1,
+                  18,
+                  2,
+                  -1,
+                  -1,
+                  -1,
+                  11,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  20,
+                  20,
+                  -1,
+                  -1,
+                  -1,
+                  20,
+                  20,
+                  20,
+                  20,
+                  20,
+                  8
+                ],
+                ejemploImage: 'ejemplocuestionarioU2CiclosAgarrar.png',
+                ejercicioImage: '',
+                respuestas: [
+                  [
+                    'Derecha.png',
+                    'Derecha.png',
+                    'Derecha.png',
+                    'Derecha.png',
+                  ],
+                  [
+                    {
+                      'Repeticion': 3,
+                      'Respuestas': ['Derecha.png']
+                    },
+                    'Agarrar.png',
+                  ],
+                  [
+                    'Derecha.png',
+                    {
+                      'Repeticion': 3,
+                      'Respuestas': ['Derecha.png']
+                    },
+                    'Agarrar.png',
+                  ],
+                  [
+                    'Derecha.png',
+                    'GirarDerecha.png',
+                    'Derecha.png',
+                    'Derecha.png',
+                  ]
+                ],
+                pesoRespuestas: [3, 2, 4, 1],
+                respuestaCorrecta: 3),
+             ActividadLaberinto(
+                id: '26',
+                nombre: 'Primeros Pasos',
+                estado: 'Activa',
+                indice: 26,
+                descripcion:
+                    'El pequeño pollito Tito se ha perdido cerca del puente. Recogelo  y llévalo al gallinero con su familia',
+                tipoActividad: 'Laberinto',
+                nombreArchivo: "Laberinto4"),
+           ActividadCuestionario(
+                id: '27',
+                nombre: 'Actividad Cuestionario de ',
+                estado: 'Activa',
+                indice: 27,
+                descripcion:
+                    'Juan quiere llegar al cofre del tesoro.\nNo pases por el fuego\nRecoje la llave del cofre para abrirlo',
+                tipoActividad: 'Cuestionario',
+                dimension: 6,
+                pista: 'assets/items/ejemplosImg/pistaCiclos.png',
+               casillas: [
+    -1, 30, 30, -1, -1, -1,
+    2, -1, 30, -1, -1, -1,
+    -1, -1, -1, -1, -1, -1,
+    18, 30, 5, 4, -1, -1,
+    -1, -1, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1, -1
+],
+                ejemploImage: 'ejemplocuestionarioU2CiclosAgarrar.png',
+                ejercicioImage: '',
+                respuestas: [
+                  [
+                    'Derecha.png',
+                    'GirarDerecha.png',
+                    'Derecha.png',
+                    'Agarrar.png',
+                    'GirarIzq.png',
+                    'Derecha.png',
+                    'Derecha.png',
+                    'GirarDerecha.png',
+                    'Derecha.png',
+                  ],
+                  [
+                    {
+                      'Repeticion': 2,
+                      'Respuestas': ['Derecha.png',
+                      'GirarDerecha.png',
+                    'Derecha.png',]
+                    },
+                  
+                  ],
+                  [
+                    
+                    {
+                      'Repeticion': 1,
+                      'Respuestas': ['Derecha.png',
+                       'GirarIzq.png',
+                    'Derecha.png',]
+                    },
+                     'GirarIzq.png',
+                    'Derecha.png',
+                     'Derecha.png',
+                      'GirarIzq.png',
+                      'Derecha.png',
+                     'Derecha.png',
+                      'GirarDerecha.png',
+                        'Derecha.png',
+                      'GirarDerecha.png',
+                       'Derecha.png',
+                        'Derecha.png',
+                  ],
+                  [
+                    {
+                      'Repeticion': 2,
+                      'Respuestas': ['Derecha.png',
+                       'GirarDerecha.png',
+                    'Derecha.png',
+                      'GirarIzq.png',]
+                    },
+                    'Agarrar.png',                
+                    'Derecha.png',
+                  ]
+                ],
+                pesoRespuestas: [3, 2, 1, 4],
+                respuestaCorrecta: 4),
+            ActividadLaberinto(
+                id: '28',
+                nombre: 'Primeros Pasos',
+                estado: 'Activa',
+                indice: 28,
+                descripcion:
+                    'El pequeño pollito Tito se ha perdido cerca del puente. Recogelo  y llévalo al gallinero con su familia',
+                tipoActividad: 'Laberinto',
+                nombreArchivo: "Laberinto4"),
+                ActividadCuestionario(
+                id: '29',
+                nombre: 'Actividad Cuestionario de ',
+                estado: 'Activa',
+                indice: 29,
+                descripcion:
+                    'Ayuda a Juan a llegar hasta el cofre.\nNo pases por el fuego\nRecoge la gema de color rojo\nRecoge la llave para abrir el cofre',
+                tipoActividad: 'Cuestionario',
+                dimension: 6,
+                pista: 'assets/items/ejemplosImg/pistaCiclos.png',
+               casillas: [
+    -1, -1, 30, 30, 30, 30,
+    2, -1, 30, 5, 4, -1,
+    -1, -1, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1, -1,
+    10, 18, 30, 30, 9, -1,
+    30, 30, 30, 30, 30, 30
+],
+                ejemploImage: 'ejemplocuestionarioU2Ciclos.png',
+                ejercicioImage: '',
+                respuestas: [
+                  [
+                
+                    'GirarDerecha.png',
+                    'Derecha.png',
+                    'Derecha.png',                   
+                    'GirarIzq.png',
+                    'Derecha.png',
+                    'Derecha.png',
+                    'Derecha.png',
+                    'Derecha.png',
+                   'GirarIzq.png',
+                    'Derecha.png',
+                  ],
+                  [
+                    {
+                      'Repeticion': 2,
+                      'Respuestas': ['Derecha.png',
+                      'GirarDerecha.png',
+                    'Derecha.png',]
+                    },
+                     'GirarIzq.png',
+                    'Derecha.png',
+                      'Derecha.png',
+                         'Agarrar.png', 
+                  
+                  ],
+                  [
+                  
+                   
+                    'Derecha.png',
+                      'GirarDerecha.png',
+                     'Derecha.png',                 
+                      'Derecha.png',
+                       'GirarIzq.png',
+                     'Derecha.png',
+                     'Derecha.png',
+                      'GirarIzq.png',
+                      'Derecha.png',
+                      'Agarrar.png', 
+                      'GirarDerecha.png',
+                       'Derecha.png',
+                  
+                  ],
+                  [
+                     'GirarDerecha.png',
+                    {
+                      'Repeticion': 3,
+                      'Respuestas': ['Derecha.png']
+                    },
+                    'Agarrar.png',   
+                     {
+                      'Repeticion': 2,
+                      'Respuestas': [  'GirarIzq.png']
+                    },             
+                    'Derecha.png',
+                      'GirarDerecha.png',
+                      {
+                      'Repeticion': 3,
+                      'Respuestas': ['Derecha.png']
+                    },
+                      'GirarIzq.png',
+                        {
+                      'Repeticion': 2,
+                      'Respuestas': ['Derecha.png']
+                    },
+                      'Agarrar.png', 
+                      'GirarDerecha.png',
+                       'Derecha.png',
+                  ]
+                ],
+                pesoRespuestas: [2, 1, 3, 4],
+                respuestaCorrecta: 4),
           ]),
-          Unidad(
-              id: '26',
-              nombre: 'Unidad Tres',
-              estado: 'Activa',
-              actividades: [
-                Actividad(
-                  id: '27',
-                  nombre: 'Mi decision',
-                  estado: 'Activa',
-                  descripcion: '',
-                  tipoActividad: 'Laberinto',
-                ),
-                Actividad(
-                  id: '28',
-                  nombre: 'Recoge todas las recompensas',
-                  estado: 'Activa',
-                  descripcion: '',
-                  tipoActividad: 'Laberinto',
-                ),
-                Actividad(
-                  id: '29',
-                  nombre: 'Diversión en clase',
-                  estado: 'Activa',
-                  descripcion: '',
-                  tipoActividad: 'Laberinto',
-                ),
-                Actividad(
-                  id: '30',
-                  nombre: 'Si pasa esto hago aquello',
-                  estado: 'Activa',
-                  descripcion: '',
-                  tipoActividad: 'Laberinto',
-                ),
-                Actividad(
-                  id: '31',
-                  nombre: 'Estoy en un ciclo',
-                  estado: 'Activa',
-                  descripcion: '',
-                  tipoActividad: 'Laberinto',
-                ),
-              ])
+          
         ],
         estudiantes: [
           Estudiante(
-            id:1,
+              id: 1,
               nombre: 'Andres Perez Perez',
               avatar: 'assets/avatares/aguila_avatar.png'),
           Estudiante(
-            id:2,
+            id: 2,
             nombre: 'Sofia González Perez',
             avatar: 'assets/avatares/orquidea_avatar.png',
           ),
           Estudiante(
-            id:3,
+            id: 3,
             nombre: 'Nicolas Rodriguez Hernandez',
             avatar: 'assets/avatares/pollitos_avatar.png',
           ),
           Estudiante(
-            id:4,
+            id: 4,
             nombre: 'Sergio Torres Diaz',
             avatar: 'assets/avatares/osoanteojos_avatar.png',
           ),
           Estudiante(
-            id:5,
+            id: 5,
             nombre: 'Estefania Gutierrez Gutierrez',
             avatar: 'assets/avatares/chiguiro_avatar.png',
           ),
           Estudiante(
-            id:6,
+            id: 6,
             nombre: 'Camila Salazar Salazar',
             avatar: 'assets/avatares/mujergranjera_avatar.png',
           )

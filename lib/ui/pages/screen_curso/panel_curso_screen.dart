@@ -10,6 +10,7 @@ import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
+import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_estudiantes.dart';
@@ -58,6 +59,7 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
         final curso = cursos.firstWhere((c) => c.id == widget.cursoId);
         context.read<CursoCubit>().actualizarCurso(curso);
         context.read<UnidadesCubit>().subirUnidades(curso.unidades!);
+         context.read<RolCubit>().actualizarRol("estudiante");
         
    
       } else {
@@ -68,6 +70,7 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
         final curso = cursos.firstWhere((c) => c.id == widget.cursoId);
         context.read<CursoCubit>().actualizarCurso(curso);
         context.read<UnidadesCubit>().subirUnidades(curso.unidades!);
+            context.read<RolCubit>().actualizarRol("estudiante");
         
     if (context.read<SeguimientosEstudiantesCubit>().state.isEmpty) {
       
