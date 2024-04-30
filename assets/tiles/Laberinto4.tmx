@@ -51,7 +51,7 @@
   <object id="91" name="soporte-puenteV3" type="32x32" x="32" y="48" width="32" height="32"/>
   <object id="172" name="meta" x="144" y="48" width="16" height="16"/>
  </objectgroup>
- <objectgroup id="6" name="Decoracion-down" class="campo">
+ <objectgroup id="6" name="Decoracion-down" class="campo" visible="0">
   <object id="54" name="tree-down" type="32x16" x="32" y="32" width="32" height="16"/>
   <object id="55" name="tree-down" type="32x16" x="16" y="16" width="32" height="16"/>
   <object id="56" name="tree-down" type="32x16" x="48" y="16" width="32" height="16"/>
@@ -88,8 +88,8 @@
   <object id="85" name="gallinaV2" type="animal" x="152" y="36" width="32" height="32"/>
   <object id="86" name="gallinaDerech" type="animal" x="120" y="84" width="32" height="32"/>
  </objectgroup>
- <objectgroup id="8" name="Item" class="campo" visible="0">
-  <object id="173" name="tim" type="item" x="56" y="36" width="32" height="32"/>
+ <objectgroup id="8" name="Item" class="campo">
+  <object id="173" name="tim" type="item" x="56" y="52" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="9" name="Jugador" class="campo" visible="0">
   <object id="110" name="jugador" x="40" y="116" width="32" height="32"/>
@@ -156,7 +156,7 @@
   <object id="168" name="colision" x="128" y="112" width="16" height="16"/>
   <object id="169" name="colision" x="160" y="112" width="16" height="16"/>
   <object id="170" name="meta" x="144" y="48" width="16" height="16"/>
-  <object id="171" name="item-drop" x="64" y="48" width="16" height="16"/>
+  <object id="171" name="item-drop" x="64" y="64" width="16" height="16"/>
   <object id="178" name="colision" x="48" y="96" width="16" height="16"/>
   <object id="179" name="colision" x="32" y="96" width="16" height="16"/>
   <object id="182" name="colision" x="112" y="48" width="16" height="16"/>

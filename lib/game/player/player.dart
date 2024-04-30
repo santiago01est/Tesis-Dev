@@ -58,7 +58,11 @@ class Player extends SpriteAnimationGroupComponent
 
   List<CollisionBlock> collisionBlocks = [];
   Animation_Object? itemDropComponent;
+  Animation_Object? victoryItemComponent;
+  Animation_Object? puertaComponent;
   CollisionBlock itemDrop = CollisionBlock();
+  CollisionBlock victoryItem = CollisionBlock();
+  CollisionBlock? puerta = CollisionBlock();
   Map<String, bool> playerRespuesta = {
     "Llego a la meta": false,
     "Mejor camino": true,
@@ -217,7 +221,13 @@ class Player extends SpriteAnimationGroupComponent
     if (block.type == 'item-drop') {
       itemDrop = block;
     }
-    if (itemDrop.type == 'item-drop' && finalInstruction == 'recoger') {
+    if (block.type == 'meta-item') {
+      victoryItem = block;
+    }
+    if (block.type == 'puerta') {
+      puerta = block;
+    }
+    if (itemDrop.type == 'item-drop' && finalInstruction == 'recoger' && playerRespuesta["Recogio el objeto/item"] == false) {
       PlayerState currentBeforeDrop = current;
       priority= 7;
       itemDropComponent!.itemDropRemove();
@@ -226,6 +236,16 @@ class Player extends SpriteAnimationGroupComponent
       priority= 5;
       playerRespuesta["Recogio el objeto/item"] = true;
       current= currentBeforeDrop;
+    }
+    if (victoryItem.type == 'meta-item' && finalInstruction == 'recoger') {
+      priority= 7;
+      victoryItemComponent!.itemDropRemove();
+      current= PlayerState.itemDrop;
+      await Future.delayed(const Duration(milliseconds: 1360));
+      priority= 5;
+      current = PlayerState.victory;
+      playerRespuesta["Llego a la meta"] = true;
+      return;
     }
     if (finalInstruction == 'derecha') {
       return _executeDisplacement(
@@ -257,7 +277,7 @@ class Player extends SpriteAnimationGroupComponent
         [bool? recoger= false]
 
       ) async {
-    if (block.type == 'null' || block.type == 'item-drop') {
+    if (block.type == 'null' || block.type == 'item-drop' || block.type == 'meta-item' || (block.type == 'puerta' && playerRespuesta["Recogio el objeto/item"] == true)) {
       current = movementState;
       add(MoveByEffect(movementVector, EffectController(duration: 0.51)));
       await Future.delayed(const Duration(milliseconds: 510));
