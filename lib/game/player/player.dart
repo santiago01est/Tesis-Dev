@@ -25,7 +25,9 @@ enum PlayerState {
   deathU,
   deathD,
   victory,
-  itemDrop
+  itemDrop,
+  trampa,
+  trampaIdle
 }
 
 class Player extends SpriteAnimationGroupComponent
@@ -49,6 +51,8 @@ class Player extends SpriteAnimationGroupComponent
   late final SpriteAnimation upDeathAnimation;
   late final SpriteAnimation victoryAnimation;
   late final SpriteAnimation itemDropAnimation;
+  late final SpriteAnimation trampaAnimation;
+  late final SpriteAnimation trampaIdleAnimation;
 
   late final double startPositionX;
   late final double startPositionY;
@@ -56,13 +60,31 @@ class Player extends SpriteAnimationGroupComponent
   final double stepTimeIdle = 1 / 6;
   final double stepTimeRun = 1 / 12;
 
+
   List<CollisionBlock> collisionBlocks = [];
   Animation_Object? itemDropComponent;
+  Animation_Object? itemDropFalsoComponent;
   Animation_Object? victoryItemComponent;
   Animation_Object? puertaComponent;
   CollisionBlock itemDrop = CollisionBlock();
+  CollisionBlock itemDropFalso = CollisionBlock();
   CollisionBlock victoryItem = CollisionBlock();
-  CollisionBlock? puerta = CollisionBlock();
+  CollisionBlock puerta = CollisionBlock();
+
+  ///Entradas de la escalera
+  CollisionBlock escaleraVerde = CollisionBlock();
+  CollisionBlock escaleraRoja = CollisionBlock();
+
+  ///Salidas de la escalera
+  //? Verde
+  double evPositionX= 40;
+  double evPositionY= 68;
+  //? Roja
+  double erPositionX= 8;
+  double erPositionY= 132;
+
+
+  bool calloEnLaTrampa = false;
   Map<String, bool> playerRespuesta = {
     "Llego a la meta": false,
     "Mejor camino": true,
@@ -105,6 +127,8 @@ class Player extends SpriteAnimationGroupComponent
     upDeathAnimation = _spriteAnimationsGenerator('up', 'death-', 6, stepTimeIdle);
     victoryAnimation = _spriteAnimationsGenerator('', 'victory2', 4, stepTimeIdle);
     itemDropAnimation = _spriteAnimationsGenerator('', 'item-drop', 8, stepTimeIdle);
+    trampaAnimation = _spriteAnimationsGenerator('', 'trampa', 14, stepTimeIdle);
+    trampaIdleAnimation = _spriteAnimationsGenerator('', 'trampaIdle', 1, stepTimeIdle);
 
 
     animations = {
@@ -121,7 +145,9 @@ class Player extends SpriteAnimationGroupComponent
       PlayerState.deathU: upDeathAnimation,
       PlayerState.deathD: downDeathAnimation,
       PlayerState.victory: victoryAnimation,
-      PlayerState.itemDrop: itemDropAnimation
+      PlayerState.itemDrop: itemDropAnimation,
+      PlayerState.trampa: trampaAnimation,
+      PlayerState.trampaIdle: trampaIdleAnimation
     };
     current = PlayerState.idleR;
   }
@@ -159,12 +185,18 @@ class Player extends SpriteAnimationGroupComponent
   _executeInstructions() async {
     var i = 0;
     for (var movement in movementInstructions) {
-      i++;
-      final instruction = movement;
-      print("Numero de la intruccion: "+i.toString());
-      print("Instruccions: "+ movementInstructions.toString());
-      i == movementInstructions.length ? 
-      await _executeInstruction(instruction, true) : await _executeInstruction(instruction, false);
+      if (calloEnLaTrampa==false){
+        i++;
+        final instruction = movement;
+        print("Numero de la intruccion: " + i.toString());
+        print("Instruccions: " + movementInstructions.toString());
+        i == movementInstructions.length
+            ? await _executeInstruction(instruction, true)
+            : await _executeInstruction(instruction, false);
+      }
+      else{
+        break;
+      }
     }
   }
 
@@ -221,6 +253,9 @@ class Player extends SpriteAnimationGroupComponent
     if (block.type == 'item-drop') {
       itemDrop = block;
     }
+    if (block.type == 'itemFalso') {
+      itemDropFalso = block;
+    }
     if (block.type == 'meta-item') {
       victoryItem = block;
     }
@@ -236,6 +271,18 @@ class Player extends SpriteAnimationGroupComponent
       priority= 5;
       playerRespuesta["Recogio el objeto/item"] = true;
       current= currentBeforeDrop;
+    }
+    if (itemDropFalso.type == 'itemFalso' && finalInstruction == 'recoger') {
+      priority= 7;
+      itemDropFalsoComponent!.itemDropRemove();
+      current= PlayerState.itemDrop;
+      await Future.delayed(const Duration(milliseconds: 1310));
+      priority= 5;
+      current = PlayerState.trampa;
+      await Future.delayed(const Duration(milliseconds: 2310));
+      current = PlayerState.trampaIdle;
+      calloEnLaTrampa= true;
+      return;
     }
     if (victoryItem.type == 'meta-item' && finalInstruction == 'recoger') {
       priority= 7;
@@ -277,11 +324,24 @@ class Player extends SpriteAnimationGroupComponent
         [bool? recoger= false]
 
       ) async {
-    if (block.type == 'null' || block.type == 'item-drop' || block.type == 'meta-item' || (block.type == 'puerta' && playerRespuesta["Recogio el objeto/item"] == true)) {
+    if (block.type == 'null' ||
+        block.type == 'item-drop' ||
+        block.type == 'itemFalso' ||
+        block.type == 'meta-item' ||
+        (block.type == 'puerta' && playerRespuesta["Recogio el objeto/item"] == true) ||
+        block.type == 'teleportV' ||
+        block.type == 'teleportR') {
       current = movementState;
       add(MoveByEffect(movementVector, EffectController(duration: 0.51)));
       await Future.delayed(const Duration(milliseconds: 510));
       current = idleState;
+      if (block.type == 'teleportV') {
+        position.x=evPositionX;
+        position.y=evPositionY;
+      }else if (block.type == 'teleportR') {
+        position.x=erPositionX;
+        position.y=erPositionY;
+      }
     /* if (block.type == 'colision') {
       
     } */

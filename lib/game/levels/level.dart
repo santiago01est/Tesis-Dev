@@ -26,7 +26,7 @@ class Level extends World with HasGameRef<GameActivity>{
     const RUTA_DECORACION= 'mapa/decoracion-suelo/';
     const RUTA_SUELO_TEMPLO= 'mapa/suelo/unidad2-Templo/';
     
-    level= await TiledComponent.load(/* '$levelName.tmx' */'Laberinto7.tmx', Vector2(16, 16));
+    level= await TiledComponent.load(/* '$levelName.tmx' */'Laberinto8.tmx', Vector2(16, 16));
     
     add(level);
     final sueloMap= level.tileMap.getLayer<ObjectGroup>('Suelo');
@@ -223,6 +223,17 @@ class Level extends World with HasGameRef<GameActivity>{
             add(animationObject);
             //Cargamos el objeto en el jugador
             player.itemDropComponent=animationObject;
+            break;
+          case 'itemFalso':
+            final animationObject= Animation_Object(
+              Vector2(object.x, object.y), 
+              Vector2(object.width, object.height),
+              object.name
+            );
+            animationObject.priority=7;
+            add(animationObject);
+            //Cargamos el objeto en el jugador
+            player.itemDropFalsoComponent=animationObject;
             break;
           case 'victoryItem':
             final animationObject= Animation_Object(
