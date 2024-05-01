@@ -22,13 +22,13 @@ class _ImageCarouselState extends State<ImageCarousel> {
       options: CarouselOptions(
         // operador terniario si la pantalla es de movil tiene una altura y si es pc tiene otra altura
 
-        height: MediaQuery.of(context).size.width < 600 ? 150 : 400,
+        height: MediaQuery.of(context).size.width < 600 ? 150 : 300,
         aspectRatio: 16 / 9,
         viewportFraction: 0.4,
         initialPage: _currentIndex,
         enableInfiniteScroll: true,
         autoPlay: true,
-        autoPlayInterval: Duration(seconds: 3),
+        autoPlayInterval: Duration(seconds: 5),
         onPageChanged: (index, reason) {
           setState(() {
             _currentIndex = index;

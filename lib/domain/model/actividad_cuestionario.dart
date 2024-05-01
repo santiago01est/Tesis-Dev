@@ -16,6 +16,7 @@ class ActividadCuestionario extends Actividad {
        super.nombre,
        super.descripcion,
        super.estado,
+       super.indice,
        super.tipoActividad,
        super.pesoRespuestas,
        this.dimension,

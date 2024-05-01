@@ -1,4 +1,5 @@
 import 'package:dev_tesis/ui/pages/screen_actividad/crearActividad.dart';
+import 'package:dev_tesis/ui/pages/screen_curso/seguimiento_estudiante_screen.dart';
 import 'package:dev_tesis/ui/pages/screen_curso/seguimiento_profesor_screen.dart';
 import 'package:dev_tesis/ui/pages/screen_home/home.dart';
 import 'package:dev_tesis/ui/pages/screen_laberintos/actividad_cuestionario.dart';
@@ -7,6 +8,7 @@ import 'package:dev_tesis/ui/pages/screen_curso/panel_curso_screen.dart';
 import 'package:dev_tesis/ui/pages/screen_panel_profesor_curso/panel_profesor_principal.dart';
 import 'package:dev_tesis/ui/pages/screen_registro_profesor/inicio_sesion_screen.dart';
 import 'package:dev_tesis/ui/pages/screen_registro_profesor/registro_profesor_screen.dart';
+import 'package:dev_tesis/ui/pages/screen_test_autopercepcion/test_auto_screen.dart';
 import 'package:dev_tesis/ui/pages/screen_welcome/welcome.dart';
 import 'package:dev_tesis/ui/pages/scren_crear_curso/crear_curso_bienvenida.dart';
 import 'package:dev_tesis/ui/pages/scren_crear_curso/crear_curso_screen.dart';
@@ -79,8 +81,25 @@ final appRouter = GoRouter(
         }
     ),
        GoRoute(
-      path: '/seguimientoprofesor',
-      builder: (context, state) => const SeguimientoProfesorScreen(),
+      path: '/seguimientoprofesor/:cursoId',
+      builder: (context, state){
+        final String cursodId = state.pathParameters['cursoId'] ?? '0';
+        return SeguimientoProfesorScreen(cursoId: cursodId);
+      }
+    ),
+    GoRoute(
+      path: '/seguimientoestudiante/:cursoId',
+      builder: (context, state){
+        final String cursodId = state.pathParameters['cursoId'] ?? '0';
+        return SeguimientoEstudianteScreen(cursoId: cursodId);
+      }
+    ),
+     GoRoute(
+      path: '/testautopercepcion/:cursoId',
+      builder: (context, state){
+        final String cursodId = state.pathParameters['cursoId'] ?? '0';
+        return TestAutoPercepcionScreen(cursoId: '1');
+      }
     ),
   ],
 );

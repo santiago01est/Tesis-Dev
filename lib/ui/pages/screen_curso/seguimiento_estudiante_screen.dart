@@ -4,13 +4,13 @@ import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/unidad_casos_uso/unidad_cs.dart';
-import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
+import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
@@ -19,16 +19,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class SeguimientoProfesorScreen extends StatefulWidget {
+class SeguimientoEstudianteScreen extends StatefulWidget {
   final String cursoId;
-  const SeguimientoProfesorScreen({super.key, required this.cursoId});
+  const SeguimientoEstudianteScreen({super.key, required this.cursoId});
 
   @override
-  State<SeguimientoProfesorScreen> createState() =>
-      _SeguimientoProfesorScreenState();
+  State<SeguimientoEstudianteScreen> createState() =>
+      _SeguimientoEstudianteScreenState();
 }
 
-class _SeguimientoProfesorScreenState extends State<SeguimientoProfesorScreen> {
+class _SeguimientoEstudianteScreenState extends State<SeguimientoEstudianteScreen> {
   final CursosCasoUso cursosCasoUso = getIt<CursosCasoUso>();
 
   final UnidadCasoUso unidadCasoUso = getIt<UnidadCasoUso>();
@@ -118,9 +118,10 @@ class _SeguimientoProfesorScreenState extends State<SeguimientoProfesorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final cursoCubit = context.read<CursoCubit>();
+    final cursoCubit= context.read<CursoCubit>();
+    final estudiantesCubit = context.read<EstudiantesCubit>();
     final router = GoRouter.of(context);
-    final estudiantes = cursoCubit.state.estudiantes!;
+    final estudiantes = estudiantesCubit.state;
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: blueDarkColor), // Cambia el color aquí
