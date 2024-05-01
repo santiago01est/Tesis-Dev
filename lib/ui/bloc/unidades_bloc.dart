@@ -138,11 +138,23 @@ void addActividad(Actividad actividad, String idUnidad) {
   return null; // Retorna null si no se encuentra la actividad en ninguna unidad
 }
 
- /*
-if (state[i].actividades![j].id == idActividad) {
-          return j; // Devuelve el índice de la actividad en la lista de unidades
-        }
- */
+
+bool esUltimaActividadGlobal(String idActividad) {
+  int? indiceActividad = indiceActividadPorId(idActividad);
+  if (indiceActividad != null) {
+    List<Actividad> todasLasActividades = [];
+    for (var i = 0; i < state.length; i++) {
+      for (var j = 0; j < state[i].actividades!.length; j++) {
+        todasLasActividades.add(state[i].actividades![j]);
+      }
+    }
+    // Comprueba si el índice de la actividad es igual al número total de actividades menos 1
+    return indiceActividad == todasLasActividades.length - 1;
+  }
+  // Si no se encuentra la actividad, no puede ser la última
+  return false;
+}
+
 
 }
 

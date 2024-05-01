@@ -1,13 +1,11 @@
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/model/seguimiento.dart';
-import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
-import 'package:dev_tesis/ui/widgets/PopUp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -20,22 +18,6 @@ class LayoutUnidadCurso extends StatefulWidget {
 }
 
 class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
-  void initState() {
-    super.initState();
-    // Escuchar cambios en el estado del cubit
-    /*
-    context.read<SeguimientoCubit>().stream.listen((state) {
-      // Actualizar el estado de carga del widget cuando los datos estén cargados
-      if (_isLoading && state.respuestasActividades != null) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
-    });
-
-    */
-  }
-
   Color getBackgroundColor(String? activityIndex, Seguimiento seguimientoState,
       UnidadesCubit unidades) {
     int index = unidades.indiceActividadPorId(activityIndex!)!;
@@ -53,10 +35,12 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
 
   @override
   Widget build(BuildContext context) {
-    final rolCubit = context.watch<RolCubit>();
-    final router = GoRouter.of(context);
     final unidadesCubit = context.watch<UnidadesCubit>();
+    final rolCubit = context.read<RolCubit>();
+    final router = GoRouter.of(context);
     final seguimientosCubit = context.watch<SeguimientosEstudiantesCubit>();
+
+    
     final estudianteId = context.watch<EstudiantesCubit>().state.first.id!;
 
     void eliminarActividad(String idActividad) {

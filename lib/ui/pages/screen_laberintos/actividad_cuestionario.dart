@@ -11,9 +11,10 @@ import 'package:dev_tesis/ui/bloc/actividad_custio_test.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/game/instrucciones_bloc.dart';
+import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
-import 'package:dev_tesis/ui/components/appbar/appbar_estudiantes.dart';
+import 'package:dev_tesis/ui/components/appbar/appbar_actividad.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:dev_tesis/ui/widgets/banner_info_actividades.dart';
@@ -108,26 +109,24 @@ class _ActividadCuestionarioScreenState
       });
     }
 
-
     // Obtener Peso de la actividad segun la respuesta del estudiante
     int obtenerPesoActividad(int respuestaEstudiante, String id) {
-    
-    final unidad = context.read<UnidadesCubit>();
-    Actividad actividad = unidad.actividadPorId(id)!;
-    
+      final unidad = context.read<UnidadesCubit>();
+      Actividad actividad = unidad.actividadPorId(id)!;
 
-    // toast
+      // toast
 
-    if (respuestaEstudiante == -1) {
-      return 0;
-    } else {
-      return actividad.pesoRespuestas![respuestaEstudiante - 1];
+      if (respuestaEstudiante == -1) {
+        return 0;
+      } else {
+        return actividad.pesoRespuestas![respuestaEstudiante - 1];
+      }
     }
-  }
+
     return Scaffold(
-      appBar: CustomNavigationBar(
-        platformName: 'MiPlataforma',
-        userName: 'Usuario1',
+      appBar: CustomNavigationBarActividad(
+        cursoName: 'Mundo PC',
+        userName: estudiantes.obtenerNombres(),
         userAvatars: avatares,
         onLogout: () {
           // Aquí implementa la lógica para cerrar sesión
@@ -152,7 +151,7 @@ class _ActividadCuestionarioScreenState
                             IntrinsicHeight(
                               child: BannerInfoActividades(
                                 titulo:
-                                    '$nombreUnidad \nActividad ${unidadesCubit.obtenerIndiceActividadEnUnidad(actividadCuestionario.id!)!}',
+                                    '$nombreUnidad \nActividad ${unidadesCubit.obtenerIndiceActividadEnUnidad(actividadCuestionario.id!)! + 1}',
                               ),
                             ),
                             const SizedBox(
@@ -218,7 +217,7 @@ class _ActividadCuestionarioScreenState
                                               setState(() {
                                                 _selectedOptionIndex =
                                                     respuesta + 1;
-                                                
+
                                                 // identifica el actual estudiante y actualiza su respectivo seguimiento
 
                                                 //seguimiento.respuestasActividades![unidadesCubit.indiceActividadPorId(actividadCuestionario.id!)!]=_selectedOptionIndex;
@@ -227,7 +226,10 @@ class _ActividadCuestionarioScreenState
                                                     .actualizarRespuestasActividadesEstudiantes(
                                                         estudiantes
                                                             .obtenerIds(),
-                                                        obtenerPesoActividad(_selectedOptionIndex, actividadCuestionario.id!), 
+                                                        obtenerPesoActividad(
+                                                            _selectedOptionIndex,
+                                                            actividadCuestionario
+                                                                .id!),
                                                         unidadesCubit
                                                             .indiceActividadPorId(
                                                                 actividadCuestionario
@@ -372,8 +374,11 @@ class _ActividadCuestionarioScreenState
               path: "assets/items/ButtonBlue.png",
               text: 'Siguiente',
               onPressed: () {
-                if (actividadCuestionario.id! == '15') {
-                  router.push('/seguimientoprofesor');
+                if (context
+                    .read<UnidadesCubit>()
+                    .esUltimaActividadGlobal(actividadCuestionario.id!)) {
+                  router.push(
+                      '/testautopercepcion/${context.read<CursoCubit>().state.id}');
                 } else {
                   SiguienteActividadInfo siguienteActividadInfo = unidadesCubit
                       .siguienteActividadInfo(actividadCuestionario.id!);
@@ -382,6 +387,7 @@ class _ActividadCuestionarioScreenState
                         '/laberinto/${siguienteActividadInfo.idActividad}');
                   } else if (siguienteActividadInfo.tipoActividad ==
                       "Cuestionario") {
+                    print('Siguiente Actividad Cuestionario');
                     router.push(
                         '/cuestionario/${siguienteActividadInfo.idActividad}');
                   }

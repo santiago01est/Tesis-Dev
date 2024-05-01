@@ -1232,6 +1232,7 @@ class CursosDataAdapter extends CursoRepository {
                     'GirarDerecha.png',
                     'Avanzar.png',
                     'Avanzar.png',
+                    'Avanzar.png',
                     'GirarIzq.png',
                     'Avanzar.png',
                   ],

@@ -13,7 +13,7 @@ import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
-import 'package:dev_tesis/ui/components/appbar/appbar_estudiantes.dart';
+import 'package:dev_tesis/ui/components/appbar/appbar_actividad.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_profesor_panel.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
@@ -52,16 +52,14 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
       if (context.read<BDCursosCubit>().state.isEmpty) {
         //Cuando la BDCursosCubit esta vacia y se trae toda la info
         final cursos = await cursosCasoUso.getCursos();
-        context.read<BDCursosCubit>().subirCursos(cursos);
+        context.watch<BDCursosCubit>().subirCursos(cursos);
         final profesores = await profesorCasoUso.getProfesores();
-        context.read<ProfesoresCubit>().subirProfesores(profesores);
+        context.watch<ProfesoresCubit>().subirProfesores(profesores);
         // buscar en cursos el curso con el id correspondiente
         final curso = cursos.firstWhere((c) => c.id == widget.cursoId);
-        context.read<CursoCubit>().actualizarCurso(curso);
-        context.read<UnidadesCubit>().subirUnidades(curso.unidades!);
-         context.read<RolCubit>().actualizarRol("estudiante");
-        
-   
+        context.watch<CursoCubit>().actualizarCurso(curso);
+        context.watch<UnidadesCubit>().subirUnidades(curso.unidades!);
+        context.watch<RolCubit>().actualizarRol("estudiante");
       } else {
         final profesores = await profesorCasoUso.getProfesores();
         context.read<ProfesoresCubit>().subirProfesores(profesores);
@@ -70,71 +68,89 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
         final curso = cursos.firstWhere((c) => c.id == widget.cursoId);
         context.read<CursoCubit>().actualizarCurso(curso);
         context.read<UnidadesCubit>().subirUnidades(curso.unidades!);
-            context.read<RolCubit>().actualizarRol("estudiante");
-        
-    if (context.read<SeguimientosEstudiantesCubit>().state.isEmpty) {
-      
-      context.read<SeguimientosEstudiantesCubit>().subirSeguimientos(
-        [
-    Seguimiento(id: 1, respuestasActividades: List.generate(80, (index) => -1), test: [], calificacion: 0, userId:1, cursoId: 0),
-    Seguimiento(id: 2, respuestasActividades: List.generate(80, (index) => -1), test: [], calificacion: 0, userId:2, cursoId:0 ),
-    Seguimiento(id: 3, respuestasActividades: List.generate(80, (index) => -1), test: [], calificacion: 0, userId:3, cursoId:0 ),
-    Seguimiento(id: 4, respuestasActividades: List.generate(80, (index) => -1), test: [], calificacion: 0,  userId:4, cursoId:0),
-    Seguimiento(id: 5, respuestasActividades: List.generate(80, (index) => -1), test: [], calificacion: 0, userId:5, cursoId:0),
-    Seguimiento(id: 6, respuestasActividades: List.generate(80, (index) => -1), test: [], calificacion: 0,   userId:6, cursoId:0),
-  ]
-      );
-      
-    }
+        context.read<RolCubit>().actualizarRol("estudiante");
+      }
+
+      if (context.read<SeguimientosEstudiantesCubit>().state.isEmpty) {
+        context.watch<SeguimientosEstudiantesCubit>().subirSeguimientos([
+          Seguimiento(
+              id: 1,
+              respuestasActividades: List.generate(80, (index) => -1),
+              test: [],
+              calificacion: 0,
+              userId: 1,
+              cursoId: 1),
+          Seguimiento(
+              id: 2,
+              respuestasActividades: List.generate(80, (index) => -1),
+              test: [],
+              calificacion: 0,
+              userId: 2,
+              cursoId: 1),
+          Seguimiento(
+              id: 3,
+              respuestasActividades: List.generate(80, (index) => -1),
+              test: [],
+              calificacion: 0,
+              userId: 3,
+              cursoId: 1),
+          Seguimiento(
+              id: 4,
+              respuestasActividades: List.generate(80, (index) => -1),
+              test: [],
+              calificacion: 0,
+              userId: 4,
+              cursoId: 1),
+          Seguimiento(
+              id: 5,
+              respuestasActividades: List.generate(80, (index) => -1),
+              test: [],
+              calificacion: 0,
+              userId: 5,
+              cursoId: 1),
+          Seguimiento(
+              id: 6,
+              respuestasActividades: List.generate(80, (index) => -1),
+              test: [],
+              calificacion: 0,
+              userId: 6,
+              cursoId: 1),
+        ]);
       }
     } catch (e) {
       // Manejo de errores, puedes mostrar un mensaje de error
       print('Error al obtener cursos: $e');
     }
-
   }
 
   @override
   Widget build(BuildContext context) {
     final cursoCubit = context.watch<CursoCubit>();
     final router = GoRouter.of(context);
+    final rol = context.read<RolCubit>().state;
     final profesoresCubit = context.watch<ProfesoresCubit>();
     String? nombreProfesor = profesoresCubit.state
         .firstWhere((profesor) => profesor.id == cursoCubit.state.profesor)
         .nombre;
     final estudiantesCubit = context.watch<EstudiantesCubit>();
 
-   
+    List<String> avatares = [];
+    for (var estudiante in estudiantesCubit.state) {
+      avatares.add(estudiante.avatar!);
+    }
 
     return DefaultTabController(
       length: 2, // Número de pestañas
       child: Scaffold(
         backgroundColor: thirtyColor,
-        appBar: AppBar(
-          title: Text('Curso'),
-          actions: [
-            // Aquí puedes mostrar el avatar cuando esté listo
-            FutureBuilder<List<String>>(
-              future: _fetchAvatar(estudiantesCubit.state),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
-                } else {
-                  if (snapshot.hasData) {
-                   return Row(
-          children: snapshot.data!.map((avatarPath) {
-            return CircleAvatar(
-              backgroundImage: AssetImage(avatarPath),
-            );
-          }).toList(),
-        );
-                  } else {
-                    return Icon(Icons.error); // Manejo de error
-                  }
-                }
-              },
-            ),
-          ],
+        appBar: CustomNavigationBarActividad(
+          cursoName: 'Mundo PC',
+          userName: estudiantesCubit.obtenerNombres(),
+          userAvatars: avatares,
+          onLogout: () {
+            // Aquí implementa la lógica para cerrar sesión
+            print('Cerrar sesión');
+          },
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -301,12 +317,19 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
                       },
                     ),
                     const SizedBox(height: 20.0),
-                     Center(
+                    Center(
                         child: PixelLargeBttn(
-                          path: 'assets/items/ButtonBlue.png',
-                      text: 'Seguimiento',
-                      onPressed: () => router.push('/seguimientoprofesor/${cursoCubit.state.id}'),
-                        )),
+                            path: 'assets/items/ButtonBlue.png',
+                            text: 'Seguimiento',
+                            onPressed: () {
+                              if (rol == 'estudiante') {
+                                router.push(
+                                    '/seguimientoestudiante/${cursoCubit.state.id}');
+                              }else{
+                                router.push(
+                                    '/seguimientoprofesor/${cursoCubit.state.id}');
+                              }
+                            })),
                     const SizedBox(height: 20.0),
                   ],
                 ),
@@ -318,8 +341,7 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
                   Tab(text: 'Contenido'),
                   Tab(text: 'Estudiantes'),
                 ],
-                labelColor:
-                    blackColor, // Color del texto de la pestaña activa
+                labelColor: blackColor, // Color del texto de la pestaña activa
                 unselectedLabelColor:
                     Colors.grey, // Color del texto de la pestaña inactiva
                 labelStyle: TextStyle(
@@ -446,17 +468,14 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
     );
   }
 
-   // Este método simula la carga del avatar
+  // Este método simula la carga del avatar
   Future<List<String>> _fetchAvatar(List<Estudiante> state) async {
-
-     List<String> avatares=[];
+    List<String> avatares = [];
     for (var estudiante in state) {
       avatares.add(estudiante.avatar!);
     }
     await Future.delayed(Duration(seconds: 2)); // Simula la carga
-    
 
-      
     return avatares; // Ruta del avatar
   }
 

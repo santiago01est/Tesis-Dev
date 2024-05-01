@@ -3,15 +3,15 @@ import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CustomNavigationBar extends StatelessWidget implements PreferredSizeWidget {
-  final String platformName;
+class CustomNavigationBarActividad extends StatelessWidget implements PreferredSizeWidget {
+  final String cursoName;
   final String userName;
   final List<String> userAvatars;
   final Function onLogout;
 
-  const CustomNavigationBar({
+  const CustomNavigationBarActividad({
     super.key,
-    required this.platformName,
+    required this.cursoName,
     required this.userName,
     required this.userAvatars,
     required this.onLogout,
@@ -21,9 +21,11 @@ class CustomNavigationBar extends StatelessWidget implements PreferredSizeWidget
   Widget build(BuildContext context) {
     final estudiantesCubit = context.read<EstudiantesCubit>();
     return AppBar(
-      title: Text('Curso'),
+      title: Text(cursoName),
           actions: [
             // Aquí puedes mostrar el avatar cuando esté listo
+            Center(child: Text(userName)),
+            SizedBox(width: 10),
             FutureBuilder<List<String>>(
               future: _fetchAvatar(estudiantesCubit.state),
               builder: (context, snapshot) {
