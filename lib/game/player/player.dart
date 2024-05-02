@@ -10,6 +10,7 @@ import 'package:dev_tesis/game/utilities/qualifying_profiles.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
+import 'package:flutter/foundation.dart';
 
 enum PlayerState {
   idleR,
@@ -87,7 +88,7 @@ class Player extends SpriteAnimationGroupComponent
   bool calloEnLaTrampa = false;
   Map<String, bool> playerRespuesta = {
     "Llego a la meta": false,
-    "Mejor camino": true,
+    "Mejor camino": false,
     "No choco con obstaculos": true,
     "Recogio el objeto/item": false,
   };
@@ -170,13 +171,16 @@ class Player extends SpriteAnimationGroupComponent
     return false;
   }
   
-  Future<int> processMovementInstructionsResponse() async {
+  Future<int> processMovementInstructionsResponse(List respuestaGeneral, List mejorCamino) async {
     if(itemDropComponent == null){
       playerRespuesta["Recogio el objeto/item"]= true;
     }
     // ignore: unnecessary_null_comparison
     if (movementInstructions != null) {
       await _executeInstructions();
+      respuestaGeneral.removeWhere((element) => element is String && element.contains('recoger'));
+      listEquals(respuestaGeneral, mejorCamino) ? playerRespuesta["Mejor camino"] = true: playerRespuesta["Mejor camino"] = false;
+      print(playerRespuesta);
       return generalProfile(playerRespuesta);
     }
 
@@ -188,8 +192,6 @@ class Player extends SpriteAnimationGroupComponent
       if (calloEnLaTrampa==false){
         i++;
         final instruction = movement;
-        print("Numero de la intruccion: " + i.toString());
-        print("Instruccions: " + movementInstructions.toString());
         i == movementInstructions.length
             ? await _executeInstruction(instruction, true)
             : await _executeInstruction(instruction, false);
@@ -247,6 +249,7 @@ class Player extends SpriteAnimationGroupComponent
     final block = _checkNextBlockForCollision(finalInstruction);
 
     if (block.type == 'err') {
+      print(finalInstruction);
       // ignore: avoid_print
       print('Hubo un error');
     }
@@ -354,9 +357,9 @@ class Player extends SpriteAnimationGroupComponent
       playerRespuesta["Llego a la meta"] = true;
       return;
       
-    } else if (block.type == 'meta' && lastInstruction == false) {
+    } /* else if (block.type == 'meta' && lastInstruction == false) {
       playerRespuesta["Mejor camino"] = false;
-    }
+    } */
     currentInstructionIndex += 1;
     return;
   }

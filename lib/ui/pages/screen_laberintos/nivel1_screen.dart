@@ -58,6 +58,7 @@ class _LaberintoState extends State<Laberinto> {
 
     String nombreUnidad =
         unidadesCubit.nombreUnidadDeActividad(actividadLaberinto!.id!);
+    String nombreArchivo = actividadLaberinto.nombreArchivo!;
     return Scaffold(
       appBar: const CustomAppBar(userName: 'usuario'),
       // Responsive UI design for desktop and mobile
@@ -75,7 +76,7 @@ class _LaberintoState extends State<Laberinto> {
                           IntrinsicHeight(
                             child: BannerInfoActividades(
                               titulo:
-                                  '$nombreUnidad \n${actividadLaberinto.nombre!}',
+                                  '$nombreUnidad \n$nombreArchivo',
                             ),
                           ),
                           Center(
@@ -164,27 +165,27 @@ class _LaberintoState extends State<Laberinto> {
                                       ),
                                       Container(
                                         margin: const EdgeInsets.only(left: 10),
-                                        child: Row(
+                                        child: Wrap(
                                           children: [
                                             IconButton(
                                               onPressed: () {
                                                 movementInstructionsCubit
                                                     .agregarIntruccion(
-                                                        'avanzar');
+                                                        'avanzar', 'avanzar');
                                               },
                                               iconSize: 100,
                                               icon: Image.asset(
-                                                  'assets/buttons/Derecha.png', // Reemplaza con la ruta de tu imagen en assets
+                                                  'assets/buttons/Avanzar.png', // Reemplaza con la ruta de tu imagen en assets
                                                   fit: BoxFit.cover,
                                                   width: 60,
                                                   height: 60),
                                             ),
-                                            if (true) ...[
+                                            if (nombreArchivo != 'Laberinto1') ...[
                                               IconButton(
                                                 onPressed: () {
                                                   movementInstructionsCubit
                                                       .agregarIntruccion(
-                                                          'giroDeIzquierda');
+                                                          'giroDeIzquierda', 'giroDeIzquierda');
                                                 },
                                                 iconSize: 100,
                                                 icon: Image.asset(
@@ -197,7 +198,7 @@ class _LaberintoState extends State<Laberinto> {
                                                 onPressed: () {
                                                   movementInstructionsCubit
                                                       .agregarIntruccion(
-                                                          'giroDeDerecha');
+                                                          'giroDeDerecha', 'giroDeDerecha');
                                                 },
                                                 iconSize: 100,
                                                 icon: Image.asset(
@@ -206,11 +207,12 @@ class _LaberintoState extends State<Laberinto> {
                                                     width: 60,
                                                     height: 60),
                                               ),
-                                              IconButton(
+                                              if (nombreArchivo != 'Laberinto2') ...[
+                                                IconButton(
                                                 onPressed: () {
                                                   movementInstructionsCubit
                                                       .agregarIntruccion(
-                                                          'recoger');
+                                                          'recoger', 'recoger');
                                                 },
                                                 iconSize: 100,
                                                 icon: Image.asset(
@@ -218,10 +220,241 @@ class _LaberintoState extends State<Laberinto> {
                                                     fit: BoxFit.cover,
                                                     width: 60,
                                                     height: 60),
-                                              ),
+                                                ),
+                                                if (nombreArchivo.contains('5')) ...[
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      movementInstructionsCubit
+                                                          .agregarIntruccion(
+                                                              [
+                                                                'avanzar', 
+                                                                'avanzar',
+                                                                'avanzar',
+                                                                'avanzar',
+                                                                'avanzar'
+                                                              ],
+                                                                'Nivel 1'
+                                                          );
+                                                    },
+                                                    iconSize: 100,
+                                                    icon: Image.asset(
+                                                        'assets/buttons/Nivel 1.png', // Reemplaza con la ruta de tu imagen en assets
+                                                        fit: BoxFit.cover,
+                                                        height: 60),
+                                                  ),
+                                                ],
+                                                if (nombreArchivo.contains('6') ) ...[
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      movementInstructionsCubit
+                                                          .agregarIntruccion(
+                                                              [
+                                                                'avanzar', 
+                                                                'giroDeIzquierda',
+                                                                'avanzar',
+                                                                'avanzar', 
+                                                                'giroDeIzquierda',
+                                                                'avanzar',
+                                                              ],
+                                                                'Nivel 2'
+                                                          );
+                                                    },
+                                                    iconSize: 100,
+                                                    icon: Image.asset(
+                                                        'assets/buttons/Nivel 2.png', // Reemplaza con la ruta de tu imagen en assets
+                                                        fit: BoxFit.cover,
+                                                        height: 60),
+                                                  ),
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      movementInstructionsCubit
+                                                          .agregarIntruccion(
+                                                              [
+                                                                'avanzar', 
+                                                                'giroDeDerecha',
+                                                                'avanzar',
+                                                                'avanzar', 
+                                                                'giroDeDerecha',
+                                                                'avanzar',
+                                                              ],
+                                                                'Nivel 2-X'
+                                                          );
+                                                    },
+                                                    iconSize: 100,
+                                                    icon: Image.asset(
+                                                        'assets/buttons/Nivel 2-X.png', // Reemplaza con la ruta de tu imagen en assets
+                                                        fit: BoxFit.cover,
+                                                        height: 60),
+                                                  ),
+                                                ],
+                                                if (nombreArchivo.contains('7')) ...[
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      movementInstructionsCubit
+                                                          .agregarIntruccion(
+                                                              [
+                                                                'avanzar', 
+                                                                'giroDeIzquierda',
+                                                                'avanzar', 
+                                                                'giroDeIzquierda',
+                                                                'avanzar', 
+                                                                'giroDeIzquierda'
+                                                              ],
+                                                                'Nivel 3'
+                                                          );
+                                                    },
+                                                    iconSize: 100,
+                                                    icon: Image.asset(
+                                                        'assets/buttons/Nivel 3.png', // Reemplaza con la ruta de tu imagen en assets
+                                                        fit: BoxFit.cover,
+                                                        height: 60),
+                                                  ),
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      movementInstructionsCubit
+                                                          .agregarIntruccion(
+                                                              [
+                                                                'giroDeDerecha', 
+                                                                'avanzar',
+                                                                'giroDeIzquierda', 
+                                                                'avanzar',
+                                                                'avanzar', 
+                                                                'avanzar',
+                                                                'giroDeDerecha', 
+                                                                'avanzar',
+                                                                'giroDeIzquierda', 
+                                                                'avanzar',
+                                                                'avanzar', 
+                                                                'avanzar'
+                                                              ],
+                                                                'Nivel 3-X'
+                                                          );
+                                                    },
+                                                    iconSize: 100,
+                                                    icon: Image.asset(
+                                                        'assets/buttons/Nivel 3-X.png', // Reemplaza con la ruta de tu imagen en assets
+                                                        fit: BoxFit.cover,
+                                                        height: 60),
+                                                  ),
+                                                ],
+                                                if (nombreArchivo.contains('8') ) ...[
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      movementInstructionsCubit
+                                                          .agregarIntruccion(
+                                                              [
+                                                                'giroDeDerecha', 
+                                                                'giroDeDerecha',
+                                                                
+                                                              ],
+                                                                'Nivel 4'
+                                                          );
+                                                    },
+                                                    iconSize: 100,
+                                                    icon: Image.asset(
+                                                        'assets/buttons/Nivel 4.png', // Reemplaza con la ruta de tu imagen en assets
+                                                        fit: BoxFit.cover,
+                                                        height: 60),
+                                                  ),
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      movementInstructionsCubit
+                                                          .agregarIntruccion(
+                                                              [
+                                                                'giroDeIzquierda', 
+                                                                'avanzar',
+                                                                'giroDeDerecha',
+                                                                'avanzar',
+                                                                'giroDeIzquierda', 
+                                                                'avanzar',
+                                                                'giroDeDerecha',
+                                                                'avanzar'
+                                                                'giroDeIzquierda', 
+                                                                'avanzar',
+                                                                'giroDeDerecha',
+                                                                'avanzar'
+                                                                
+                                                              ],
+                                                                'Nivel 4-X'
+                                                          );
+                                                    },
+                                                    iconSize: 100,
+                                                    icon: Image.asset(
+                                                        'assets/buttons/Nivel 4-X.png', // Reemplaza con la ruta de tu imagen en assets
+                                                        fit: BoxFit.cover,
+                                                        height: 60),
+                                                  ),
+                                                ],
+                                                if (nombreArchivo.contains('6') ||
+                                                    nombreArchivo.contains('7') ||
+                                                    nombreArchivo.contains('8')) ...[
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      movementInstructionsCubit
+                                                          .agregarIntruccion(
+                                                              [
+                                                                'avanzar', 
+                                                                'avanzar',
+                                                                'avanzar',
+                                                              ],
+                                                                'Nivel 2, 3 y 4'
+                                                          );
+                                                    },
+                                                    iconSize: 100,
+                                                    icon: Image.asset(
+                                                        'assets/buttons/Nivel 2, 3 y 4.png', // Reemplaza con la ruta de tu imagen en assets
+                                                        fit: BoxFit.cover,
+                                                        height: 60),
+                                                  ),
+                                                ],
+                                                if (nombreArchivo.contains('7') ||
+                                                    nombreArchivo.contains('8')) ...[
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      movementInstructionsCubit
+                                                          .agregarIntruccion(
+                                                              [
+                                                                'avanzar', 
+                                                                'avanzar',
+                                                              ],
+                                                                'Nivel 3 y 4'
+                                                          );
+                                                    },
+                                                    iconSize: 100,
+                                                    icon: Image.asset(
+                                                        'assets/buttons/Nivel 3 y 4.png', // Reemplaza con la ruta de tu imagen en assets
+                                                        fit: BoxFit.cover,
+                                                        height: 60),
+                                                  ),
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      movementInstructionsCubit
+                                                          .agregarIntruccion(
+                                                              [
+                                                                'giroDeIzquierda', 
+                                                                'avanzar',
+                                                                'giroDeDerecha',
+                                                                'avanzar',
+                                                                'giroDeIzquierda', 
+                                                                'avanzar',
+                                                                'giroDeDerecha',
+                                                                'avanzar',
+                                                              ],
+                                                                'Nivel 3 y 4-X'
+                                                          );
+                                                    },
+                                                    iconSize: 100,
+                                                    icon: Image.asset(
+                                                        'assets/buttons/Nivel 3 y 4-X.png', // Reemplaza con la ruta de tu imagen en assets
+                                                        fit: BoxFit.cover,
+                                                        height: 60),
+                                                  ),
+                                                ]
+                                              ]
                                             ]
                                           ],
                                         ),
+                                
                                       ),
                                       const RespuestaLaberinto(),
                                       Container(
@@ -246,11 +479,15 @@ class _LaberintoState extends State<Laberinto> {
                                                         player.movementInstructions =
                                                             movementInstructionsCubit
                                                                 .state
-                                                                .map((map) =>
-                                                                    map.key)
-                                                                .toList();
+                                                                .expand((map) {
+                                                          if (map.key is List<String>) {
+                                                            return map.key as List<String>;
+                                                          } else {
+                                                            return [map.key as String];
+                                                          }
+                                                        }).toList();
                                                         int response = await player
-                                                            .processMovementInstructionsResponse();
+                                                            .processMovementInstructionsResponse(movementInstructionsCubit.state.map((e) => e.key).toList(), actividadLaberinto!.mejorCamino);
                                                         print(response);
                                                         if (true) {
                                                           Future.delayed(
@@ -272,10 +509,10 @@ class _LaberintoState extends State<Laberinto> {
                                                                   .indiceActividadPorId(
                                                                       actividadLaberinto!
                                                                           .id!)!);
-                                                          print(seguimientosCubit
+/*                                                           print(seguimientosCubit
                                                               .state
                                                               .map((e) => e
-                                                                  .respuestasActividades));
+                                                                  .respuestasActividades)); */
                                                         }
                                                       }),
                                                 ),
@@ -404,59 +641,296 @@ class _LaberintoState extends State<Laberinto> {
                                 ),
                                 Container(
                                   margin: const EdgeInsets.only(left: 10),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      IconButton(
-                                        onPressed: () {
-                                          movementInstructionsCubit
-                                              .agregarIntruccion('arriba');
-                                        },
-                                        iconSize: 100,
-                                        icon: Image.asset(
-                                            'assets/buttons/Arriba.png', // Reemplaza con la ruta de tu imagen en assets
-                                            fit: BoxFit.cover,
-                                            width: 50,
-                                            height: 50),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
-                                          movementInstructionsCubit
-                                              .agregarIntruccion('abajo');
-                                        },
-                                        iconSize: 100,
-                                        icon: Image.asset(
-                                            'assets/buttons/Abajo.png', // Reemplaza con la ruta de tu imagen en assets
-                                            fit: BoxFit.cover,
-                                            width: 50,
-                                            height: 50),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
-                                          movementInstructionsCubit
-                                              .agregarIntruccion('izquierda');
-                                        },
-                                        iconSize: 100,
-                                        icon: Image.asset(
-                                            'assets/buttons/Izquierda.png', // Reemplaza con la ruta de tu imagen en assets
-                                            fit: BoxFit.cover,
-                                            width: 50,
-                                            height: 50),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
-                                          movementInstructionsCubit
-                                              .agregarIntruccion('derecha');
-                                        },
-                                        iconSize: 100,
-                                        icon: Image.asset(
-                                            'assets/buttons/Derecha.png', // Reemplaza con la ruta de tu imagen en assets
-                                            fit: BoxFit.cover,
-                                            width: 50,
-                                            height: 50),
-                                      ),
-                                    ],
-                                  ),
+                                  child: Wrap(
+                                          children: [
+                                            IconButton(
+                                              onPressed: () {
+                                                movementInstructionsCubit
+                                                    .agregarIntruccion(
+                                                        'avanzar', 'avanzar');
+                                              },
+                                              iconSize: 100,
+                                              icon: Image.asset(
+                                                  'assets/buttons/Avanzar.png', // Reemplaza con la ruta de tu imagen en assets
+                                                  fit: BoxFit.cover,
+                                                  width: 60,
+                                                  height: 60),
+                                            ),
+                                            if (nombreArchivo != 'Laberinto1') ...[
+                                              IconButton(
+                                                onPressed: () {
+                                                  movementInstructionsCubit
+                                                      .agregarIntruccion(
+                                                          'giroDeIzquierda', 'giroDeIzquierda');
+                                                },
+                                                iconSize: 100,
+                                                icon: Image.asset(
+                                                    'assets/buttons/GirarIzq.png', // Reemplaza con la ruta de tu imagen en assets
+                                                    fit: BoxFit.cover,
+                                                    width: 60,
+                                                    height: 60),
+                                              ),
+                                              IconButton(
+                                                onPressed: () {
+                                                  movementInstructionsCubit
+                                                      .agregarIntruccion(
+                                                          'giroDeDerecha', 'giroDeDerecha');
+                                                },
+                                                iconSize: 100,
+                                                icon: Image.asset(
+                                                    'assets/buttons/GirarDerecha.png', // Reemplaza con la ruta de tu imagen en assets
+                                                    fit: BoxFit.cover,
+                                                    width: 60,
+                                                    height: 60),
+                                              ),
+                                              if (nombreArchivo != 'Laberinto2') ...[
+                                                IconButton(
+                                                onPressed: () {
+                                                  movementInstructionsCubit
+                                                      .agregarIntruccion(
+                                                          'recoger', 'recoger');
+                                                },
+                                                iconSize: 100,
+                                                icon: Image.asset(
+                                                    'assets/buttons/Agarrar.png', // Reemplaza con la ruta de tu imagen en assets
+                                                    fit: BoxFit.cover,
+                                                    width: 60,
+                                                    height: 60),
+                                                ),
+                                                if (nombreArchivo.contains('5')) ...[
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      movementInstructionsCubit
+                                                          .agregarIntruccion(
+                                                              [
+                                                                'avanzar', 
+                                                                'avanzar',
+                                                                'avanzar',
+                                                                'avanzar',
+                                                                'avanzar'
+                                                              ],
+                                                                'Nivel 1'
+                                                          );
+                                                    },
+                                                    iconSize: 100,
+                                                    icon: Image.asset(
+                                                        'assets/buttons/Nivel 1.png', // Reemplaza con la ruta de tu imagen en assets
+                                                        fit: BoxFit.cover,
+                                                        height: 60),
+                                                  ),
+                                                ],
+                                                if (nombreArchivo.contains('6') ) ...[
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      movementInstructionsCubit
+                                                          .agregarIntruccion(
+                                                              [
+                                                                'avanzar', 
+                                                                'giroDeIzquierda',
+                                                                'avanzar',
+                                                                'avanzar', 
+                                                                'giroDeIzquierda',
+                                                                'avanzar',
+                                                              ],
+                                                                'Nivel 2'
+                                                          );
+                                                    },
+                                                    iconSize: 100,
+                                                    icon: Image.asset(
+                                                        'assets/buttons/Nivel 2.png', // Reemplaza con la ruta de tu imagen en assets
+                                                        fit: BoxFit.cover,
+                                                        height: 60),
+                                                  ),
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      movementInstructionsCubit
+                                                          .agregarIntruccion(
+                                                              [
+                                                                'avanzar', 
+                                                                'giroDeDerecha',
+                                                                'avanzar',
+                                                                'avanzar', 
+                                                                'giroDeDerecha',
+                                                                'avanzar',
+                                                              ],
+                                                                'Nivel 2-X'
+                                                          );
+                                                    },
+                                                    iconSize: 100,
+                                                    icon: Image.asset(
+                                                        'assets/buttons/Nivel 2-X.png', // Reemplaza con la ruta de tu imagen en assets
+                                                        fit: BoxFit.cover,
+                                                        height: 60),
+                                                  ),
+                                                ],
+                                                if (nombreArchivo.contains('7')) ...[
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      movementInstructionsCubit
+                                                          .agregarIntruccion(
+                                                              [
+                                                                'avanzar', 
+                                                                'giroDeIzquierda',
+                                                                'avanzar', 
+                                                                'giroDeIzquierda',
+                                                                'avanzar', 
+                                                                'giroDeIzquierda'
+                                                              ],
+                                                                'Nivel 3'
+                                                          );
+                                                    },
+                                                    iconSize: 100,
+                                                    icon: Image.asset(
+                                                        'assets/buttons/Nivel 3.png', // Reemplaza con la ruta de tu imagen en assets
+                                                        fit: BoxFit.cover,
+                                                        height: 60),
+                                                  ),
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      movementInstructionsCubit
+                                                          .agregarIntruccion(
+                                                              [
+                                                                'giroDeDerecha', 
+                                                                'avanzar',
+                                                                'giroDeIzquierda', 
+                                                                'avanzar',
+                                                                'avanzar', 
+                                                                'avanzar',
+                                                                'giroDeDerecha', 
+                                                                'avanzar',
+                                                                'giroDeIzquierda', 
+                                                                'avanzar',
+                                                                'avanzar', 
+                                                                'avanzar'
+                                                              ],
+                                                                'Nivel 3-X'
+                                                          );
+                                                    },
+                                                    iconSize: 100,
+                                                    icon: Image.asset(
+                                                        'assets/buttons/Nivel 3-X.png', // Reemplaza con la ruta de tu imagen en assets
+                                                        fit: BoxFit.cover,
+                                                        height: 60),
+                                                  ),
+                                                ],
+                                                if (nombreArchivo.contains('8') ) ...[
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      movementInstructionsCubit
+                                                          .agregarIntruccion(
+                                                              [
+                                                                'giroDeDerecha', 
+                                                                'giroDeDerecha',
+                                                                
+                                                              ],
+                                                                'Nivel 4'
+                                                          );
+                                                    },
+                                                    iconSize: 100,
+                                                    icon: Image.asset(
+                                                        'assets/buttons/Nivel 4.png', // Reemplaza con la ruta de tu imagen en assets
+                                                        fit: BoxFit.cover,
+                                                        height: 60),
+                                                  ),
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      movementInstructionsCubit
+                                                          .agregarIntruccion(
+                                                              [
+                                                                'giroDeIzquierda', 
+                                                                'avanzar',
+                                                                'giroDeDerecha',
+                                                                'avanzar',
+                                                                'giroDeIzquierda', 
+                                                                'avanzar',
+                                                                'giroDeDerecha',
+                                                                'avanzar'
+                                                                'giroDeIzquierda', 
+                                                                'avanzar',
+                                                                'giroDeDerecha',
+                                                                'avanzar'
+                                                                
+                                                              ],
+                                                                'Nivel 4-X'
+                                                          );
+                                                    },
+                                                    iconSize: 100,
+                                                    icon: Image.asset(
+                                                        'assets/buttons/Nivel 4-X.png', // Reemplaza con la ruta de tu imagen en assets
+                                                        fit: BoxFit.cover,
+                                                        height: 60),
+                                                  ),
+                                                ],
+                                                if (nombreArchivo.contains('6') ||
+                                                    nombreArchivo.contains('7') ||
+                                                    nombreArchivo.contains('8')) ...[
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      movementInstructionsCubit
+                                                          .agregarIntruccion(
+                                                              [
+                                                                'avanzar', 
+                                                                'avanzar',
+                                                                'avanzar',
+                                                              ],
+                                                                'Nivel 2, 3 y 4'
+                                                          );
+                                                    },
+                                                    iconSize: 100,
+                                                    icon: Image.asset(
+                                                        'assets/buttons/Nivel 2, 3 y 4.png', // Reemplaza con la ruta de tu imagen en assets
+                                                        fit: BoxFit.cover,
+                                                        height: 60),
+                                                  ),
+                                                ],
+                                                if (nombreArchivo.contains('7') ||
+                                                    nombreArchivo.contains('8')) ...[
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      movementInstructionsCubit
+                                                          .agregarIntruccion(
+                                                              [
+                                                                'avanzar', 
+                                                                'avanzar',
+                                                              ],
+                                                                'Nivel 3 y 4'
+                                                          );
+                                                    },
+                                                    iconSize: 100,
+                                                    icon: Image.asset(
+                                                        'assets/buttons/Nivel 3 y 4.png', // Reemplaza con la ruta de tu imagen en assets
+                                                        fit: BoxFit.cover,
+                                                        height: 60),
+                                                  ),
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      movementInstructionsCubit
+                                                          .agregarIntruccion(
+                                                              [
+                                                                'giroDeIzquierda', 
+                                                                'avanzar',
+                                                                'giroDeDerecha',
+                                                                'avanzar',
+                                                                'giroDeIzquierda', 
+                                                                'avanzar',
+                                                                'giroDeDerecha',
+                                                                'avanzar',
+                                                              ],
+                                                                'Nivel 3 y 4-X'
+                                                          );
+                                                    },
+                                                    iconSize: 100,
+                                                    icon: Image.asset(
+                                                        'assets/buttons/Nivel 3 y 4-X.png', // Reemplaza con la ruta de tu imagen en assets
+                                                        fit: BoxFit.cover,
+                                                        height: 60),
+                                                  ),
+                                                ]
+                                              ]
+                                            ]
+                                          ],
+                                        ),
+                                
                                 ),
 
                                 const RespuestaLaberinto(),
@@ -480,10 +954,19 @@ class _LaberintoState extends State<Laberinto> {
                                                   player.movementInstructions =
                                                       movementInstructionsCubit
                                                           .state
-                                                          .map((map) => map.key)
-                                                          .toList();
-                                                  final response = player
-                                                      .processMovementInstructionsResponse();
+                                                          .expand((map) {
+                                                    if (map.key
+                                                        is List<String>) {
+                                                      return map.key
+                                                          as List<String>;
+                                                    } else {
+                                                      return [
+                                                        map.key as String
+                                                      ];
+                                                    }
+                                                  }).toList();
+                                                  int response = await player
+                                                      .processMovementInstructionsResponse(movementInstructionsCubit.state.map((e) => e.key).toList(), actividadLaberinto!.mejorCamino);
                                                   print(response);
                                                   if (true) {
                                                     Future.delayed(

@@ -2,7 +2,8 @@ import 'package:dev_tesis/domain/model/actividad.dart';
 
 class ActividadLaberinto extends Actividad {
   String? nombreArchivo;
-  Map<String, bool>? respuesta;
+  List<dynamic> mejorCamino;
+  List<dynamic>? mejorCamino2;
 
   ActividadLaberinto(
       {super.id,
@@ -13,6 +14,7 @@ class ActividadLaberinto extends Actividad {
       super.tipoActividad,
       super.pesoRespuestas,
       this.nombreArchivo,
-      this.respuesta
+      required this.mejorCamino,
+      this.mejorCamino2 = const []
   });
 }
