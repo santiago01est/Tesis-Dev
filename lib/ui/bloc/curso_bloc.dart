@@ -28,6 +28,11 @@ class CursoCubit extends Cubit<Curso> {
     return null;
   }
 
-
-  
+  // retornar lista de estudiantes dado una lista de Ids
+  List<Estudiante> obtenerEstudiantesPorIds(List<int> ids) {
+    final estadoActual = state;
+    return estadoActual.estudiantes!
+        .where((estudiante) => ids.contains(estudiante.id))
+        .toList();
+  }
 }

@@ -28,11 +28,11 @@ import 'infraestructure/driven_adapter/cursos_adapter/cursos_data_adapter.dart';
 
 final getIt = GetIt.instance;
 
-void setupDependencies() {
+void setupDependencies(BuildContext context) {
   // Registra tus dependencias aquí
   getIt.registerSingleton<CursoRepository>(CursosDataAdapter());
   getIt.registerSingleton<CursosCasoUso>(
-      CursosCasoUso(getIt<CursoRepository>()));
+      CursosCasoUso(getIt<CursoRepository>(), context));
 
   getIt.registerSingleton<UnidadRepository>(UnidadDataAdapter());
   getIt.registerSingleton<UnidadCasoUso>(
@@ -40,11 +40,10 @@ void setupDependencies() {
 
   getIt.registerSingleton<ProfesorRepository>(ProfesorDataAdapter());
   getIt.registerSingleton<ProfesorCasoUso>(
-      ProfesorCasoUso(getIt<ProfesorRepository>()));
+      ProfesorCasoUso(getIt<ProfesorRepository>(), context));
 }
 
 void main() {
-  setupDependencies();
   runApp(const MyApp());
 }
 
@@ -53,6 +52,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    setupDependencies(context);
     return MultiBlocProvider(
       providers: [
         BlocProvider<CursoCubit>(create: (context) => CursoCubit()),
@@ -78,14 +78,13 @@ class MyApp extends StatelessWidget {
         BlocProvider<ActividadCuestionarioCubit>(
           create: (context) => ActividadCuestionarioCubit(),
         ),
-        
-         BlocProvider<EstudiantesCubit>(
+
+        BlocProvider<EstudiantesCubit>(
           create: (context) => EstudiantesCubit(),
         ),
         BlocProvider<SeguimientosEstudiantesCubit>(
           create: (context) => SeguimientosEstudiantesCubit(),
         ),
-
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
@@ -93,9 +92,8 @@ class MyApp extends StatelessWidget {
         title: "Mundo PC",
         theme: ThemeData(
           scaffoldBackgroundColor: sixtyColor,
-          textTheme:
-              GoogleFonts.lexendExaTextTheme(Theme.of(context).textTheme)
-                  .apply(bodyColor: Colors.black),
+          textTheme: GoogleFonts.lexendExaTextTheme(Theme.of(context).textTheme)
+              .apply(bodyColor: Colors.black),
           pageTransitionsTheme: const PageTransitionsTheme(builders: {
             TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),
             TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),

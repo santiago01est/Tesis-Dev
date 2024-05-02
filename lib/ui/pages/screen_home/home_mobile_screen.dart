@@ -23,17 +23,29 @@ class HomeMobile extends StatefulWidget {
 }
 
 class _HomeMobileState extends State<HomeMobile> {
- late CursosProfesoresCasoUso _cursosProfesoresCasoUso;
+  late InitData _cursosProfesoresCasoUso;
+
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _cursosProfesoresCasoUso = CursosProfesoresCasoUso(
+
+    _cursosProfesoresCasoUso = InitData(
       cursosCasoUso: getIt<CursosCasoUso>(),
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,
     );
     _cursosProfesoresCasoUso.obtenerCursosYProfesores();
+    _simularCarga();
+  }
+
+  Future<void> _simularCarga() async {
+    // Simular una carga de 5 segundos
+    await Future.delayed(Duration(seconds: 5));
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -42,172 +54,175 @@ class _HomeMobileState extends State<HomeMobile> {
     final profesoresCubit = context.watch<ProfesoresCubit>();
     final profesores = profesoresCubit.state;
     final rolCubit = context.watch<RolCubit>();
-    return Scaffold(
-        backgroundColor: blueColor,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(
-                        'assets/fondos/FondoHome.png'), // Ruta de tu imagen de fondo
-                    fit: BoxFit.cover, // Ajuste para cubrir el contenedor
-                  ),
-                ),
-
-                // Contenido superpuesto en la primera sección
-                child: Column(
-                  children: [
-                    // Fila con botón en la parte superior derecha
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                       PixelLargeBttn(
-                            path: 'assets/items/ButtonOrange.png',
-                            onPressed: () {
-                              router.go('/registroprofesor');
-                            },
-                            text: 'REGISTRARSE',
-                          ),
-                        
-                      ],
+    return _isLoading
+        ? const SizedBox(
+            width: 100,
+            height: 100,
+            child: Center(child: CircularProgressIndicator()))
+        : Scaffold(
+            backgroundColor: blueColor,
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(
+                            'assets/fondos/FondoHome.png'), // Ruta de tu imagen de fondo
+                        fit: BoxFit.cover, // Ajuste para cubrir el contenedor
+                      ),
                     ),
 
-                    // Fila con dos secciones
-                    FractionallySizedBox(
-                      widthFactor: 0.8,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Sección de la izquierda con texto y botón
-                          Image.asset(
-                                    width: 200,
-                                    height: 50,
-                                    'assets/logomundopc.png',
-                                    fit: BoxFit.fill,
-                                  ),
-                          const SizedBox(height: 20.0),
-                          const Text(
-                              'Mundo PC es más que una plataforma; somos un puente entre la innovación, la creatividad y la enseñanza.',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.w400,
-                              )),
-                          PixelLargeBttn(
-                              path: 'assets/items/ButtonBlue.png',
+                    // Contenido superpuesto en la primera sección
+                    child: Column(
+                      children: [
+                        // Fila con botón en la parte superior derecha
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            PixelLargeBttn(
+                              path: 'assets/items/ButtonOrange.png',
                               onPressed: () {
                                 router.go('/registroprofesor');
                               },
-                              text: 'INICIAR SESIÓN',
+                              text: 'REGISTRARSE',
                             ),
-                          
-                        ],
-                      ),
-                    ),
-                    // Sección de la derecha con imagen
+                          ],
+                        ),
 
-                    Image.asset(
-                      'assets/ImagenMascotasHome.png',
-                      fit: BoxFit.contain,
-                      width: 400,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                // padding: EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 20),
-                    // Barra de búsqueda redondeada
-                    Padding(
-                      padding: const EdgeInsets.all(0),
-                      child: Center(
-                        child: FractionallySizedBox(
+                        // Fila con dos secciones
+                        FractionallySizedBox(
                           widthFactor: 0.8,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: const Row(
-                              children: [
-                                // Icono de lupa
-                                Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Icon(Icons.search),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Sección de la izquierda con texto y botón
+                              Image.asset(
+                                width: 200,
+                                height: 50,
+                                'assets/logomundopc.png',
+                                fit: BoxFit.fill,
+                              ),
+                              const SizedBox(height: 20.0),
+                              const Text(
+                                  'Mundo PC es más que una plataforma; somos un puente entre la innovación, la creatividad y la enseñanza.',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w400,
+                                  )),
+                              PixelLargeBttn(
+                                path: 'assets/items/ButtonBlue.png',
+                                onPressed: () {
+                                  router.go('/registroprofesor');
+                                },
+                                text: 'INICIAR SESIÓN',
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Sección de la derecha con imagen
+
+                        Image.asset(
+                          'assets/ImagenMascotasHome.png',
+                          fit: BoxFit.contain,
+                          width: 400,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    // padding: EdgeInsets.all(20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 20),
+                        // Barra de búsqueda redondeada
+                        Padding(
+                          padding: const EdgeInsets.all(0),
+                          child: Center(
+                            child: FractionallySizedBox(
+                              widthFactor: 0.8,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
-                                // Campo de texto de búsqueda
-                                Expanded(
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Buscar Curso...',
+                                child: const Row(
+                                  children: [
+                                    // Icono de lupa
+                                    Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Icon(Icons.search),
                                     ),
-                                  ),
+                                    // Campo de texto de búsqueda
+                                    Expanded(
+                                      child: TextField(
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: 'Buscar Curso...',
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
 
-                    const SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Center(
-                       
-                          child: BlocBuilder<BDCursosCubit, List<Curso>>(
-                            builder: (context, cursos) {
-                              if (cursos.isEmpty) {
-                                return const CircularProgressIndicator();
-                              } else {
-                                return Wrap(
-                               alignment: WrapAlignment.center,
-                      spacing: 8.0, // Espacio entre las imágenes
-                      runSpacing: 8.0,
-                              children: List.generate(
-                                cursos.length,
-                                (index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      if (rolCubit.state == 'profesor') {
-                                        router.push(
-                                            '/panelcurso/${cursos[index].id}');
-                                      } else {
-                                        PopupUtils.showCodeAccessPopup(
-                                            context, cursos[index]);
-                                      }
-                                    },
-                                    child: CursoCard(
-                                      curso: cursos[index],
-                                      nombreProfesor: obtenerNombreProfesor(
-                                          profesores, cursos[index].profesor!),
+                        const SizedBox(height: 20),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Center(
+                            child: BlocBuilder<BDCursosCubit, List<Curso>>(
+                              builder: (context, cursos) {
+                                if (cursos.isEmpty) {
+                                  return const CircularProgressIndicator();
+                                } else {
+                                  return Wrap(
+                                    alignment: WrapAlignment.center,
+                                    spacing: 8.0, // Espacio entre las imágenes
+                                    runSpacing: 8.0,
+                                    children: List.generate(
+                                      cursos.length,
+                                      (index) {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            if (rolCubit.state == 'profesor') {
+                                              router.push(
+                                                  '/panelcurso/${cursos[index].id}');
+                                            } else {
+                                              PopupUtils.showCodeAccessPopup(
+                                                  context, cursos[index]);
+                                            }
+                                          },
+                                          child: CursoCard(
+                                            curso: cursos[index],
+                                            nombreProfesor:
+                                                obtenerNombreProfesor(
+                                                    profesores,
+                                                    cursos[index].profesor!),
+                                          ),
+                                        );
+                                      },
                                     ),
                                   );
-                                },
-                              ),
-                            );
-                              }
-                            },
+                                }
+                              },
+                            ),
                           ),
-                      
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ));
+            ));
   }
 
-   obtenerNombreProfesor(List<Profesor> profesores, String idProfesor) {
+  obtenerNombreProfesor(List<Profesor> profesores, String idProfesor) {
     print(profesores.length);
     print('profesorid: $idProfesor');
     // for que retorna el nombre del profesor

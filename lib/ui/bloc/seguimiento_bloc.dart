@@ -1,4 +1,3 @@
-
 import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,29 +15,20 @@ class SeguimientoCubit extends Cubit<Seguimiento> {
   }
 }
 */
-class SeguimientosEstudiantesCubit extends Cubit<List<Seguimiento>>{
+class SeguimientosEstudiantesCubit extends Cubit<List<Seguimiento>> {
   //TODO: IMPLEMENTAR SEGUIMIENTOS ESTUDIANTES [RECUPERAR DESDE LA BD SEGUN EL CURSOID]
-  SeguimientosEstudiantesCubit(): super([]);
+  SeguimientosEstudiantesCubit() : super([]);
 
-
-  void subirSeguimientos(List<Seguimiento> list){
+  void subirSeguimientos(List<Seguimiento> list) {
     emit(list);
   }
 
-   void actualizarRespuestasActividadess(int userId, List<int> nuevasRespuestas) {
-    emit(state.map((seguimiento) {
-      if (seguimiento.userId == userId) {
-        return seguimiento.copyWith(respuestasActividades: nuevasRespuestas);
-      } else {
-        return seguimiento;
-      }
-    }).toList());
-  }
-
-   void actualizarRespuestasActividadesEstudiantes(List<int> idsEstudiantes, int numeroRespuesta, int ubicacion) {
+  void actualizarRespuestasActividadesEstudiantes(
+      List<int> idsEstudiantes, int numeroRespuesta, int ubicacion) {
     emit(state.map((seguimiento) {
       if (idsEstudiantes.contains(seguimiento.userId)) {
-        List<int> nuevasRespuestas = List.from(seguimiento.respuestasActividades!);
+        List<int> nuevasRespuestas =
+            List.from(seguimiento.respuestasActividades!);
         if (ubicacion >= 0 && ubicacion < nuevasRespuestas.length) {
           nuevasRespuestas[ubicacion] = numeroRespuesta;
         }
@@ -49,11 +39,20 @@ class SeguimientosEstudiantesCubit extends Cubit<List<Seguimiento>>{
     }).toList());
   }
 
-   
+  void actualizarRespuestasTestEstudiantes(
+      List<int> idsEstudiantes, List<int> respuestas) {
+    emit(state.map((seguimiento) {
+      if (idsEstudiantes.contains(seguimiento.userId)) {
+        return seguimiento.copyWith(test: respuestas);
+      } else {
+        return seguimiento;
+      }
+    }).toList());
+  }
 
   Seguimiento obtenerSeguimientoEstudiante(int userId) {
-  final seguimientoEstudiante = state.firstWhere((seguimiento) => seguimiento.userId == userId);
-  return seguimientoEstudiante;
-}
-
+    final seguimientoEstudiante =
+        state.firstWhere((seguimiento) => seguimiento.userId == userId);
+    return seguimientoEstudiante;
+  }
 }

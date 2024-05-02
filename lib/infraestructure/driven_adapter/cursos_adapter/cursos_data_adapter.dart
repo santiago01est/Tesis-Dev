@@ -5,7 +5,6 @@ import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
-import 'package:flutter/material.dart';
 
 class CursosDataAdapter extends CursoRepository {
   @override
@@ -30,7 +29,7 @@ class CursosDataAdapter extends CursoRepository {
         unidades: [
           Unidad(
               id: '0',
-              nombre: 'Unidad Diagnóstico',
+              nombre: 'Unidad \nDiagnóstico',
               estado: 'Activa',
               actividades: [
                 ActividadCuestionario(
@@ -1444,7 +1443,7 @@ class CursosDataAdapter extends CursoRepository {
                 ],
                 pesoRespuestas: [3, 2, 4, 1],
                 respuestaCorrecta: 3),
-             ActividadLaberinto(
+            ActividadLaberinto(
                 id: '26',
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
@@ -1453,7 +1452,7 @@ class CursosDataAdapter extends CursoRepository {
                     'El pequeño pollito Tito se ha perdido cerca del puente. Recogelo  y llévalo al gallinero con su familia',
                 tipoActividad: 'Laberinto',
                 nombreArchivo: "Laberinto4"),
-           ActividadCuestionario(
+            ActividadCuestionario(
                 id: '27',
                 nombre: 'Actividad Cuestionario de ',
                 estado: 'Activa',
@@ -1463,14 +1462,44 @@ class CursosDataAdapter extends CursoRepository {
                 tipoActividad: 'Cuestionario',
                 dimension: 6,
                 pista: 'assets/items/ejemplosImg/pistaCiclos.png',
-               casillas: [
-    -1, 30, 30, -1, -1, -1,
-    2, -1, 30, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1,
-    18, 30, 5, 4, -1, -1,
-    -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1
-],
+                casillas: [
+                  -1,
+                  30,
+                  30,
+                  -1,
+                  -1,
+                  -1,
+                  2,
+                  -1,
+                  30,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  18,
+                  30,
+                  5,
+                  4,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1
+                ],
                 ejemploImage: 'ejemplocuestionarioU2CiclosAgarrar.png',
                 ejercicioImage: '',
                 respuestas: [
@@ -1488,41 +1517,45 @@ class CursosDataAdapter extends CursoRepository {
                   [
                     {
                       'Repeticion': 2,
-                      'Respuestas': ['Derecha.png',
-                      'GirarDerecha.png',
-                    'Derecha.png',]
+                      'Respuestas': [
+                        'Derecha.png',
+                        'GirarDerecha.png',
+                        'Derecha.png',
+                      ]
                     },
-                  
                   ],
                   [
-                    
                     {
                       'Repeticion': 1,
-                      'Respuestas': ['Derecha.png',
-                       'GirarIzq.png',
-                    'Derecha.png',]
+                      'Respuestas': [
+                        'Derecha.png',
+                        'GirarIzq.png',
+                        'Derecha.png',
+                      ]
                     },
-                     'GirarIzq.png',
+                    'GirarIzq.png',
                     'Derecha.png',
-                     'Derecha.png',
-                      'GirarIzq.png',
-                      'Derecha.png',
-                     'Derecha.png',
-                      'GirarDerecha.png',
-                        'Derecha.png',
-                      'GirarDerecha.png',
-                       'Derecha.png',
-                        'Derecha.png',
+                    'Derecha.png',
+                    'GirarIzq.png',
+                    'Derecha.png',
+                    'Derecha.png',
+                    'GirarDerecha.png',
+                    'Derecha.png',
+                    'GirarDerecha.png',
+                    'Derecha.png',
+                    'Derecha.png',
                   ],
                   [
                     {
                       'Repeticion': 2,
-                      'Respuestas': ['Derecha.png',
-                       'GirarDerecha.png',
-                    'Derecha.png',
-                      'GirarIzq.png',]
+                      'Respuestas': [
+                        'Derecha.png',
+                        'GirarDerecha.png',
+                        'Derecha.png',
+                        'GirarIzq.png',
+                      ]
                     },
-                    'Agarrar.png',                
+                    'Agarrar.png',
                     'Derecha.png',
                   ]
                 ],
@@ -1537,7 +1570,7 @@ class CursosDataAdapter extends CursoRepository {
                     'El pequeño pollito Tito se ha perdido cerca del puente. Recogelo  y llévalo al gallinero con su familia',
                 tipoActividad: 'Laberinto',
                 nombreArchivo: "Laberinto4"),
-                ActividadCuestionario(
+            ActividadCuestionario(
                 id: '29',
                 nombre: 'Actividad Cuestionario de ',
                 estado: 'Activa',
@@ -1547,91 +1580,117 @@ class CursosDataAdapter extends CursoRepository {
                 tipoActividad: 'Cuestionario',
                 dimension: 6,
                 pista: 'assets/items/ejemplosImg/pistaCiclos.png',
-               casillas: [
-    -1, -1, 30, 30, 30, 30,
-    2, -1, 30, 5, 4, -1,
-    -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1,
-    10, 18, 30, 30, 9, -1,
-    30, 30, 30, 30, 30, 30
-],
+                casillas: [
+                  -1,
+                  -1,
+                  30,
+                  30,
+                  30,
+                  30,
+                  2,
+                  -1,
+                  30,
+                  5,
+                  4,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  10,
+                  18,
+                  30,
+                  30,
+                  9,
+                  -1,
+                  30,
+                  30,
+                  30,
+                  30,
+                  30,
+                  30
+                ],
                 ejemploImage: 'ejemplocuestionarioU2Ciclos.png',
                 ejercicioImage: '',
                 respuestas: [
                   [
-                
                     'GirarDerecha.png',
                     'Derecha.png',
-                    'Derecha.png',                   
+                    'Derecha.png',
                     'GirarIzq.png',
                     'Derecha.png',
                     'Derecha.png',
                     'Derecha.png',
                     'Derecha.png',
-                   'GirarIzq.png',
+                    'GirarIzq.png',
                     'Derecha.png',
                   ],
                   [
                     {
                       'Repeticion': 2,
-                      'Respuestas': ['Derecha.png',
-                      'GirarDerecha.png',
-                    'Derecha.png',]
+                      'Respuestas': [
+                        'Derecha.png',
+                        'GirarDerecha.png',
+                        'Derecha.png',
+                      ]
                     },
-                     'GirarIzq.png',
+                    'GirarIzq.png',
                     'Derecha.png',
-                      'Derecha.png',
-                         'Agarrar.png', 
-                  
+                    'Derecha.png',
+                    'Agarrar.png',
                   ],
                   [
-                  
-                   
                     'Derecha.png',
-                      'GirarDerecha.png',
-                     'Derecha.png',                 
-                      'Derecha.png',
-                       'GirarIzq.png',
-                     'Derecha.png',
-                     'Derecha.png',
-                      'GirarIzq.png',
-                      'Derecha.png',
-                      'Agarrar.png', 
-                      'GirarDerecha.png',
-                       'Derecha.png',
-                  
+                    'GirarDerecha.png',
+                    'Derecha.png',
+                    'Derecha.png',
+                    'GirarIzq.png',
+                    'Derecha.png',
+                    'Derecha.png',
+                    'GirarIzq.png',
+                    'Derecha.png',
+                    'Agarrar.png',
+                    'GirarDerecha.png',
+                    'Derecha.png',
                   ],
                   [
-                     'GirarDerecha.png',
+                    'GirarDerecha.png',
                     {
                       'Repeticion': 3,
                       'Respuestas': ['Derecha.png']
                     },
-                    'Agarrar.png',   
-                     {
+                    'Agarrar.png',
+                    {
                       'Repeticion': 2,
-                      'Respuestas': [  'GirarIzq.png']
-                    },             
+                      'Respuestas': ['GirarIzq.png']
+                    },
                     'Derecha.png',
-                      'GirarDerecha.png',
-                      {
+                    'GirarDerecha.png',
+                    {
                       'Repeticion': 3,
                       'Respuestas': ['Derecha.png']
                     },
-                      'GirarIzq.png',
-                        {
+                    'GirarIzq.png',
+                    {
                       'Repeticion': 2,
                       'Respuestas': ['Derecha.png']
                     },
-                      'Agarrar.png', 
-                      'GirarDerecha.png',
-                       'Derecha.png',
+                    'Agarrar.png',
+                    'GirarDerecha.png',
+                    'Derecha.png',
                   ]
                 ],
                 pesoRespuestas: [2, 1, 3, 4],
                 respuestaCorrecta: 4),
           ]),
-          
         ],
         estudiantes: [
           Estudiante(

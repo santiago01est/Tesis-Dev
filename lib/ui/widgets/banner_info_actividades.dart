@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 
 class BannerInfoActividades extends StatelessWidget {
   final String titulo;
-  const BannerInfoActividades({super.key, required this.titulo});
+  final int indice;
+  final List<int> habilidades;
+  const BannerInfoActividades(
+      {super.key,
+      required this.titulo,
+      required this.indice,
+      required this.habilidades});
 
   @override
   Widget build(BuildContext context) {
@@ -43,10 +49,10 @@ class BannerInfoActividades extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
-                            TagMiniCard(text: 'Algoritmo'),
                             TagMiniCard(text: 'Patrones'),
                             TagMiniCard(text: 'Descomposicion'),
-                            TagMiniCard(text: 'Abstracción')
+                            TagMiniCard(text: 'Abstracción'),
+                            TagMiniCard(text: 'Algoritmo'),
                           ],
                         ),
                       )),
