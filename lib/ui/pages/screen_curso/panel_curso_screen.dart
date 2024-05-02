@@ -38,14 +38,21 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
   final UnidadCasoUso unidadCasoUso = getIt<UnidadCasoUso>();
   final ProfesorCasoUso profesorCasoUso = getIt<ProfesorCasoUso>();
 
-  late CursosProfesoresCasoUso _cursosProfesoresCasoUso;
+  late InitData _cursosProfesoresCasoUso;
 
   @override
   void initState() {
     super.initState();
-    _fetchCurso();
+
+    _cursosProfesoresCasoUso = InitData(
+      cursosCasoUso: getIt<CursosCasoUso>(),
+      profesorCasoUso: getIt<ProfesorCasoUso>(),
+      context: context,
+    );
+    _cursosProfesoresCasoUso.obtenerCursosYProfesoresYUnidades(widget.cursoId);
   }
 
+/*
   void _fetchCurso() async {
     /* forma local */
     try {
@@ -122,6 +129,7 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
       print('Error al obtener cursos: $e');
     }
   }
+  */
 
   @override
   Widget build(BuildContext context) {
@@ -325,7 +333,7 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
                               if (rol == 'estudiante') {
                                 router.push(
                                     '/seguimientoestudiante/${cursoCubit.state.id}');
-                              }else{
+                              } else {
                                 router.push(
                                     '/seguimientoprofesor/${cursoCubit.state.id}');
                               }

@@ -75,6 +75,8 @@ class _LaberintoState extends State<Laberinto> {
                         children: [
                           IntrinsicHeight(
                             child: BannerInfoActividades(
+                              indice: actividadLaberinto.indice!,
+                              habilidades: [0, 0, 0, 1],
                               titulo:
                                   '$nombreUnidad \n$nombreArchivo',
                             ),
@@ -565,6 +567,8 @@ class _LaberintoState extends State<Laberinto> {
                         children: [
                           IntrinsicHeight(
                             child: BannerInfoActividades(
+                              indice: actividadLaberinto.indice!,
+                              habilidades: [0, 0, 0, 1],
                               titulo:
                                   '$nombreUnidad \n${actividadLaberinto!.nombre!}',
                             ),
@@ -1053,15 +1057,15 @@ class _LaberintoState extends State<Laberinto> {
               onPressed: () {
                 SiguienteActividadInfo siguienteActividadInfo = unidadesCubit
                     .siguienteActividadInfo(actividadLaberinto.id!);
-                 if (context
+                if (context
                     .read<UnidadesCubit>()
                     .esUltimaActividadGlobal(actividadLaberinto.id!)) {
                   router.push(
                       '/testautopercepcion/${context.read<CursoCubit>().state.id}');
                 } else {
                   if (siguienteActividadInfo.tipoActividad == "Laberinto") {
-                    router
-                        .push('/laberinto/${siguienteActividadInfo.idActividad}');
+                    router.push(
+                        '/laberinto/${siguienteActividadInfo.idActividad}');
                   } else if (siguienteActividadInfo.tipoActividad ==
                       "Cuestionario") {
                     router.push(

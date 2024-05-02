@@ -1,28 +1,17 @@
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
-import 'package:dev_tesis/domain/model/actividad_laberinto.dart';
-import 'package:dev_tesis/domain/model/casilla.dart';
-import 'package:dev_tesis/domain/model/curso.dart';
-import 'package:dev_tesis/domain/model/seguimiento.dart';
-import 'package:dev_tesis/game/player/player.dart';
-import 'package:dev_tesis/game/game_activity.dart';
 import 'package:dev_tesis/ui/bloc/actividad_custio_test.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
-import 'package:dev_tesis/ui/bloc/game/instrucciones_bloc.dart';
-import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_actividad.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
-import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:dev_tesis/ui/widgets/banner_info_actividades.dart';
 import 'package:dev_tesis/ui/widgets/banner_instrucciones.dart';
 import 'package:dev_tesis/ui/widgets/radio_respuestas_cuestionario.dart';
-import 'package:dev_tesis/ui/widgets/response_game_flame.dart';
 import 'package:dev_tesis/ui/widgets/tablero_cuestionario.dart';
-import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -150,6 +139,8 @@ class _ActividadCuestionarioScreenState
                           children: [
                             IntrinsicHeight(
                               child: BannerInfoActividades(
+                                indice: actividadCuestionario.indice!,
+                                habilidades: [0, 0, 0, 1],
                                 titulo:
                                     '$nombreUnidad \nActividad ${unidadesCubit.obtenerIndiceActividadEnUnidad(actividadCuestionario.id!)! + 1}',
                               ),
@@ -308,14 +299,171 @@ class _ActividadCuestionarioScreenState
                 ),
               ),
             )
-          : SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    color: blueColor,
-                    width: double.infinity,
-                  ),
-                ],
+          : Container(
+              color: blueColor,
+              height: MediaQuery.of(context).size.height,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      //height: MediaQuery.of(context).size.height,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          children: [
+                            IntrinsicHeight(
+                              child: BannerInfoActividades(
+                                indice: actividadCuestionario.indice!,
+                                habilidades: [0, 0, 0, 1],
+                                titulo:
+                                    '$nombreUnidad \nActividad ${unidadesCubit.obtenerIndiceActividadEnUnidad(actividadCuestionario.id!)! + 1}',
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            SizedBox(
+                              child: BannerInstruccionesActividad(
+                                  texto: actividadCuestionario.descripcion!,
+                                  rutaEjemplo:
+                                      'assets/items/ejemplosImg/${actividadCuestionario.ejemploImage}'),
+                            ),
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            Center(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      // Add content for the left section of the blue board
+                                      actividadCuestionario.ejercicioImage == ''
+                                          ? TableroCuestionario(
+                                              actividadCuestionario:
+                                                  actividadCuestionario)
+                                          : SizedBox(
+                                              width:
+                                                  500, // Tamaño del tablero (6 casillas * 90px por casilla)
+                                              height:
+                                                  500, // Tamaño del tablero (6 casillas * 90px por casilla)
+                                              child: Image.asset(
+                                                  '${actividadCuestionario.ejercicioImage}',
+                                                  fit: BoxFit.contain))
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                            left: 10, bottom: 20),
+                                        child: const Text(
+                                          "Prueba A, B, C y D y elige la correcta",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                      ),
+                                      RadioRespuestasCuestionario(
+                                          imagesList:
+                                              actividadCuestionario.respuestas!,
+                                          radioRespuesta: (int respuesta) {
+                                            setState(() {
+                                              _selectedOptionIndex =
+                                                  respuesta + 1;
+
+                                              // identifica el actual estudiante y actualiza su respectivo seguimiento
+
+                                              //seguimiento.respuestasActividades![unidadesCubit.indiceActividadPorId(actividadCuestionario.id!)!]=_selectedOptionIndex;
+                                              //seguimientoCubit.actualizarSeguimiento(seguimiento);
+                                              seguimientosCubit
+                                                  .actualizarRespuestasActividadesEstudiantes(
+                                                      estudiantes.obtenerIds(),
+                                                      obtenerPesoActividad(
+                                                          _selectedOptionIndex,
+                                                          actividadCuestionario
+                                                              .id!),
+                                                      unidadesCubit
+                                                          .indiceActividadPorId(
+                                                              actividadCuestionario
+                                                                  .id!)!);
+                                            });
+                                          },
+                                          initialValue: -1),
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                            left: 10, bottom: 20),
+                                        child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              PixelLargeBttn(
+                                                  path:
+                                                      "assets/items/ButtonBlue.png",
+                                                  text: 'Siguiente',
+                                                  onPressed: () {
+                                                    _selectedOptionIndex == -1
+                                                        ? showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                              return AlertDialog(
+                                                                title: const Text(
+                                                                    'Tu Respuesta No ha sido guardada'),
+                                                                content:
+                                                                    const SingleChildScrollView(
+                                                                  child: Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      Text(
+                                                                          'Por favor responde para poder continuar con la siguiente Actividad'),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                actions: <Widget>[
+                                                                  PixelLargeBttn(
+                                                                      path:
+                                                                          "assets/items/ButtonBlue.png",
+                                                                      text:
+                                                                          'Volver',
+                                                                      onPressed:
+                                                                          () {
+                                                                        Navigator.of(context)
+                                                                            .pop();
+                                                                      })
+                                                                ],
+                                                              );
+                                                            },
+                                                          )
+                                                        : _mostrarDialogoSiguienteActividad(
+                                                            context,
+                                                            router,
+                                                            unidadesCubit,
+                                                            actividadCuestionario);
+                                                  })
+                                            ]),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
       floatingActionButton: actividadCuestionario.pista != null &&

@@ -18,7 +18,7 @@ final appRouter = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => welcome(),
+      builder: (context, state) => const Welcome(),
     ),
     GoRoute(
       path: '/inicio',
@@ -50,18 +50,19 @@ final appRouter = GoRouter(
       },
     ),
     GoRoute(
-       path: '/laberinto/:actividadId',
-      builder: (context, state) { 
-        final String actividadId = state.pathParameters['actividadId'] ?? '-1';
-        return Laberinto(actividadId: actividadId);}
-    ),
+        path: '/laberinto/:actividadId',
+        builder: (context, state) {
+          final String actividadId =
+              state.pathParameters['actividadId'] ?? '-1';
+          return Laberinto(actividadId: actividadId);
+        }),
 
     GoRoute(
-      path: '/cuestionario/:actividadId',
-      builder: (context, state) { 
-        final String actividadId = state.pathParameters['actividadId'] ?? '1';
-        return ActividadCuestionarioScreen(actividadId: actividadId);}
-    ),
+        path: '/cuestionario/:actividadId',
+        builder: (context, state) {
+          final String actividadId = state.pathParameters['actividadId'] ?? '1';
+          return ActividadCuestionarioScreen(actividadId: actividadId);
+        }),
 
     GoRoute(
       path: '/panelprofesor/:profesorId',
@@ -72,34 +73,30 @@ final appRouter = GoRouter(
       },
     ),
     GoRoute(
-      path: '/estudiocuestionario/:unidadId',
-      builder: (context, state) {
-        // se valida que sea profesor y que este logueado
- 
-        final String unidadId = state.pathParameters['unidadId'] ?? '0';
-        return CrearActividad(unidadId: unidadId);
-        }
-    ),
-       GoRoute(
-      path: '/seguimientoprofesor/:cursoId',
-      builder: (context, state){
-        final String cursodId = state.pathParameters['cursoId'] ?? '0';
-        return SeguimientoProfesorScreen(cursoId: cursodId);
-      }
-    ),
+        path: '/estudiocuestionario/:unidadId',
+        builder: (context, state) {
+          // se valida que sea profesor y que este logueado
+
+          final String unidadId = state.pathParameters['unidadId'] ?? '0';
+          return CrearActividad(unidadId: unidadId);
+        }),
     GoRoute(
-      path: '/seguimientoestudiante/:cursoId',
-      builder: (context, state){
-        final String cursodId = state.pathParameters['cursoId'] ?? '0';
-        return SeguimientoEstudianteScreen(cursoId: cursodId);
-      }
-    ),
-     GoRoute(
-      path: '/testautopercepcion/:cursoId',
-      builder: (context, state){
-        final String cursodId = state.pathParameters['cursoId'] ?? '0';
-        return TestAutoPercepcionScreen(cursoId: '1');
-      }
-    ),
+        path: '/seguimientoprofesor/:cursoId',
+        builder: (context, state) {
+          final String cursodId = state.pathParameters['cursoId'] ?? '0';
+          return SeguimientoProfesorScreen(cursoId: cursodId);
+        }),
+    GoRoute(
+        path: '/seguimientoestudiante/:cursoId',
+        builder: (context, state) {
+          final String cursodId = state.pathParameters['cursoId'] ?? '0';
+          return SeguimientoEstudianteScreen(cursoId: cursodId);
+        }),
+    GoRoute(
+        path: '/testautopercepcion/:cursoId',
+        builder: (context, state) {
+          final String cursodId = state.pathParameters['cursoId'] ?? '0';
+          return TestAutoPercepcionScreen(cursoId: '1');
+        }),
   ],
 );

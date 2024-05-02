@@ -5,7 +5,6 @@ import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
-import 'package:flutter/material.dart';
 
 class CursosDataAdapter extends CursoRepository {
   @override
@@ -30,7 +29,7 @@ class CursosDataAdapter extends CursoRepository {
         unidades: [
           Unidad(
               id: '0',
-              nombre: 'Unidad Diagnóstico',
+              nombre: 'Unidad \nDiagnóstico',
               estado: 'Activa',
               actividades: [
                 ActividadCuestionario(
@@ -1508,7 +1507,7 @@ class CursosDataAdapter extends CursoRepository {
                 ],
                 pesoRespuestas: [3, 2, 4, 1],
                 respuestaCorrecta: 3),
-             ActividadLaberinto(
+            ActividadLaberinto(
                 id: '26',
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
@@ -1550,14 +1549,44 @@ class CursosDataAdapter extends CursoRepository {
                 tipoActividad: 'Cuestionario',
                 dimension: 6,
                 pista: 'assets/items/ejemplosImg/pistaCiclos.png',
-               casillas: [
-    -1, 30, 30, -1, -1, -1,
-    2, -1, 30, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1,
-    18, 30, 5, 4, -1, -1,
-    -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1
-],
+                casillas: [
+                  -1,
+                  30,
+                  30,
+                  -1,
+                  -1,
+                  -1,
+                  2,
+                  -1,
+                  30,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  18,
+                  30,
+                  5,
+                  4,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1
+                ],
                 ejemploImage: 'ejemplocuestionarioU2CiclosAgarrar.png',
                 ejercicioImage: '',
                 respuestas: [
@@ -1579,10 +1608,8 @@ class CursosDataAdapter extends CursoRepository {
                       'GirarDerecha.png',
                     'Avanzar.png',]
                     },
-                  
                   ],
                   [
-                    
                     {
                       'Repeticion': 1,
                       'Respuestas': ['Avanzar.png',
@@ -1663,19 +1690,48 @@ class CursosDataAdapter extends CursoRepository {
                 tipoActividad: 'Cuestionario',
                 dimension: 6,
                 pista: 'assets/items/ejemplosImg/pistaCiclos.png',
-               casillas: [
-    -1, -1, 30, 30, 30, 30,
-    2, -1, 30, 5, 4, -1,
-    -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1,
-    10, 18, 30, 30, 9, -1,
-    30, 30, 30, 30, 30, 30
-],
+                casillas: [
+                  -1,
+                  -1,
+                  30,
+                  30,
+                  30,
+                  30,
+                  2,
+                  -1,
+                  30,
+                  5,
+                  4,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  10,
+                  18,
+                  30,
+                  30,
+                  9,
+                  -1,
+                  30,
+                  30,
+                  30,
+                  30,
+                  30,
+                  30
+                ],
                 ejemploImage: 'ejemplocuestionarioU2Ciclos.png',
                 ejercicioImage: '',
                 respuestas: [
                   [
-                
                     'GirarDerecha.png',
                     'Avanzar.png',
                     'Avanzar.png',                   
@@ -1718,13 +1774,13 @@ class CursosDataAdapter extends CursoRepository {
                   
                   ],
                   [
-                     'GirarDerecha.png',
+                    'GirarDerecha.png',
                     {
                       'Repeticion': 3,
                       'Respuestas': ['Avanzar.png']
                     },
-                    'Agarrar.png',   
-                     {
+                    'Agarrar.png',
+                    {
                       'Repeticion': 2,
                       'Respuestas': [  'GirarIzq.png']
                     },             
@@ -1734,8 +1790,8 @@ class CursosDataAdapter extends CursoRepository {
                       'Repeticion': 3,
                       'Respuestas': ['Avanzar.png']
                     },
-                      'GirarIzq.png',
-                        {
+                    'GirarIzq.png',
+                    {
                       'Repeticion': 2,
                       'Respuestas': ['Avanzar.png']
                     },
