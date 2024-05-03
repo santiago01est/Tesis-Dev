@@ -1,11 +1,21 @@
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/unidad_casos_uso/unidad_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
+import 'package:dev_tesis/domain/model/estudiante.dart';
+import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
+import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
+import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
+import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
+import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
+import 'package:dev_tesis/ui/components/appbar/appbar_actividad.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_profesor_panel.dart';
+import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:dev_tesis/ui/widgets/layout_curso_unidades.dart';
 import 'package:dev_tesis/ui/widgets/lista_estudiantes.dart';
@@ -26,49 +36,145 @@ class PanelCursoScreen extends StatefulWidget {
 class _PanelCursoScreenState extends State<PanelCursoScreen> {
   final CursosCasoUso cursosCasoUso = getIt<CursosCasoUso>();
   final UnidadCasoUso unidadCasoUso = getIt<UnidadCasoUso>();
+  final ProfesorCasoUso profesorCasoUso = getIt<ProfesorCasoUso>();
+
+  late InitData _cursosProfesoresCasoUso;
 
   @override
   void initState() {
     super.initState();
-    // si el cubit no tiene datos, los obtiene
-    _fetchCurso();
+
+    _cursosProfesoresCasoUso = InitData(
+      cursosCasoUso: getIt<CursosCasoUso>(),
+      profesorCasoUso: getIt<ProfesorCasoUso>(),
+      context: context,
+    );
+    _cursosProfesoresCasoUso.obtenerCursosYProfesoresYUnidades(widget.cursoId);
   }
 
+
+/*
   void _fetchCurso() async {
     /* forma local */
     try {
       if (context.read<BDCursosCubit>().state.isEmpty) {
+        //Cuando la BDCursosCubit esta vacia y se trae toda la info
         final cursos = await cursosCasoUso.getCursos();
-        context.read<BDCursosCubit>().subirCursos(cursos);
+        context.watch<BDCursosCubit>().subirCursos(cursos);
+        final profesores = await profesorCasoUso.getProfesores();
+        context.watch<ProfesoresCubit>().subirProfesores(profesores);
         // buscar en cursos el curso con el id correspondiente
         final curso = cursos.firstWhere((c) => c.id == widget.cursoId);
-        context.read<CursoCubit>().actualizarCurso(curso);
+        context.watch<CursoCubit>().actualizarCurso(curso);
+        context.watch<UnidadesCubit>().subirUnidades(curso.unidades!);
+        context.watch<RolCubit>().actualizarRol("estudiante");
       } else {
+        final profesores = await profesorCasoUso.getProfesores();
+        context.read<ProfesoresCubit>().subirProfesores(profesores);
         final cursos = context.read<BDCursosCubit>().state;
         // buscar en cursos el curso con el id correspondiente
         final curso = cursos.firstWhere((c) => c.id == widget.cursoId);
         context.read<CursoCubit>().actualizarCurso(curso);
+        context.read<UnidadesCubit>().subirUnidades(curso.unidades!);
+        context.read<RolCubit>().actualizarRol("estudiante");
+      }
+
+      if (context.read<SeguimientosEstudiantesCubit>().state.isEmpty) {
+        context.watch<SeguimientosEstudiantesCubit>().subirSeguimientos([
+          Seguimiento(
+              id: 1,
+              respuestasActividades: List.generate(80, (index) => -1),
+              test: [],
+              calificacion: 0,
+              userId: 1,
+              cursoId: 1),
+          Seguimiento(
+              id: 2,
+              respuestasActividades: List.generate(80, (index) => -1),
+              test: [],
+              calificacion: 0,
+              userId: 2,
+              cursoId: 1),
+          Seguimiento(
+              id: 3,
+              respuestasActividades: List.generate(80, (index) => -1),
+              test: [],
+              calificacion: 0,
+              userId: 3,
+              cursoId: 1),
+          Seguimiento(
+              id: 4,
+              respuestasActividades: List.generate(80, (index) => -1),
+              test: [],
+              calificacion: 0,
+              userId: 4,
+              cursoId: 1),
+          Seguimiento(
+              id: 5,
+              respuestasActividades: List.generate(80, (index) => -1),
+              test: [],
+              calificacion: 0,
+              userId: 5,
+              cursoId: 1),
+          Seguimiento(
+              id: 6,
+              respuestasActividades: List.generate(80, (index) => -1),
+              test: [],
+              calificacion: 0,
+              userId: 6,
+              cursoId: 1),
+        ]);
       }
     } catch (e) {
       // Manejo de errores, puedes mostrar un mensaje de error
       print('Error al obtener cursos: $e');
     }
   }
+  */
+
+  bool isSesioCentinela=true;
+  Future<void> isSesion() async {
+    if(! await _cursosProfesoresCasoUso.isSesion()){
+      setState(() {
+        isSesioCentinela=false;
+        GoRouter.of(context).go('/');
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+final router = GoRouter.of(context);
+    isSesion();
+    
     final cursoCubit = context.watch<CursoCubit>();
-    final router = GoRouter.of(context);
+    
+    final rol = context.read<RolCubit>().state;
     final profesoresCubit = context.watch<ProfesoresCubit>();
     String? nombreProfesor = profesoresCubit.state
         .firstWhere((profesor) => profesor.id == cursoCubit.state.profesor)
         .nombre;
+    final estudiantesCubit = context.watch<EstudiantesCubit>();
 
-    return DefaultTabController(
+    List<String> avatares = [];
+    for (var estudiante in estudiantesCubit.state) {
+      avatares.add(estudiante.avatar!);
+    }
+
+    return isSesioCentinela ? DefaultTabController(
       length: 2, // Número de pestañas
       child: Scaffold(
         backgroundColor: thirtyColor,
-        appBar: AppBarProfesorPanel(profesorId: cursoCubit.state.profesor!),
+        appBar: CustomNavigationBarActividad(
+          cursoName: 'Mundo PC',
+          cursoId: widget.cursoId,
+          userName: estudiantesCubit.obtenerNombres(),
+          userAvatars: avatares,
+          onLogout: () {
+            // Aquí implementa la lógica para cerrar sesión
+            print('Cerrar sesión');
+          },
+        ),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -234,40 +340,70 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
                       },
                     ),
                     const SizedBox(height: 20.0),
+                    Center(
+                        child: PixelLargeBttn(
+                            path: 'assets/items/ButtonBlue.png',
+                            text: 'Seguimiento',
+                            onPressed: () {
+                              if (rol == 'estudiante') {
+                                router.push(
+                                    '/seguimientoestudiante/${cursoCubit.state.id}');
+                              } else {
+                                router.push(
+                                    '/seguimientoprofesor/${cursoCubit.state.id}');
+                              }
+                            })),
+                    const SizedBox(height: 20.0),
                   ],
                 ),
               ),
 
               // Añadimos el TabBar
-              const TabBar(
-                tabs: [
+              TabBar(
+                tabs: const [
                   Tab(text: 'Contenido'),
                   Tab(text: 'Estudiantes'),
                 ],
+                labelColor: blackColor, // Color del texto de la pestaña activa
+                unselectedLabelColor:
+                    Colors.grey, // Color del texto de la pestaña inactiva
+                labelStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight
+                        .bold), // Estilo del texto de la pestaña activa
+                unselectedLabelStyle: TextStyle(
+                    fontSize: 14), // Estilo del texto de la pestaña inactiva
+                indicator: BoxDecoration(
+                  // Estilo de la barra debajo del texto
+                  border: Border(
+                    bottom: BorderSide(
+                        color: blueDarkColor,
+                        width: 2), // Color y grosor de la barra
+                  ),
+                ),
               ),
 
               // Añadimos el TabBarView
               SizedBox(
-                height: MediaQuery.of(context)
-                    .size
-                    .height, // Ajusta la altura según tus necesidades
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+
                 child: TabBarView(
                   children: [
                     // Contenido de la primera pestaña
                     // Utiliza tu LayoutUnidadCurso o el contenido que desees
-                    LayoutUnidadCurso(
-                      unidades: cursoCubit.state.unidades!,
-                    ),
-                    ListaEstudiantesWidget()
+                    LayoutUnidadCurso(),
+                    const ListaEstudiantesWidget()
                     // Contenido de la segunda pestaña
                   ],
                 ),
+                // Ajusta la altura según tus necesidades
               ),
             ],
           ),
         ),
       ),
-    );
+    ) : const CircularProgressIndicator();
   }
 
   Widget cardInfoCurso(
@@ -353,6 +489,17 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
         ),
       ),
     );
+  }
+
+  // Este método simula la carga del avatar
+  Future<List<String>> _fetchAvatar(List<Estudiante> state) async {
+    List<String> avatares = [];
+    for (var estudiante in state) {
+      avatares.add(estudiante.avatar!);
+    }
+    await Future.delayed(Duration(seconds: 2)); // Simula la carga
+
+    return avatares; // Ruta del avatar
   }
 
   Widget buildCardWithImageAndGraph(String descripcion) {

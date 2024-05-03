@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="12" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="14" nextobjectid="180">
+ <objectgroup id="2" name="Borde" class="templo" visible="0" locked="1">
+  <object id="26" name="borde" type="templo" x="0" y="16" width="192" height="176"/>
+ </objectgroup>
+ <objectgroup id="3" name="Suelo" class="templo" visible="0" locked="1">
+  <object id="25" name="suelo" type="templo" x="16" y="16" width="160" height="160"/>
+ </objectgroup>
+ <objectgroup id="4" name="Suelo-z0" class="templo" visible="0" locked="1"/>
+ <objectgroup id="5" name="Suelo-decoracion" class="templo" visible="0" locked="1">
+  <object id="46" name="hueco" x="48" y="144" width="16" height="16"/>
+  <object id="47" name="hueco" x="64" y="128" width="16" height="16"/>
+  <object id="48" name="hueco" x="80" y="112" width="16" height="16"/>
+  <object id="49" name="hueco" x="96" y="96" width="16" height="16"/>
+  <object id="50" name="hueco" x="112" y="96" width="16" height="16"/>
+  <object id="51" name="hueco" x="128" y="96" width="16" height="16"/>
+  <object id="52" name="hueco" x="144" y="96" width="16" height="16"/>
+  <object id="53" name="hueco" x="160" y="96" width="16" height="16"/>
+  <object id="54" name="huecoV2" x="48" y="160" width="16" height="16"/>
+  <object id="55" name="huecoV2" x="64" y="144" width="16" height="16"/>
+  <object id="56" name="huecoV2" x="64" y="160" width="16" height="16"/>
+  <object id="57" name="huecoV2" x="80" y="128" width="16" height="16"/>
+  <object id="58" name="huecoV2" x="96" y="112" width="16" height="16"/>
+  <object id="59" name="escaleras-verdes" x="80" y="160" width="16" height="16"/>
+  <object id="60" name="escaleras-rojas" x="160" y="112" width="16" height="16"/>
+  <object id="61" name="meta" x="128" y="32" width="16" height="16"/>
+  <object id="69" name="escaleras-verdes" x="48" y="80" width="16" height="16"/>
+  <object id="70" name="escaleras-rojas" x="16" y="144" width="16" height="16"/>
+  <object id="71" name="baldosa-oro" x="48" y="128" width="16" height="16"/>
+  <object id="72" name="baldosa-oro" x="96" y="80" width="16" height="16"/>
+  <object id="73" name="hueco" x="128" y="64" width="16" height="16"/>
+  <object id="74" name="hueco" x="144" y="64" width="16" height="16"/>
+  <object id="75" name="hueco" x="160" y="64" width="16" height="16"/>
+  <object id="76" name="hueco" x="80" y="48" width="16" height="16"/>
+  <object id="77" name="hueco" x="64" y="32" width="16" height="16"/>
+  <object id="78" name="hueco" x="16" y="48" width="16" height="16"/>
+  <object id="79" name="hueco" x="32" y="64" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="6" name="Decoracion-down" class="templo" visible="0" locked="1">
+  <object id="43" name="entrada-temploV2" type="48x32" x="112" y="0" width="48" height="32"/>
+  <object id="44" name="antorchaV4" type="animation" x="112" y="16" width="16" height="16"/>
+  <object id="45" name="antorchaV4" type="animation" x="144" y="16" width="16" height="16"/>
+  <object id="62" name="pilar-down" x="128" y="112" width="16" height="16"/>
+  <object id="63" name="pilar-down" x="96" y="144" width="16" height="16"/>
+  <object id="64" name="pilar-down" x="128" y="80" width="16" height="16"/>
+  <object id="65" name="pilar-down" x="160" y="48" width="16" height="16"/>
+  <object id="66" name="pilar-down" x="80" y="32" width="16" height="16"/>
+  <object id="67" name="pilar-down" x="32" y="48" width="16" height="16"/>
+  <object id="68" name="pilar-down" x="32" y="96" width="16" height="16"/>
+  <object id="80" name="rocaV2" x="16" y="64" width="16" height="16"/>
+  <object id="81" name="rocaV2" x="16" y="32" width="16" height="16"/>
+  <object id="82" name="rocaV2" x="64" y="16" width="16" height="16"/>
+  <object id="83" name="rocaV2" x="96" y="32" width="16" height="16"/>
+  <object id="84" name="rocaV2" x="144" y="80" width="16" height="16"/>
+  <object id="85" name="rocaV2" x="112" y="112" width="16" height="16"/>
+  <object id="86" name="antorchaV1" type="animation" x="96" y="0" width="16" height="32"/>
+  <object id="87" name="antorchaV1" type="animation" x="160" y="0" width="16" height="32"/>
+  <object id="88" name="cartel" x="144" y="32" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="8" name="Item" class="templo">
+  <object id="111" name="gemaRoja" type="item" x="88" y="68" width="32" height="32"/>
+  <object id="112" name="gemaVerde" type="itemFalso" x="40" y="116" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup id="9" name="Jugador" class="templo">
+  <object id="179" name="jugador" x="152" y="148" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup id="10" name="Decoracion-up" class="templo" visible="0" locked="1">
+  <object id="96" name="pilar-up" x="32" y="32" width="16" height="16"/>
+  <object id="97" name="pilar-up" x="80" y="16" width="16" height="16"/>
+  <object id="98" name="pilar-up" x="160" y="32" width="16" height="16"/>
+  <object id="99" name="pilar-up" x="128" y="64" width="16" height="16"/>
+  <object id="100" name="pilar-up" x="128" y="96" width="16" height="16"/>
+  <object id="101" name="pilar-up" x="96" y="128" width="16" height="16"/>
+  <object id="102" name="pilar-up" x="32" y="80" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="11" name="Up-decoracion" class="templo" visible="0">
+  <object id="104" name="musgo" x="32" y="32" width="16" height="16"/>
+  <object id="105" name="musgoV2" x="80" y="16" width="16" height="16"/>
+  <object id="106" name="musgoV2" x="160" y="32" width="16" height="16"/>
+  <object id="107" name="musgo" x="128" y="64" width="16" height="16"/>
+  <object id="108" name="musgo" x="128" y="96" width="16" height="16"/>
+  <object id="109" name="musgoV2" x="96" y="128" width="16" height="16"/>
+  <object id="110" name="musgo" x="32" y="80" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="12" name="Colisiones" class="templo">
+  <object id="113" name="colision" x="64" y="32" width="16" height="16"/>
+  <object id="114" name="colision" x="64" y="16" width="16" height="16"/>
+  <object id="115" name="colision" x="80" y="32" width="16" height="16"/>
+  <object id="116" name="colision" x="80" y="48" width="16" height="16"/>
+  <object id="117" name="colision" x="96" y="32" width="16" height="16"/>
+  <object id="118" name="colision" x="96" y="16" width="16" height="16"/>
+  <object id="119" name="colision" x="112" y="16" width="16" height="16"/>
+  <object id="120" name="colision" x="128" y="16" width="16" height="16"/>
+  <object id="121" name="colision" x="144" y="16" width="16" height="16"/>
+  <object id="122" name="colision" x="144" y="32" width="16" height="16"/>
+  <object id="123" name="colision" x="160" y="48" width="16" height="16"/>
+  <object id="124" name="colision" x="144" y="64" width="16" height="16"/>
+  <object id="125" name="colision" x="128" y="64" width="16" height="16"/>
+  <object id="126" name="colision" x="128" y="80" width="16" height="16"/>
+  <object id="127" name="colision" x="160" y="96" width="16" height="16"/>
+  <object id="128" name="colision" x="144" y="96" width="16" height="16"/>
+  <object id="130" name="colision" x="128" y="112" width="16" height="16"/>
+  <object id="131" name="colision" x="112" y="96" width="16" height="16"/>
+  <object id="132" name="colision" x="96" y="96" width="16" height="16"/>
+  <object id="133" name="colision" x="112" y="112" width="16" height="16"/>
+  <object id="134" name="colision" x="96" y="112" width="16" height="16"/>
+  <object id="135" name="colision" x="80" y="112" width="16" height="16"/>
+  <object id="136" name="colision" x="80" y="128" width="16" height="16"/>
+  <object id="137" name="colision" x="64" y="128" width="16" height="16"/>
+  <object id="138" name="colision" x="48" y="144" width="16" height="16"/>
+  <object id="139" name="colision" x="64" y="144" width="16" height="16"/>
+  <object id="140" name="colision" x="64" y="160" width="16" height="16"/>
+  <object id="141" name="colision" x="48" y="160" width="16" height="16"/>
+  <object id="142" name="colision" x="96" y="144" width="16" height="16"/>
+  <object id="143" name="colision" x="32" y="96" width="16" height="16"/>
+  <object id="144" name="colision" x="32" y="64" width="16" height="16"/>
+  <object id="145" name="colision" x="16" y="64" width="16" height="16"/>
+  <object id="146" name="colision" x="32" y="48" width="16" height="16"/>
+  <object id="147" name="colision" x="16" y="32" width="16" height="16"/>
+  <object id="148" name="colision" x="48" y="0" width="16" height="16"/>
+  <object id="149" name="colision" x="32" y="0" width="16" height="16"/>
+  <object id="150" name="colision" x="16" y="0" width="16" height="16"/>
+  <object id="151" name="colision" x="0" y="16" width="16" height="16"/>
+  <object id="152" name="colision" x="0" y="80" width="16" height="16"/>
+  <object id="153" name="colision" x="0" y="96" width="16" height="16"/>
+  <object id="154" name="colision" x="0" y="112" width="16" height="16"/>
+  <object id="155" name="colision" x="0" y="128" width="16" height="16"/>
+  <object id="156" name="colision" x="0" y="144" width="16" height="16"/>
+  <object id="157" name="colision" x="0" y="160" width="16" height="16"/>
+  <object id="158" name="colision" x="16" y="176" width="16" height="16"/>
+  <object id="159" name="colision" x="32" y="176" width="16" height="16"/>
+  <object id="160" name="colision" x="80" y="176" width="16" height="16"/>
+  <object id="161" name="colision" x="96" y="176" width="16" height="16"/>
+  <object id="162" name="colision" x="112" y="176" width="16" height="16"/>
+  <object id="163" name="colision" x="128" y="176" width="16" height="16"/>
+  <object id="164" name="colision" x="144" y="176" width="16" height="16"/>
+  <object id="165" name="colision" x="160" y="176" width="16" height="16"/>
+  <object id="166" name="colision" x="176" y="176" width="16" height="16"/>
+  <object id="167" name="colision" x="176" y="160" width="16" height="16"/>
+  <object id="168" name="colision" x="176" y="144" width="16" height="16"/>
+  <object id="169" name="colision" x="176" y="128" width="16" height="16"/>
+  <object id="170" name="colision" x="176" y="112" width="16" height="16"/>
+  <object id="171" name="item-drop" x="96" y="80" width="16" height="16"/>
+  <object id="172" name="meta" x="128" y="32" width="16" height="16"/>
+  <object id="173" name="itemFalso" x="48" y="128" width="16" height="16"/>
+  <object id="174" name="teleportR" x="160" y="112" width="16" height="16"/>
+  <object id="175" name="teleportV" x="80" y="160" width="16" height="16"/>
+ </objectgroup>
+</map>

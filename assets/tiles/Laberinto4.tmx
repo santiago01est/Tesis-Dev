@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="12" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="183">
+ <objectgroup id="2" name="Borde" class="campo" visible="0" locked="1">
+  <object id="1" name="borde" type="campo" x="0" y="16" width="192" height="176"/>
+ </objectgroup>
+ <objectgroup id="3" name="Suelo" class="campo" locked="1">
+  <object id="2" name="suelo" type="campo" x="16" y="16" width="160" height="160"/>
+ </objectgroup>
+ <objectgroup id="4" name="Suelo-z0" class="campo">
+  <object id="22" name="lago-AIzq" type="campo" x="32" y="48" width="16" height="16"/>
+  <object id="23" name="lago-ADerech" type="campo" x="48" y="48" width="16" height="16"/>
+  <object id="24" name="lago-Izq" type="campo" x="32" y="64" width="16" height="16"/>
+  <object id="25" name="lago-Derech" type="campo" x="48" y="64" width="16" height="16"/>
+  <object id="26" name="lago-BIzq" type="campo" x="32" y="96" width="16" height="16"/>
+  <object id="27" name="lago-BDerech" type="campo" x="48" y="96" width="16" height="16"/>
+  <object id="28" name="arenaV3" x="112" y="144" width="16" height="16"/>
+  <object id="29" name="arenaV2" x="96" y="144" width="16" height="16"/>
+  <object id="30" name="arenaV1" x="80" y="144" width="16" height="16"/>
+  <object id="31" name="arenaV2" x="128" y="128" width="16" height="16"/>
+  <object id="32" name="arenaV1" x="128" y="144" width="16" height="16"/>
+  <object id="33" name="arenaV1" x="160" y="128" width="16" height="16"/>
+  <object id="34" name="arenaV3" x="160" y="144" width="16" height="16"/>
+  <object id="35" name="arenaV2" x="160" y="160" width="16" height="16"/>
+  <object id="174" name="lago-Izq" type="campo" x="32" y="80" width="16" height="16"/>
+  <object id="175" name="lago-Derech" type="campo" x="48" y="80" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="5" name="Suelo-decoracion" class="campo" visible="0">
+  <object id="17" name="hueco-cultivo" x="80" y="144" width="16" height="16"/>
+  <object id="18" name="hueco-cultivo" x="96" y="144" width="16" height="16"/>
+  <object id="19" name="hueco-cultivo" x="112" y="144" width="16" height="16"/>
+  <object id="20" name="hueco-cultivo" x="128" y="144" width="16" height="16"/>
+  <object id="21" name="hueco-cultivo" x="128" y="128" width="16" height="16"/>
+  <object id="36" name="hueco-cultivo" x="160" y="128" width="16" height="16"/>
+  <object id="37" name="hueco-cultivo" x="160" y="144" width="16" height="16"/>
+  <object id="38" name="hueco-cultivo" x="160" y="160" width="16" height="16"/>
+  <object id="39" name="floresV2" x="32" y="160" width="16" height="16"/>
+  <object id="40" name="floresV2" x="32" y="112" width="16" height="16"/>
+  <object id="41" name="floresV2" x="160" y="80" width="16" height="16"/>
+  <object id="42" name="floresV1" x="16" y="144" width="16" height="16"/>
+  <object id="43" name="floresV1" x="144" y="128" width="16" height="16"/>
+  <object id="44" name="floresV1" x="80" y="64" width="16" height="16"/>
+  <object id="45" name="floresV6" x="160" y="96" width="16" height="16"/>
+  <object id="46" name="floresV6" x="64" y="112" width="16" height="16"/>
+  <object id="47" name="floresV5" x="16" y="32" width="16" height="16"/>
+  <object id="48" name="pasto" x="16" y="64" width="16" height="16"/>
+  <object id="49" name="pasto" x="64" y="64" width="16" height="16"/>
+  <object id="50" name="pasto" x="144" y="160" width="16" height="16"/>
+  <object id="51" name="pasto" x="128" y="80" width="16" height="16"/>
+  <object id="52" name="pasto" x="16" y="160" width="16" height="16"/>
+  <object id="53" name="rocas" x="48" y="112" width="16" height="16"/>
+  <object id="91" name="soporte-puenteV3" type="32x32" x="32" y="48" width="32" height="32"/>
+  <object id="172" name="meta" x="144" y="48" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="6" name="Decoracion-down" class="campo" visible="0">
+  <object id="54" name="tree-down" type="32x16" x="32" y="32" width="32" height="16"/>
+  <object id="55" name="tree-down" type="32x16" x="16" y="16" width="32" height="16"/>
+  <object id="56" name="tree-down" type="32x16" x="48" y="16" width="32" height="16"/>
+  <object id="57" name="tree-down" type="32x16" x="80" y="16" width="32" height="16"/>
+  <object id="58" name="tree-down" type="32x16" x="96" y="32" width="32" height="16"/>
+  <object id="59" name="tree-down" type="32x16" x="80" y="48" width="32" height="16"/>
+  <object id="63" name="tree-down" type="32x16" x="64" y="96" width="32" height="16"/>
+  <object id="64" name="tree-down" type="32x16" x="96" y="96" width="32" height="16"/>
+  <object id="65" name="tree-down" type="32x16" x="80" y="112" width="32" height="16"/>
+  <object id="66" name="cercado-BIzq" x="48" y="144" width="16" height="16"/>
+  <object id="67" name="cercado-BDerech" x="64" y="144" width="16" height="16"/>
+  <object id="68" name="cercado-AIzq" x="64" y="128" width="16" height="16"/>
+  <object id="69" name="cercado-horizontal" x="80" y="128" width="16" height="16"/>
+  <object id="70" name="cercado-horizontal" x="96" y="128" width="16" height="16"/>
+  <object id="71" name="cercado-BDerech" x="112" y="128" width="16" height="16"/>
+  <object id="73" name="cercado-AIzq" x="112" y="112" width="16" height="16"/>
+  <object id="74" name="cercado-BDerech" x="128" y="112" width="16" height="16"/>
+  <object id="75" name="cerca-tabla" x="160" y="112" width="16" height="16"/>
+  <object id="77" name="papa" type="16x32" x="128" y="112" width="16" height="32"/>
+  <object id="78" name="papa" type="16x32" x="128" y="128" width="16" height="32"/>
+  <object id="79" name="papa" type="16x32" x="96" y="128" width="16" height="32"/>
+  <object id="80" name="papa" type="16x32" x="80" y="128" width="16" height="32"/>
+  <object id="82" name="guisante" type="16x32" x="160" y="112" width="16" height="32"/>
+  <object id="83" name="guisante" type="16x32" x="160" y="128" width="16" height="32"/>
+  <object id="84" name="guisante" type="16x32" x="160" y="144" width="16" height="32"/>
+  <object id="88" name="tronco" type="32x16" x="64" y="32" width="32" height="16"/>
+  <object id="92" name="puente" type="64x16" x="16" y="64" width="64" height="16"/>
+  <object id="107" name="gallinero" type="48x48" x="128" y="0" width="48" height="48"/>
+  <object id="114" name="cartel" x="16" y="48" width="16" height="16"/>
+  <object id="133" name="papa" type="16x32" x="112" y="128" width="16" height="32"/>
+  <object id="180" name="cartelV2" x="112" y="48" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="7" name="Animales" class="campo" visible="0">
+  <object id="85" name="gallinaV2" type="animal" x="152" y="36" width="32" height="32"/>
+  <object id="86" name="gallinaDerech" type="animal" x="120" y="84" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup id="8" name="Item" class="campo">
+  <object id="173" name="tim" type="item" x="56" y="52" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup id="9" name="Jugador" class="campo">
+  <object id="110" name="jugador" x="8" y="132" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup id="10" name="Decoracion-up" class="campo" visible="0">
+  <object id="97" name="soporte-puenteV1" type="32x32" x="32" y="64" width="32" height="32"/>
+  <object id="98" name="tree-up" type="32x16" x="16" y="0" width="32" height="16"/>
+  <object id="99" name="tree-up" type="32x16" x="48" y="0" width="32" height="16"/>
+  <object id="100" name="tree-up" type="32x16" x="80" y="0" width="32" height="16"/>
+  <object id="101" name="tree-up" type="32x16" x="32" y="16" width="32" height="16"/>
+  <object id="102" name="tree-up" type="32x16" x="96" y="16" width="32" height="16"/>
+  <object id="103" name="tree-up" type="32x16" x="80" y="32" width="32" height="16"/>
+  <object id="104" name="tree-up" type="32x16" x="64" y="80" width="32" height="16"/>
+  <object id="105" name="tree-up" type="32x16" x="96" y="80" width="32" height="16"/>
+  <object id="106" name="tree-up" type="32x16" x="80" y="96" width="32" height="16"/>
+ </objectgroup>
+ <objectgroup id="11" name="Colisiones" class="campo">
+  <object id="116" name="colision" x="0" y="64" width="16" height="16"/>
+  <object id="117" name="colision" x="0" y="80" width="16" height="16"/>
+  <object id="118" name="colision" x="0" y="96" width="16" height="16"/>
+  <object id="119" name="colision" x="0" y="112" width="16" height="16"/>
+  <object id="120" name="colision" x="0" y="128" width="16" height="16"/>
+  <object id="121" name="colision" x="0" y="144" width="16" height="16"/>
+  <object id="122" name="colision" x="0" y="160" width="16" height="16"/>
+  <object id="123" name="colision" x="16" y="176" width="16" height="16"/>
+  <object id="124" name="colision" x="32" y="176" width="16" height="16"/>
+  <object id="125" name="colision" x="48" y="176" width="16" height="16"/>
+  <object id="126" name="colision" x="64" y="176" width="16" height="16"/>
+  <object id="127" name="colision" x="80" y="176" width="16" height="16"/>
+  <object id="128" name="colision" x="96" y="176" width="16" height="16"/>
+  <object id="129" name="colision" x="112" y="176" width="16" height="16"/>
+  <object id="130" name="colision" x="128" y="176" width="16" height="16"/>
+  <object id="131" name="colision" x="144" y="176" width="16" height="16"/>
+  <object id="132" name="colision" x="160" y="176" width="16" height="16"/>
+  <object id="134" name="colision" x="176" y="160" width="16" height="16"/>
+  <object id="135" name="colision" x="176" y="144" width="16" height="16"/>
+  <object id="136" name="colision" x="176" y="128" width="16" height="16"/>
+  <object id="138" name="colision" x="176" y="96" width="16" height="16"/>
+  <object id="139" name="colision" x="176" y="80" width="16" height="16"/>
+  <object id="140" name="colision" x="176" y="64" width="16" height="16"/>
+  <object id="141" name="colision" x="176" y="48" width="16" height="16"/>
+  <object id="142" name="colision" x="160" y="32" width="16" height="16"/>
+  <object id="143" name="colision" x="144" y="32" width="16" height="16"/>
+  <object id="144" name="colision" x="128" y="32" width="16" height="16"/>
+  <object id="146" name="colision" x="96" y="48" width="16" height="16"/>
+  <object id="147" name="colision" x="80" y="48" width="16" height="16"/>
+  <object id="148" name="colision" x="32" y="80" width="16" height="16"/>
+  <object id="149" name="colision" x="48" y="80" width="16" height="16"/>
+  <object id="150" name="colision" x="32" y="48" width="16" height="16"/>
+  <object id="151" name="colision" x="48" y="48" width="16" height="16"/>
+  <object id="152" name="colision" x="16" y="48" width="16" height="16"/>
+  <object id="153" name="colision" x="64" y="32" width="16" height="16"/>
+  <object id="155" name="colision" x="64" y="96" width="16" height="16"/>
+  <object id="156" name="colision" x="80" y="96" width="16" height="16"/>
+  <object id="157" name="colision" x="96" y="96" width="16" height="16"/>
+  <object id="158" name="colision" x="112" y="96" width="16" height="16"/>
+  <object id="159" name="colision" x="80" y="112" width="16" height="16"/>
+  <object id="160" name="colision" x="64" y="128" width="16" height="16"/>
+  <object id="161" name="colision" x="48" y="144" width="16" height="16"/>
+  <object id="162" name="colision" x="64" y="144" width="16" height="16"/>
+  <object id="163" name="colision" x="80" y="128" width="16" height="16"/>
+  <object id="165" name="colision" x="96" y="128" width="16" height="16"/>
+  <object id="166" name="colision" x="112" y="128" width="16" height="16"/>
+  <object id="168" name="colision" x="128" y="112" width="16" height="16"/>
+  <object id="169" name="colision" x="160" y="112" width="16" height="16"/>
+  <object id="170" name="meta" x="144" y="48" width="16" height="16"/>
+  <object id="171" name="item-drop" x="64" y="64" width="16" height="16"/>
+  <object id="178" name="colision" x="48" y="96" width="16" height="16"/>
+  <object id="179" name="colision" x="32" y="96" width="16" height="16"/>
+  <object id="182" name="colision" x="112" y="48" width="16" height="16"/>
+ </objectgroup>
+</map>

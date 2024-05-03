@@ -1,4 +1,4 @@
-import 'package:dev_tesis/domain/model/actividad.dart';
+
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
 

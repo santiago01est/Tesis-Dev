@@ -2,12 +2,31 @@ import 'package:dev_tesis/ui/bloc/game/instrucciones_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class RespuestaLaberinto extends StatelessWidget {
-  const RespuestaLaberinto({super.key});
+class RespuestaLaberinto extends StatefulWidget {
+  const RespuestaLaberinto({Key? key}) : super(key: key);
+
+  @override
+  State<RespuestaLaberinto> createState() => _RespuestaLaberintoState();
+}
+
+class _RespuestaLaberintoState extends State<RespuestaLaberinto> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final movementInstructionsCubit = context.watch<InstruccionesCubit>();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Ajustar la posición del ScrollController al final del SingleChildScrollView
+      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+    });
+
     return Container(
       margin: const EdgeInsets.all(10),
       width: double.infinity,
@@ -17,33 +36,30 @@ class RespuestaLaberinto extends StatelessWidget {
         color: Colors.white,
         border: Border.all(color: Colors.black, width: 2),
       ),
-      child: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          // si el ancho de la pantalla es mayor a 700 es un dispositivo escritorio y las columnas son 6
-          crossAxisCount: MediaQuery.of(context).size.width > 900 ? 6 : 3,
-          mainAxisExtent: 80.0,
-          // espacio entre las filas
-        ),
-        itemCount: movementInstructionsCubit.state.length,
-        itemBuilder: (context, index) {
-          final clave = movementInstructionsCubit.state[index].key;
-          final valor = movementInstructionsCubit.state[index].value;
+      child: SingleChildScrollView(
+        controller: _scrollController,
+        child: Wrap(
+          spacing: 8.0,
+          runSpacing: 8.0,
+          children: List.generate(
+            movementInstructionsCubit.state.length,
+            (index) {
+              final valor = movementInstructionsCubit.state[index].value;
 
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                //Text(clave),
-                Image.asset(
-                  valor,
-                  width:
-                      50, // Ajusta el tamaño de la imagen según sea necesario
-                  height: 50,
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Image.asset(
+                      valor,
+                      height: 60,
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          );
-        },
+              );
+            },
+          ),
+        ),
       ),
     );
   }

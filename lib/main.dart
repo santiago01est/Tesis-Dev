@@ -7,11 +7,15 @@ import 'package:dev_tesis/domain/repository/profesor_respository.dart';
 import 'package:dev_tesis/domain/repository/unidad_repository.dart';
 import 'package:dev_tesis/infraestructure/driven_adapter/profesor_adapter/profesor_data_adapter.dart';
 import 'package:dev_tesis/infraestructure/driven_adapter/unidad_adapter/unidad_data_adapter.dart';
+import 'package:dev_tesis/ui/bloc/actividad_custio_test.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
+import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/game/instrucciones_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
+import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
+import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,11 +25,11 @@ import 'infraestructure/driven_adapter/cursos_adapter/cursos_data_adapter.dart';
 
 final getIt = GetIt.instance;
 
-void setupDependencies() {
+void setupDependencies(BuildContext context) {
   // Registra tus dependencias aquí
   getIt.registerSingleton<CursoRepository>(CursosDataAdapter());
   getIt.registerSingleton<CursosCasoUso>(
-      CursosCasoUso(getIt<CursoRepository>()));
+      CursosCasoUso(getIt<CursoRepository>(), context));
 
   getIt.registerSingleton<UnidadRepository>(UnidadDataAdapter());
   getIt.registerSingleton<UnidadCasoUso>(
@@ -33,11 +37,10 @@ void setupDependencies() {
 
   getIt.registerSingleton<ProfesorRepository>(ProfesorDataAdapter());
   getIt.registerSingleton<ProfesorCasoUso>(
-      ProfesorCasoUso(getIt<ProfesorRepository>()));
+      ProfesorCasoUso(getIt<ProfesorRepository>(), context));
 }
 
 void main() {
-  setupDependencies();
   runApp(const MyApp());
 }
 
@@ -46,6 +49,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    setupDependencies(context);
     return MultiBlocProvider(
       providers: [
         BlocProvider<CursoCubit>(create: (context) => CursoCubit()),
@@ -65,16 +69,28 @@ class MyApp extends StatelessWidget {
         BlocProvider<InstruccionesCubit>(
           create: (context) => InstruccionesCubit(),
         ),
+        BlocProvider<UnidadesCubit>(
+          create: (context) => UnidadesCubit(),
+        ),
+        BlocProvider<ActividadCuestionarioCubit>(
+          create: (context) => ActividadCuestionarioCubit(),
+        ),
+
+        BlocProvider<EstudiantesCubit>(
+          create: (context) => EstudiantesCubit(),
+        ),
+        BlocProvider<SeguimientosEstudiantesCubit>(
+          create: (context) => SeguimientosEstudiantesCubit(),
+        ),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         routerConfig: appRouter,
-        title: "Codex",
+        title: "Mundo PC",
         theme: ThemeData(
           scaffoldBackgroundColor: sixtyColor,
-          textTheme:
-              GoogleFonts.ibmPlexMonoTextTheme(Theme.of(context).textTheme)
-                  .apply(bodyColor: Colors.black),
+          textTheme: GoogleFonts.lexendExaTextTheme(Theme.of(context).textTheme)
+              .apply(bodyColor: Colors.black),
           pageTransitionsTheme: const PageTransitionsTheme(builders: {
             TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),
             TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),

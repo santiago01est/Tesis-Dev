@@ -8,7 +8,8 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 
 class GameActivity extends FlameGame with HasKeyboardHandlerComponents, HasCollisionDetection{
-  
+  final String nombretmx;
+  GameActivity(this.nombretmx );
   @override
   Color backgroundColor()=> const Color.fromARGB(0, 0, 0, 0);
   late final CameraComponent cam;
@@ -19,7 +20,7 @@ class GameActivity extends FlameGame with HasKeyboardHandlerComponents, HasColli
 
     //Carga todas las imagenes en cache
     await images.loadAllImages();
-    final world = Level(levelName: 'Nivel01', player: player);
+    final world = Level(levelName: nombretmx, player: player);
     cam = CameraComponent.withFixedResolution(world: world, width: 192, height: 192);
     cam.viewfinder.anchor= Anchor.topLeft;
     
@@ -28,3 +29,4 @@ class GameActivity extends FlameGame with HasKeyboardHandlerComponents, HasColli
   }
 
 }
+

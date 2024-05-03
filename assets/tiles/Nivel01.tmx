@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="12" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="307">
- <objectgroup id="6" name="SueloBase" class="campo" visible="0">
+ <objectgroup id="6" name="SueloBase" class="campo">
   <object id="1" name="esquina-superior-derech" type="esquina" x="176" y="0" width="16" height="16"/>
   <object id="2" name="esquina-superior-izq" type="esquina" x="0" y="0" width="16" height="16"/>
   <object id="3" name="esquina-inferior-derech" type="esquina" x="176" y="176" width="16" height="16"/>
@@ -226,7 +226,7 @@
   <object id="294" name="Collision" type="Collision" x="96" y="160" width="16" height="16"/>
   <object id="305" name="Meta" type="Collision" x="144" y="96" width="16" height="16"/>
  </objectgroup>
- <objectgroup id="10" name="Objetos" class="campo">
+ <objectgroup id="10" name="Objetos" class="campo" visible="0">
   <object id="306" name="gallinas" type="objeto-animado" x="136" y="84" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="9" name="Jugador" class="campo" visible="0">
