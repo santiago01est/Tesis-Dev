@@ -153,6 +153,7 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
         backgroundColor: thirtyColor,
         appBar: CustomNavigationBarActividad(
           cursoName: 'Mundo PC',
+          cursoId: widget.cursoId,
           userName: estudiantesCubit.obtenerNombres(),
           userAvatars: avatares,
           onLogout: () {

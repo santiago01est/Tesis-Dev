@@ -48,7 +48,6 @@ class _ActividadCuestionarioScreenState
     List<ActividadCuestionario> actividadesCuestionario =
         context.watch<ActividadCuestionarioCubit>().state;
     for (var unidad in curso.state.unidades!) {
-      // Verifica si la unidad actual tiene la actividad a eliminar
       if (unidad.actividades != null) {
         // for que recorre las actividades
 
@@ -115,6 +114,7 @@ class _ActividadCuestionarioScreenState
     return Scaffold(
       appBar: CustomNavigationBarActividad(
         cursoName: 'Mundo PC',
+        cursoId: curso.state.id!,
         userName: estudiantes.obtenerNombres(),
         userAvatars: avatares,
         onLogout: () {
@@ -140,7 +140,7 @@ class _ActividadCuestionarioScreenState
                             IntrinsicHeight(
                               child: BannerInfoActividades(
                                 indice: actividadCuestionario.indice!,
-                                habilidades: [0, 0, 0, 1],
+                                habilidades: [1, 0, 0, 1],
                                 titulo:
                                     '$nombreUnidad \nActividad ${unidadesCubit.obtenerIndiceActividadEnUnidad(actividadCuestionario.id!)! + 1}',
                               ),

@@ -40,7 +40,6 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
     final router = GoRouter.of(context);
     final seguimientosCubit = context.watch<SeguimientosEstudiantesCubit>();
 
-    
     final estudianteId = context.watch<EstudiantesCubit>().state.first.id!;
 
     void eliminarActividad(String idActividad) {
@@ -169,6 +168,14 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                                         "Cuestionario") {
                                                       router.push(
                                                           '/cuestionario/${unidadesCubit.state[index].actividades![activityIndex].id}');
+                                                    } else if (unidadesCubit
+                                                            .state[index]
+                                                            .actividades![
+                                                                activityIndex]
+                                                            .tipoActividad ==
+                                                        "Desconectada") {
+                                                      router.push(
+                                                          '/desconectada/${unidadesCubit.state[index].actividades![activityIndex].id}');
                                                     }
                                                   },
                                                   child: Center(

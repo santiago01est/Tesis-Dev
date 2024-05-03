@@ -236,7 +236,7 @@ class _LaberintoState extends State<Laberinto> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Row(
+                                            Wrap(
                                               children: [
                                                 SizedBox(
                                                   height: 40,

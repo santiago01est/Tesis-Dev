@@ -3,6 +3,7 @@ import 'package:dev_tesis/ui/pages/screen_curso/seguimiento_estudiante_screen.da
 import 'package:dev_tesis/ui/pages/screen_curso/seguimiento_profesor_screen.dart';
 import 'package:dev_tesis/ui/pages/screen_home/home.dart';
 import 'package:dev_tesis/ui/pages/screen_laberintos/actividad_cuestionario.dart';
+import 'package:dev_tesis/ui/pages/screen_laberintos/actividad_desconectada.dart';
 import 'package:dev_tesis/ui/pages/screen_laberintos/nivel1_screen.dart';
 import 'package:dev_tesis/ui/pages/screen_curso/panel_curso_screen.dart';
 import 'package:dev_tesis/ui/pages/screen_panel_profesor_curso/panel_profesor_principal.dart';
@@ -62,6 +63,13 @@ final appRouter = GoRouter(
         builder: (context, state) {
           final String actividadId = state.pathParameters['actividadId'] ?? '1';
           return ActividadCuestionarioScreen(actividadId: actividadId);
+        }),
+
+    GoRoute(
+        path: '/desconectada/:actividadId',
+        builder: (context, state) {
+          final String actividadId = state.pathParameters['actividadId'] ?? '1';
+          return ActividadDesconectadaScreen(actividadId: actividadId);
         }),
 
     GoRoute(

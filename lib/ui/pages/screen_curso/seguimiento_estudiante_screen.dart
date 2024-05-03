@@ -28,7 +28,8 @@ class SeguimientoEstudianteScreen extends StatefulWidget {
       _SeguimientoEstudianteScreenState();
 }
 
-class _SeguimientoEstudianteScreenState extends State<SeguimientoEstudianteScreen> {
+class _SeguimientoEstudianteScreenState
+    extends State<SeguimientoEstudianteScreen> {
   final CursosCasoUso cursosCasoUso = getIt<CursosCasoUso>();
 
   final UnidadCasoUso unidadCasoUso = getIt<UnidadCasoUso>();
@@ -118,7 +119,8 @@ class _SeguimientoEstudianteScreenState extends State<SeguimientoEstudianteScree
 
   @override
   Widget build(BuildContext context) {
-    final cursoCubit= context.read<CursoCubit>();
+    final cursoCubit = context.read<CursoCubit>();
+    final seguimientos = context.read<SeguimientosEstudiantesCubit>().state;
     final estudiantesCubit = context.read<EstudiantesCubit>();
     final router = GoRouter.of(context);
     final estudiantes = estudiantesCubit.state;
@@ -228,7 +230,7 @@ class _SeguimientoEstudianteScreenState extends State<SeguimientoEstudianteScree
               SizedBox(
                 height: 20,
               ),
-                const Center(
+              const Center(
                 child: SubtitleText(text: 'Unidad 2'),
               ),
               const SizedBox(
@@ -237,6 +239,18 @@ class _SeguimientoEstudianteScreenState extends State<SeguimientoEstudianteScree
               DataTableWidget(
                   estudiantes: estudiantes,
                   actividades: cursoCubit.state.unidades![2].actividades!),
+              SizedBox(
+                height: 20,
+              ),
+              const Center(
+                child: SubtitleText(text: 'Testt Autopercepción'),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              DataTestTableWidget(
+                  estudiantes: estudiantes,
+                  listaBase: List.generate(13, (index) => -1)),
               SizedBox(
                 height: 20,
               ),
@@ -309,7 +323,6 @@ class _DataTableWidgetState extends State<DataTableWidget> {
   }
 
   List<DataRow> _buildRows() {
-  
     return widget.estudiantes.map((student) {
       int rowIndex = widget.estudiantes.indexOf(student);
       return DataRow(
@@ -328,14 +341,12 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     List<int> activityValues =
         []; // Lista para almacenar los valores de actividades
     widget.actividades.forEach((activity) {
-     
-      Color cellColor = asignarColor(activity.indice! -1);
+      Color cellColor = asignarColor(activity.indice! - 1);
       final seguimientos = context.read<SeguimientosEstudiantesCubit>();
       final seguimiento =
           seguimientos.obtenerSeguimientoEstudiante(student.id!);
 
-      int peso = seguimiento
-          .respuestasActividades![activity.indice! - 1];
+      int peso = seguimiento.respuestasActividades![activity.indice! - 1];
 
       if (peso == -1) {
         peso = 0;
@@ -361,6 +372,176 @@ class _DataTableWidgetState extends State<DataTableWidget> {
       // Agregar el valor numérico de la actividad a la lista
       activityValues.add(peso);
     });
+
+    // Calcular el promedio de los valores de las actividades
+    double total = activityValues.fold(0, (sum, value) => sum + value);
+    double average = total / activityValues.length;
+
+    // Agregar la celda para el promedio al final
+    cells.add(
+      DataCell(
+        Container(
+          width: 48.0,
+          alignment: Alignment.center,
+          child: Text(
+            average.toStringAsFixed(2), // Mostrar el promedio con dos decimales
+            style: TextStyle(color: Colors.white),
+          ),
+          decoration: BoxDecoration(
+            color: Colors.grey, // Color para la celda del promedio
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+        ),
+      ),
+    );
+
+    return cells;
+  }
+
+  int obtenerPesoActividad(int? idEstudiante, int indexActividad) {
+    final seguimientos = context.read<SeguimientosEstudiantesCubit>();
+    final seguimiento =
+        seguimientos.obtenerSeguimientoEstudiante(idEstudiante!);
+    final unidad = context.read<UnidadesCubit>();
+    Actividad actividad = unidad.actividadPorId('${indexActividad + 1}')!;
+    int respuestaEstudiante =
+        seguimiento.respuestasActividades![indexActividad];
+
+    // toast
+
+    if (respuestaEstudiante == -1) {
+      return 0;
+    } else {
+      return actividad.pesoRespuestas![respuestaEstudiante - 1];
+    }
+  }
+
+  Color asignarColor(int colIndex) {
+    if (colIndex < 4) {
+      return Color(0xFFB6C979);
+    } else if (colIndex >= 4 && colIndex < 8) {
+      return Color(0xFFF4A662);
+    } else {
+      return Color(0xFF69B5D8);
+    }
+  }
+}
+
+class DataTestTableWidget extends StatefulWidget {
+  final List<Estudiante> estudiantes;
+  final List<int> listaBase;
+
+  const DataTestTableWidget(
+      {super.key, required this.estudiantes, required this.listaBase});
+  @override
+  _DataTestTableWidgetState createState() => _DataTestTableWidgetState();
+}
+
+class _DataTestTableWidgetState extends State<DataTestTableWidget> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scrollbar(
+      thumbVisibility: true,
+      controller: _scrollController,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        controller: _scrollController,
+        child: Container(
+          // Container para aplicar el color de fondo a toda la tabla
+          decoration: BoxDecoration(
+            // Decoración para el color de fondo de la tabla
+            color: Color(0xFFACD8ED),
+            borderRadius:
+                BorderRadius.circular(8.0), // Color de fondo de la tabla
+          ),
+          child: DataTable(
+            columns: _buildColumns(),
+            rows: _buildRows(),
+            columnSpacing: 12.0,
+            dataRowHeight: 48.0,
+            headingRowHeight: 56.0,
+          ),
+        ),
+      ),
+    );
+  }
+
+  List<DataColumn> _buildColumns() {
+    List<DataColumn> columns = [];
+
+    // Agregar la primera columna para los nombres de los estudiantes
+    columns.add(DataColumn(label: Text('Estudiante')));
+
+    // Agregar las columnas para los seguimientos
+    // lista de 13 items con -1
+
+    for (int i = 0; i < widget.listaBase.length; i++) {
+      columns.add(DataColumn(label: Text('${i + 1}')));
+    }
+
+    // Agregar columna para el promedio
+    columns.add(DataColumn(label: Text('Promedio')));
+
+    return columns;
+  }
+
+  List<DataRow> _buildRows() {
+    return widget.estudiantes.map((student) {
+      int rowIndex = widget.estudiantes.indexOf(student);
+      return DataRow(
+        cells: _buildCells(student, rowIndex),
+      );
+    }).toList();
+  }
+
+  List<DataCell> _buildCells(Estudiante student, int rowIndex) {
+    List<DataCell> cells = [];
+
+    // Agregar la celda con el nombre del estudiante
+    cells.add(DataCell(Text(student.nombre!)));
+
+    // Agregar las celdas para las actividades con números aleatorios
+    List<int> activityValues =
+        []; // Lista para almacenar los valores de actividades
+
+    int i = 0;
+    for (var activity in widget.listaBase) {
+      Color cellColor = asignarColor(16);
+      final seguimientos = context.read<SeguimientosEstudiantesCubit>();
+      final seguimiento =
+          seguimientos.obtenerSeguimientoEstudiante(student.id!);
+
+      int peso = seguimiento.test![i];
+
+      if (peso == -1) {
+        peso = 0;
+      } else {
+        peso++;
+      }
+
+      cells.add(
+        DataCell(
+          Container(
+            width: 48.0,
+            alignment: Alignment.center,
+            child: Text(
+              peso.toString(),
+              style: TextStyle(color: Colors.white),
+            ),
+            decoration: BoxDecoration(
+              color: cellColor,
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+          ),
+        ),
+      );
+
+      // Agregar el valor numérico de la actividad a la lista
+      activityValues.add(peso);
+      i++;
+    }
 
     // Calcular el promedio de los valores de las actividades
     double total = activityValues.fold(0, (sum, value) => sum + value);

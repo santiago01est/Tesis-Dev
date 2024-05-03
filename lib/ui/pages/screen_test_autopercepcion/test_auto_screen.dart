@@ -7,7 +7,9 @@ import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
+import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
+import 'package:dev_tesis/ui/components/appbar/appbar_actividad.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_profesor.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/utils/rutasImagenes.dart';
@@ -16,7 +18,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class TestAutoPercepcionScreen extends StatefulWidget {
-  const TestAutoPercepcionScreen({super.key, required String cursoId});
+  final String cursoId;
+  const TestAutoPercepcionScreen({super.key, required this.cursoId});
 
   @override
   State<TestAutoPercepcionScreen> createState() =>
@@ -91,6 +94,13 @@ class _TestAutoPercepcionScreenState extends State<TestAutoPercepcionScreen> {
   Widget build(BuildContext context) {
     //final cursoCubit = context.watch<CursoCubit>();
     final router = GoRouter.of(context);
+    final rol = context.read<RolCubit>().state;
+    final cursoCubit = context.watch<CursoCubit>();
+    final estudiantes = context.read<EstudiantesCubit>();
+    List<String> avatares = [];
+    for (var estudiante in estudiantes.state) {
+      avatares.add(estudiante.avatar!);
+    }
 
     final List<StepForm> _stepForms = [
       StepForm(title: '1', formFields: [
@@ -882,7 +892,16 @@ class _TestAutoPercepcionScreenState extends State<TestAutoPercepcionScreen> {
 
     return Scaffold(
       backgroundColor: blueColor,
-      appBar: AppBarProfesor(),
+      appBar: CustomNavigationBarActividad(
+        cursoName: 'Mundo PC',
+        cursoId: widget.cursoId,
+        userName: estudiantes.obtenerNombres(),
+        userAvatars: avatares,
+        onLogout: () {
+          // Aquí implementa la lógica para cerrar sesión
+          print('Cerrar sesión');
+        },
+      ),
       body: Stack(
         children: [
           Container(
@@ -949,6 +968,13 @@ class _TestAutoPercepcionScreenState extends State<TestAutoPercepcionScreen> {
                                             .read<EstudiantesCubit>()
                                             .obtenerIds(),
                                         _selectedOptions);
+                                if (rol == 'estudiante') {
+                                  router.push(
+                                      '/seguimientoestudiante/${cursoCubit.state.id}');
+                                } else {
+                                  router.push(
+                                      '/seguimientoprofesor/${cursoCubit.state.id}');
+                                }
                               },
                               text: 'Enviar',
                             ),

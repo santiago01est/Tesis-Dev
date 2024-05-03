@@ -1,5 +1,6 @@
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
+import 'package:dev_tesis/domain/model/actividad_desconectada.dart';
 import 'package:dev_tesis/domain/model/actividad_laberinto.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
@@ -1351,22 +1352,35 @@ class CursosDataAdapter extends CursoRepository {
                 ],
                 pesoRespuestas: [2, 4, 3, 1],
                 respuestaCorrecta: 2),
+            ActividadDesconectada(
+              id: '24',
+              nombre: 'Actividad Desconectada',
+              estado: 'Activa',
+              indice: 24,
+              descripcion:
+                  '¡Bienvenidos a estas divertidas aventuras de Pensamiento Computacional! \nPara solucionarlas no necesitas de una computadora. Tu super inteligencia y creatividad te ayudarán a resolverlas.',
+              tipoActividad: 'Desconectada',
+              ejemploImage: 'ejemploactividaddesconectada1.png',
+              ejercicioImage:
+                  '/assets/items/ejemplosImg/actividaddesconectada1.png',
+              pesoRespuestas: [0, 0, 0, 0],
+            ),
           ]),
           Unidad(id: '2', nombre: 'Unidad Dos', estado: 'Activa', actividades: [
             ActividadLaberinto(
-                id: '24',
+                id: '25',
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
-                indice: 24,
+                indice: 25,
                 descripcion:
                     'El pequeño pollito Tito se ha perdido cerca del puente. Recogelo  y llévalo al gallinero con su familia',
                 tipoActividad: 'Laberinto',
                 nombreArchivo: "Laberinto4"),
             ActividadCuestionario(
-                id: '25',
+                id: '26',
                 nombre: 'Actividad Cuestionario de ',
                 estado: 'Activa',
-                indice: 25,
+                indice: 26,
                 descripcion:
                     'Ayuda a Juan a recoger la gema del bosque que es de color verde.\nRecuerda llegar con el menor número de instrucciones.',
                 tipoActividad: 'Cuestionario',
@@ -1444,19 +1458,19 @@ class CursosDataAdapter extends CursoRepository {
                 pesoRespuestas: [3, 2, 4, 1],
                 respuestaCorrecta: 3),
             ActividadLaberinto(
-                id: '26',
+                id: '27',
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
-                indice: 26,
+                indice: 27,
                 descripcion:
                     'El pequeño pollito Tito se ha perdido cerca del puente. Recogelo  y llévalo al gallinero con su familia',
                 tipoActividad: 'Laberinto',
                 nombreArchivo: "Laberinto4"),
             ActividadCuestionario(
-                id: '27',
+                id: '28',
                 nombre: 'Actividad Cuestionario de ',
                 estado: 'Activa',
-                indice: 27,
+                indice: 28,
                 descripcion:
                     'Juan quiere llegar al cofre del tesoro.\nNo pases por el fuego\nRecoje la llave del cofre para abrirlo',
                 tipoActividad: 'Cuestionario',
@@ -1562,19 +1576,19 @@ class CursosDataAdapter extends CursoRepository {
                 pesoRespuestas: [3, 2, 1, 4],
                 respuestaCorrecta: 4),
             ActividadLaberinto(
-                id: '28',
+                id: '29',
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
-                indice: 28,
+                indice: 29,
                 descripcion:
                     'El pequeño pollito Tito se ha perdido cerca del puente. Recogelo  y llévalo al gallinero con su familia',
                 tipoActividad: 'Laberinto',
                 nombreArchivo: "Laberinto4"),
             ActividadCuestionario(
-                id: '29',
+                id: '30',
                 nombre: 'Actividad Cuestionario de ',
                 estado: 'Activa',
-                indice: 29,
+                indice: 30,
                 descripcion:
                     'Ayuda a Juan a llegar hasta el cofre.\nNo pases por el fuego\nRecoge la gema de color rojo\nRecoge la llave para abrir el cofre',
                 tipoActividad: 'Cuestionario',
