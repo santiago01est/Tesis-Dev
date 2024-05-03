@@ -39,6 +39,7 @@ class CursosDataAdapter extends CursoRepository {
                     nombre: 'Actividad 01',
                     estado: 'Activa',
                     indice: 1,
+                    habilidades: [0,0,0,0],
                     descripcion:
                         'Lleva al pollito con su mamá \nRecoge la flor por el camino \nCuidado con el gato: no pases por su casilla',
                     tipoActividad: 'Cuestionario',
@@ -73,6 +74,7 @@ class CursosDataAdapter extends CursoRepository {
                     nombre: 'Actividad 02',
                     estado: 'Activa',
                     indice: 2,
+                    habilidades: [0,0,0,0],
                     descripcion: 'Dibuja la siguiente figura:',
                     tipoActividad: 'Cuestionario',
                     dimension: 3,
@@ -111,6 +113,7 @@ class CursosDataAdapter extends CursoRepository {
                     nombre: 'Actividad 03',
                     estado: 'Activa',
                     indice: 3,
+                    habilidades: [0,0,0,0],
                     descripcion:
                         'Lleva al pollito con su mamá.\nRecoge la flor por el camino.\nCuidado con el gato: no pases por su casilla.',
                     tipoActividad: 'Cuestionario',
@@ -171,6 +174,7 @@ class CursosDataAdapter extends CursoRepository {
                     nombre: 'Actividad 04',
                     estado: 'Activa',
                     indice: 4,
+                    habilidades: [0,0,0,0],
                     descripcion: 'Dibuja la siguiente figura:',
                     tipoActividad: 'Cuestionario',
                     dimension: 4,
@@ -228,6 +232,7 @@ class CursosDataAdapter extends CursoRepository {
                     nombre: 'Actividad 05',
                     estado: 'Activa',
                     indice: 5,
+                    habilidades: [0,0,0,0],
                     descripcion: 'Lleva al pollito con su mamá.',
                     tipoActividad: 'Cuestionario',
                     dimension: 4,
@@ -290,6 +295,7 @@ class CursosDataAdapter extends CursoRepository {
                     nombre: 'Actividad 06',
                     estado: 'Activa',
                     indice: 6,
+                    habilidades: [0,0,0,0],
                     descripcion:
                         'Lleva al pollito con su mamá.\nCuidado con el gato: no pases por su casilla.',
                     tipoActividad: 'Cuestionario',
@@ -352,6 +358,7 @@ class CursosDataAdapter extends CursoRepository {
                     nombre: 'Actividad 07',
                     estado: 'Activa',
                     indice: 7,
+                    habilidades: [0,0,0,0],
                     descripcion:
                         'Lleva al pollito con su mamá.\nRecoge la flor por el camino.',
                     tipoActividad: 'Cuestionario',
@@ -422,6 +429,7 @@ class CursosDataAdapter extends CursoRepository {
                     nombre: 'Actividad 08',
                     estado: 'Activa',
                     indice: 8,
+                    habilidades: [0,0,0,0],
                     descripcion:
                         'Lleva al pollito con su mamá.\nRecoge la flor por el camino.\nCuidado con el gato: no pases por su casilla.',
                     tipoActividad: 'Cuestionario',
@@ -504,6 +512,7 @@ class CursosDataAdapter extends CursoRepository {
                     nombre: 'Actividad 09',
                     estado: 'Activa',
                     indice: 9,
+                    habilidades: [0,0,0,0],
                     descripcion: 'Lleva al pollito con su mamá.',
                     tipoActividad: 'Cuestionario',
                     dimension: 4,
@@ -562,6 +571,7 @@ class CursosDataAdapter extends CursoRepository {
                     nombre: 'Actividad 10',
                     estado: 'Activa',
                     indice: 10,
+                    habilidades: [0,0,0,0],
                     descripcion: 'Dibuja la figura',
                     tipoActividad: 'Cuestionario',
                     dimension: 4,
@@ -624,6 +634,7 @@ class CursosDataAdapter extends CursoRepository {
                     nombre: 'Actividad 11',
                     estado: 'Activa',
                     indice: 11,
+                    habilidades: [0,0,0,0],
                     descripcion:
                         'Lleva al pollito con su mamá\nCuidado con el gato: no pases por su casilla',
                     tipoActividad: 'Cuestionario',
@@ -692,6 +703,7 @@ class CursosDataAdapter extends CursoRepository {
                     nombre: 'Actividad 12',
                     estado: 'Activa',
                     indice: 12,
+                    habilidades: [0,0,0,0],
                     descripcion:
                         'Lleva al pollito con su mamá\nRecoge la flor por el camino',
                     tipoActividad: 'Cuestionario',
@@ -762,6 +774,7 @@ class CursosDataAdapter extends CursoRepository {
                     nombre: 'Actividad 13',
                     estado: 'Activa',
                     indice: 13,
+                    habilidades: [0,0,0,0],
                     descripcion:
                         'Lleva al pollito con su mamá\nRecoge la flor por el camino\nCuidado con el gato: no pases por su casilla',
                     tipoActividad: 'Cuestionario',
@@ -834,6 +847,7 @@ class CursosDataAdapter extends CursoRepository {
                     nombre: 'Actividad 14',
                     estado: 'Activa',
                     indice: 14,
+                    habilidades: [0,0,0,0],
                     descripcion: 'Dibuja la figura',
                     dimension: 4,
                     tipoActividad: 'Cuestionario',
@@ -906,6 +920,7 @@ class CursosDataAdapter extends CursoRepository {
                     nombre: 'Actividad 15',
                     estado: 'Activa',
                     indice: 15,
+                    habilidades: [0,0,0,0],
                     descripcion:
                         'Lleva al pollito con su mamá\nRecoge la flor por el camino\nCuidado con el gato: no pases por su casilla',
                     tipoActividad: 'Cuestionario',
@@ -980,6 +995,7 @@ class CursosDataAdapter extends CursoRepository {
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
                 indice: 16,
+                habilidades: [0,0,1,1],
                 descripcion:
                     'Juan necesita de tu ayuda!\n\nGuíalo a encontrar a su gallina.',
                 tipoActividad: 'Laberinto',
@@ -998,6 +1014,7 @@ class CursosDataAdapter extends CursoRepository {
                 nombre: 'Buscando el mejor camino',
                 estado: 'Activa',
                 indice: 17,
+                habilidades: [0,0,1,1],
                 descripcion:
                     'Ayuda a Juan a encontrar el camino al saco de café que ha recolectado.',
                 tipoActividad: 'Cuestionario',
@@ -1069,6 +1086,7 @@ class CursosDataAdapter extends CursoRepository {
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
                 indice: 18,
+                habilidades: [1,0,1,1],
                 descripcion:
                     'Tiempo de cosecha!\n\nAyuda a Juan para que llegue a su planta de calabaza 🎃.',
                 tipoActividad: 'Laberinto',
@@ -1091,6 +1109,7 @@ class CursosDataAdapter extends CursoRepository {
                 nombre: 'Buscando el mejor camino',
                 estado: 'Activa',
                 indice: 19,
+                habilidades: [0,1,1,1],
                 descripcion:
                     'Tiempo de cosecha!. Ayuda a Juan a encontrar la planta de trigo amarilla.',
                 tipoActividad: 'Cuestionario',
@@ -1173,6 +1192,7 @@ class CursosDataAdapter extends CursoRepository {
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
                 indice: 20,
+                habilidades: [0,1,1,1],
                 descripcion:
                     'Juan necesita de tu ayuda!\n\nMamá pato ha perdido unos de sus huevos y Juan esta ayudandola a buscarlo. Recoge el huevo y llevalo con mamá pato.',
                 tipoActividad: 'Laberinto',
@@ -1198,6 +1218,7 @@ class CursosDataAdapter extends CursoRepository {
                 nombre: 'Buscando el mejor camino',
                 estado: 'Activa',
                 indice: 21,
+                habilidades: [1,0,1,1],
                 descripcion:
                     'Tiempo de cosecha!. Juan necesita llegar al árbol de mandarinas, pero antes debe recoger la canasta.',
                 tipoActividad: 'Cuestionario',
@@ -1293,6 +1314,7 @@ class CursosDataAdapter extends CursoRepository {
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
                 indice: 22,
+                habilidades: [0,1,1,1],
                 descripcion:
                     'Juan necesita de tu ayuda!\n\nEl pequeño pollito Tito se ha perdido cerca del puente. Recogelo  y llévalo al gallinero.',
                 tipoActividad: 'Laberinto',
@@ -1322,6 +1344,7 @@ class CursosDataAdapter extends CursoRepository {
                 nombre: 'Buscando el mejor camino',
                 estado: 'Activa',
                 indice: 23,
+                habilidades: [0,1,1,1],
                 descripcion:
                     'El pequeño cerdito rosa se salió de su corral.\nRecoge al cerdito.\nLlévalo a su corral.\nTen cuidado con las abejas, no pases por su casillas.',
                 tipoActividad: 'Cuestionario',
@@ -1416,6 +1439,7 @@ class CursosDataAdapter extends CursoRepository {
               nombre: 'Actividad Desconectada',
               estado: 'Activa',
               indice: 24,
+              habilidades: [0,1,1,1],
               descripcion:
                   '¡Bienvenidos a estas divertidas aventuras de Pensamiento Computacional! \nPara solucionarlas no necesitas de una computadora. Tu super inteligencia y creatividad te ayudarán a resolverlas.',
               tipoActividad: 'Desconectada',
@@ -1431,6 +1455,7 @@ class CursosDataAdapter extends CursoRepository {
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
                 indice: 25,
+                habilidades: [1,1,1,1],
                 descripcion:
                     'Juan se fue a explorar un viejo templo.\n\nGuíalo a encontrar la entrada al templo.',
                 tipoActividad: 'Laberinto',
@@ -1451,6 +1476,7 @@ class CursosDataAdapter extends CursoRepository {
                 nombre: 'Actividad Cuestionario de ',
                 estado: 'Activa',
                 indice: 26,
+                habilidades: [1,1,1,1],
                 descripcion:
                     'Ayuda a Juan a recoger la gema del bosque que es de color verde.\nRecuerda llegar con el menor número de instrucciones.',
                 tipoActividad: 'Cuestionario',
@@ -1532,6 +1558,7 @@ class CursosDataAdapter extends CursoRepository {
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
                 indice: 27,
+                habilidades: [0,1,1,1],
                 descripcion:
                     'Jhon necesita de tu ayuda!\n\nGuialo para recoger la gema del sol que es de color amarilla.\n\nRecoge la bolsa con comida que encontraras en el camino.',
                 tipoActividad: 'Laberinto',
@@ -1565,6 +1592,7 @@ class CursosDataAdapter extends CursoRepository {
                 nombre: 'Actividad Cuestionario de ',
                 estado: 'Activa',
                 indice: 28,
+                habilidades: [1,1,1,1],
                 descripcion:
                     'Juan quiere llegar al cofre del tesoro.\nNo pases por el fuego\nRecoje la llave del cofre para abrirlo',
                 tipoActividad: 'Cuestionario',
@@ -1674,6 +1702,7 @@ class CursosDataAdapter extends CursoRepository {
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
                 indice: 29,
+                habilidades: [1,1,1,1],
                 descripcion:
                     'Juan necesita de tu ayuda!\n\nGuíalo para recoger la gema del agua de color azul.\n\nPuedes recoger la llave para pasar por la puerta dorada y así llegar más rápido y recoger la gema.',
                 tipoActividad: 'Laberinto',
@@ -1742,6 +1771,7 @@ class CursosDataAdapter extends CursoRepository {
                 nombre: 'Actividad Cuestionario de ',
                 estado: 'Activa',
                 indice: 30,
+                habilidades: [0,1,1,1],
                 descripcion:
                     'Ayuda a Juan a llegar hasta el cofre.\nNo pases por el fuego\nRecoge la gema de color rojo\nRecoge la llave para abrir el cofre',
                 tipoActividad: 'Cuestionario',
@@ -1862,6 +1892,7 @@ class CursosDataAdapter extends CursoRepository {
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
                 indice: 30,
+                habilidades: [0,1,1,1],
                 descripcion:
                     'Juan necesita de tu ayuda!\n\nGuíalo para recoger la gema del fuego que es de color rojo, luego llegar a la salida.\n\nUsa las escaleras para llegar al otro lado del abismo y NO recogas la gema verde.',
                 tipoActividad: 'Laberinto',
@@ -1936,6 +1967,7 @@ class CursosDataAdapter extends CursoRepository {
               nombre: 'Actividad Desconectada',
               estado: 'Activa',
               indice: 31,
+              habilidades: [0,1,1,0],
               descripcion:
                   '¡Bienvenidos a estas divertidas aventuras de Pensamiento Computacional! \nPara solucionarlas no necesitas de una computadora. Tu super inteligencia y creatividad te ayudarán a resolverlas.',
               tipoActividad: 'Desconectada',

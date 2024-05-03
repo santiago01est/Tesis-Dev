@@ -13,6 +13,11 @@ class BDCursosCubit extends Cubit<List<Curso>> {
     emit([]);
   }
 
+  //obtener el curso demo
+  Curso getCursoDemo(){
+    return state.first;
+  }
+
   // Método para agregar un curso a la lista actual
   void agregarCurso(Curso nuevoCurso) {
     List<Curso> cursos = List.from(state); // Crea una nueva lista

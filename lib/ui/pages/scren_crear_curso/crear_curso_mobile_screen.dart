@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/unidad_casos_uso/unidad_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
@@ -9,6 +11,7 @@ import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
+import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_profesor.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/combobox/combobox_ubicacion.dart';
@@ -98,10 +101,18 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
     });
   }
 
+  late InitData _cursosProfesoresCasoUso;
+
   @override
   void initState() {
     super.initState();
     _fetchDepartamentos();
+     _cursosProfesoresCasoUso = InitData(
+      cursosCasoUso: getIt<CursosCasoUso>(),
+      profesorCasoUso: getIt<ProfesorCasoUso>(),
+      context: context,
+    );
+    _cursosProfesoresCasoUso.obtenerCursosYProfesoresYUnidades('1');
   }
 
   Future<void> _fetchDepartamentos() async {
@@ -696,8 +707,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                 router.go('/estudio');
                                 //TODO: Validar la información
 
-                                List<Unidad> listaUnidades =
-                                    unidadCasoUso.getUnidadesPrueba();
+                               
                                 Curso curso = Curso(
                                     id: _nombreCursoController.text +
                                         profesorCubit.state.nombre!,
@@ -715,7 +725,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                     fechaFinalizacion: "",
                                     estado: true,
                                     estudiantes: listaEstudiantes,
-                                    unidades: listaUnidades);
+                                    unidades: context.read<UnidadesCubit>().state);
                                 //TODO: Llamar a la API para guardar la información
                                 cursosCasoUso.guardarCurso(curso);
                                 // Guardar en Cubit

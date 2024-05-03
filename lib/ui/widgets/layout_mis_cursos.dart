@@ -1,8 +1,6 @@
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
-import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
-import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
