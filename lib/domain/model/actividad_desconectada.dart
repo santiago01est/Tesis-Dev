@@ -12,6 +12,7 @@ class ActividadDesconectada extends Actividad {
       super.indice,
       super.tipoActividad,
       super.pesoRespuestas,
+      super.habilidades,
       this.ejercicioImage,
       this.ejemploImage});
 }

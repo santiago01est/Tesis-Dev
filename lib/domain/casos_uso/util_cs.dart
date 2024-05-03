@@ -12,6 +12,7 @@ import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class InitData {
@@ -36,15 +37,8 @@ class InitData {
 
   Future<void> obtenerCursosYProfesoresYUnidades(String id) async {
     if (context.read<BDCursosCubit>().state.isEmpty) {
-      await _fetchCursos();
-      await _fetchProfesores();
-      await _fetchCursoYUnidad(id);
-      await _fetchSeguimientosCurso(id);
-      //TODO: obtener sesion estudiantes si el rol es estudiante
-      context.read<RolCubit>().actualizarRol('estudiante');
-      //Obtener sesion estudiantes si el rol es estudiante
-      // Leer y mostrar la lista guardada
-      List<int>? jsonString = await readStringList('idsEstudiantes');
+
+      List<int>? jsonString = await leerStringList('idsEstudiantes');
       // Si la lista no está vacía, convertirla a una lista de Estudiante
       if (jsonString != null) {
         List<Estudiante> estudiantes =
@@ -53,8 +47,19 @@ class InitData {
       } else {
         //TODO: obtener sesion estudiantes si el rol es estudiante
         //TODO: obtener sesion del profesor
-        context.read<RolCubit>().actualizarRol('profesor');
+        //context.read<RolCubit>().actualizarRol('profesor');
+        GoRouter.of(context).pushReplacement('/');
+        
       }
+      await _fetchCursos();
+      await _fetchProfesores();
+      await _fetchCursoYUnidad(id);
+      await _fetchSeguimientosCurso(id);
+      //TODO: obtener sesion estudiantes si el rol es estudiante
+      context.read<RolCubit>().actualizarRol('estudiante');
+      //Obtener sesion estudiantes si el rol es estudiante
+      // Leer y mostrar la lista guardada
+      
     } else {
       await _fetchCursoYUnidad(id);
       await _fetchSeguimientosCurso(id);
@@ -104,7 +109,7 @@ class InitData {
     }
   }
 
-  Future<List<int>?> readStringList(String key) async {
+  Future<List<int>?> leerStringList(String key) async {
     final prefs = await SharedPreferences.getInstance();
     String? jsonString = prefs.getString(key); // Obtener la cadena JSON
 
@@ -117,6 +122,34 @@ class InitData {
       return null;
     }
   }
+
+  Future<bool> isSesion() async{
+
+    final prefs = await SharedPreferences.getInstance();
+    String? jsonString = prefs.getString('idsEstudiantes'); // Obtener la cadena JSON
+
+    if (jsonString != null) {
+      
+      return true;
+    } else {
+      // Si la clave no existe o la cadena JSON es nula, devolver null
+      return false;
+    }
+
+  }
+
+   Future<void> cerrarSesionEstudiante(String key) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.remove(key); // Eliminar la entrada con la clave especificada
+  
+  context.read<EstudiantesCubit>().limpiarCubit();
+  context.read<CursoCubit>().limpiarCubit();
+  context.read<UnidadesCubit>().limpiarCubit();
+  context.read<SeguimientosEstudiantesCubit>().limpiarCubit();
+  context.read<BDCursosCubit>().limpiarCubit();
+  context.read<ProfesoresCubit>().limpiarCubit();
+  GoRouter.of(context).pushReplacement('/');
+}
 
   Future<void> _fetchSeguimientosCurso(String cursoId) async {
     context.read<SeguimientosEstudiantesCubit>().subirSeguimientos([

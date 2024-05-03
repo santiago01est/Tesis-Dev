@@ -1,4 +1,8 @@
+import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
+import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:flutter/material.dart';
@@ -22,8 +26,18 @@ class CustomNavigationBarActividad extends StatelessWidget
     required this.onLogout,
   });
 
+  
+
   @override
   Widget build(BuildContext context) {
+
+    late InitData cs_init = InitData(
+      cursosCasoUso: getIt<CursosCasoUso>(),
+      profesorCasoUso: getIt<ProfesorCasoUso>(),
+      context: context,
+    );
+
+
     final estudiantesCubit = context.read<EstudiantesCubit>();
     final router = GoRouter.of(context);
     return AppBar(
@@ -66,6 +80,25 @@ class CustomNavigationBarActividad extends StatelessWidget
             }
           },
         ),
+        SizedBox(width: 10),
+        PopupMenuButton(
+          itemBuilder: (BuildContext context) {
+            return <PopupMenuEntry>[
+              PopupMenuItem(
+                child: Text('Cerrar sesión'),
+                value: 'Opción 1',
+                onTap: () {
+                  _showLogoutMenu(context, cs_init);
+                },
+              ),
+              
+              // Add more PopupMenuItems as needed
+            ];
+          },
+          onSelected: (value) {
+            // Handle selection
+          },
+        ),
       ],
     );
   }
@@ -80,7 +113,7 @@ class CustomNavigationBarActividad extends StatelessWidget
     return avatares; // Ruta del avatar
   }
 
-  void _showLogoutMenu(BuildContext context) {
+  void _showLogoutMenu(BuildContext context, InitData cs_init) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -91,7 +124,7 @@ class CustomNavigationBarActividad extends StatelessWidget
               leading: Icon(Icons.exit_to_app),
               title: Text('Cerrar sesión'),
               onTap: () {
-                onLogout(); // Llamar a la función de cierre de sesión
+                cs_init.cerrarSesionEstudiante('idsEstudiantes');
                 Navigator.pop(context); // Cerrar el menú
               },
             ),

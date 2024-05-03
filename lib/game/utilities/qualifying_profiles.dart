@@ -8,6 +8,8 @@ int generalProfile(Map<String, bool> respuesta) {
     return 4;
   } else if (llegoAMeta && !mejorCamino && noChoco && recogioObjeto) {
     return 3;
+  } else if (llegoAMeta && mejorCamino && noChoco && !recogioObjeto) {
+    return 3;
   } else if (!llegoAMeta && !mejorCamino && noChoco && !recogioObjeto) {
     return 2;
   } else if (llegoAMeta && !mejorCamino && !noChoco && recogioObjeto) {

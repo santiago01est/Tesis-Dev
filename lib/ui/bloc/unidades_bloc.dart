@@ -12,6 +12,10 @@ class UnidadesCubit extends Cubit<List<Unidad>> {
     emit(unidades);
   }
 
+  void limpiarCubit(){
+    emit([]);
+  }
+
   void addUnidades(Unidad unidad) {
     emit([...state, unidad]);
 }

@@ -6,6 +6,7 @@ import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/profesor.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
+import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/components/cards/curso_cards.dart';
@@ -194,8 +195,14 @@ class _HomeMobileState extends State<HomeMobile> {
                                               router.push(
                                                   '/panelcurso/${cursos[index].id}');
                                             } else {
-                                              PopupUtils.showCodeAccessPopup(
-                                                  context, cursos[index]);
+                                              if(context.read<EstudiantesCubit>().state.isEmpty){
+                                                  PopupUtils.showCodeAccessPopup(
+                                                    context, cursos[index]);
+
+                                                }else{
+                                                  router.push(
+                                                      '/panelcurso/${cursos[index].id}');
+                                                }
                                             }
                                           },
                                           child: CursoCard(

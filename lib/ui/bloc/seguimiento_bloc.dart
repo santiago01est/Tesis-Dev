@@ -23,6 +23,10 @@ class SeguimientosEstudiantesCubit extends Cubit<List<Seguimiento>> {
     emit(list);
   }
 
+  void limpiarCubit(){
+    emit([]);
+  }
+
   void actualizarRespuestasActividadesEstudiantes(
       List<int> idsEstudiantes, int numeroRespuesta, int ubicacion) {
     emit(state.map((seguimiento) {

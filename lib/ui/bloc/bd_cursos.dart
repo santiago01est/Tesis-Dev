@@ -9,6 +9,9 @@ class BDCursosCubit extends Cubit<List<Curso>> {
   void subirCursos(List<Curso> cursos) {
     emit(cursos);
   }
+  void limpiarCubit(){
+    emit([]);
+  }
 
   // Método para agregar un curso a la lista actual
   void agregarCurso(Curso nuevoCurso) {

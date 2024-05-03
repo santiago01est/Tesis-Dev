@@ -227,8 +227,15 @@ class _HomeWebState extends State<HomeWeb> {
                                                 router.push(
                                                     '/panelcurso/${cursos[index].id}');
                                               } else {
-                                                PopupUtils.showCodeAccessPopup(
+                                                if(context.read<EstudiantesCubit>().state.isEmpty){
+                                                  PopupUtils.showCodeAccessPopup(
                                                     context, cursos[index]);
+
+                                                }else{
+                                                  router.push(
+                                                      '/panelcurso/${cursos[index].id}');
+                                                }
+                                                
                                               }
                                             },
                                             child: CursoCard(

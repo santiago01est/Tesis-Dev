@@ -11,6 +11,10 @@ class CursoCubit extends Cubit<Curso> {
     emit(curso);
   }
 
+  void limpiarCubit(){
+    emit(Curso());
+  }
+
   // Método para buscar un estudiante por nombre
   Estudiante? buscarEstudiantePorNombre(String nombreEstudiante) {
     // Obtenemos el estado actual del curso

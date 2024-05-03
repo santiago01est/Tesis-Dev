@@ -4,6 +4,7 @@ import 'package:dev_tesis/domain/model/actividad_desconectada.dart';
 import 'package:dev_tesis/ui/bloc/actividad_custio_test.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
+import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_actividad.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
@@ -84,7 +85,7 @@ class _ActividadDesconectadaScreenState
                       IntrinsicHeight(
                         child: BannerInfoActividades(
                           indice: actividadDesconectada.indice!,
-                          habilidades: [1, 0, 0, 1],
+                          habilidades: actividadDesconectada.habilidades!,
                           titulo:
                               '$nombreUnidad \nActividad ${unidadesCubit.obtenerIndiceActividadEnUnidad(actividadDesconectada.id!)! + 1}',
                         ),
@@ -114,6 +115,12 @@ class _ActividadDesconectadaScreenState
                                 path: "assets/items/ButtonBlue.png",
                                 text: 'Siguiente',
                                 onPressed: () {
+                                  context.read<SeguimientosEstudiantesCubit>()
+                      .actualizarRespuestasActividadesEstudiantes(
+                      context.read<EstudiantesCubit>().obtenerIds(),1,
+                                                        unidadesCubit
+                                                            .indiceActividadPorId(
+                                                                actividadDesconectada!.id!)!);
                                   _mostrarDialogoSiguienteActividad(
                                       context,
                                       router,
@@ -158,6 +165,7 @@ class _ActividadDesconectadaScreenState
               path: "assets/items/ButtonBlue.png",
               text: 'Siguiente',
               onPressed: () {
+                
                 if (context
                     .read<UnidadesCubit>()
                     .esUltimaActividadGlobal(actividadCuestionario.id!)) {

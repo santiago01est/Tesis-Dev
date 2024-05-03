@@ -9,7 +9,7 @@ import 'package:flame/game.dart';
 
 class GameActivity extends FlameGame with HasKeyboardHandlerComponents, HasCollisionDetection{
   final String nombretmx;
-  GameActivity(this.nombretmx);
+  GameActivity(this.nombretmx );
   @override
   Color backgroundColor()=> const Color.fromARGB(0, 0, 0, 0);
   late final CameraComponent cam;
@@ -28,8 +28,5 @@ class GameActivity extends FlameGame with HasKeyboardHandlerComponents, HasColli
     return super.onLoad();
   }
 
-  /* asignarRespuesta(int respuesta){
-    player.asignarRespuesta(respuesta);
-  } */
-
 }
+

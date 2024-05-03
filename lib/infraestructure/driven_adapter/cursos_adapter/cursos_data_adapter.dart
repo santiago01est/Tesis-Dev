@@ -6,6 +6,7 @@ import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
+import 'package:dev_tesis/game/player/player.dart';
 
 class CursosDataAdapter extends CursoRepository {
   @override
@@ -14,19 +15,19 @@ class CursosDataAdapter extends CursoRepository {
 
     Curso c1 = Curso(
         id: '1',
-        nombre: 'Curso Quinto C',
+        nombre: 'Curso Demo',
         codigoAcceso: '1234',
         departamento: 'Quindío',
-        ciudad: 'Calarca',
-        colegio: 'IE General Santander',
+        ciudad: 'Armenia',
+        colegio: 'Universidad del Quindío',
         profesor: '1',
         portada: 'assets/fondos/FondoInicio.png',
         estado: true,
-        numEstudiantes: 10,
+        numEstudiantes: 2,
         descripcion:
             "Este es un espacio para el desarrollo y evaluacion del pensamiento computacional, para el grupo Quinto C. Donde puedes aprender y divertirte en el mundo de los algoritmos, los patrones y más.",
-        fechaCreacion: '2023-12-01',
-        fechaFinalizacion: '2022-01-01',
+        fechaCreacion: '2024-05-03',
+        fechaFinalizacion: '2024-05-17',
         unidades: [
           Unidad(
               id: '0',
@@ -47,22 +48,22 @@ class CursosDataAdapter extends CursoRepository {
                     ejercicioImage: '',
                     respuestas: [
                       [
-                        'Avanzar.png',
+                        'Derecha.png',
                         'Abajo.png',
-                        'Avanzar.png',
+                        'Derecha.png',
                         'Abajo.png',
                       ],
                       [
-                        'Avanzar.png',
+                        'Derecha.png',
                         'Abajo.png',
                         'Abajo.png',
-                        'Avanzar.png',
+                        'Derecha.png',
                       ],
-                      ['Avanzar.png', 'Avanzar.png', 'Abajo.png', 'Abajo.png'],
+                      ['Derecha.png', 'Derecha.png', 'Abajo.png', 'Abajo.png'],
                       [
-                        'Avanzar.png',
+                        'Derecha.png',
                         'Abajo.png',
-                        'Avanzar.png',
+                        'Derecha.png',
                       ]
                     ],
                     pesoRespuestas: [3, 4, 2, 1],
@@ -83,24 +84,24 @@ class CursosDataAdapter extends CursoRepository {
                       [
                         'Abajo.png',
                         'Abajo.png',
-                        'Avanzar.png',
-                        'Avanzar.png',
+                        'Derecha.png',
+                        'Derecha.png',
                       ],
                       [
-                        'Avanzar.png',
+                        'Derecha.png',
                         'Abajo.png',
-                        'Avanzar.png',
+                        'Derecha.png',
                         'Abajo.png',
-                      ],
-                      [
-                        'Abajo.png',
-                        'Avanzar.png',
                       ],
                       [
                         'Abajo.png',
-                        'Avanzar.png',
+                        'Derecha.png',
+                      ],
+                      [
                         'Abajo.png',
-                        'Avanzar.png',
+                        'Derecha.png',
+                        'Abajo.png',
+                        'Derecha.png',
                       ]
                     ],
                     pesoRespuestas: [2, 3, 1, 4],
@@ -980,9 +981,18 @@ class CursosDataAdapter extends CursoRepository {
                 estado: 'Activa',
                 indice: 16,
                 descripcion:
-                    'Hola El granjero necesita de tu ayuda! Guíalo a encontrar a su gallina.',
+                    'Juan necesita de tu ayuda!\n\nGuíalo a encontrar a su gallina.',
                 tipoActividad: 'Laberinto',
-                nombreArchivo: "Laberinto1"),
+                nombreArchivo: "Laberinto1",
+                mejorCamino: [
+                  'avanzar',
+                  'avanzar',
+                  'avanzar',
+                  'avanzar',
+                  'avanzar',
+                  'avanzar',
+                ],
+                initialState: PlayerState.idleR),
             ActividadCuestionario(
                 id: '17',
                 nombre: 'Buscando el mejor camino',
@@ -1060,9 +1070,22 @@ class CursosDataAdapter extends CursoRepository {
                 estado: 'Activa',
                 indice: 18,
                 descripcion:
-                    'Hola El granjero necesita de tu ayuda! Guíalo a encontrar a la CALABAZA.',
+                    'Tiempo de cosecha!\n\nAyuda a Juan para que llegue a su planta de calabaza 🎃.',
                 tipoActividad: 'Laberinto',
-                nombreArchivo: "Laberinto2"),
+                nombreArchivo: "Laberinto2",
+                mejorCamino: [
+                  'avanzar',
+                  'avanzar',
+                  'giroDeDerecha',
+                  'avanzar',
+                  'avanzar',
+                  'giroDeIzquierda',
+                  'avanzar',
+                  'avanzar',
+                  'avanzar',
+                  'avanzar',
+                ],
+                initialState: PlayerState.idleR),
             ActividadCuestionario(
                 id: '19',
                 nombre: 'Buscando el mejor camino',
@@ -1151,9 +1174,25 @@ class CursosDataAdapter extends CursoRepository {
                 estado: 'Activa',
                 indice: 20,
                 descripcion:
-                    'Hola El granjero necesita de tu ayuda! Guíalo a encontrar a la CALABAZA.',
+                    'Juan necesita de tu ayuda!\n\nMamá pato ha perdido unos de sus huevos y Juan esta ayudandola a buscarlo. Recoge el huevo y llevalo con mamá pato.',
                 tipoActividad: 'Laberinto',
-                nombreArchivo: "Laberinto3"),
+                nombreArchivo: "Laberinto3",
+                mejorCamino: [
+                  'giroDeIzquierda',
+                  'avanzar',
+                  'avanzar',
+                  'avanzar',
+                  'giroDeDerecha',
+                  'avanzar',
+                  'avanzar',
+                  'avanzar',
+                  'avanzar',
+                  'avanzar',
+                  'avanzar',
+                  'avanzar',
+                  'avanzar',
+                ],
+                initialState: PlayerState.idleR),
             ActividadCuestionario(
                 id: '21',
                 nombre: 'Buscando el mejor camino',
@@ -1255,9 +1294,29 @@ class CursosDataAdapter extends CursoRepository {
                 estado: 'Activa',
                 indice: 22,
                 descripcion:
-                    'El pequeño pollito Tito se ha perdido cerca del puente. Recogelo  y llévalo al gallinero con su familia',
+                    'Juan necesita de tu ayuda!\n\nEl pequeño pollito Tito se ha perdido cerca del puente. Recogelo  y llévalo al gallinero.',
                 tipoActividad: 'Laberinto',
-                nombreArchivo: "Laberinto4"),
+                nombreArchivo: "Laberinto4",
+                mejorCamino: [
+                  'giroDeIzquierda',
+                  'avanzar',
+                  'avanzar',
+                  'avanzar',
+                  'avanzar',
+                  'avanzar',
+                  'giroDeDerecha',
+                  'avanzar',
+                  'avanzar',
+                  'avanzar',
+                  'avanzar',
+                  'avanzar',
+                  'avanzar',
+                  'avanzar',
+                  'avanzar',
+                  'giroDeIzquierda',
+                  'avanzar',
+                ],
+                initialState: PlayerState.idleR),
             ActividadCuestionario(
                 id: '23',
                 nombre: 'Buscando el mejor camino',
@@ -1373,9 +1432,20 @@ class CursosDataAdapter extends CursoRepository {
                 estado: 'Activa',
                 indice: 25,
                 descripcion:
-                    'El pequeño pollito Tito se ha perdido cerca del puente. Recogelo  y llévalo al gallinero con su familia',
+                    'Juan se fue a explorar un viejo templo.\n\nGuíalo a encontrar la entrada al templo.',
                 tipoActividad: 'Laberinto',
-                nombreArchivo: "Laberinto4"),
+                nombreArchivo: "Laberinto5",
+                mejorCamino: [
+                  'giroDeDerecha',
+                  [
+                    'avanzar',
+                    'avanzar',
+                    'avanzar',
+                    'avanzar',
+                    'avanzar',
+                  ]
+                ],
+                initialState: PlayerState.idleL),
             ActividadCuestionario(
                 id: '26',
                 nombre: 'Actividad Cuestionario de ',
@@ -1428,31 +1498,31 @@ class CursosDataAdapter extends CursoRepository {
                 ejercicioImage: '',
                 respuestas: [
                   [
-                    'Derecha.png',
-                    'Derecha.png',
-                    'Derecha.png',
-                    'Derecha.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
                   ],
                   [
                     {
                       'Repeticion': 3,
-                      'Respuestas': ['Derecha.png']
+                      'Respuestas': ['Avanzar.png']
                     },
                     'Agarrar.png',
                   ],
                   [
-                    'Derecha.png',
+                    'Avanzar.png',
                     {
                       'Repeticion': 3,
-                      'Respuestas': ['Derecha.png']
+                      'Respuestas': ['Avanzar.png']
                     },
                     'Agarrar.png',
                   ],
                   [
-                    'Derecha.png',
+                    'Avanzar.png',
                     'GirarDerecha.png',
-                    'Derecha.png',
-                    'Derecha.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
                   ]
                 ],
                 pesoRespuestas: [3, 2, 4, 1],
@@ -1463,9 +1533,33 @@ class CursosDataAdapter extends CursoRepository {
                 estado: 'Activa',
                 indice: 27,
                 descripcion:
-                    'El pequeño pollito Tito se ha perdido cerca del puente. Recogelo  y llévalo al gallinero con su familia',
+                    'Jhon necesita de tu ayuda!\n\nGuialo para recoger la gema del sol que es de color amarilla.\n\nRecoge la bolsa con comida que encontraras en el camino.',
                 tipoActividad: 'Laberinto',
-                nombreArchivo: "Laberinto4"),
+                nombreArchivo: "Laberinto6",
+                mejorCamino: [
+                  [
+                    'avanzar',
+                    'giroDeDerecha',
+                    'avanzar',
+                    'avanzar',
+                    'giroDeDerecha',
+                    'avanzar',
+                  ],
+                  [
+                    'avanzar',
+                    'giroDeIzquierda',
+                    'avanzar',
+                    'avanzar',
+                    'giroDeIzquierda',
+                    'avanzar',
+                  ],
+                  [
+                    'avanzar',
+                    'avanzar',
+                    'avanzar',
+                  ],
+                ],
+                initialState: PlayerState.idleR),
             ActividadCuestionario(
                 id: '28',
                 nombre: 'Actividad Cuestionario de ',
@@ -1518,23 +1612,23 @@ class CursosDataAdapter extends CursoRepository {
                 ejercicioImage: '',
                 respuestas: [
                   [
-                    'Derecha.png',
+                    'Avanzar.png',
                     'GirarDerecha.png',
-                    'Derecha.png',
+                    'Avanzar.png',
                     'Agarrar.png',
                     'GirarIzq.png',
-                    'Derecha.png',
-                    'Derecha.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
                     'GirarDerecha.png',
-                    'Derecha.png',
+                    'Avanzar.png',
                   ],
                   [
                     {
                       'Repeticion': 2,
                       'Respuestas': [
-                        'Derecha.png',
+                        'Avanzar.png',
                         'GirarDerecha.png',
-                        'Derecha.png',
+                        'Avanzar.png',
                       ]
                     },
                   ],
@@ -1542,35 +1636,35 @@ class CursosDataAdapter extends CursoRepository {
                     {
                       'Repeticion': 1,
                       'Respuestas': [
-                        'Derecha.png',
+                        'Avanzar.png',
                         'GirarIzq.png',
-                        'Derecha.png',
+                        'Avanzar.png',
                       ]
                     },
                     'GirarIzq.png',
-                    'Derecha.png',
-                    'Derecha.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
                     'GirarIzq.png',
-                    'Derecha.png',
-                    'Derecha.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
                     'GirarDerecha.png',
-                    'Derecha.png',
+                    'Avanzar.png',
                     'GirarDerecha.png',
-                    'Derecha.png',
-                    'Derecha.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
                   ],
                   [
                     {
                       'Repeticion': 2,
                       'Respuestas': [
-                        'Derecha.png',
+                        'Avanzar.png',
                         'GirarDerecha.png',
-                        'Derecha.png',
+                        'Avanzar.png',
                         'GirarIzq.png',
                       ]
                     },
                     'Agarrar.png',
-                    'Derecha.png',
+                    'Avanzar.png',
                   ]
                 ],
                 pesoRespuestas: [3, 2, 1, 4],
@@ -1581,9 +1675,68 @@ class CursosDataAdapter extends CursoRepository {
                 estado: 'Activa',
                 indice: 29,
                 descripcion:
-                    'El pequeño pollito Tito se ha perdido cerca del puente. Recogelo  y llévalo al gallinero con su familia',
+                    'Juan necesita de tu ayuda!\n\nGuíalo para recoger la gema del agua de color azul.\n\nPuedes recoger la llave para pasar por la puerta dorada y así llegar más rápido y recoger la gema.',
                 tipoActividad: 'Laberinto',
-                nombreArchivo: "Laberinto4"),
+                nombreArchivo: "Laberinto7",
+                mejorCamino: [
+                  [
+                    'giroDeIzquierda',
+                    'avanzar',
+                    'giroDeDerecha',
+                    'avanzar',
+                    'giroDeIzquierda',
+                    'avanzar',
+                    'giroDeDerecha',
+                    'avanzar',
+                  ],
+                  'giroDeDerecha',
+                  'avanzar',
+                  'giroDeIzquierda',
+                  [
+                    'avanzar',
+                    'avanzar',
+                    'avanzar',
+                  ],
+                  'giroDeDerecha',
+                  'avanzar',
+                  'giroDeIzquierda',
+                  [
+                    'avanzar',
+                    'avanzar',
+                    'avanzar',
+                  ],
+                  'avanzar',
+                ],
+                mejorCamino2: [
+                  [
+                    'giroDeIzquierda',
+                    'avanzar',
+                    'giroDeDerecha',
+                    'avanzar',
+                    'giroDeIzquierda',
+                    'avanzar',
+                    'giroDeDerecha',
+                    'avanzar',
+                  ],
+                  'giroDeDerecha',
+                  'avanzar',
+                  'giroDeIzquierda',
+                  [
+                    'avanzar',
+                    'avanzar',
+                    'avanzar',
+                  ],
+                  'giroDeDerecha',
+                  'avanzar',
+                  'giroDeIzquierda',
+                  'avanzar',
+                  [
+                    'avanzar',
+                    'avanzar',
+                    'avanzar',
+                  ],
+                ],
+                initialState: PlayerState.idleR),
             ActividadCuestionario(
                 id: '30',
                 nombre: 'Actividad Cuestionario de ',
@@ -1637,73 +1790,160 @@ class CursosDataAdapter extends CursoRepository {
                 respuestas: [
                   [
                     'GirarDerecha.png',
-                    'Derecha.png',
-                    'Derecha.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
                     'GirarIzq.png',
-                    'Derecha.png',
-                    'Derecha.png',
-                    'Derecha.png',
-                    'Derecha.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
                     'GirarIzq.png',
-                    'Derecha.png',
+                    'Avanzar.png',
                   ],
                   [
                     {
                       'Repeticion': 2,
                       'Respuestas': [
-                        'Derecha.png',
+                        'Avanzar.png',
                         'GirarDerecha.png',
-                        'Derecha.png',
+                        'Avanzar.png',
                       ]
                     },
                     'GirarIzq.png',
-                    'Derecha.png',
-                    'Derecha.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
                     'Agarrar.png',
                   ],
                   [
-                    'Derecha.png',
+                    'Avanzar.png',
                     'GirarDerecha.png',
-                    'Derecha.png',
-                    'Derecha.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
                     'GirarIzq.png',
-                    'Derecha.png',
-                    'Derecha.png',
+                    'Avanzar.png',
+                    'Avanzar.png',
                     'GirarIzq.png',
-                    'Derecha.png',
+                    'Avanzar.png',
                     'Agarrar.png',
                     'GirarDerecha.png',
-                    'Derecha.png',
+                    'Avanzar.png',
                   ],
                   [
                     'GirarDerecha.png',
                     {
                       'Repeticion': 3,
-                      'Respuestas': ['Derecha.png']
+                      'Respuestas': ['Avanzar.png']
                     },
                     'Agarrar.png',
                     {
                       'Repeticion': 2,
                       'Respuestas': ['GirarIzq.png']
                     },
-                    'Derecha.png',
+                    'Avanzar.png',
                     'GirarDerecha.png',
                     {
                       'Repeticion': 3,
-                      'Respuestas': ['Derecha.png']
+                      'Respuestas': ['Avanzar.png']
                     },
                     'GirarIzq.png',
                     {
                       'Repeticion': 2,
-                      'Respuestas': ['Derecha.png']
+                      'Respuestas': ['Avanzar.png']
                     },
                     'Agarrar.png',
                     'GirarDerecha.png',
-                    'Derecha.png',
+                    'Avanzar.png',
                   ]
                 ],
                 pesoRespuestas: [2, 1, 3, 4],
                 respuestaCorrecta: 4),
+            ActividadLaberinto(
+                id: '30',
+                nombre: 'Primeros Pasos',
+                estado: 'Activa',
+                indice: 30,
+                descripcion:
+                    'Juan necesita de tu ayuda!\n\nGuíalo para recoger la gema del fuego que es de color rojo, luego llegar a la salida.\n\nUsa las escaleras para llegar al otro lado del abismo y NO recogas la gema verde.',
+                tipoActividad: 'Laberinto',
+                nombreArchivo: "Laberinto8",
+                mejorCamino: [
+                  [
+                    'avanzar',
+                    'avanzar',
+                    'avanzar',
+                  ],
+                  [
+                    'avanzar',
+                    'avanzar',
+                  ],
+                  [
+                    'giroDeDerecha',
+                    'giroDeDerecha',
+                  ],
+                  [
+                    'avanzar',
+                    'avanzar',
+                    'avanzar',
+                  ],
+                  [
+                    'giroDeIzquierda',
+                    'avanzar',
+                    'giroDeDerecha',
+                    'avanzar',
+                    'giroDeIzquierda',
+                    'avanzar',
+                    'giroDeDerecha',
+                    'avanzar',
+                  ],
+                  'giroDeIzquierda',
+                  'avanzar',
+                ],
+                mejorCamino2: [
+                  [
+                    'avanzar',
+                    'avanzar',
+                  ],
+                  [
+                    'avanzar',
+                    'avanzar',
+                    'avanzar',
+                  ],
+                  [
+                    'giroDeDerecha',
+                    'giroDeDerecha',
+                  ],
+                  [
+                    'avanzar',
+                    'avanzar',
+                    'avanzar',
+                  ],
+                  [
+                    'giroDeIzquierda',
+                    'avanzar',
+                    'giroDeDerecha',
+                    'avanzar',
+                    'giroDeIzquierda',
+                    'avanzar',
+                    'giroDeDerecha',
+                    'avanzar',
+                  ],
+                  'giroDeIzquierda',
+                  'avanzar',
+                ],
+                initialState: PlayerState.idleL),
+            ActividadDesconectada(
+              id: '31',
+              nombre: 'Actividad Desconectada',
+              estado: 'Activa',
+              indice: 31,
+              descripcion:
+                  '¡Bienvenidos a estas divertidas aventuras de Pensamiento Computacional! \nPara solucionarlas no necesitas de una computadora. Tu super inteligencia y creatividad te ayudarán a resolverlas.',
+              tipoActividad: 'Desconectada',
+              ejemploImage: 'ejemploactividaddesconectada1.png',
+              ejercicioImage:
+                  '/assets/items/ejemplosImg/actividaddesconectada2.png',
+              pesoRespuestas: [0, 0, 0, 0],
+            ),
           ]),
         ],
         estudiantes: [
@@ -1714,28 +1954,9 @@ class CursosDataAdapter extends CursoRepository {
           Estudiante(
             id: 2,
             nombre: 'Sofia González Perez',
-            avatar: 'assets/avatares/orquidea_avatar.png',
-          ),
-          Estudiante(
-            id: 3,
-            nombre: 'Nicolas Rodriguez Hernandez',
-            avatar: 'assets/avatares/pollitos_avatar.png',
-          ),
-          Estudiante(
-            id: 4,
-            nombre: 'Sergio Torres Diaz',
-            avatar: 'assets/avatares/osoanteojos_avatar.png',
-          ),
-          Estudiante(
-            id: 5,
-            nombre: 'Estefania Gutierrez Gutierrez',
-            avatar: 'assets/avatares/chiguiro_avatar.png',
-          ),
-          Estudiante(
-            id: 6,
-            nombre: 'Camila Salazar Salazar',
             avatar: 'assets/avatares/mujergranjera_avatar.png',
-          )
+          ),
+          
         ]);
     Curso c2 = Curso(
         id: '2',
@@ -1853,355 +2074,9 @@ class CursosDataAdapter extends CursoRepository {
             avatar: 'assets/avatares/gato_avatar.png',
           )
         ]);
-    Curso c3 = Curso(
-        id: '3',
-        nombre: 'Curso Tercero A',
-        codigoAcceso: '12345',
-        departamento: 'Departamento 3',
-        ciudad: 'Ciudad 3',
-        colegio: 'Colegio 3',
-        profesor: '3',
-        portada: 'assets/fondos/FondoHome.png',
-        estado: true,
-        numEstudiantes: 10,
-        descripcion:
-            "Curso para mis estudiantes de Tercer grado para el desarrollo del pensamiento computacional",
-        fechaCreacion: '2022-01-01',
-        fechaFinalizacion: '2022-01-01',
-        unidades: [
-          Unidad(id: '1', nombre: 'Unidad 1', estado: 'Activa', actividades: [
-            Actividad(
-              id: '1',
-              nombre: 'Actividad 1',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '2',
-              nombre: 'Actividad 2',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '3',
-              nombre: 'Actividad 3',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '4',
-              nombre: 'Actividad 4',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '5',
-              nombre: 'Actividad 5',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-          ]),
-          Unidad(id: '2', nombre: 'Unidad 2', estado: 'Activa', actividades: [
-            Actividad(
-              id: '6',
-              nombre: 'Actividad 6',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '7',
-              nombre: 'Actividad 7',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '8',
-              nombre: 'Actividad 8',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '9',
-              nombre: 'Actividad 9',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '10',
-              nombre: 'Actividad 10',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-          ])
-        ],
-        estudiantes: [
-          Estudiante(
-              nombre: 'Andres Perez Perez',
-              avatar: 'assets/avatares/gato_avatar.png'),
-          Estudiante(
-            nombre: 'Sofia González Perez',
-            avatar: 'assets/avatares/perico_avatar.png',
-          ),
-          Estudiante(
-            nombre: 'Nicolas Rodriguez Hernandez',
-            avatar: 'assets/avatares/chiguiro_avatar.png',
-          ),
-          Estudiante(
-            nombre: 'Sergio Torres Diaz',
-            avatar: 'assets/avatares/gato_avatar.png',
-          ),
-          Estudiante(
-            nombre: 'Estefania Gutierrez Gutierrez',
-            avatar: 'assets/avatares/gato_avatar.png',
-          ),
-          Estudiante(
-            nombre: 'Camila Salazar Salazar',
-            avatar: 'assets/avatares/gato_avatar.png',
-          )
-        ]);
-    Curso c4 = Curso(
-        id: '4',
-        nombre: 'Curso Quinto A',
-        codigoAcceso: '12345',
-        departamento: 'Departamento 4',
-        ciudad: 'Ciudad 4',
-        colegio: 'Colegio 4',
-        profesor: '4',
-        portada: 'assets/fondos/FondoRegistroProfesor.png',
-        estado: true,
-        numEstudiantes: 10,
-        descripcion:
-            "Espacio para mi curso de Quinto A, donde repasaremos conceptos del pensamiento computacional",
-        fechaCreacion: '2022-01-01',
-        fechaFinalizacion: '2022-01-01',
-        unidades: [
-          Unidad(id: '1', nombre: 'Unidad 1', estado: 'Activa', actividades: [
-            Actividad(
-              id: '1',
-              nombre: 'Actividad 1',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '2',
-              nombre: 'Actividad 2',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '3',
-              nombre: 'Actividad 3',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '4',
-              nombre: 'Actividad 4',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '5',
-              nombre: 'Actividad 5',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-          ]),
-          Unidad(id: '2', nombre: 'Unidad 2', estado: 'Activa', actividades: [
-            Actividad(
-              id: '6',
-              nombre: 'Actividad 6',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '7',
-              nombre: 'Actividad 7',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '8',
-              nombre: 'Actividad 8',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '9',
-              nombre: 'Actividad 9',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '10',
-              nombre: 'Actividad 10',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-          ])
-        ],
-        estudiantes: [
-          Estudiante(
-              nombre: 'Andres Perez Perez',
-              avatar: 'assets/avatares/gato_avatar.png'),
-          Estudiante(
-            nombre: 'Sofia González Perez',
-            avatar: 'assets/avatares/gato_avatar.png',
-          ),
-          Estudiante(
-            nombre: 'Nicolas Rodriguez Hernandez',
-            avatar: 'assets/avatares/gato_avatar.png',
-          ),
-          Estudiante(
-            nombre: 'Sergio Torres Diaz',
-            avatar: 'assets/avatares/perico_avatar.png',
-          ),
-          Estudiante(
-            nombre: 'Estefania Gutierrez Gutierrez',
-            avatar: 'assets/avatares/chiguiro_avatar.png',
-          ),
-          Estudiante(
-            nombre: 'Camila Salazar Salazar',
-            avatar: 'assets/avatares/gato_avatar.png',
-          )
-        ]);
-    Curso c5 = Curso(
-        id: '5',
-        nombre: 'Curso Segundo A',
-        codigoAcceso: '12345',
-        departamento: 'Departamento 5',
-        ciudad: 'Ciudad 5',
-        colegio: 'Colegio 5',
-        profesor: '5',
-        portada: 'assets/fondos/FondoInicio.png',
-        estado: true,
-        numEstudiantes: 10,
-        descripcion:
-            "Curso para mis niños de Segundo grado para introducirlos a conceptos del pensamiento computacional",
-        fechaCreacion: '2022-01-01',
-        fechaFinalizacion: '2022-01-01',
-        unidades: [
-          Unidad(id: '1', nombre: 'Unidad 1', estado: 'Activa', actividades: [
-            Actividad(
-              id: '1',
-              nombre: 'Actividad 1',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '2',
-              nombre: 'Actividad 2',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '3',
-              nombre: 'Actividad 3',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '4',
-              nombre: 'Actividad 4',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '5',
-              nombre: 'Actividad 5',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-          ]),
-          Unidad(id: '2', nombre: 'Unidad 2', estado: 'Activa', actividades: [
-            Actividad(
-              id: '6',
-              nombre: 'Actividad 6',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '7',
-              nombre: 'Actividad 7',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '8',
-              nombre: 'Actividad 8',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '9',
-              nombre: 'Actividad 9',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '10',
-              nombre: 'Actividad 10',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-          ])
-        ],
-        estudiantes: [
-          Estudiante(
-              nombre: 'Andres Perez Perez',
-              avatar: 'assets/avatares/gato_avatar.png'),
-          Estudiante(
-            nombre: 'Sofia González Perez',
-            avatar: 'assets/avatares/gato_avatar.png',
-          ),
-          Estudiante(
-            nombre: 'Nicolas Rodriguez Hernandez',
-            avatar: 'assets/avatares/chiguiro_avatar.png',
-          ),
-          Estudiante(
-            nombre: 'Sergio Torres Diaz',
-            avatar: 'assets/avatares/perico_avatar.png',
-          ),
-          Estudiante(
-            nombre: 'Estefania Gutierrez Gutierrez',
-            avatar: 'assets/avatares/gato_avatar.png',
-          ),
-          Estudiante(
-            nombre: 'Camila Salazar Salazar',
-            avatar: 'assets/avatares/gato_avatar.png',
-          )
-        ]);
-    List<Curso> cursos = [c1, c2, c3, c4, c5];
+    
+    
+    List<Curso> cursos = [c1, c2];
     return Future.value(cursos);
   }
 

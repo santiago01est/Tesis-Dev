@@ -140,7 +140,7 @@ class _ActividadCuestionarioScreenState
                             IntrinsicHeight(
                               child: BannerInfoActividades(
                                 indice: actividadCuestionario.indice!,
-                                habilidades: [1, 0, 0, 1],
+                                habilidades: actividadCuestionario.habilidades!,
                                 titulo:
                                     '$nombreUnidad \nActividad ${unidadesCubit.obtenerIndiceActividadEnUnidad(actividadCuestionario.id!)! + 1}',
                               ),
@@ -315,7 +315,7 @@ class _ActividadCuestionarioScreenState
                             IntrinsicHeight(
                               child: BannerInfoActividades(
                                 indice: actividadCuestionario.indice!,
-                                habilidades: [0, 0, 0, 1],
+                                habilidades:actividadCuestionario.habilidades!,
                                 titulo:
                                     '$nombreUnidad \nActividad ${unidadesCubit.obtenerIndiceActividadEnUnidad(actividadCuestionario.id!)! + 1}',
                               ),
@@ -538,7 +538,12 @@ class _ActividadCuestionarioScreenState
                     print('Siguiente Actividad Cuestionario');
                     router.push(
                         '/cuestionario/${siguienteActividadInfo.idActividad}');
+                  }else if (siguienteActividadInfo.tipoActividad ==
+                      "Desconectada") {
+                    router.push(
+                        '/desconectada/${siguienteActividadInfo.idActividad}');
                   }
+
                 }
 
                 Navigator.of(context).pop(); // Cierra el diálogo

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="12" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="157">
+ <objectgroup id="2" name="Borde" class="templo" visible="0" locked="1">
+  <object id="2" name="borde" type="templo" x="0" y="16" width="192" height="176"/>
+ </objectgroup>
+ <objectgroup id="3" name="Suelo" class="templo" visible="0" locked="1">
+  <object id="1" name="suelo" type="templo" x="16" y="16" width="160" height="160"/>
+ </objectgroup>
+ <objectgroup id="4" name="Suelo-z0" class="templo" visible="0" locked="1">
+  <object id="5" name="lago-ABordesV2" x="64" y="16" width="16" height="16"/>
+  <object id="6" name="lago-IzqV2" x="96" y="16" width="16" height="16"/>
+  <object id="7" name="lago-DerechV2" x="112" y="16" width="16" height="16"/>
+  <object id="8" name="lago-AIzqV2" x="32" y="32" width="16" height="16"/>
+  <object id="9" name="lago-AV2" x="128" y="32" width="16" height="16"/>
+  <object id="10" name="lago-ADerechV2" x="144" y="32" width="16" height="16"/>
+  <object id="11" name="lago-AV2" x="48" y="32" width="16" height="16"/>
+  <object id="12" name="lago-AV2" x="80" y="32" width="16" height="16"/>
+  <object id="13" name="lago2V2" x="112" y="32" width="16" height="16"/>
+  <object id="14" name="lago2V1" x="96" y="32" width="16" height="16"/>
+  <object id="15" name="lago2V2" x="64" y="32" width="16" height="16"/>
+  <object id="17" name="cascadaP1" x="32" y="48" width="16" height="16"/>
+  <object id="18" name="cascadaP2" x="48" y="48" width="16" height="16"/>
+  <object id="19" name="cascadaP3" x="64" y="48" width="16" height="16"/>
+  <object id="20" name="cascadaP4" x="144" y="48" width="16" height="16"/>
+  <object id="21" name="cascadaP2" x="80" y="48" width="16" height="16"/>
+  <object id="22" name="cascadaP3" x="96" y="48" width="16" height="16"/>
+  <object id="23" name="cascadaP2" x="112" y="48" width="16" height="16"/>
+  <object id="24" name="cascadaP2" x="128" y="48" width="16" height="16"/>
+  <object id="25" name="lago-IzqBordesV2" x="16" y="160" width="16" height="16"/>
+  <object id="26" name="lago-DerechBordesV2" x="160" y="160" width="16" height="16"/>
+  <object id="27" name="lago-BV2" x="32" y="160" width="16" height="16"/>
+  <object id="28" name="lago-BV2" x="48" y="160" width="16" height="16"/>
+  <object id="29" name="lago-BV2" x="64" y="160" width="16" height="16"/>
+  <object id="30" name="lago-BV2" x="80" y="160" width="16" height="16"/>
+  <object id="31" name="lago-BV2" x="96" y="160" width="16" height="16"/>
+  <object id="32" name="lago-BV2" x="112" y="160" width="16" height="16"/>
+  <object id="33" name="lago-BV2" x="128" y="160" width="16" height="16"/>
+  <object id="34" name="lago-BV2" x="144" y="160" width="16" height="16"/>
+  <object id="35" name="cascadaP1-2" x="32" y="144" width="16" height="16"/>
+  <object id="36" name="cascadaP2-2" x="48" y="144" width="16" height="16"/>
+  <object id="37" name="cascadaP3-2" x="64" y="144" width="16" height="16"/>
+  <object id="38" name="cascadaP4-2" x="144" y="144" width="16" height="16"/>
+  <object id="39" name="cascadaP2-2" x="80" y="144" width="16" height="16"/>
+  <object id="40" name="cascadaP2-2" x="112" y="144" width="16" height="16"/>
+  <object id="41" name="cascadaP2-2" x="128" y="144" width="16" height="16"/>
+  <object id="42" name="cascadaP3-2" x="96" y="144" width="16" height="16"/>
+  <object id="43" name="pastalV3" x="32" y="16" width="16" height="16"/>
+  <object id="44" name="pastalV3" x="128" y="16" width="16" height="16"/>
+  <object id="45" name="pastalV3" x="160" y="48" width="16" height="16"/>
+  <object id="46" name="pastalV3" x="160" y="144" width="16" height="16"/>
+  <object id="47" name="pastalV1" x="48" y="16" width="16" height="16"/>
+  <object id="48" name="pastalV1" x="144" y="16" width="16" height="16"/>
+  <object id="49" name="pastalV1" x="160" y="32" width="16" height="16"/>
+  <object id="50" name="pastalV1" x="144" y="64" width="16" height="16"/>
+  <object id="51" name="pastalV1" x="160" y="128" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="5" name="Suelo-decoracion" class="templo" visible="0">
+  <object id="101" name="baldosa-oro" x="144" y="96" width="16" height="16"/>
+  <object id="102" name="baldosa-oro" x="160" y="80" width="16" height="16"/>
+  <object id="103" name="baldosa-oro" x="160" y="96" width="16" height="16"/>
+  <object id="104" name="baldosa-oro" x="160" y="112" width="16" height="16"/>
+  <object id="109" name="floresV5" x="32" y="16" width="16" height="16"/>
+  <object id="110" name="floresV6" x="128" y="16" width="16" height="16"/>
+  <object id="111" name="floresV3" x="144" y="64" width="16" height="16"/>
+  <object id="112" name="floresV3" x="160" y="32" width="16" height="16"/>
+  <object id="113" name="floresV1" x="144" y="16" width="16" height="16"/>
+  <object id="114" name="floresV1" x="48" y="16" width="16" height="16"/>
+  <object id="116" name="cofre-lago" x="112" y="32" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="6" name="Decoracion-down" class="templo" visible="0" locked="1">
+  <object id="62" name="rocaV2" x="64" y="64" width="16" height="16"/>
+  <object id="63" name="rocaV2" x="48" y="96" width="16" height="16"/>
+  <object id="64" name="rocaV2" x="16" y="112" width="16" height="16"/>
+  <object id="65" name="rocaV2" x="64" y="112" width="16" height="16"/>
+  <object id="66" name="rocaV2" x="112" y="80" width="16" height="16"/>
+  <object id="67" name="rocaV2" x="112" y="112" width="16" height="16"/>
+  <object id="68" name="antorchaV2" type="animation" x="80" y="96" width="16" height="16"/>
+  <object id="69" name="antorchaV1" type="animation" x="80" y="48" width="16" height="32"/>
+  <object id="71" name="pilar-down" x="112" y="64" width="16" height="16"/>
+  <object id="72" name="pilar-down" x="16" y="64" width="16" height="16"/>
+  <object id="74" name="pilar-down" x="16" y="144" width="16" height="16"/>
+  <object id="75" name="pilar-down" x="16" y="16" width="16" height="16"/>
+  <object id="76" name="pilar-down" x="160" y="16" width="16" height="16"/>
+  <object id="77" name="pilar-down" x="160" y="144" width="16" height="16"/>
+  <object id="78" name="piramide-down" x="80" y="16" width="16" height="16"/>
+  <object id="90" name="antorchaV1" type="animation" x="160" y="48" width="16" height="32"/>
+  <object id="92" name="antorchaV3" type="animation" x="144" y="80" width="16" height="16"/>
+  <object id="93" name="antorchaV3" type="animation" x="144" y="112" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="7" name="Item" class="templo" visible="0">
+  <object id="105" name="llave" type="item" x="40" y="52" width="32" height="32"/>
+  <object id="106" name="puerta" type="puerta" x="104" y="84" width="32" height="32"/>
+  <object id="107" name="gemaAzul" type="victoryItem" x="152" y="84" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup id="8" name="Jugador" class="templo" visible="0">
+  <object id="108" name="jugador" x="8" y="84" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup id="9" name="Decoracion-up" class="templo" visible="0" locked="1">
+  <object id="80" name="piramide-up" x="80" y="0" width="16" height="16"/>
+  <object id="81" name="pilar-up" x="16" y="0" width="16" height="16"/>
+  <object id="82" name="pilar-up" x="160" y="0" width="16" height="16"/>
+  <object id="83" name="pilar-up" x="16" y="48" width="16" height="16"/>
+  <object id="84" name="pilar-up" x="112" y="48" width="16" height="16"/>
+  <object id="85" name="pilar-up" x="16" y="128" width="16" height="16"/>
+  <object id="87" name="antorchaV1" type="animation" x="80" y="112" width="16" height="32"/>
+  <object id="88" name="antorchaV1" type="animation" x="160" y="112" width="16" height="32"/>
+  <object id="91" name="pilar-up" x="160" y="128" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="10" name="Up-decoracion" class="templo" visible="0">
+  <object id="95" name="musgo" x="16" y="0" width="16" height="16"/>
+  <object id="96" name="musgo" x="16" y="128" width="16" height="16"/>
+  <object id="97" name="musgoV2" x="160" y="128" width="16" height="16"/>
+  <object id="98" name="musgoV2" x="160" y="0" width="16" height="16"/>
+  <object id="99" name="corona" x="80" y="0" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="11" name="Colisiones" class="templo">
+  <object id="118" name="colision" x="16" y="64" width="16" height="16"/>
+  <object id="119" name="colision" x="16" y="112" width="16" height="16"/>
+  <object id="120" name="colision" x="0" y="96" width="16" height="16"/>
+  <object id="121" name="colision" x="0" y="80" width="16" height="16"/>
+  <object id="122" name="colision" x="0" y="128" width="16" height="16"/>
+  <object id="123" name="colision" x="16" y="144" width="16" height="16"/>
+  <object id="124" name="colision" x="32" y="144" width="16" height="16"/>
+  <object id="125" name="colision" x="48" y="144" width="16" height="16"/>
+  <object id="126" name="colision" x="64" y="144" width="16" height="16"/>
+  <object id="128" name="colision" x="80" y="128" width="16" height="16"/>
+  <object id="129" name="colision" x="96" y="144" width="16" height="16"/>
+  <object id="130" name="colision" x="112" y="144" width="16" height="16"/>
+  <object id="131" name="colision" x="128" y="144" width="16" height="16"/>
+  <object id="132" name="colision" x="144" y="144" width="16" height="16"/>
+  <object id="133" name="colision" x="160" y="128" width="16" height="16"/>
+  <object id="134" name="colision" x="144" y="112" width="16" height="16"/>
+  <object id="135" name="colision" x="112" y="112" width="16" height="16"/>
+  <object id="136" name="colision" x="64" y="112" width="16" height="16"/>
+  <object id="137" name="colision" x="48" y="96" width="16" height="16"/>
+  <object id="138" name="colision" x="80" y="96" width="16" height="16"/>
+  <object id="140" name="colision" x="112" y="80" width="16" height="16"/>
+  <object id="141" name="colision" x="112" y="64" width="16" height="16"/>
+  <object id="142" name="colision" x="80" y="64" width="16" height="16"/>
+  <object id="143" name="colision" x="64" y="64" width="16" height="16"/>
+  <object id="144" name="colision" x="32" y="48" width="16" height="16"/>
+  <object id="145" name="colision" x="48" y="48" width="16" height="16"/>
+  <object id="146" name="colision" x="96" y="48" width="16" height="16"/>
+  <object id="147" name="colision" x="128" y="48" width="16" height="16"/>
+  <object id="148" name="colision" x="144" y="48" width="16" height="16"/>
+  <object id="149" name="colision" x="144" y="80" width="16" height="16"/>
+  <object id="150" name="colision" x="160" y="64" width="16" height="16"/>
+  <object id="151" name="colision" x="176" y="80" width="16" height="16"/>
+  <object id="152" name="colision" x="176" y="96" width="16" height="16"/>
+  <object id="153" name="colision" x="176" y="112" width="16" height="16"/>
+  <object id="154" name="meta-item" x="160" y="96" width="16" height="16"/>
+  <object id="155" name="item-drop" x="48" y="64" width="16" height="16"/>
+  <object id="156" name="puerta" x="112" y="96" width="16" height="16"/>
+ </objectgroup>
+</map>

@@ -18,6 +18,10 @@ class ProfesoresCubit extends Cubit<List<Profesor>> {
     emit(profesores);
   }
 
+  void limpiarCubit(){
+    emit([]);
+  }
+
   void agregarProfesor(Profesor nuevoProfesor) {
     List<Profesor> profesores = List.from(state); // Crea una nueva lista
     profesores.add(nuevoProfesor);

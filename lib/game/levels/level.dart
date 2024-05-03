@@ -20,13 +20,30 @@ class Level extends World with HasGameRef<GameActivity>{
 
   @override
   FutureOr<void> onLoad() async{
+    cargarNivel();
+    return super.onLoad();
+  }
+
+  SpriteComponent loadImage(TiledObject object, String ruta, [Vector2? size]) {
+    String name= object.name;
+    print('$ruta$name.png');
+    var image=SpriteComponent.fromImage(
+              game.images.fromCache('$ruta$name.png'),
+              position: Vector2(object.x, object.y),
+              size: size ?? Vector2(16, 16),
+    );
+    return image;
+  }
+
+  void cargarNivel() async{
+    
     const RUTA_DECORACION_CAMPO= 'mapa/decoracion-suelo/unidad1-Campo/';
     const RUTA_OBJETOS_UP_DOWN= 'mapa/objetos-UpAndDown/';
     const RUTA_SUELO_CAMPO= 'mapa/suelo/unidad1-Campo/';
-    const RUTA_DECORACION_TEMPO= 'mapa/decoracion-suelo/unidad2-Templo/';
+    const RUTA_DECORACION= 'mapa/decoracion-suelo/';
     const RUTA_SUELO_TEMPLO= 'mapa/suelo/unidad2-Templo/';
     
-    level= await TiledComponent.load('$levelName.tmx', Vector2(16, 16));
+    level= await TiledComponent.load('$levelName.tmx'/* 'Laberinto8.tmx' */, Vector2(16, 16));
     
     add(level);
     final sueloMap= level.tileMap.getLayer<ObjectGroup>('Suelo');
@@ -96,12 +113,12 @@ class Level extends World with HasGameRef<GameActivity>{
       for(final itemMap in sueloDecoracionMap.objects){
         switch(itemMap.class_){
           case '32x32':
-            final image= loadImage(itemMap, RUTA_DECORACION_CAMPO, Vector2(32, 32));
+            final image= loadImage(itemMap, RUTA_DECORACION, Vector2(32, 32));
             image.priority=2;
             add(image);
             break;
           default:
-            final image= loadImage(itemMap, RUTA_DECORACION_CAMPO);
+            final image= loadImage(itemMap, RUTA_DECORACION);
             image.priority=2;
             add(image);
             break;
@@ -113,12 +130,12 @@ class Level extends World with HasGameRef<GameActivity>{
       for(final itemMap in sueloDecoracionMap.objects){
         switch(itemMap.class_){
           case '32x32':
-            final image= loadImage(itemMap, RUTA_DECORACION_TEMPO, Vector2(32, 32));
+            final image= loadImage(itemMap, RUTA_DECORACION, Vector2(32, 32));
             image.priority=2;
             add(image);
             break;
           default:
-            final image= loadImage(itemMap, RUTA_DECORACION_TEMPO);
+            final image= loadImage(itemMap, RUTA_DECORACION);
             image.priority=2;
             add(image);
             break;
@@ -131,12 +148,20 @@ class Level extends World with HasGameRef<GameActivity>{
     if (decoracionDownMap != null){
       for(final itemMap in decoracionDownMap.objects){
         switch(itemMap.class_){
+          case '32x32':
+            final image= loadImage(itemMap, RUTA_OBJETOS_UP_DOWN, Vector2(32, 32));
+            image.priority=2;
+            add(image);
           case '80x32':
             final image= loadImage(itemMap, RUTA_OBJETOS_UP_DOWN, Vector2(80, 32));
             image.priority=2;
             add(image);
           case '48x48':
             final image= loadImage(itemMap, RUTA_OBJETOS_UP_DOWN, Vector2(48, 48));
+            image.priority=2;
+            add(image);
+          case '48x32':
+            final image= loadImage(itemMap, RUTA_OBJETOS_UP_DOWN, Vector2(48, 32));
             image.priority=2;
             add(image);
           case '64x32':
@@ -156,6 +181,16 @@ class Level extends World with HasGameRef<GameActivity>{
             final image= loadImage(itemMap, RUTA_OBJETOS_UP_DOWN, Vector2(16, 32));
             image.priority=2;
             add(image);
+            break;
+          case 'animation':
+          print(itemMap.name);
+            final animationObject= Animation_Object(
+              Vector2(itemMap.x, itemMap.y), 
+              Vector2(itemMap.width, itemMap.height),
+              itemMap.name
+            );
+            animationObject.priority=2;
+            add(animationObject);
             break;
           default:
             final image= loadImage(itemMap, RUTA_OBJETOS_UP_DOWN);
@@ -205,6 +240,39 @@ class Level extends World with HasGameRef<GameActivity>{
             add(animationObject);
             //Cargamos el objeto en el jugador
             player.itemDropComponent=animationObject;
+            break;
+          case 'itemFalso':
+            final animationObject= Animation_Object(
+              Vector2(object.x, object.y), 
+              Vector2(object.width, object.height),
+              object.name
+            );
+            animationObject.priority=7;
+            add(animationObject);
+            //Cargamos el objeto en el jugador
+            player.itemDropFalsoComponent=animationObject;
+            break;
+          case 'victoryItem':
+            final animationObject= Animation_Object(
+              Vector2(object.x, object.y), 
+              Vector2(object.width, object.height),
+              object.name
+            );
+            animationObject.priority=7;
+            add(animationObject);
+            //Cargamos el objeto en el jugador
+            player.victoryItemComponent=animationObject;
+            break;
+          case 'puerta':
+            final animationObject= Animation_Object(
+              Vector2(object.x, object.y), 
+              Vector2(object.width, object.height),
+              object.name
+            );
+            animationObject.priority=7;
+            add(animationObject);
+            //Cargamos el objeto en el jugador
+            player.puertaComponent=animationObject;
             break;
         }
       }
@@ -259,6 +327,10 @@ class Level extends World with HasGameRef<GameActivity>{
     if (decoracionUpMap != null){
       for(final itemMap in decoracionUpMap.objects){
         switch(itemMap.class_){
+          case '48x48': 
+            final image= loadImage(itemMap, RUTA_OBJETOS_UP_DOWN, Vector2(48, 48));
+            image.priority=6;
+            add(image); 
           case '32x32':
             final image= loadImage(itemMap, RUTA_OBJETOS_UP_DOWN, Vector2(32, 32));
             image.priority=6;
@@ -268,6 +340,16 @@ class Level extends World with HasGameRef<GameActivity>{
             final image= loadImage(itemMap, RUTA_OBJETOS_UP_DOWN, Vector2(32, 16));
             image.priority=6;
             add(image);
+            break;
+          case 'animation':
+          print(itemMap.name);
+            final animationObject= Animation_Object(
+              Vector2(itemMap.x, itemMap.y), 
+              Vector2(itemMap.width, itemMap.height),
+              itemMap.name
+            );
+            animationObject.priority=2;
+            add(animationObject);
             break;
           default:
             final image= loadImage(itemMap, RUTA_OBJETOS_UP_DOWN);
@@ -321,17 +403,5 @@ class Level extends World with HasGameRef<GameActivity>{
     }
 
     player.collisionBlocks= collisionBlocks;
-    return super.onLoad();
-  }
-
-  SpriteComponent loadImage(TiledObject object, String ruta, [Vector2? size]) {
-    String name= object.name;
-    print('$ruta$name.png');
-    var image=SpriteComponent.fromImage(
-              game.images.fromCache('$ruta$name.png'),
-              position: Vector2(object.x, object.y),
-              size: size ?? Vector2(16, 16),
-    );
-    return image;
   }
 }
