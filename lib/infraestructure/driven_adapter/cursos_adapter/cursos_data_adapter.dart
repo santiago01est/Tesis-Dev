@@ -5,6 +5,7 @@ import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
+import 'package:dev_tesis/game/player/player.dart';
 
 class CursosDataAdapter extends CursoRepository {
   @override
@@ -989,7 +990,8 @@ class CursosDataAdapter extends CursoRepository {
                   'avanzar',
                   'avanzar',
                   'avanzar',
-                ]),
+                ],
+                initialState: PlayerState.idleR),
             ActividadCuestionario(
                 id: '17',
                 nombre: 'Buscando el mejor camino',
@@ -1081,7 +1083,8 @@ class CursosDataAdapter extends CursoRepository {
                   'avanzar',
                   'avanzar',
                   'avanzar',
-                ]),
+                ],
+                initialState: PlayerState.idleR),
             ActividadCuestionario(
                 id: '19',
                 nombre: 'Buscando el mejor camino',
@@ -1187,7 +1190,8 @@ class CursosDataAdapter extends CursoRepository {
                   'avanzar',
                   'avanzar',
                   'avanzar',
-                ]),
+                ],
+                initialState: PlayerState.idleR),
             ActividadCuestionario(
                 id: '21',
                 nombre: 'Buscando el mejor camino',
@@ -1310,7 +1314,8 @@ class CursosDataAdapter extends CursoRepository {
                   'avanzar',
                   'giroDeIzquierda',
                   'avanzar',
-                ]),
+                ],
+                initialState: PlayerState.idleR),
             ActividadCuestionario(
                 id: '23',
                 nombre: 'Buscando el mejor camino',
@@ -1425,7 +1430,8 @@ class CursosDataAdapter extends CursoRepository {
                     'avanzar',
                     'avanzar',
                   ]
-                ]),
+                ],
+                initialState: PlayerState.idleL),
             ActividadCuestionario(
                 id: '25',
                 nombre: 'Actividad Cuestionario de ',
@@ -1538,7 +1544,8 @@ class CursosDataAdapter extends CursoRepository {
                     'avanzar',
                     'avanzar',
                   ],
-                ]),
+                ],
+                initialState: PlayerState.idleR),
            ActividadCuestionario(
                 id: '27',
                 nombre: 'Actividad Cuestionario de ',
@@ -1679,7 +1686,37 @@ class CursosDataAdapter extends CursoRepository {
                     'avanzar',
                   ],
                   'avanzar',
-                ]),
+                ],
+                mejorCamino2: [
+                  [
+                    'giroDeIzquierda',
+                    'avanzar',
+                    'giroDeDerecha',
+                    'avanzar',
+                    'giroDeIzquierda',
+                    'avanzar',
+                    'giroDeDerecha',
+                    'avanzar',
+                  ],
+                  'giroDeDerecha',
+                  'avanzar',
+                  'giroDeIzquierda',
+                  [
+                    'avanzar',
+                    'avanzar',
+                    'avanzar',
+                  ],
+                  'giroDeDerecha',
+                  'avanzar',
+                  'giroDeIzquierda',
+                  'avanzar',
+                  [
+                    'avanzar',
+                    'avanzar',
+                    'avanzar',
+                  ],
+                ],
+                initialState: PlayerState.idleR),
                 ActividadCuestionario(
                 id: '29',
                 nombre: 'Actividad Cuestionario de ',
@@ -1822,8 +1859,8 @@ class CursosDataAdapter extends CursoRepository {
                     'avanzar',
                   ],
                   [
-                    'girarDerecha',
-                    'girarDerecha',
+                    'giroDeDerecha',
+                    'giroDeDerecha',
                   ],
                   [
                     'avanzar',
@@ -1854,8 +1891,8 @@ class CursosDataAdapter extends CursoRepository {
                     'avanzar',
                   ],
                   [
-                    'girarDerecha',
-                    'girarDerecha',
+                    'giroDeDerecha',
+                    'giroDeDerecha',
                   ],
                   [
                     'avanzar',
@@ -1874,7 +1911,8 @@ class CursosDataAdapter extends CursoRepository {
                   ],
                   'giroDeIzquierda',
                   'avanzar',
-                ]),
+                ],
+                initialState: PlayerState.idleL),
           ]),
           
         ],

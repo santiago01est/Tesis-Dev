@@ -91,9 +91,4 @@ class Animation_Object extends SpriteAnimationComponent with HasGameRef<GameActi
       )
     );
   }
-
-  void itemDropRemove(){
-    removeFromParent();
-  }
-
 }

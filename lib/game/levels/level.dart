@@ -20,6 +20,23 @@ class Level extends World with HasGameRef<GameActivity>{
 
   @override
   FutureOr<void> onLoad() async{
+    cargarNivel();
+    return super.onLoad();
+  }
+
+  SpriteComponent loadImage(TiledObject object, String ruta, [Vector2? size]) {
+    String name= object.name;
+    print('$ruta$name.png');
+    var image=SpriteComponent.fromImage(
+              game.images.fromCache('$ruta$name.png'),
+              position: Vector2(object.x, object.y),
+              size: size ?? Vector2(16, 16),
+    );
+    return image;
+  }
+
+  void cargarNivel() async{
+    
     const RUTA_DECORACION_CAMPO= 'mapa/decoracion-suelo/unidad1-Campo/';
     const RUTA_OBJETOS_UP_DOWN= 'mapa/objetos-UpAndDown/';
     const RUTA_SUELO_CAMPO= 'mapa/suelo/unidad1-Campo/';
@@ -386,17 +403,5 @@ class Level extends World with HasGameRef<GameActivity>{
     }
 
     player.collisionBlocks= collisionBlocks;
-    return super.onLoad();
-  }
-
-  SpriteComponent loadImage(TiledObject object, String ruta, [Vector2? size]) {
-    String name= object.name;
-    print('$ruta$name.png');
-    var image=SpriteComponent.fromImage(
-              game.images.fromCache('$ruta$name.png'),
-              position: Vector2(object.x, object.y),
-              size: size ?? Vector2(16, 16),
-    );
-    return image;
   }
 }

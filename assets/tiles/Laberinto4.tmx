@@ -91,8 +91,8 @@
  <objectgroup id="8" name="Item" class="campo">
   <object id="173" name="tim" type="item" x="56" y="52" width="32" height="32"/>
  </objectgroup>
- <objectgroup id="9" name="Jugador" class="campo" visible="0">
-  <object id="110" name="jugador" x="40" y="116" width="32" height="32"/>
+ <objectgroup id="9" name="Jugador" class="campo">
+  <object id="110" name="jugador" x="8" y="132" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="10" name="Decoracion-up" class="campo" visible="0">
   <object id="97" name="soporte-puenteV1" type="32x32" x="32" y="64" width="32" height="32"/>

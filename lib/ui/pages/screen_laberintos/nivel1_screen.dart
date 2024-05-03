@@ -49,16 +49,18 @@ class _LaberintoState extends State<Laberinto> {
         }
       }
     }
-
+    
     final movementInstructionsCubit = context.read<InstruccionesCubit>();
     final GameActivity game = GameActivity(actividadLaberinto == null
         ? 'Laberinto1'
         : actividadLaberinto.nombreArchivo!);
     Player player = game.player;
-
+    actividadLaberinto==null ? game.player.initialState = PlayerState.idleR :
+    game.player.initialState = actividadLaberinto.initialState;
     String nombreUnidad =
         unidadesCubit.nombreUnidadDeActividad(actividadLaberinto!.id!);
     String nombreArchivo = actividadLaberinto.nombreArchivo!;
+    movementInstructionsCubit.limpiarInstrucciones();
     return Scaffold(
       appBar: const CustomAppBar(userName: 'usuario'),
       // Responsive UI design for desktop and mobile
@@ -209,7 +211,7 @@ class _LaberintoState extends State<Laberinto> {
                                                     width: 60,
                                                     height: 60),
                                               ),
-                                              if (nombreArchivo != 'Laberinto2') ...[
+                                              if (nombreArchivo != 'Laberinto2' && nombreArchivo != 'Laberinto5') ...[
                                                 IconButton(
                                                 onPressed: () {
                                                   movementInstructionsCubit
@@ -465,68 +467,65 @@ class _LaberintoState extends State<Laberinto> {
                                             right: 30,
                                             left:
                                                 30), // Puedes ajustar el valor según tus necesidades
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                        child: Wrap(
+                                          crossAxisAlignment: WrapCrossAlignment.center,
                                           children: [
-                                            Row(
-                                              children: [
-                                                SizedBox(
-                                                  height: 40,
-                                                  child: PixelLargeBttn(
-                                                      path:
-                                                          "assets/buttons/Play.png",
-                                                      text: '',
-                                                      onPressed: () async {
-                                                        player.movementInstructions =
-                                                            movementInstructionsCubit
+                                            SizedBox(
+                                              height: 60,
+                                              child: PixelLargeBttn(
+                                                  path:
+                                                      "assets/buttons/Play.png",
+                                                  text: '',
+                                                  onPressed: () async {
+                                                    player.movementInstructions =
+                                                        movementInstructionsCubit
+                                                            .state
+                                                            .expand((map) {
+                                                      if (map.key
+                                                          is List<String>) {
+                                                        return map.key
+                                                            as List<String>;
+                                                      } else {
+                                                        return [
+                                                          map.key as String
+                                                        ];
+                                                      }
+                                                    }).toList();
+                                                    List respuestaGeneral =movementInstructionsCubit
                                                                 .state
-                                                                .expand((map) {
-                                                          if (map.key is List<String>) {
-                                                            return map.key as List<String>;
-                                                          } else {
-                                                            return [map.key as String];
-                                                          }
-                                                        }).toList();
-                                                        int response = await player
-                                                            .processMovementInstructionsResponse(movementInstructionsCubit.state.map((e) => e.key).toList(), actividadLaberinto!.mejorCamino);
-                                                        print(response);
-                                                        if (true) {
-                                                          Future.delayed(
-                                                              Duration(
-                                                                  seconds: 2),
-                                                              () {
-                                                            // ignore: use_build_context_synchronously
-                                                            _mostrarDialogoVictoria(
-                                                                context,
-                                                                router,
-                                                                unidadesCubit,
-                                                                actividadLaberinto!);
-                                                          });
-                                                          seguimientosCubit.actualizarRespuestasActividadesEstudiantes(
-                                                              estudiantes
-                                                                  .obtenerIds(),
-                                                              response,
-                                                              unidadesCubit
-                                                                  .indiceActividadPorId(
-                                                                      actividadLaberinto!
-                                                                          .id!)!);
-/*                                                           print(seguimientosCubit
-                                                              .state
-                                                              .map((e) => e
-                                                                  .respuestasActividades)); */
-                                                        }
-                                                      }),
-                                                ),
-                                                const SizedBox(width: 20),
-                                                SizedBox(
-                                                    height: 40,
-                                                    child: PixelLargeBttn(
-                                                        path:
-                                                            "assets/buttons/Reiniciar.png",
-                                                        text: '',
-                                                        onPressed: () {}))
-                                              ],
+                                                                .map((e) =>
+                                                                    e.key)
+                                                                .toList();
+                                                  
+                                                    int response = await player.processMovementInstructionsResponse(
+                                                      respuestaGeneral,
+                                                      actividadLaberinto!.mejorCamino,
+                                                      actividadLaberinto.mejorCamino2
+                                                    );
+                                                    print(response);
+                                                    if (true) {
+                                                      Future.delayed(
+                                                          Duration(
+                                                              seconds: 2),
+                                                          () {
+                                                        // ignore: use_build_context_synchronously
+                                                        _mostrarDialogoVictoria(
+                                                            context,
+                                                            router,
+                                                            unidadesCubit,
+                                                            actividadLaberinto!);
+                                                      });
+                                            
+                                                      seguimientosCubit.actualizarRespuestasActividadesEstudiantes(
+                                                          estudiantes
+                                                              .obtenerIds(),
+                                                          response,
+                                                          unidadesCubit
+                                                              .indiceActividadPorId(
+                                                                  actividadLaberinto!
+                                                                      .id!)!);
+                                                    }
+                                                  }),
                                             ),
                                             SizedBox(
                                               height: 60,
@@ -539,6 +538,17 @@ class _LaberintoState extends State<Laberinto> {
                                                         .limpiarInstrucciones();
                                                   }),
                                             ),
+                                            SizedBox(
+                                                height: 50,
+                                                child: PixelLargeBttn(
+                                                    path:
+                                                        "assets/buttons/Reiniciar.png",
+                                                    text: '',
+                                                    onPressed: () {
+                                                      player.reiniciar();
+                                                      movementInstructionsCubit
+                                                        .limpiarInstrucciones();
+                                                    }))
                                           ],
                                         ),
                                       ),
@@ -943,71 +953,90 @@ class _LaberintoState extends State<Laberinto> {
                                   margin: const EdgeInsets.only(
                                     top: 30,
                                   ), // Puedes ajustar el valor según tus necesidades
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          SizedBox(
-                                            height: 40,
-                                            child: PixelLargeBttn(
-                                                path: "assets/buttons/Play.png",
-                                                text: '',
-                                                onPressed: () async {
-                                                  player.movementInstructions =
-                                                      movementInstructionsCubit
-                                                          .state
-                                                          .expand((map) {
-                                                    if (map.key
-                                                        is List<String>) {
-                                                      return map.key
-                                                          as List<String>;
-                                                    } else {
-                                                      return [
-                                                        map.key as String
-                                                      ];
-                                                    }
-                                                  }).toList();
-                                                  int response = await player
-                                                      .processMovementInstructionsResponse(movementInstructionsCubit.state.map((e) => e.key).toList(), actividadLaberinto!.mejorCamino);
-                                                  print(response);
-                                                  if (true) {
-                                                    Future.delayed(
-                                                        Duration(seconds: 2),
-                                                        () {
-                                                      // ignore: use_build_context_synchronously
-                                                      _mostrarDialogoVictoria(
-                                                          context,
-                                                          router,
-                                                          unidadesCubit,
-                                                          actividadLaberinto!);
-                                                    });
-                                                  }
-                                                }),
-                                          ),
-                                          const SizedBox(width: 20),
-                                          SizedBox(
-                                              height: 40,
+                                  child: Wrap(
+                                          crossAxisAlignment: WrapCrossAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              height: 60,
                                               child: PixelLargeBttn(
                                                   path:
-                                                      "assets/buttons/Reiniciar.png",
+                                                      "assets/buttons/Play.png",
                                                   text: '',
-                                                  onPressed: () {}))
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 40,
-                                        child: PixelLargeBttn(
-                                            path: "assets/buttons/Clean.png",
-                                            text: '',
-                                            onPressed: () async {
-                                              movementInstructionsCubit
-                                                  .limpiarInstrucciones();
-                                            }),
-                                      ),
-                                    ],
-                                  ),
+                                                  onPressed: () async {
+                                                    player.movementInstructions =
+                                                        movementInstructionsCubit
+                                                            .state
+                                                            .expand((map) {
+                                                      if (map.key
+                                                          is List<String>) {
+                                                        return map.key
+                                                            as List<String>;
+                                                      } else {
+                                                        return [
+                                                          map.key as String
+                                                        ];
+                                                      }
+                                                    }).toList();
+                                                    List respuestaGeneral =movementInstructionsCubit
+                                                                .state
+                                                                .map((e) =>
+                                                                    e.key)
+                                                                .toList();
+                                                  
+                                                    int response = await player.processMovementInstructionsResponse(
+                                                      respuestaGeneral,
+                                                      actividadLaberinto!.mejorCamino,
+                                                      actividadLaberinto.mejorCamino2
+                                                    );
+                                                    print(response);
+                                                    if (true) {
+                                                      Future.delayed(
+                                                          Duration(
+                                                              seconds: 2),
+                                                          () {
+                                                        // ignore: use_build_context_synchronously
+                                                        _mostrarDialogoVictoria(
+                                                            context,
+                                                            router,
+                                                            unidadesCubit,
+                                                            actividadLaberinto!);
+                                                      });
+                                            
+                                                      seguimientosCubit.actualizarRespuestasActividadesEstudiantes(
+                                                          estudiantes
+                                                              .obtenerIds(),
+                                                          response,
+                                                          unidadesCubit
+                                                              .indiceActividadPorId(
+                                                                  actividadLaberinto!
+                                                                      .id!)!);
+                                                    }
+                                                  }),
+                                            ),
+                                            SizedBox(
+                                              height: 60,
+                                              child: PixelLargeBttn(
+                                                  path:
+                                                      "assets/buttons/Clean.png",
+                                                  text: '',
+                                                  onPressed: () async {
+                                                    movementInstructionsCubit
+                                                        .limpiarInstrucciones();
+                                                  }),
+                                            ),
+                                            SizedBox(
+                                                height: 50,
+                                                child: PixelLargeBttn(
+                                                    path:
+                                                        "assets/buttons/Reiniciar.png",
+                                                    text: '',
+                                                    onPressed: () {
+                                                      player.reiniciar();
+                                                      movementInstructionsCubit
+                                                        .limpiarInstrucciones();
+                                                    }))
+                                          ],
+                                        ),
                                 ),
                               ],
                             ),
@@ -1041,12 +1070,12 @@ class _LaberintoState extends State<Laberinto> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Bien Hecho!! 🏆 Haz llegado a tu Objetivo'),
-          content: const Text('Continuemos con la siguiente Actividad!'),
+          title: const Text('✨ ¡Tu respuesta ha sido guardada! ʕ•́ᴥ•̀ʔっ'),
+          content: const Text('Continua a la siguiente actividad o ¡Quedate e intenta la mejor respuesta posible!'),
           actions: <Widget>[
             PixelLargeBttn(
               path: "assets/items/ButtonOrange.png",
-              text: 'Volver al Curso',
+              text: 'Quedarme',
               onPressed: () {
                 Navigator.of(context).pop(); // Cierra el diálogo
               },
