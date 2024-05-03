@@ -42,7 +42,7 @@ class InitData {
       // Si la lista no está vacía, convertirla a una lista de Estudiante
       if (jsonString != null) {
         List<Estudiante> estudiantes =
-            context.read<CursoCubit>().obtenerEstudiantesPorIds(jsonString!);
+            context.read<CursoCubit>().obtenerEstudiantesPorIds(jsonString);
         context.read<EstudiantesCubit>().subirEstudiantes(estudiantes);
       } else {
         //TODO: obtener sesion estudiantes si el rol es estudiante
@@ -167,34 +167,7 @@ class InitData {
           calificacion: 0,
           userId: 2,
           cursoId: 0),
-      Seguimiento(
-          id: 3,
-          respuestasActividades: List.generate(80, (index) => -1),
-          test: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-          calificacion: 0,
-          userId: 3,
-          cursoId: 0),
-      Seguimiento(
-          id: 4,
-          respuestasActividades: List.generate(80, (index) => -1),
-          test: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-          calificacion: 0,
-          userId: 4,
-          cursoId: 0),
-      Seguimiento(
-          id: 5,
-          respuestasActividades: List.generate(80, (index) => -1),
-          test: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-          calificacion: 0,
-          userId: 5,
-          cursoId: 0),
-      Seguimiento(
-          id: 6,
-          respuestasActividades: List.generate(80, (index) => -1),
-          test: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-          calificacion: 0,
-          userId: 6,
-          cursoId: 0),
+      
     ]);
   }
 }

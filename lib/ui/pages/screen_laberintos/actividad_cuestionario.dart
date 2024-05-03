@@ -112,15 +112,8 @@ class _ActividadCuestionarioScreenState
     }
 
     return Scaffold(
-      appBar: CustomNavigationBarActividad(
-        cursoName: 'Mundo PC',
-        cursoId: curso.state.id!,
-        userName: estudiantes.obtenerNombres(),
-        userAvatars: avatares,
-        onLogout: () {
-          // Aquí implementa la lógica para cerrar sesión
-          print('Cerrar sesión');
-        },
+      appBar: AppBar(
+        title: Text('Actividad Cuestionario'),
       ),
       // Responsive UI design for desktop and mobile
       body: MediaQuery.of(context).size.width > 700
