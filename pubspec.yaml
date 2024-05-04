@@ -71,7 +71,6 @@ flutter:
     - assets/images/objetos_animados/animales/
     - assets/images/objetos_animados/items/
     - assets/images/objetos_animados/jugador/
-    - assets/tiles/
     - assets/images/mapa/
     - assets/images/mapa/decoracion-suelo/
     - assets/images/mapa/decoracion-suelo/unidad1-Campo/
@@ -85,6 +84,7 @@ flutter:
     - assets/avatares/
     - assets/fondos/
     - assets/testauto/
+    - assets/tiles/
 
 
 

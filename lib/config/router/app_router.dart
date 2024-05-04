@@ -6,6 +6,7 @@ import 'package:dev_tesis/ui/pages/screen_laberintos/actividad_cuestionario.dart
 import 'package:dev_tesis/ui/pages/screen_laberintos/actividad_desconectada.dart';
 import 'package:dev_tesis/ui/pages/screen_laberintos/nivel1_screen.dart';
 import 'package:dev_tesis/ui/pages/screen_curso/panel_curso_screen.dart';
+import 'package:dev_tesis/ui/pages/screen_laberintos/test.dart';
 import 'package:dev_tesis/ui/pages/screen_panel_profesor_curso/panel_profesor_principal.dart';
 import 'package:dev_tesis/ui/pages/screen_registro_profesor/inicio_sesion_screen.dart';
 import 'package:dev_tesis/ui/pages/screen_registro_profesor/registro_profesor_screen.dart';
