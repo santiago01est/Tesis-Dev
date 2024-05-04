@@ -100,20 +100,17 @@ class _LaberintoState extends State<Laberinto> {
                           Center(
                             child: Row(
                               children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      // Add content for the left section of the blue board
-                                      SizedBox(
-                                        width: 800,
-                                        height: 800,
-                                        child: GameWidget(game: game),
-                                      ),
-                                    ],
-                                  ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    // Add content for the left section of the blue board
+                                    SizedBox(
+                                      width: 800,
+                                      height: 800,
+                                      child: GameWidget(game: game),
+                                    ),
+                                  ],
                                 ),
                                 Expanded(
                                   child: Column(
@@ -1066,8 +1063,7 @@ class _LaberintoState extends State<Laberinto> {
                       "Cuestionario") {
                     router.push(
                         '/cuestionario/${siguienteActividadInfo.idActividad}');
-                  }
-                  else if (siguienteActividadInfo.tipoActividad ==
+                  } else if (siguienteActividadInfo.tipoActividad ==
                       "Desconectada") {
                     router.push(
                         '/desconectada/${siguienteActividadInfo.idActividad}');
