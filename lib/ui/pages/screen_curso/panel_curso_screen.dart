@@ -366,14 +366,6 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
                                   path: 'assets/items/ButtonBlue.png',
                                   text: 'Seguimiento',
                                   onPressed: () {
-                                    //Toast que dice hola
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                            '${context.read<SeguimientosEstudiantesCubit>().state.firstWhere((element) => element.userId == 1).respuestasActividades![0].actividadId}'),
-                                      ),
-                                    );
-
                                     if (rol == 'estudiante') {
                                       router.push(
                                           '/seguimientoestudiante/${cursoCubit.state.id}');

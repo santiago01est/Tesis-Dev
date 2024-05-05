@@ -1450,7 +1450,7 @@ class CursosDataAdapter extends CursoRepository {
               tipoActividad: 'Desconectada',
               ejemploImage: 'ejemploactividaddesconectada1.png',
               ejercicioImage:
-                  '/assets/items/ejemplosImg/actividaddesconectada1.png',
+                  'assets/items/ejemplosImg/actividaddesconectada1.png',
               pesoRespuestas: [0, 0, 0, 0],
             ),
           ]),
@@ -1978,7 +1978,7 @@ class CursosDataAdapter extends CursoRepository {
               tipoActividad: 'Desconectada',
               ejemploImage: 'ejemploactividaddesconectada1.png',
               ejercicioImage:
-                  '/assets/items/ejemplosImg/actividaddesconectada2.png',
+                  'assets/items/ejemplosImg/actividaddesconectada2.png',
               pesoRespuestas: [0, 0, 0, 0],
             ),
           ]),

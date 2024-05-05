@@ -6,7 +6,7 @@ class UnidadCasoUso {
   final UnidadRepository unidadRepository;
   UnidadCasoUso(this.unidadRepository);
 
-  Future<List<Unidad>> getUnidades(String idCurso) {
+  Future<List<Unidad>> getUnidades(int idCurso) {
     return unidadRepository.getUnidades(idCurso);
   }
 
