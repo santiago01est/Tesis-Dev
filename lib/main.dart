@@ -9,6 +9,7 @@ import 'package:dev_tesis/infraestructure/driven_adapter/profesor_adapter/profes
 import 'package:dev_tesis/infraestructure/driven_adapter/unidad_adapter/unidad_data_adapter.dart';
 import 'package:dev_tesis/ui/bloc/actividad_custio_test.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
+import 'package:dev_tesis/ui/bloc/bd_demo.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/game/instrucciones_bloc.dart';
@@ -65,6 +66,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<BDCursosCubit>(
           create: (context) => BDCursosCubit(),
+        ),
+        BlocProvider<BDemoMundoPC>(
+          create: (context) => BDemoMundoPC(),
         ),
         BlocProvider<RolCubit>(
           create: (context) => RolCubit(),

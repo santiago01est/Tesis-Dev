@@ -1,5 +1,5 @@
 class Profesor {
-  final String? id;
+  final int? id;
   final String? nombre;
   final String? email;
   final String? password;

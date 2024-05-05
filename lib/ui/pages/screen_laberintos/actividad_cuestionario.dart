@@ -17,7 +17,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class ActividadCuestionarioScreen extends StatefulWidget {
-  final String actividadId;
+  final int actividadId;
 
   const ActividadCuestionarioScreen({Key? key, required this.actividadId})
       : super(key: key);
@@ -98,7 +98,7 @@ class _ActividadCuestionarioScreenState
     }
 
     // Obtener Peso de la actividad segun la respuesta del estudiante
-    int obtenerPesoActividad(int respuestaEstudiante, String id) {
+    int obtenerPesoActividad(int respuestaEstudiante, int id) {
       final unidad = context.read<UnidadesCubit>();
       Actividad actividad = unidad.actividadPorId(id)!;
 
@@ -107,13 +107,20 @@ class _ActividadCuestionarioScreenState
       if (respuestaEstudiante == -1) {
         return 0;
       } else {
-        return actividad.pesoRespuestas![respuestaEstudiante - 1];
+        return actividad.pesoRespuestas![respuestaEstudiante];
       }
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Actividad Cuestionario'),
+      appBar: CustomNavigationBarActividad(
+        cursoName: 'Mundo PC',
+        cursoId: curso.state.id!,
+        userName: estudiantes.obtenerNombres(),
+        userAvatars: avatares,
+        onLogout: () {
+          // Aquí implementa la lógica para cerrar sesión
+          print('Cerrar sesión');
+        },
       ),
       // Responsive UI design for desktop and mobile
       body: MediaQuery.of(context).size.width > 700
@@ -200,7 +207,7 @@ class _ActividadCuestionarioScreenState
                                             radioRespuesta: (int respuesta) {
                                               setState(() {
                                                 _selectedOptionIndex =
-                                                    respuesta + 1;
+                                                    respuesta;
 
                                                 // identifica el actual estudiante y actualiza su respectivo seguimiento
 
@@ -210,14 +217,13 @@ class _ActividadCuestionarioScreenState
                                                     .actualizarRespuestasActividadesEstudiantes(
                                                         estudiantes
                                                             .obtenerIds(),
+                                                        '$_selectedOptionIndex',
                                                         obtenerPesoActividad(
                                                             _selectedOptionIndex,
                                                             actividadCuestionario
                                                                 .id!),
-                                                        unidadesCubit
-                                                            .indiceActividadPorId(
-                                                                actividadCuestionario
-                                                                    .id!)!);
+                                                        actividadCuestionario
+                                                            .id!);
                                               });
                                             },
                                             initialValue: -1),
@@ -308,7 +314,7 @@ class _ActividadCuestionarioScreenState
                             IntrinsicHeight(
                               child: BannerInfoActividades(
                                 indice: actividadCuestionario.indice!,
-                                habilidades:actividadCuestionario.habilidades!,
+                                habilidades: actividadCuestionario.habilidades!,
                                 titulo:
                                     '$nombreUnidad \nActividad ${unidadesCubit.obtenerIndiceActividadEnUnidad(actividadCuestionario.id!)! + 1}',
                               ),
@@ -379,14 +385,12 @@ class _ActividadCuestionarioScreenState
                                               seguimientosCubit
                                                   .actualizarRespuestasActividadesEstudiantes(
                                                       estudiantes.obtenerIds(),
-                                                      obtenerPesoActividad(
-                                                          _selectedOptionIndex,
-                                                          actividadCuestionario
-                                                              .id!),
-                                                      unidadesCubit
-                                                          .indiceActividadPorId(
-                                                              actividadCuestionario
-                                                                  .id!)!);
+                                                      '$_selectedOptionIndex',
+                                                      actividadCuestionario
+                                                              .pesoRespuestas![
+                                                          _selectedOptionIndex],
+                                                      actividadCuestionario
+                                                          .id!);
                                             });
                                           },
                                           initialValue: -1),
@@ -531,12 +535,11 @@ class _ActividadCuestionarioScreenState
                     print('Siguiente Actividad Cuestionario');
                     router.push(
                         '/cuestionario/${siguienteActividadInfo.idActividad}');
-                  }else if (siguienteActividadInfo.tipoActividad ==
+                  } else if (siguienteActividadInfo.tipoActividad ==
                       "Desconectada") {
                     router.push(
                         '/desconectada/${siguienteActividadInfo.idActividad}');
                   }
-
                 }
 
                 Navigator.of(context).pop(); // Cierra el diálogo

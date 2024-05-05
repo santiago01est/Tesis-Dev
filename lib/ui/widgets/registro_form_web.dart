@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/model/profesor.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
@@ -42,7 +44,7 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
     Profesor profesor;
     final profesorCubit = context.watch<ProfesorCubit>();
     final profesoresCubit = context.watch<ProfesoresCubit>();
-  
+
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
@@ -55,7 +57,7 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
             height: 20,
           ),
           const Text(
-            "Al unirte a Mundo PC, te convertirás en un pionero de la enseñanza del pensamiento computacional. Tu pasión y compromiso crearan un futuro lleno de posibilidades para los estudiantes. ¡Acepta la mision!",
+            "Al unirte a Mundo PC, te convertirás en un pionero de la enseñanza del pensamiento computacional. Tu pasión y compromiso crearán un futuro lleno de posibilidades para nuestros estudiantes. ¡Acepta la misión!",
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
           ),
           const SizedBox(
@@ -251,30 +253,29 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
                 const SizedBox(
                   height: 10,
                 ),
-               PixelLargeBttn(
-                    path: "assets/items/ButtonBlue.png",
-                    onPressed: () async {
-                      // Marcamos el formulario como enviado
-                      if (_formKey.currentState!.validate()) {
-                        // Call sign in method of firebase & open home screen based on successful login
-                        _formSubmitted = true;
-                        profesor = Profesor(
-                          id: "1${nombreEditingController.text}",
-                          nombre: nombreEditingController.text,
-                          email: emailEditingController.text,
-                          password: pwdEditingController.text,
-                          avatar: selectedAvatar,
-                        );
-                        //actualizamos el estado del objeto profesor
-                        profesorCubit.actualizarProfesor(profesor);
-                        profesoresCubit.agregarProfesor(profesor);
-                        /* TODO:Caso de Uso crear Profesor*/
-                        router.go('/crearcursobienvenida');
-                      }
-                    },
-                    text: 'Registrarse',
-                  ),
-                
+                PixelLargeBttn(
+                  path: "assets/items/ButtonBlue.png",
+                  onPressed: () async {
+                    // Marcamos el formulario como enviado
+                    if (_formKey.currentState!.validate()) {
+                      // Call sign in method of firebase & open home screen based on successful login
+                      _formSubmitted = true;
+                      profesor = Profesor(
+                        id: Random().nextInt(1000000),
+                        nombre: nombreEditingController.text,
+                        email: emailEditingController.text,
+                        password: pwdEditingController.text,
+                        avatar: selectedAvatar,
+                      );
+                      //actualizamos el estado del objeto profesor
+                      profesorCubit.actualizarProfesor(profesor);
+                      profesoresCubit.agregarProfesor(profesor);
+                      /* TODO:Caso de Uso crear Profesor*/
+                      router.go('/crearcursobienvenida');
+                    }
+                  },
+                  text: 'Registrarse',
+                ),
               ],
             ),
           ),

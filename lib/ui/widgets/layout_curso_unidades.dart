@@ -1,5 +1,7 @@
 import 'package:dev_tesis/constants/styles.dart';
+import 'package:dev_tesis/domain/model/respuesta.dart';
 import 'package:dev_tesis/domain/model/seguimiento.dart';
+import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
@@ -11,20 +13,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class LayoutUnidadCurso extends StatefulWidget {
-  const LayoutUnidadCurso({Key? key}) : super(key: key);
+  final int idProfesor;
+  const LayoutUnidadCurso({Key? key, required this.idProfesor})
+      : super(key: key);
 
   @override
   State<LayoutUnidadCurso> createState() => _LayoutUnidadCursoState();
 }
 
 class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
-  Color getBackgroundColor(String? activityIndex, Seguimiento seguimientoState,
-      UnidadesCubit unidades) {
-    int index = unidades.indiceActividadPorId(activityIndex!)!;
+  Color getBackgroundColor(int actividadId, Seguimiento seguimientoState) {
+    Respuesta miRespuesta = seguimientoState.respuestasActividades!
+        .firstWhere((element) => element.actividadId == actividadId);
+    int peso = miRespuesta.peso!;
+
     // Verificar si hay un cero en la lista en el índice de la actividad
-    if (seguimientoState.respuestasActividades != null &&
-        (seguimientoState.respuestasActividades![index] == 0 ||
-            seguimientoState.respuestasActividades![index] == -1)) {
+    if (peso == 0 || peso == -1) {
       // Si hay un cero, devolver gris
       return Color.fromARGB(255, 245, 245, 245);
     } else {
@@ -35,16 +39,22 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
 
   @override
   Widget build(BuildContext context) {
-    final unidadesCubit = context.watch<UnidadesCubit>();
+    final unidades = context.watch<UnidadesCubit>();
+    final seguimientosCubit = context.read<SeguimientosEstudiantesCubit>();
     final rolCubit = context.read<RolCubit>();
     final router = GoRouter.of(context);
-    final seguimientosCubit = context.watch<SeguimientosEstudiantesCubit>();
 
-    final estudianteId = context.watch<EstudiantesCubit>().state.first.id!;
+    int userID;
+    if (rolCubit.state == 'estudiante') {
+      userID = context.watch<EstudiantesCubit>().state.first.id!;
+    } else {
+      userID = widget.idProfesor;
+    }
 
-    void eliminarActividad(String idActividad) {
+    void eliminarActividad(int idActividad) {
       // Elimina la actividad del listado de actividades de la unidad
-      unidadesCubit.eliminarActividadDeUnidad(idActividad);
+
+      unidades.eliminarActividadDeUnidad(idActividad);
 
       // Notifica a Flutter que los datos han cambiado y la interfaz de usuario necesita actualizarse
       setState(() {});
@@ -73,7 +83,7 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                           return ListView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            itemCount: unidadesCubit.state.length,
+                            itemCount: unidades.state.length,
                             itemBuilder: (context, index) {
                               return Card(
                                 shape: RoundedRectangleBorder(
@@ -100,8 +110,8 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                             ),
                                             padding: EdgeInsets.all(20),
                                             child: TitleText(
-                                              text: unidadesCubit
-                                                  .state[index].nombre!,
+                                              text:
+                                                  unidades.state[index].nombre!,
                                             ),
                                           ),
                                           SizedBox(width: 10),
@@ -125,7 +135,7 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                         runSpacing:
                                             8.0, // Espacio vertical entre las filas de elementos
                                         children: List.generate(
-                                          unidadesCubit
+                                          unidades
                                               .state[index].actividades!.length,
                                           (activityIndex) {
                                             return SizedBox(
@@ -139,43 +149,42 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                                           10.0),
                                                 ),
                                                 color: getBackgroundColor(
-                                                    unidadesCubit
+                                                    unidades
                                                         .state[index]
                                                         .actividades![
                                                             activityIndex]
-                                                        .id,
+                                                        .id!,
                                                     seguimientosCubit
                                                         .obtenerSeguimientoEstudiante(
-                                                            estudianteId),
-                                                    unidadesCubit),
+                                                            userID)),
                                                 margin: EdgeInsets.symmetric(
                                                     vertical: 5),
                                                 child: GestureDetector(
                                                   onTap: () {
-                                                    if (unidadesCubit
+                                                    if (unidades
                                                             .state[index]
                                                             .actividades![
                                                                 activityIndex]
                                                             .tipoActividad ==
                                                         "Laberinto") {
                                                       router.push(
-                                                          '/laberinto/${unidadesCubit.state[index].actividades![activityIndex].id}');
-                                                    } else if (unidadesCubit
+                                                          '/laberinto/${unidades.state[index].actividades![activityIndex].id}');
+                                                    } else if (unidades
                                                             .state[index]
                                                             .actividades![
                                                                 activityIndex]
                                                             .tipoActividad ==
                                                         "Cuestionario") {
                                                       router.push(
-                                                          '/cuestionario/${unidadesCubit.state[index].actividades![activityIndex].id}');
-                                                    } else if (unidadesCubit
+                                                          '/cuestionario/${unidades.state[index].actividades![activityIndex].id}');
+                                                    } else if (unidades
                                                             .state[index]
                                                             .actividades![
                                                                 activityIndex]
                                                             .tipoActividad ==
                                                         "Desconectada") {
                                                       router.push(
-                                                          '/desconectada/${unidadesCubit.state[index].actividades![activityIndex].id}');
+                                                          '/desconectada/${unidades.state[index].actividades![activityIndex].id}');
                                                     }
                                                   },
                                                   child: Center(
@@ -204,7 +213,7 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                                   'assets/items/ButtonBlue.png',
                                               onPressed: () {
                                                 router.push(
-                                                    '/estudiocuestionario/${unidadesCubit.state[index].id}');
+                                                    '/estudiocuestionario/${unidades.state[index].id}');
                                               },
                                               text: 'Crear Actividad')
                                           : SizedBox(),

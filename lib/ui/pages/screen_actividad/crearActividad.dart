@@ -1,4 +1,3 @@
-// ignore: file_names
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
@@ -13,7 +12,7 @@ import 'package:go_router/go_router.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
 
 class CrearActividad extends StatefulWidget {
-  final String unidadId;
+  final int unidadId;
   const CrearActividad({super.key, required this.unidadId});
 
   @override
@@ -21,38 +20,38 @@ class CrearActividad extends StatefulWidget {
 }
 
 class CrearActividadState extends State<CrearActividad> {
-   List<String> elements = [
-   'boycampoderecha.png', // 0
-      'boycampofrente.png', // 1
-      'boytemploderecha.png', // 2
-      'pollitoUnidad0.jpg', // 3
-      'cofre.png', // 4
-      'llave 1.png', // 5
-      'sacocafe.png', // 6
-      'florUnidad0.png', // 7
-      'gemaAmarilla.png', // 8
-      'gemaAzul.png', // 9
-      'gemaRoja.png', // 10
-      'gemaVerde.png', // 11
-      'gallinas.png', // 12
-      'gallinaUnidad0.png', // 13
-      'huevo.png', // 14
-      'trigo.png', // 15
-      'calabaza.png', // 16
-      'pilar 1.png', // 17
-      'pilarfuego.png', // 18
-      'piedra 1.png', // 19
-      'cajas.png', // 20
-      'jarrones.png', // 21
-      'abeja.png', // 22
-      'gatoUnidad0.png', // 23
-      'trigocosecha.png', // 24
-     'arbol.png', // 25
-      'arbolmandarino.png', // 26
-      'canasta.png', // 27
-      'cerdito.png', // 28
-           'corralcerditos.png', // 29
-            'fuego.png', // 30
+  List<String> elements = [
+    'boycampoderecha.png', // 0
+    'boycampofrente.png', // 1
+    'boytemploderecha.png', // 2
+    'pollitoUnidad0.jpg', // 3
+    'cofre.png', // 4
+    'llave 1.png', // 5
+    'sacocafe.png', // 6
+    'florUnidad0.png', // 7
+    'gemaAmarilla.png', // 8
+    'gemaAzul.png', // 9
+    'gemaRoja.png', // 10
+    'gemaVerde.png', // 11
+    'gallinas.png', // 12
+    'gallinaUnidad0.png', // 13
+    'huevo.png', // 14
+    'trigo.png', // 15
+    'calabaza.png', // 16
+    'pilar 1.png', // 17
+    'pilarfuego.png', // 18
+    'piedra 1.png', // 19
+    'cajas.png', // 20
+    'jarrones.png', // 21
+    'abeja.png', // 22
+    'gatoUnidad0.png', // 23
+    'trigocosecha.png', // 24
+    'arbol.png', // 25
+    'arbolmandarino.png', // 26
+    'canasta.png', // 27
+    'cerdito.png', // 28
+    'corralcerditos.png', // 29
+    'fuego.png', // 30
   ];
 
   List<String> opciones = [
@@ -230,7 +229,7 @@ class CrearActividadState extends State<CrearActividad> {
                                         ActividadCuestionario
                                             actividadCuestionarioSave =
                                             ActividadCuestionario(
-                                                id: '123',
+                                                id: 123,
                                                 nombre: 'ACTIVIDAD NUEVA',
                                                 descripcion:
                                                     descripcionTextEditingController
@@ -243,12 +242,30 @@ class CrearActividadState extends State<CrearActividad> {
                                                 respuestaCorrecta:
                                                     _selectedOptionIndex);
 
-                                        context.read<ActividadCuestionarioCubit>().addActividadCuestionario(actividadCuestionarioSave);
-                                        context.read<UnidadesCubit>().addActividad(Actividad(id: actividadCuestionarioSave.id,nombre: actividadCuestionarioSave.nombre,descripcion: actividadCuestionarioSave.descripcion, estado: actividadCuestionarioSave.estado, tipoActividad: actividadCuestionarioSave.tipoActividad), widget.unidadId);
+                                        context
+                                            .read<ActividadCuestionarioCubit>()
+                                            .addActividadCuestionario(
+                                                actividadCuestionarioSave);
+                                        context.read<UnidadesCubit>().addActividad(
+                                            Actividad(
+                                                id: actividadCuestionarioSave
+                                                    .id,
+                                                nombre:
+                                                    actividadCuestionarioSave
+                                                        .nombre,
+                                                descripcion:
+                                                    actividadCuestionarioSave
+                                                        .descripcion,
+                                                estado:
+                                                    actividadCuestionarioSave
+                                                        .estado,
+                                                tipoActividad:
+                                                    actividadCuestionarioSave
+                                                        .tipoActividad),
+                                            widget.unidadId);
 
                                         // cerrar screen y volver
 
-                                        
                                         /*
                                         showDialog(
                                           context: context,

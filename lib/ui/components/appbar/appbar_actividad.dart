@@ -12,7 +12,7 @@ import 'package:go_router/go_router.dart';
 class CustomNavigationBarActividad extends StatelessWidget
     implements PreferredSizeWidget {
   final String cursoName;
-  final String cursoId;
+  final int cursoId;
   final String userName;
   final List<String> userAvatars;
   final Function onLogout;
@@ -26,17 +26,13 @@ class CustomNavigationBarActividad extends StatelessWidget
     required this.onLogout,
   });
 
-  
-
   @override
   Widget build(BuildContext context) {
-
     late InitData cs_init = InitData(
       cursosCasoUso: getIt<CursosCasoUso>(),
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,
     );
-
 
     final estudiantesCubit = context.read<EstudiantesCubit>();
     final router = GoRouter.of(context);
@@ -47,7 +43,7 @@ class CustomNavigationBarActividad extends StatelessWidget
         Center(
           child: GestureDetector(
             onTap: () {
-              router.go('/panelcurso/${cursoId}');
+              router.go('/panelcurso/$cursoId');
             },
             child: const MouseRegion(
               cursor: SystemMouseCursors.click,
@@ -91,7 +87,7 @@ class CustomNavigationBarActividad extends StatelessWidget
                   _showLogoutMenu(context, cs_init);
                 },
               ),
-              
+
               // Add more PopupMenuItems as needed
             ];
           },

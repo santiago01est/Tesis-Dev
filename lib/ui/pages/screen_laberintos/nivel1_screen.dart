@@ -18,7 +18,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class Laberinto extends StatefulWidget {
-  final String actividadId;
+  final int actividadId;
   const Laberinto({super.key, required this.actividadId});
 
   @override
@@ -144,9 +144,9 @@ class _LaberintoState extends State<Laberinto> {
                                                       right: 60,
                                                       bottom: 20),
                                                   child: Text(
-                                                    actividadLaberinto!
+                                                    actividadLaberinto
                                                         .descripcion!,
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                       fontSize: 16,
                                                       color: Colors.black,
                                                       fontWeight:
@@ -519,11 +519,10 @@ class _LaberintoState extends State<Laberinto> {
                                                           .actualizarRespuestasActividadesEstudiantes(
                                                               estudiantes
                                                                   .obtenerIds(),
+                                                              "",
                                                               response,
-                                                              unidadesCubit
-                                                                  .indiceActividadPorId(
-                                                                      actividadLaberinto!
-                                                                          .id!)!);
+                                                              actividadLaberinto
+                                                                  .id!);
                                                     }
                                                   }),
                                             ),
@@ -580,7 +579,7 @@ class _LaberintoState extends State<Laberinto> {
                               indice: actividadLaberinto.indice!,
                               habilidades: actividadLaberinto.habilidades!,
                               titulo:
-                                  '$nombreUnidad \n${actividadLaberinto!.nombre!}',
+                                  '$nombreUnidad \n${actividadLaberinto.nombre!}',
                             ),
                           ),
                           Center(
@@ -612,8 +611,8 @@ class _LaberintoState extends State<Laberinto> {
                                                 right: 60,
                                                 bottom: 20),
                                             child: Text(
-                                              actividadLaberinto!.descripcion!,
-                                              style: TextStyle(
+                                              actividadLaberinto.descripcion!,
+                                              style: const TextStyle(
                                                 fontSize: 16,
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.w400,
@@ -972,11 +971,9 @@ class _LaberintoState extends State<Laberinto> {
                                                     .actualizarRespuestasActividadesEstudiantes(
                                                         estudiantes
                                                             .obtenerIds(),
+                                                        '',
                                                         response,
-                                                        unidadesCubit
-                                                            .indiceActividadPorId(
-                                                                actividadLaberinto!
-                                                                    .id!)!);
+                                                        actividadLaberinto.id!);
                                               }
                                             }),
                                       ),
@@ -1017,19 +1014,6 @@ class _LaberintoState extends State<Laberinto> {
     );
   }
 
-  int obtenerPesoActividad(int respuestaEstudiante, String id) {
-    final unidad = context.read<UnidadesCubit>();
-    Actividad actividad = unidad.actividadPorId(id)!;
-
-    // toast
-
-    if (respuestaEstudiante == -1) {
-      return 0;
-    } else {
-      return actividad.pesoRespuestas![respuestaEstudiante - 1];
-    }
-  }
-
   void _mostrarDialogoVictoria(BuildContext context, GoRouter router,
       UnidadesCubit unidadesCubit, ActividadLaberinto actividadLaberinto) {
     showDialog(
@@ -1066,8 +1050,7 @@ class _LaberintoState extends State<Laberinto> {
                       "Cuestionario") {
                     router.push(
                         '/cuestionario/${siguienteActividadInfo.idActividad}');
-                  }
-                  else if (siguienteActividadInfo.tipoActividad ==
+                  } else if (siguienteActividadInfo.tipoActividad ==
                       "Desconectada") {
                     router.push(
                         '/desconectada/${siguienteActividadInfo.idActividad}');

@@ -18,7 +18,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class TestAutoPercepcionScreen extends StatefulWidget {
-  final String cursoId;
+  final int cursoId;
   const TestAutoPercepcionScreen({super.key, required this.cursoId});
 
   @override

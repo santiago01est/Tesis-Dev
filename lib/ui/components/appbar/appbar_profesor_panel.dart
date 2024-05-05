@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 
 class AppBarProfesorPanel extends StatelessWidget
     implements PreferredSizeWidget {
-  final String profesorId;
+  final int profesorId;
 
   const AppBarProfesorPanel({
     super.key,

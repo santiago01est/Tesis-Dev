@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class LayoutMisCursos extends StatelessWidget {
-  final String profesorId;
+  final int profesorId;
 
   const LayoutMisCursos({Key? key, required this.profesorId}) : super(key: key);
 
@@ -108,7 +108,7 @@ class LayoutMisCursos extends StatelessWidget {
     );
   }
 
-  List<Curso> obtenerMisCursos(String profesorId, List<Curso> cursos) {
+  List<Curso> obtenerMisCursos(int profesorId, List<Curso> cursos) {
     //for que retorna los cursos por el id del profesor
     List<Curso> misCursos = [];
     for (var i = 0; i < cursos.length; i++) {
@@ -116,7 +116,7 @@ class LayoutMisCursos extends StatelessWidget {
         misCursos.add(cursos[i]);
       }
     }
-    print('mis cursos: ${misCursos.length} y $profesorId');
+
     return misCursos;
   }
 }

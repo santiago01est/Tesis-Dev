@@ -107,7 +107,7 @@ class _HomeMobileState extends State<HomeMobile> {
                               ),
                               const SizedBox(height: 20.0),
                               const Text(
-                                  'Mundo PC es más que una plataforma; somos un puente entre la innovación, la creatividad y la enseñanza.',
+                                  'Mundo PC es más que una plataforma, somos un puente entre la innovación, la creatividad y la enseñanza del pensamiento computacional (PC).',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 24,
@@ -195,14 +195,16 @@ class _HomeMobileState extends State<HomeMobile> {
                                               router.push(
                                                   '/panelcurso/${cursos[index].id}');
                                             } else {
-                                              if(context.read<EstudiantesCubit>().state.isEmpty){
-                                                  PopupUtils.showCodeAccessPopup(
+                                              if (context
+                                                  .read<EstudiantesCubit>()
+                                                  .state
+                                                  .isEmpty) {
+                                                PopupUtils.showCodeAccessPopup(
                                                     context, cursos[index]);
-
-                                                }else{
-                                                  router.push(
-                                                      '/panelcurso/${cursos[index].id}');
-                                                }
+                                              } else {
+                                                router.push(
+                                                    '/panelcurso/${cursos[index].id}');
+                                              }
                                             }
                                           },
                                           child: CursoCard(
@@ -229,9 +231,7 @@ class _HomeMobileState extends State<HomeMobile> {
             ));
   }
 
-  obtenerNombreProfesor(List<Profesor> profesores, String idProfesor) {
-    print(profesores.length);
-    print('profesorid: $idProfesor');
+  obtenerNombreProfesor(List<Profesor> profesores, int idProfesor) {
     // for que retorna el nombre del profesor
     for (var i = 0; i < profesores.length; i++) {
       if (profesores[i].id == idProfesor) {

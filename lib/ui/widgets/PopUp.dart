@@ -258,11 +258,13 @@ class PopupUtils {
                                                       .id!); // Aquí debes crear una instancia del _PopupCredenciales
                                             },
                                           );
-                                        }else{
+                                        } else {
                                           //toast
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             const SnackBar(
-                                              content: Text('Código de acceso incorrecto'),
+                                              content: Text(
+                                                  'Código de acceso incorrecto'),
                                               backgroundColor: Colors.red,
                                             ),
                                           );
@@ -287,13 +289,16 @@ class PopupUtils {
       },
     );
   }
+
   /* PopUp para confirmarcion de eliminacion de una actividad */
-  static void showDeleteConfirmationDialog(BuildContext context, Function onDelete) {
+  static void showDeleteConfirmationDialog(
+      BuildContext context, Function onDelete) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("¿Estás seguro de eliminar esta actividad permanentemente?"),
+          title:
+              Text("¿Estás seguro de eliminar esta actividad permanentemente?"),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
           ),
@@ -301,15 +306,18 @@ class PopupUtils {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset('assets/avatares/perico_avatar.png',
-              width: 300,
-              height: 300,), // Reemplaza 'ruta_de_la_imagen' con la ruta real de tu imagen
+              Image.asset(
+                'assets/avatares/perico_avatar.png',
+                width: 300,
+                height: 300,
+              ), // Reemplaza 'ruta_de_la_imagen' con la ruta real de tu imagen
             ],
           ),
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Cierra el diálogo sin realizar ninguna acción
+                Navigator.of(context)
+                    .pop(); // Cierra el diálogo sin realizar ninguna acción
               },
               child: Text("Cancelar"),
             ),

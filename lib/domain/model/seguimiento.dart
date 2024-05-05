@@ -1,6 +1,8 @@
+import 'package:dev_tesis/domain/model/respuesta.dart';
+
 class Seguimiento {
   int? id;
-  List<int>? respuestasActividades;
+  List<Respuesta>? respuestasActividades;
   List<int>? test;
   double? calificacion;
   int? userId;
@@ -15,7 +17,8 @@ class Seguimiento {
       this.cursoId});
 
   Seguimiento copyWith({
-    List<int>? respuestasActividades,
+    int? id,
+    List<Respuesta>? respuestasActividades,
     List<int>? test,
     double? calificacion,
     int? userId,

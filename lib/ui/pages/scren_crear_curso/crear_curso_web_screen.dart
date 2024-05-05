@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
@@ -6,7 +7,6 @@ import 'package:dev_tesis/domain/casos_uso/unidad_casos_uso/unidad_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
-import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
@@ -17,13 +17,16 @@ import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/combobox/combobox_ubicacion.dart';
 import 'package:dev_tesis/ui/widgets/PopUp.dart';
 import 'package:dev_tesis/utils/manejoExcel.dart';
+// ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
 import 'package:dev_tesis/utils/rutasImagenes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'dart:convert';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 
 class CrearCursoWebScreen extends StatefulWidget {
@@ -71,6 +74,9 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
   final TextEditingController _nombreEstudianteController =
       TextEditingController();
 
+  // Lista para almacenar los géneros seleccionados con 100 items
+  List<String> generosSeleccionados = List.filled(100, 'Masculino');
+
   bool get isLastStep => _currentStep == 3 - 1;
   bool get isFirstStep => _currentStep == 0;
 
@@ -102,7 +108,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
     });
   }
 
-   late InitData _cursosProfesoresCasoUso;
+  late InitData _cursosProfesoresCasoUso;
 
   @override
   void initState() {
@@ -114,7 +120,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,
     );
-    _cursosProfesoresCasoUso.obtenerCursosYProfesoresYUnidades('1');
+    _cursosProfesoresCasoUso.obtenerCursosYProfesores();
   }
 
   Future<void> _fetchDepartamentos() async {
@@ -166,14 +172,14 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
     final router = GoRouter.of(context);
 
     final List<StepForm> _stepForms = [
-      StepForm(title: 'Información del Curso', formFields: [
+      StepForm(title: 'Información del curso', formFields: [
         Container(
             width: 700,
             padding: const EdgeInsets.only(left: 50, right: 50),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               const Text(
-                'Nombre del Curso *',
+                'Nombre del curso *',
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 10),
@@ -181,7 +187,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                 controller: _nombreCursoController,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
-                    hintText: "Ingresa un Nombre para el curso",
+                    hintText: "Ingresa un nombre para el curso",
                     prefixIcon: const Icon(Icons.book_online_rounded),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -219,7 +225,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
                 decoration: InputDecoration(
-                    hintText: "Ingresa una Descripción para el curso",
+                    hintText: "Ingresa una descripción para el curso",
                     prefixIcon: const Icon(Icons.book_online_rounded),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -237,38 +243,6 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                   return null;
                 },
                 //onChanged: (value) => _nadadorData.nombre = value,
-              ),
-            ])),
-        const SizedBox(
-          height: 20,
-        ),
-        Container(
-            width: 700,
-            padding: const EdgeInsets.only(left: 50, right: 50),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Text(
-                'Departamento',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(height: 10),
-              ComboboxUbicacion(
-                textoHint: 'Elige un Departamento',
-                listaUbicaciones: departamentos,
-                onChanged: _selectDepto,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                'Municipio',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(height: 10),
-              ComboboxUbicacion(
-                textoHint: 'Elige un Municipio',
-                listaUbicaciones: municipios,
-                onChanged: _selectMunicipio,
               ),
             ])),
         const SizedBox(height: 20),
@@ -307,6 +281,38 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                 //onChanged: (value) => _nadadorData.nombre = value,
               ),
             ])),
+        const SizedBox(
+          height: 20,
+        ),
+        Container(
+            width: 700,
+            padding: const EdgeInsets.only(left: 50, right: 50),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              const Text(
+                'Departamento',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 10),
+              ComboboxUbicacion(
+                textoHint: 'Elige un departamento',
+                listaUbicaciones: departamentos,
+                onChanged: _selectDepto,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const Text(
+                'Municipio',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 10),
+              ComboboxUbicacion(
+                textoHint: 'Elige un municipio',
+                listaUbicaciones: municipios,
+                onChanged: _selectMunicipio,
+              ),
+            ])),
         const SizedBox(height: 20),
         Container(
             width: 700,
@@ -314,13 +320,14 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               const Text(
-                'Código de Acceso *',
+                'Código de acceso *',
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 10),
               TextFormField(
                 controller: _codigoAccesoController,
-                keyboardType: TextInputType.text,
+                keyboardType: TextInputType.number,
+                maxLength: 4,
                 maxLines: null,
                 decoration: InputDecoration(
                     hintText: "Ingresa un codigo de acceso de 4 cifras",
@@ -442,7 +449,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
               ),
               CheckboxListTile(
                 title: const Text(
-                    "Plantilla básica\n* 3 Unidades\n* de 8 a 10 Actividades por Unidad"),
+                    "Plantilla básica\n* 3 unidades\n* [Unidad Diagnóstico - Unidad 1 - Unidad 2]"),
                 value: _isPlantillaSeleccionada,
                 onChanged: (bool? value) {
                   setState(() {
@@ -455,7 +462,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
           height: 10,
         ),
       ]),
-      StepForm(title: 'Incripción Estudiantes', formFields: [
+      StepForm(title: 'Incripción estudiantes', formFields: [
         Container(
             width: 700,
             padding: const EdgeInsets.only(left: 50, right: 50),
@@ -505,7 +512,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 const Text(
-                                  'Nombre Completo del Estudiante',
+                                  'Nombre completo del estudiante',
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500),
@@ -570,7 +577,6 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                 ])))
                   ]),
 
-              
               //boton
               PixelLargeBttn(
                   path: "assets/items/ButtonBlue.png",
@@ -598,7 +604,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Lista de Estudiantes',
+                          'Lista de estudiantes',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -617,32 +623,59 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                   itemCount: listaEstudiantes.length,
                                   itemBuilder: (context, index) {
                                     return ListTile(
-                                        leading: InkWell(
-                                          onTap: () {
-                                            indiceEstudiante = index;
-                                            PopupUtils.showAvatarSelectionPopup(
-                                                context,
-                                                RutasImagenes
-                                                    .getRutasAvatares(),
-                                                _actualizarAvatarEstudiante);
-                                          },
-                                          child: CircleAvatar(
-                                            radius: 20,
-                                            //clic al avatar
-
-                                            backgroundImage: AssetImage(
-                                                listaEstudiantes[index].avatar!),
-                                          ),
+                                      leading: InkWell(
+                                        onTap: () {
+                                          indiceEstudiante = index;
+                                          PopupUtils.showAvatarSelectionPopup(
+                                            context,
+                                            RutasImagenes.getRutasAvatares(),
+                                            _actualizarAvatarEstudiante,
+                                          );
+                                        },
+                                        child: CircleAvatar(
+                                          radius: 20,
+                                          backgroundImage: AssetImage(
+                                              listaEstudiantes[index].avatar!),
                                         ),
-                                        title: Text(
-                                            listaEstudiantes[index].nombre!),
-                                        // icono de eliminar
-                                        trailing: IconButton(
-                                            icon: Icon(Icons.delete,
-                                                color: orangeColor),
-                                            onPressed: () {
-                                              eliminarEstudiante(index);
-                                            }));
+                                      ),
+                                      title: Row(
+                                        children: [
+                                          Text(listaEstudiantes[index].nombre!),
+                                          const SizedBox(
+                                              width:
+                                                  20), // Espacio entre el nombre y el DropdownButton
+                                          DropdownButton<String>(
+                                            value: listaEstudiantes[index]
+                                                .genero, // Valor seleccionado del Dropdown
+                                            onChanged: (String? newValue) {
+                                              setState(() {
+                                                //generosSeleccionados[index] = newValue!; // Actualizar el género seleccionado
+                                                _actualizarGeneroEstudiante(
+                                                    newValue!, index);
+                                              });
+                                            },
+                                            items: <String>[
+                                              'Masculino',
+                                              'Femenino',
+                                              'Otro'
+                                            ].map<DropdownMenuItem<String>>(
+                                                (String value) {
+                                              return DropdownMenuItem<String>(
+                                                value: value,
+                                                child: Text(value),
+                                              );
+                                            }).toList(),
+                                          ),
+                                        ],
+                                      ),
+                                      trailing: IconButton(
+                                        icon: Icon(Icons.delete,
+                                            color: orangeColor),
+                                        onPressed: () {
+                                          eliminarEstudiante(index);
+                                        },
+                                      ),
+                                    );
                                   },
                                 ),
                               ],
@@ -721,12 +754,9 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                               path: 'assets/items/ButtonBlue.png',
                               onPressed: () {
                                 //TODO: Validar la información
-
-                                
-
                                 Curso curso = Curso(
-                                    id: _nombreCursoController.text +
-                                        profesorCubit.state.nombre!,
+                                    // numero random para el id
+                                    id: Random().nextInt(10000000),
                                     nombre: _nombreCursoController.text,
                                     codigoAcceso: _codigoAccesoController.text,
                                     departamento: selectedDepartamento,
@@ -741,17 +771,12 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                     fechaFinalizacion: "",
                                     estado: true,
                                     estudiantes: listaEstudiantes,
-                                    unidades: context.read<UnidadesCubit>().state);
-                                //TODO: Llamar a la API para guardar la información
-                                cursosCasoUso.guardarCurso(curso);
-                                // Guardar en Cubit
-                                cursoCubit.actualizarCurso(curso);
-                                bdCursosCubit.agregarCurso(curso);
+                                    unidades:
+                                        context.read<UnidadesCubit>().state);
 
-                                router.go('/panelcurso/${curso.id}');
-                                //bool isValid =
-                                //_validateInformation(); // Verifica la información
-/*
+                                bool isValid =
+                                    _validateInformation(); // Verifica la información
+
                                 if (isValid) {
                                   showDialog(
                                     context: context,
@@ -769,10 +794,28 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                           ),
                                           TextButton(
                                             onPressed: () {
+                                              //TODO: Llamar a la API para guardar la información
+                                              cursosCasoUso.guardarCurso(curso);
+                                              // Guardar en Cubit
+                                              cursoCubit.actualizarCurso(curso);
+                                              bdCursosCubit.agregarCurso(curso);
+                                              router.go(
+                                                  '/panelcurso/${curso.id}');
                                               // Aquí puedes realizar la acción que desees cuando se confirme
                                               // Por ejemplo, enviar un formulario, llamar a una función, etc.
                                               Navigator.of(context).pop();
-                                              showCustomSnackBar(context);
+                                              // mostrar Toats
+                                              Fluttertoast.showToast(
+                                                msg:
+                                                    'Inscripción realizada con éxito',
+                                                toastLength: Toast
+                                                    .LENGTH_LONG, // Duración corta del mensaje
+                                                gravity:
+                                                    ToastGravity.BOTTOM, // Pos
+                                              );
+
+                                              //TODO: Crear Seguimientos para los estudiantes y el profesor en la BD
+
                                               _onStepContinue();
                                             },
                                             child: Text('Confirmar'),
@@ -801,7 +844,6 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                     },
                                   );
                                 }
-                                */
                               },
                               text: 'Confirmar',
                             ),
@@ -847,7 +889,10 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
             //obtener un dato de una posicion
 
             Estudiante estudiante = Estudiante(
-                nombre: datos[i], avatar: RutasImagenes.getRandomRuta());
+                nombre: datos[i],
+                avatar: RutasImagenes.getRandomRuta(),
+                genero: 'Masculino');
+            //agregar a la lista);
             agregarEstudiante(estudiante);
           }
         });
@@ -893,6 +938,12 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
     });
   }
 
+  void _actualizarGeneroEstudiante(String genero, int index) {
+    setState(() {
+      listaEstudiantes[index].genero = genero;
+    });
+  }
+
   void agregarEstudiante(Estudiante nuevoEstudiante) {
     setState(() {
       listaEstudiantes.add(nuevoEstudiante);
@@ -903,6 +954,33 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
     setState(() {
       listaEstudiantes.removeAt(index);
     });
+  }
+
+  bool _validateInformation() {
+    // Verificar
+    bool isValid = true;
+
+    if (_nombreCursoController.text.isEmpty) {
+      isValid = false;
+    }
+
+    if (_descripcionCursoController.text.isEmpty) {
+      isValid = false;
+    }
+
+    if (_colegioCursoController.text.isEmpty) {
+      isValid = false;
+    }
+
+    if (_codigoAccesoController.text.isEmpty) {
+      isValid = false;
+    }
+
+    if (listaEstudiantes.isEmpty) {
+      isValid = false;
+    }
+
+    return isValid;
   }
 }
 

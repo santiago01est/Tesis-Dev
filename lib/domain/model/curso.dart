@@ -1,15 +1,14 @@
-
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
 
 class Curso {
-  String? id;
+  int? id;
   String? nombre;
   String? codigoAcceso;
   String? departamento;
   String? ciudad;
   String? colegio;
-  String? profesor;
+  int? profesor;
   String? portada;
   int? numEstudiantes;
   String? descripcion;
