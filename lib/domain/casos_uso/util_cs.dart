@@ -38,7 +38,9 @@ class InitData {
 
   Future<void> obtenerCursosYProfesoresYUnidades(int cursoId) async {
     //TODO: obtener sesion estudiantes si el rol es estudiante
-    context.read<RolCubit>().actualizarRol('estudiante');
+    if (context.read<RolCubit>().state.isEmpty) {
+      context.read<RolCubit>().actualizarRol('estudiante');
+    }
 
     if (context.read<BDCursosCubit>().state.isEmpty) {
       List<int>? jsonString = await leerStringList('idsEstudiantes');
@@ -168,9 +170,6 @@ class InitData {
       }
     }
     //TODO: obtener seguimientos del curso de la BD
-    if (context.read<SeguimientosEstudiantesCubit>().state.isEmpty) {
-      context.read<SeguimientosEstudiantesCubit>().subirSeguimientos(
-          context.read<BDemoMundoPC>().obtenerSeguimiento(cursoId));
-    }
+    if (context.read<SeguimientosEstudiantesCubit>().state.isEmpty) {}
   }
 }

@@ -4,12 +4,15 @@ import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/respuesta.dart';
 import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
+import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CursosCasoUso {
   final CursoRepository cursoRepository;
   final BuildContext context;
-  CursosCasoUso(this.cursoRepository, this.context);
+
+  CursosCasoUso({required this.cursoRepository, required this.context});
 
   Future<List<Curso>> getCursos() async {
     return await cursoRepository.getCursos();
@@ -64,5 +67,9 @@ class CursosCasoUso {
         cursoId: idCurso));
 
     cursoRepository.crearSeguimientos(seguimientos);
+    // Copia en Cubit
+    context
+        .read<SeguimientosEstudiantesCubit>()
+        .subirSeguimientos(seguimientos);
   }
 }

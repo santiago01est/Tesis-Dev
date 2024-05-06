@@ -24,7 +24,7 @@ class CrearActividadState extends State<CrearActividad> {
     'boycampoderecha.png', // 0
     'boycampofrente.png', // 1
     'boytemploderecha.png', // 2
-    'pollitoUnidad0.jpg', // 3
+    'pollitoUnidad0.png', // 3
     'cofre.png', // 4
     'llave 1.png', // 5
     'sacocafe.png', // 6
@@ -357,6 +357,61 @@ class CrearActividadState extends State<CrearActividad> {
                                         ),
                                       )
                                       .toList(),
+                                ),
+                                SizedBox(height: 12),
+                                // Tarjeta con un TextField y un DragTarget
+                                Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  elevation: 6,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Respuesta adicional:',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(height: 8),
+                                        TextField(
+                                          decoration: InputDecoration(
+                                            hintText:
+                                                'Escribe tu respuesta aquí',
+                                          ),
+                                        ),
+                                        SizedBox(height: 16),
+                                        DragTarget<String>(
+                                          builder: (context, candidateData,
+                                              rejectedData) {
+                                            return Container(
+                                              height: 100,
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Colors.grey),
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                              child: Text(
+                                                'Arrastra imágenes aquí',
+                                                style: TextStyle(
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          onAccept: (String? data) {
+                                            // Aquí puedes manejar la lógica para cuando se acepta una imagen
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                                 const SizedBox(height: 12),
                                 Column(

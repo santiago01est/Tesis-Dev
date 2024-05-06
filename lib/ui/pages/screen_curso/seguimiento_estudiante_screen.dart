@@ -1,5 +1,3 @@
-import 'dart:math'; // Importa la librería math para generar números aleatorios
-
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
@@ -8,14 +6,11 @@ import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/respuesta.dart';
-import 'package:dev_tesis/domain/model/seguimiento.dart';
+import 'package:dev_tesis/domain/repository/curso_repository.dart';
 import 'package:dev_tesis/main.dart';
-import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
-import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
-import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,7 +37,8 @@ class _SeguimientoEstudianteScreenState
   void initState() {
     super.initState();
     _cursosProfesoresCasoUso = InitData(
-      cursosCasoUso: getIt<CursosCasoUso>(),
+      cursosCasoUso: CursosCasoUso(
+          cursoRepository: getIt<CursoRepository>(), context: context),
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,
     );
@@ -175,7 +171,7 @@ class _SeguimientoEstudianteScreenState
                 height: 20,
               ),
               const Center(
-                child: SubtitleText(text: 'Testt Autopercepción'),
+                child: SubtitleText(text: 'Test Autopercepción'),
               ),
               const SizedBox(
                 height: 10,

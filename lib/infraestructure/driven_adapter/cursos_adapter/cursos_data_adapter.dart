@@ -994,7 +994,7 @@ class CursosDataAdapter extends CursoRepository {
                     pesoRespuestas: [2, 1, 3, 4],
                     respuestaCorrecta: 4),
               ]),
-          Unidad(id: 1, nombre: 'Unidad Uno', estado: 'Activa', actividades: [
+          Unidad(id: 1, nombre: 'Unidad 1', estado: 'Activa', actividades: [
             ActividadLaberinto(
                 id: 16,
                 nombre: 'Primeros Pasos',
@@ -1228,7 +1228,7 @@ class CursosDataAdapter extends CursoRepository {
                     'Tiempo de cosecha!. Juan necesita llegar al árbol de mandarinas, pero antes debe recoger la canasta.',
                 tipoActividad: 'Cuestionario',
                 dimension: 6,
-                ejemploImage: 'ejemplocuestionarioN2Giros.png',
+                ejemploImage: 'ejemplocuestionarioN6REcogerGiros.png',
                 ejercicioImage: '',
                 casillas: [
                   25,
@@ -1454,7 +1454,7 @@ class CursosDataAdapter extends CursoRepository {
               pesoRespuestas: [0, 0, 0, 0],
             ),
           ]),
-          Unidad(id: 2, nombre: 'Unidad Dos', estado: 'Activa', actividades: [
+          Unidad(id: 2, nombre: 'Unidad 2', estado: 'Activa', actividades: [
             ActividadLaberinto(
                 id: 25,
                 nombre: 'Primeros Pasos',

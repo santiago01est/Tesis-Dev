@@ -11,7 +11,9 @@ import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
+import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
+import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_profesor.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
@@ -161,6 +163,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
   @override
   Widget build(BuildContext context) {
     final profesorCubit = context.watch<ProfesorCubit>();
+    final estudiantesCubit = context.watch<EstudiantesCubit>();
     final cursoCubit = context.watch<CursoCubit>();
     final bdCursosCubit = context.read<BDCursosCubit>();
     final router = GoRouter.of(context);
@@ -734,9 +737,20 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                             child: PixelLargeBttn(
                               path: 'assets/items/ButtonBlue.png',
                               onPressed: () {
+                                // traer el codigo demo para extraer las unidades plantilla
+                                Curso cursoDemo = context
+                                    .read<BDCursosCubit>()
+                                    .state
+                                    .firstWhere((curso) => curso.id == 1);
+                                // obtener en una lista todas las unidades del curso
+                                List<Unidad> unidades = [];
+                                for (var unidad in cursoDemo.unidades!) {
+                                  unidades.add(unidad);
+                                }
                                 //TODO: Validar la información
-
                                 Curso curso = Curso(
+                                    // numero random para el id
+
                                     id: Random().nextInt(10000000),
                                     nombre: _nombreCursoController.text,
                                     codigoAcceso: _codigoAccesoController.text,
@@ -752,8 +766,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                     fechaFinalizacion: "",
                                     estado: true,
                                     estudiantes: listaEstudiantes,
-                                    unidades:
-                                        context.read<UnidadesCubit>().state);
+                                    unidades: unidades);
                                 //TODO: Llamar a la API para guardar la información
                                 bool isValid =
                                     _validateInformation(); // Verifica la información
@@ -765,7 +778,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                       return AlertDialog(
                                         title: Text('Confirmación'),
                                         content: Text(
-                                            '¿Estás seguro de realizar esta Inscripción?'),
+                                            '¿Estás seguro de guardar el curso?'),
                                         actions: [
                                           TextButton(
                                             onPressed: () {
@@ -780,6 +793,29 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                               // Guardar en Cubit
                                               cursoCubit.actualizarCurso(curso);
                                               bdCursosCubit.agregarCurso(curso);
+
+                                              // Agregar Seguimientos
+                                              cursosCasoUso.crearSeguimientos(
+                                                  listaEstudiantes,
+                                                  profesorCubit.state.id!,
+                                                  curso.id!,
+                                                  cursoCubit
+                                                      .obtenerTodasActividadesCurso());
+                                              // Crear Cubit de estudiante para que el profe pueda resolver actividades
+                                              estudiantesCubit
+                                                  .agregarEstudiante(Estudiante(
+                                                      id: profesorCubit
+                                                          .state.id!,
+                                                      nombre:
+                                                          '${profesorCubit.state.nombre}',
+                                                      avatar:
+                                                          '${profesorCubit.state.avatar}',
+                                                      genero: 'Otro'));
+
+                                              // Establecer Rol de Profesor
+                                              context
+                                                  .read<RolCubit>()
+                                                  .actualizarRol('profesor');
                                               router.go(
                                                   '/panelcurso/${curso.id}');
                                               // Aquí puedes realizar la acción que desees cuando se confirme
@@ -787,8 +823,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                               Navigator.of(context).pop();
                                               // mostrar Toats
                                               Fluttertoast.showToast(
-                                                msg:
-                                                    'Inscripción realizada con éxito',
+                                                msg: 'Curso creado con éxito',
                                                 toastLength: Toast
                                                     .LENGTH_LONG, // Duración corta del mensaje
                                                 gravity:

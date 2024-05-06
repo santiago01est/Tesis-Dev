@@ -64,8 +64,6 @@ class SeguimientosEstudiantesCubit extends Cubit<List<Seguimiento>> {
   }
 
   Seguimiento obtenerSeguimientoEstudiante(int userId) {
-    final seguimientoEstudiante =
-        state.firstWhere((seguimiento) => seguimiento.userId == userId);
-    return seguimientoEstudiante;
+    return state.firstWhere((seguimiento) => seguimiento.userId == userId);
   }
 }

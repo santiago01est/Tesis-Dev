@@ -1,4 +1,4 @@
-import 'dart:math'; // Importa la librería math para generar números aleatorios
+import 'dart:math';
 
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
@@ -9,12 +9,11 @@ import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/respuesta.dart';
 import 'package:dev_tesis/domain/model/seguimiento.dart';
+import 'package:dev_tesis/domain/repository/curso_repository.dart';
 import 'package:dev_tesis/main.dart';
-import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
-import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
+import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
-import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,6 +21,7 @@ import 'package:go_router/go_router.dart';
 
 class SeguimientoProfesorScreen extends StatefulWidget {
   final int cursoId;
+
   const SeguimientoProfesorScreen({super.key, required this.cursoId});
 
   @override
@@ -30,29 +30,32 @@ class SeguimientoProfesorScreen extends StatefulWidget {
 }
 
 class _SeguimientoProfesorScreenState extends State<SeguimientoProfesorScreen> {
-  final CursosCasoUso cursosCasoUso = getIt<CursosCasoUso>();
-  final UnidadCasoUso unidadCasoUso = getIt<UnidadCasoUso>();
-  final ProfesorCasoUso profesorCasoUso = getIt<ProfesorCasoUso>();
-
   late InitData _cursosProfesoresCasoUso;
 
   @override
   void initState() {
     super.initState();
     _cursosProfesoresCasoUso = InitData(
-      cursosCasoUso: getIt<CursosCasoUso>(),
+      cursosCasoUso: CursosCasoUso(
+          cursoRepository: getIt<CursoRepository>(), context: context),
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,
     );
     _cursosProfesoresCasoUso.obtenerCursosYProfesoresYUnidades(widget.cursoId);
   }
 
+  List<Estudiante> totalEstudiantes = [];
+
   @override
   Widget build(BuildContext context) {
-    final cursoCubit = context.read<CursoCubit>();
     final router = GoRouter.of(context);
-    final estudiantes = cursoCubit.state.estudiantes!;
+    final cursoCubit = context.read<CursoCubit>();
+    totalEstudiantes.addAll(cursoCubit.state.estudiantes!);
+    final estudianteProfesorSeguimiento =
+        context.read<EstudiantesCubit>().state[0];
+    totalEstudiantes.add(estudianteProfesorSeguimiento);
     final seguimientos = context.read<SeguimientosEstudiantesCubit>().state;
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: blueDarkColor), // Cambia el color aquí
@@ -142,8 +145,9 @@ class _SeguimientoProfesorScreenState extends State<SeguimientoProfesorScreen> {
                 height: 20,
               ),
               DataTableWidget(
-                  estudiantes: estudiantes,
-                  actividades: cursoCubit.state.unidades![0].actividades!),
+                  estudiantes: totalEstudiantes,
+                  actividades: cursoCubit.state.unidades![0].actividades!,
+                  seguimientos: seguimientos),
               SizedBox(
                 height: 20,
               ),
@@ -154,8 +158,9 @@ class _SeguimientoProfesorScreenState extends State<SeguimientoProfesorScreen> {
                 height: 10,
               ),
               DataTableWidget(
-                  estudiantes: estudiantes,
-                  actividades: cursoCubit.state.unidades![1].actividades!),
+                  estudiantes: totalEstudiantes,
+                  actividades: cursoCubit.state.unidades![1].actividades!,
+                  seguimientos: seguimientos),
               SizedBox(
                 height: 20,
               ),
@@ -166,8 +171,9 @@ class _SeguimientoProfesorScreenState extends State<SeguimientoProfesorScreen> {
                 height: 10,
               ),
               DataTableWidget(
-                  estudiantes: estudiantes,
-                  actividades: cursoCubit.state.unidades![2].actividades!),
+                  estudiantes: totalEstudiantes,
+                  actividades: cursoCubit.state.unidades![2].actividades!,
+                  seguimientos: seguimientos),
               SizedBox(
                 height: 20,
               ),
@@ -178,7 +184,7 @@ class _SeguimientoProfesorScreenState extends State<SeguimientoProfesorScreen> {
                 height: 10,
               ),
               DataTestTableWidget(
-                  estudiantes: estudiantes, respuestas: seguimientos),
+                  estudiantes: totalEstudiantes, respuestas: seguimientos),
               SizedBox(
                 height: 20,
               ),
@@ -193,9 +199,13 @@ class _SeguimientoProfesorScreenState extends State<SeguimientoProfesorScreen> {
 class DataTableWidget extends StatefulWidget {
   final List<Estudiante> estudiantes;
   final List<Actividad> actividades;
+  final List<Seguimiento> seguimientos;
 
   const DataTableWidget(
-      {super.key, required this.estudiantes, required this.actividades});
+      {super.key,
+      required this.estudiantes,
+      required this.actividades,
+      required this.seguimientos});
   @override
   _DataTableWidgetState createState() => _DataTableWidgetState();
 }
@@ -270,9 +280,9 @@ class _DataTableWidgetState extends State<DataTableWidget> {
         []; // Lista para almacenar los valores de actividades
     widget.actividades.forEach((activity) {
       Color cellColor = asignarColor(activity.indice! - 1);
-      final seguimientos = context.read<SeguimientosEstudiantesCubit>();
-      final seguimiento =
-          seguimientos.obtenerSeguimientoEstudiante(student.id!);
+
+      Seguimiento seguimiento = widget.seguimientos
+          .firstWhere((element) => element.userId == student.id);
 
       Respuesta miRespuesta = seguimiento.respuestasActividades!
           .firstWhere((element) => element.actividadId == activity.id);
@@ -401,7 +411,7 @@ class _DataTestTableWidgetState extends State<DataTestTableWidget> {
     }).toList());
 
     // Agregar columna para el promedio
-    //columns.add(DataColumn(label: Text('Promedio')));
+    columns.add(DataColumn(label: Text('Promedio')));
 
     return columns;
   }

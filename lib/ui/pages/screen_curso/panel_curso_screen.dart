@@ -364,7 +364,9 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
                           Center(
                               child: PixelLargeBttn(
                                   path: 'assets/items/ButtonBlue.png',
-                                  text: 'Seguimiento',
+                                  text: rol == 'estudiante'
+                                      ? 'Mi Seguimiento'
+                                      : 'Seguimiento',
                                   onPressed: () {
                                     if (rol == 'estudiante') {
                                       router.push(

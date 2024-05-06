@@ -117,11 +117,9 @@ class _ActividadDesconectadaScreenState
                                   context
                                       .read<SeguimientosEstudiantesCubit>()
                                       .actualizarRespuestasActividadesEstudiantes(
-                                          context
-                                              .read<EstudiantesCubit>()
-                                              .obtenerIds(),
+                                          estudiantes.obtenerIds(),
                                           'Entregable',
-                                          0,
+                                          1,
                                           actividadDesconectada!.id!);
                                   _mostrarDialogoSiguienteActividad(
                                       context,

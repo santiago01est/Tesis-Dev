@@ -18,7 +18,7 @@ class ProfesoresCubit extends Cubit<List<Profesor>> {
     emit(profesores);
   }
 
-  void limpiarCubit(){
+  void limpiarCubit() {
     emit([]);
   }
 

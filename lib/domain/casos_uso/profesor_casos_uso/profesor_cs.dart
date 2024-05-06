@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class ProfesorCasoUso {
   final ProfesorRepository profesorRepository;
   final BuildContext context;
-  ProfesorCasoUso(this.profesorRepository, this.context);
+  ProfesorCasoUso({required this.profesorRepository, required this.context});
 
   Future<List<Profesor>> getProfesores() {
     return profesorRepository.getProfesores();

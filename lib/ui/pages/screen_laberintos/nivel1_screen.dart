@@ -94,7 +94,8 @@ class _LaberintoState extends State<Laberinto> {
                             child: BannerInfoActividades(
                               indice: actividadLaberinto.indice!,
                               habilidades: actividadLaberinto.habilidades!,
-                              titulo: '$nombreUnidad \n$nombreArchivo',
+                              titulo:
+                                  '$nombreUnidad \nActividad ${unidadesCubit.obtenerIndiceActividadEnUnidad(actividadLaberinto.id!)! + 1}',
                             ),
                           ),
                           Center(

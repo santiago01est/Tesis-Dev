@@ -12,11 +12,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   void _definirRol() {
     context.read<RolCubit>().actualizarRol("estudiante");
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(

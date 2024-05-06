@@ -13,7 +13,7 @@ class TableroCuestionario extends StatelessWidget {
       'boycampoderecha.png', // 0
       'boycampofrente.png', // 1
       'boytemploderecha.png', // 2
-      'pollitoUnidad0.jpg', // 3
+      'pollitoUnidad0.png', // 3
       'cofre.png', // 4
       'llave 1.png', // 5
       'sacocafe.png', // 6
