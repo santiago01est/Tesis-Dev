@@ -1,7 +1,7 @@
 import 'package:dev_tesis/domain/model/actividad.dart';
 
 class Unidad {
-  String? id;
+  int? id;
   String? nombre;
   String? descripcion;
   String? estado;
@@ -9,6 +9,4 @@ class Unidad {
 
   Unidad(
       {this.id, this.nombre, this.descripcion, this.estado, this.actividades});
-
-
 }

@@ -1,5 +1,7 @@
+import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
+import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Cubit para manejar el estado del nombre completo
@@ -11,7 +13,7 @@ class CursoCubit extends Cubit<Curso> {
     emit(curso);
   }
 
-  void limpiarCubit(){
+  void limpiarCubit() {
     emit(Curso());
   }
 
@@ -38,5 +40,17 @@ class CursoCubit extends Cubit<Curso> {
     return estadoActual.estudiantes!
         .where((estudiante) => ids.contains(estudiante.id))
         .toList();
+  }
+
+  // retorna lista de Actividades de la lista de Unidades
+  List<Actividad> obtenerTodasActividadesCurso() {
+    List<Actividad> todasLasActividades = [];
+    for (var i = 0; i < state.unidades!.length; i++) {
+      for (var j = 0; j < state.unidades![i].actividades!.length; j++) {
+        todasLasActividades.add(state.unidades![i].actividades![j]);
+      }
+    }
+
+    return todasLasActividades; // Si no se encuentra la actividad
   }
 }

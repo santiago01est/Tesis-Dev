@@ -47,8 +47,9 @@ final appRouter = GoRouter(
       path: '/panelcurso/:cursoId', // :cursoId indica un parámetro dinámico
       builder: (context, state) {
         // Obtén el ID del curso desde los parámetros de la ruta
-        final String cursoId = state.pathParameters['cursoId'] ?? '1';
-        return PanelCursoScreen(cursoId: cursoId);
+        final String cursoId = state.pathParameters['cursoId'] ?? '-1';
+        int cursoIdInt = int.parse(cursoId);
+        return PanelCursoScreen(cursoId: cursoIdInt);
       },
     ),
     GoRoute(
@@ -56,21 +57,24 @@ final appRouter = GoRouter(
         builder: (context, state) {
           final String actividadId =
               state.pathParameters['actividadId'] ?? '-1';
-          return Laberinto(actividadId: actividadId);
+          int actividadIdInt = int.parse(actividadId);
+          return Laberinto(actividadId: actividadIdInt);
         }),
 
     GoRoute(
         path: '/cuestionario/:actividadId',
         builder: (context, state) {
           final String actividadId = state.pathParameters['actividadId'] ?? '1';
-          return ActividadCuestionarioScreen(actividadId: actividadId);
+          int actividadIdInt = int.parse(actividadId);
+          return ActividadCuestionarioScreen(actividadId: actividadIdInt);
         }),
 
     GoRoute(
         path: '/desconectada/:actividadId',
         builder: (context, state) {
           final String actividadId = state.pathParameters['actividadId'] ?? '1';
-          return ActividadDesconectadaScreen(actividadId: actividadId);
+          int actividadIdInt = int.parse(actividadId);
+          return ActividadDesconectadaScreen(actividadId: actividadIdInt);
         }),
 
     GoRoute(
@@ -78,7 +82,8 @@ final appRouter = GoRouter(
       builder: (context, state) {
         // Obtén el ID del profesor desde los parámetros de la ruta
         final String profesorId = state.pathParameters['profesorId'] ?? '1';
-        return PanelPrincipalProfesorScreen(profesorId: profesorId);
+        int profesorIdInt = int.parse(profesorId);
+        return PanelPrincipalProfesorScreen(profesorId: profesorIdInt);
       },
     ),
     GoRoute(
@@ -86,26 +91,30 @@ final appRouter = GoRouter(
         builder: (context, state) {
           // se valida que sea profesor y que este logueado
 
-          final String unidadId = state.pathParameters['unidadId'] ?? '0';
-          return CrearActividad(unidadId: unidadId);
+          final String unidadId = state.pathParameters['unidadId'] ?? '-1';
+          int unidadIdInt = int.parse(unidadId);
+          return CrearActividad(unidadId: unidadIdInt);
         }),
     GoRoute(
         path: '/seguimientoprofesor/:cursoId',
         builder: (context, state) {
-          final String cursodId = state.pathParameters['cursoId'] ?? '0';
-          return SeguimientoProfesorScreen(cursoId: cursodId);
+          final String cursoId = state.pathParameters['cursoId'] ?? '-1';
+          int cursoIdInt = int.parse(cursoId);
+          return SeguimientoProfesorScreen(cursoId: cursoIdInt);
         }),
     GoRoute(
         path: '/seguimientoestudiante/:cursoId',
         builder: (context, state) {
-          final String cursodId = state.pathParameters['cursoId'] ?? '0';
-          return SeguimientoEstudianteScreen(cursoId: cursodId);
+          final String cursoId = state.pathParameters['cursoId'] ?? '-1';
+          int cursoIdInt = int.parse(cursoId);
+          return SeguimientoEstudianteScreen(cursoId: cursoIdInt);
         }),
     GoRoute(
         path: '/testautopercepcion/:cursoId',
         builder: (context, state) {
-          final String cursodId = state.pathParameters['cursoId'] ?? '0';
-          return TestAutoPercepcionScreen(cursoId: '1');
+          final String cursoId = state.pathParameters['cursoId'] ?? '-1';
+          int cursoIdInt = int.parse(cursoId);
+          return TestAutoPercepcionScreen(cursoId: cursoIdInt);
         }),
   ],
 );

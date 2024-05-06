@@ -1,4 +1,3 @@
-import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:dev_tesis/domain/repository/unidad_repository.dart';
@@ -7,7 +6,7 @@ class UnidadCasoUso {
   final UnidadRepository unidadRepository;
   UnidadCasoUso(this.unidadRepository);
 
-  Future<List<Unidad>> getUnidades(String idCurso) {
+  Future<List<Unidad>> getUnidades(int idCurso) {
     return unidadRepository.getUnidades(idCurso);
   }
 
@@ -21,5 +20,4 @@ class UnidadCasoUso {
     }
     return numeroTotalActividades;
   }
-
 }

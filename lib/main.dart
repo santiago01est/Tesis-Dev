@@ -9,6 +9,7 @@ import 'package:dev_tesis/infraestructure/driven_adapter/profesor_adapter/profes
 import 'package:dev_tesis/infraestructure/driven_adapter/unidad_adapter/unidad_data_adapter.dart';
 import 'package:dev_tesis/ui/bloc/actividad_custio_test.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
+import 'package:dev_tesis/ui/bloc/bd_demo.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/game/instrucciones_bloc.dart';
@@ -28,16 +29,16 @@ final getIt = GetIt.instance;
 void setupDependencies(BuildContext context) {
   // Registra tus dependencias aquí
   getIt.registerSingleton<CursoRepository>(CursosDataAdapter());
-  getIt.registerSingleton<CursosCasoUso>(
-      CursosCasoUso(getIt<CursoRepository>(), context));
+  getIt.registerSingleton<CursosCasoUso>(CursosCasoUso(
+      cursoRepository: getIt<CursoRepository>(), context: context));
 
   getIt.registerSingleton<UnidadRepository>(UnidadDataAdapter());
   getIt.registerSingleton<UnidadCasoUso>(
       UnidadCasoUso(getIt<UnidadRepository>()));
 
   getIt.registerSingleton<ProfesorRepository>(ProfesorDataAdapter());
-  getIt.registerSingleton<ProfesorCasoUso>(
-      ProfesorCasoUso(getIt<ProfesorRepository>(), context));
+  getIt.registerSingleton<ProfesorCasoUso>(ProfesorCasoUso(
+      profesorRepository: getIt<ProfesorRepository>(), context: context));
 }
 
 void main() {
@@ -62,6 +63,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<BDCursosCubit>(
           create: (context) => BDCursosCubit(),
+        ),
+        BlocProvider<BDemoMundoPC>(
+          create: (context) => BDemoMundoPC(),
         ),
         BlocProvider<RolCubit>(
           create: (context) => RolCubit(),

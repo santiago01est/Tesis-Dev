@@ -1,5 +1,5 @@
 class Actividad {
-  String? id;
+  int? id;
   String? nombre;
   String? descripcion;
   String? estado;
@@ -8,14 +8,13 @@ class Actividad {
   List<int>? pesoRespuestas;
   List<int>? habilidades;
 
-  Actividad({
-    this.id,
-    this.nombre,
-    this.descripcion,
-    this.estado,
-    this.indice,
-    this.tipoActividad,
-    this.pesoRespuestas,
-    this.habilidades
-  });
+  Actividad(
+      {this.id,
+      this.nombre,
+      this.descripcion,
+      this.estado,
+      this.indice,
+      this.tipoActividad,
+      this.pesoRespuestas,
+      this.habilidades});
 }

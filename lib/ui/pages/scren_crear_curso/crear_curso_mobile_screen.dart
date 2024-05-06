@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
@@ -10,7 +11,9 @@ import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
+import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
+import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_profesor.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
@@ -22,6 +25,7 @@ import 'package:dev_tesis/utils/rutasImagenes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -107,12 +111,12 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
   void initState() {
     super.initState();
     _fetchDepartamentos();
-     _cursosProfesoresCasoUso = InitData(
+    _cursosProfesoresCasoUso = InitData(
       cursosCasoUso: getIt<CursosCasoUso>(),
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,
     );
-    _cursosProfesoresCasoUso.obtenerCursosYProfesoresYUnidades('1');
+    _cursosProfesoresCasoUso.obtenerCursosYProfesores();
   }
 
   Future<void> _fetchDepartamentos() async {
@@ -161,16 +165,17 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
     final router = GoRouter.of(context);
 
     final profesorCubit = context.watch<ProfesorCubit>();
+    final estudiantesCubit = context.watch<EstudiantesCubit>();
     final cursoCubit = context.watch<CursoCubit>();
     final bdCursosCubit = context.read<BDCursosCubit>();
     final List<StepForm> _stepForms = [
-      StepForm(title: 'Información del Curso', formFields: [
+      StepForm(title: 'Información del curso', formFields: [
         Padding(
             padding: const EdgeInsets.only(left: 10, right: 10),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               const Text(
-                'Nombre del Curso *',
+                'Nombre del curso *',
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 10),
@@ -178,7 +183,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                 controller: _nombreCursoController,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
-                    hintText: "Ingresa un Nombre para el curso",
+                    hintText: "Ingresa un nombre para el curso",
                     prefixIcon: const Icon(Icons.book_online_rounded),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -215,7 +220,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
                 decoration: InputDecoration(
-                    hintText: "Ingresa una Descripción para el curso",
+                    hintText: "Ingresa una descripción para el curso",
                     prefixIcon: const Icon(Icons.book_online_rounded),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -229,6 +234,41 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "descripcion requerido";
+                  }
+                  return null;
+                },
+                //onChanged: (value) => _nadadorData.nombre = value,
+              ),
+            ])),
+        const SizedBox(height: 20),
+        Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              const Text(
+                'Colegio *',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: _colegioCursoController,
+                keyboardType: TextInputType.text,
+                maxLines: null,
+                decoration: InputDecoration(
+                    hintText: "Ingresa nombre del colegio",
+                    prefixIcon: const Icon(Icons.book_online_rounded),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                            width: 0, style: BorderStyle.none)),
+                    filled: true,
+                    isDense: true,
+                    contentPadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+                    fillColor: Colors.white),
+                //Lets apply validation
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Colegio requerido";
                   }
                   return null;
                 },
@@ -266,41 +306,6 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                 onChanged: _selectMunicipio,
               ),
             ])),
-        const SizedBox(height: 20),
-        Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Text(
-                'Colegio *',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: _colegioCursoController,
-                keyboardType: TextInputType.text,
-                maxLines: null,
-                decoration: InputDecoration(
-                    hintText: "Ingresa Nombre del Colegio",
-                    prefixIcon: const Icon(Icons.book_online_rounded),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(
-                            width: 0, style: BorderStyle.none)),
-                    filled: true,
-                    isDense: true,
-                    contentPadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
-                    fillColor: Colors.white),
-                //Lets apply validation
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Colegio requerido";
-                  }
-                  return null;
-                },
-                //onChanged: (value) => _nadadorData.nombre = value,
-              ),
-            ])),
         const SizedBox(
           height: 20,
         ),
@@ -316,6 +321,8 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
               TextFormField(
                 controller: _codigoAccesoController,
                 keyboardType: TextInputType.number,
+                maxLength: 4,
+                maxLines: null,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 decoration: InputDecoration(
                     hintText: "Ingresa un código de acceso",
@@ -425,7 +432,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
               ),
               CheckboxListTile(
                 title: const Text(
-                    "Plantilla básica\n* 3 Unidades\n* de 8 a 9 Actividades por Unidad"),
+                    "Plantilla básica\n* 3 unidades\n* [Unidad Diagnóstico - Unidad 1 - Unidad 2]"),
                 value: _isPlantillaSeleccionada,
                 onChanged: (bool? value) {
                   setState(() {
@@ -438,7 +445,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
           height: 10,
         ),
       ]),
-      StepForm(title: 'Incripción Estudiantes', formFields: [
+      StepForm(title: 'Incripción estudiantes', formFields: [
         Padding(
             padding: const EdgeInsets.only(left: 10, right: 10),
             child:
@@ -462,7 +469,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                 },
                 child: const Column(children: [
                   Text(
-                    'Si tienes un excel con tus estudiantes \nlo puedes subir aqui 👉',
+                    'Si tienes un excel con tus estudiantes \nlo puedes subir aquí 👉',
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                   ),
                   SizedBox(
@@ -487,7 +494,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 const Text(
-                                  'Nombre Completo del Estudiante',
+                                  'Nombre completo del estudiante',
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500),
@@ -538,7 +545,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                                     .getRutasAvatares(),
                                                 _selectAvatar);
                                           },
-                                           child: Container(
+                                          child: Container(
                                             width: 70,
                                             height: 70,
                                             child: CircleAvatar(
@@ -556,18 +563,18 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                 height: 10,
               ),
               //boton
-             PixelLargeBttn(
-                      path: "assets/items/ButtonBlue.png",
-                      onPressed: () async {
-                        Estudiante estudiante = Estudiante(
-                          nombre: _nombreEstudianteController.text,
-                          avatar: selectedAvatar,
-                        );
-                        //agregar a la lista
-                        agregarEstudiante(estudiante);
-                        _nombreEstudianteController.clear();
-                      },
-                      text: 'Inscribir'),
+              PixelLargeBttn(
+                  path: "assets/items/ButtonBlue.png",
+                  onPressed: () async {
+                    Estudiante estudiante = Estudiante(
+                      nombre: _nombreEstudianteController.text,
+                      avatar: selectedAvatar,
+                    );
+                    //agregar a la lista
+                    agregarEstudiante(estudiante);
+                    _nombreEstudianteController.clear();
+                  },
+                  text: 'Inscribir'),
               Container(
                 padding: const EdgeInsets.all(8.0),
                 height: 400,
@@ -582,7 +589,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Lista de Estudiantes',
+                          'Lista de estudiantes',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -601,32 +608,59 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                   itemCount: listaEstudiantes.length,
                                   itemBuilder: (context, index) {
                                     return ListTile(
-                                        leading: InkWell(
-                                          onTap: () {
-                                            indiceEstudiante = index;
-                                            PopupUtils.showAvatarSelectionPopup(
-                                                context,
-                                                RutasImagenes
-                                                    .getRutasAvatares(),
-                                                _actualizarAvatarEstudiante);
-                                          },
-                                          child: CircleAvatar(
-                                            radius: 20,
-                                            //clic al avatar
-
-                                            backgroundImage: AssetImage(
-                                                listaEstudiantes[index].avatar!),
-                                          ),
+                                      leading: InkWell(
+                                        onTap: () {
+                                          indiceEstudiante = index;
+                                          PopupUtils.showAvatarSelectionPopup(
+                                            context,
+                                            RutasImagenes.getRutasAvatares(),
+                                            _actualizarAvatarEstudiante,
+                                          );
+                                        },
+                                        child: CircleAvatar(
+                                          radius: 20,
+                                          backgroundImage: AssetImage(
+                                              listaEstudiantes[index].avatar!),
                                         ),
-                                        title: Text(
-                                            listaEstudiantes[index].nombre!),
-                                        // icono de eliminar
-                                        trailing: IconButton(
-                                            icon: Icon(Icons.delete,
-                                                color: orangeColor),
-                                            onPressed: () {
-                                              eliminarEstudiante(index);
-                                            }));
+                                      ),
+                                      title: Row(
+                                        children: [
+                                          Text(listaEstudiantes[index].nombre!),
+                                          SizedBox(
+                                              width:
+                                                  10), // Espacio entre el nombre y el DropdownButton
+                                          DropdownButton<String>(
+                                            value: listaEstudiantes[index]
+                                                .genero, // Valor seleccionado del Dropdown
+                                            onChanged: (String? newValue) {
+                                              setState(() {
+                                                //generosSeleccionados[index] = newValue!; // Actualizar el género seleccionado
+                                                _actualizarGeneroEstudiante(
+                                                    newValue!, index);
+                                              });
+                                            },
+                                            items: <String>[
+                                              'Masculino',
+                                              'Femenino',
+                                              'Otro'
+                                            ].map<DropdownMenuItem<String>>(
+                                                (String value) {
+                                              return DropdownMenuItem<String>(
+                                                value: value,
+                                                child: Text(value),
+                                              );
+                                            }).toList(),
+                                          ),
+                                        ],
+                                      ),
+                                      trailing: IconButton(
+                                        icon: Icon(Icons.delete,
+                                            color: orangeColor),
+                                        onPressed: () {
+                                          eliminarEstudiante(index);
+                                        },
+                                      ),
+                                    );
                                   },
                                 ),
                               ],
@@ -690,7 +724,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                       children: [
                         if (_currentStep > 0)
                           Expanded(
-                              child: PixelLargeBttn(
+                            child: PixelLargeBttn(
                               path: 'assets/items/ButtonOrange.png',
                               onPressed: _onStepCancel,
                               text: 'Volver',
@@ -701,16 +735,24 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                         ),
                         if (isLastStep)
                           Expanded(
-                              child: PixelLargeBttn(
+                            child: PixelLargeBttn(
                               path: 'assets/items/ButtonBlue.png',
                               onPressed: () {
-                                router.go('/estudio');
+                                // traer el codigo demo para extraer las unidades plantilla
+                                Curso cursoDemo = context
+                                    .read<BDCursosCubit>()
+                                    .state
+                                    .firstWhere((curso) => curso.id == 1);
+                                // obtener en una lista todas las unidades del curso
+                                List<Unidad> unidades = [];
+                                for (var unidad in cursoDemo.unidades!) {
+                                  unidades.add(unidad);
+                                }
                                 //TODO: Validar la información
-
-                               
                                 Curso curso = Curso(
-                                    id: _nombreCursoController.text +
-                                        profesorCubit.state.nombre!,
+                                    // numero random para el id
+
+                                    id: Random().nextInt(10000000),
                                     nombre: _nombreCursoController.text,
                                     codigoAcceso: _codigoAccesoController.text,
                                     departamento: selectedDepartamento,
@@ -725,17 +767,11 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                     fechaFinalizacion: "",
                                     estado: true,
                                     estudiantes: listaEstudiantes,
-                                    unidades: context.read<UnidadesCubit>().state);
+                                    unidades: unidades);
                                 //TODO: Llamar a la API para guardar la información
-                                cursosCasoUso.guardarCurso(curso);
-                                // Guardar en Cubit
-                                cursoCubit.actualizarCurso(curso);
-                                bdCursosCubit.agregarCurso(curso);
+                                bool isValid =
+                                    _validateInformation(); // Verifica la información
 
-                                router.go('/panelcurso/${curso.id}');
-                                //bool isValid =
-                                //_validateInformation(); // Verifica la información
-/*
                                 if (isValid) {
                                   showDialog(
                                     context: context,
@@ -743,7 +779,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                       return AlertDialog(
                                         title: Text('Confirmación'),
                                         content: Text(
-                                            '¿Estás seguro de realizar esta Inscripción?'),
+                                            '¿Estás seguro de guardar el curso?'),
                                         actions: [
                                           TextButton(
                                             onPressed: () {
@@ -753,10 +789,49 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                           ),
                                           TextButton(
                                             onPressed: () {
+                                              //TODO: Llamar a la API para guardar la información
+                                              cursosCasoUso.guardarCurso(curso);
+                                              // Guardar en Cubit
+                                              cursoCubit.actualizarCurso(curso);
+                                              bdCursosCubit.agregarCurso(curso);
+
+                                              // Agregar Seguimientos
+                                              cursosCasoUso.crearSeguimientos(
+                                                  listaEstudiantes,
+                                                  profesorCubit.state.id!,
+                                                  curso.id!,
+                                                  cursoCubit
+                                                      .obtenerTodasActividadesCurso());
+                                              // Crear Cubit de estudiante para que el profe pueda resolver actividades
+                                              estudiantesCubit
+                                                  .agregarEstudiante(Estudiante(
+                                                      id: profesorCubit
+                                                          .state.id!,
+                                                      nombre:
+                                                          '${profesorCubit.state.nombre}',
+                                                      avatar:
+                                                          '${profesorCubit.state.avatar}',
+                                                      genero: 'Otro'));
+
+                                              // Establecer Rol de Profesor
+                                              context
+                                                  .read<RolCubit>()
+                                                  .actualizarRol('profesor');
+                                              router.go(
+                                                  '/panelcurso/${curso.id}');
                                               // Aquí puedes realizar la acción que desees cuando se confirme
                                               // Por ejemplo, enviar un formulario, llamar a una función, etc.
                                               Navigator.of(context).pop();
-                                              showCustomSnackBar(context);
+                                              // mostrar Toats
+                                              Fluttertoast.showToast(
+                                                msg: 'Curso creado con éxito',
+                                                toastLength: Toast
+                                                    .LENGTH_LONG, // Duración corta del mensaje
+                                                gravity:
+                                                    ToastGravity.BOTTOM, // Pos
+                                              );
+
+                                              //TODO: Crear Seguimientos para los estudiantes y el profesor en la BD
                                               _onStepContinue();
                                             },
                                             child: Text('Confirmar'),
@@ -785,7 +860,6 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                     },
                                   );
                                 }
-                                */
                               },
                               text: 'Confirmar',
                             ),
@@ -793,10 +867,10 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                         if (_currentStep < 3 - 1)
                           Expanded(
                               child: PixelLargeBttn(
-                                    path: 'assets/items/ButtonBlue.png',
-                                    onPressed: _onStepContinue,
-                                    text: 'Continuar',
-                                  ))
+                            path: 'assets/items/ButtonBlue.png',
+                            onPressed: _onStepContinue,
+                            text: 'Continuar',
+                          ))
                       ],
                     ),
                   ],
@@ -871,6 +945,12 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
     });
   }
 
+  void _actualizarGeneroEstudiante(String genero, int index) {
+    setState(() {
+      listaEstudiantes[index].genero = genero;
+    });
+  }
+
   void _actualizarAvatarEstudiante(String avatarPath) {
     setState(() {
       listaEstudiantes[indiceEstudiante].avatar = avatarPath;
@@ -887,6 +967,33 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
     setState(() {
       listaEstudiantes.removeAt(index);
     });
+  }
+
+  bool _validateInformation() {
+    // Verificar
+    bool isValid = true;
+
+    if (_nombreCursoController.text.isEmpty) {
+      isValid = false;
+    }
+
+    if (_descripcionCursoController.text.isEmpty) {
+      isValid = false;
+    }
+
+    if (_colegioCursoController.text.isEmpty) {
+      isValid = false;
+    }
+
+    if (_codigoAccesoController.text.isEmpty) {
+      isValid = false;
+    }
+
+    if (listaEstudiantes.isEmpty) {
+      isValid = false;
+    }
+
+    return isValid;
   }
 }
 

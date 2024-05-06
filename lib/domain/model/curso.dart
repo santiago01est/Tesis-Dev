@@ -1,15 +1,15 @@
-
+import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
 
 class Curso {
-  String? id;
+  int? id;
   String? nombre;
   String? codigoAcceso;
   String? departamento;
   String? ciudad;
   String? colegio;
-  String? profesor;
+  int? profesor;
   String? portada;
   int? numEstudiantes;
   String? descripcion;
@@ -101,5 +101,16 @@ class Curso {
       'estudiantes': estudiantes,
       'unidades': unidades,
     };
+  }
+
+  List<Actividad> obtenerTodasActividadesCurso(List<Unidad>? unidades) {
+    List<Actividad> todasLasActividades = [];
+    for (var i = 0; i < unidades!.length; i++) {
+      for (var j = 0; j < unidades[i].actividades!.length; j++) {
+        todasLasActividades.add(unidades[i].actividades![j]);
+      }
+    }
+
+    return todasLasActividades;
   }
 }

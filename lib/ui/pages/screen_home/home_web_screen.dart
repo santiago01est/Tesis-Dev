@@ -3,16 +3,13 @@ import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
 import 'package:dev_tesis/domain/model/profesor.dart';
-import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
-import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/components/cards/curso_cards.dart';
 import 'package:dev_tesis/ui/widgets/PopUp.dart';
-import 'package:dev_tesis/utils/rutasImagenes.dart';
 import 'package:flutter/material.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -120,7 +117,7 @@ class _HomeWebState extends State<HomeWeb> {
                                         ),
                                         const SizedBox(height: 30.0),
                                         const Text(
-                                            'Mundo PC es más que una plataforma; somos un puente entre la innovación, la creatividad y la enseñanza.',
+                                            'Mundo PC es más que una plataforma, somos un puente entre la innovación, la creatividad y la enseñanza del pensamiento computacional (PC).',
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 24,
@@ -227,15 +224,18 @@ class _HomeWebState extends State<HomeWeb> {
                                                 router.push(
                                                     '/panelcurso/${cursos[index].id}');
                                               } else {
-                                                if(context.read<EstudiantesCubit>().state.isEmpty){
-                                                  PopupUtils.showCodeAccessPopup(
-                                                    context, cursos[index]);
-
-                                                }else{
+                                                if (context
+                                                    .read<EstudiantesCubit>()
+                                                    .state
+                                                    .isEmpty) {
+                                                  PopupUtils
+                                                      .showCodeAccessPopup(
+                                                          context,
+                                                          cursos[index]);
+                                                } else {
                                                   router.push(
                                                       '/panelcurso/${cursos[index].id}');
                                                 }
-                                                
                                               }
                                             },
                                             child: CursoCard(
@@ -266,9 +266,7 @@ class _HomeWebState extends State<HomeWeb> {
           );
   }
 
-  obtenerNombreProfesor(List<Profesor> profesores, String idProfesor) {
-    print(profesores.length);
-    print('profesorid: $idProfesor');
+  obtenerNombreProfesor(List<Profesor> profesores, int idProfesor) {
     // for que retorna el nombre del profesor
     for (var i = 0; i < profesores.length; i++) {
       if (profesores[i].id == idProfesor) {

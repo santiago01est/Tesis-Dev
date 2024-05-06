@@ -1,7 +1,4 @@
-import 'dart:math';
-
 import 'package:dev_tesis/constants/styles.dart';
-import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/utils/rutasImagenes.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +9,10 @@ import 'package:go_router/go_router.dart';
 
 class PopupCredenciales extends StatefulWidget {
   final List<Estudiante> estudiantes;
-  final String idCurso;
+  final int idCurso;
 
-  PopupCredenciales({required this.estudiantes, required this.idCurso});
+  const PopupCredenciales(
+      {super.key, required this.estudiantes, required this.idCurso});
 
   @override
   _PopupCredencialesState createState() => _PopupCredencialesState();
@@ -44,7 +42,7 @@ class _PopupCredencialesState extends State<PopupCredenciales>
 
   @override
   Widget build(BuildContext context) {
-    final estudiantesCubit= context.watch<EstudiantesCubit>();
+    final estudiantesCubit = context.watch<EstudiantesCubit>();
     final router = GoRouter.of(context);
     return AlertDialog(
       shape: RoundedRectangleBorder(
@@ -144,7 +142,9 @@ class _PopupCredencialesState extends State<PopupCredenciales>
                               estudiante.nombre == selectedStudentName &&
                               estudiante.avatar == selectedAvatarPath);
                           if (isValid) {
-                            estudiantesCubit.agregarEstudiante(buscarEstudiantePorNombre(selectedStudentName));
+                            estudiantesCubit.agregarEstudiante(
+                                buscarEstudiantePorNombre(selectedStudentName));
+
                             // Toast
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(
@@ -153,10 +153,8 @@ class _PopupCredencialesState extends State<PopupCredenciales>
                             // espera de 2 segundos
                             Future.delayed(const Duration(seconds: 2), () {
                               router.go('/panelcurso/${widget.idCurso}');
-                              
                             });
                             // Navegar a la siguiente pantalla
-                            
                           } else {
                             // Mostrar mensaje de error
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -191,8 +189,10 @@ class _PopupCredencialesState extends State<PopupCredenciales>
                                   estudiante.avatar == avatar2Path);
 
                           if (isValid) {
-                            estudiantesCubit.agregarEstudiante(buscarEstudiantePorNombre(student1Name));
-                            estudiantesCubit.agregarEstudiante(buscarEstudiantePorNombre(student2Name));
+                            estudiantesCubit.agregarEstudiante(
+                                buscarEstudiantePorNombre(student1Name));
+                            estudiantesCubit.agregarEstudiante(
+                                buscarEstudiantePorNombre(student2Name));
                             // Si la validación es exitosa, redirigir al usuario a la siguiente pantalla
                             router.go('/panelcurso/${widget.idCurso}');
                           } else {
@@ -200,7 +200,7 @@ class _PopupCredencialesState extends State<PopupCredenciales>
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(
                                   'Bienvenidos $student1Name y $student2Name'),
-                            )); 
+                            ));
                           }
                         } else {
                           // Si no se han seleccionado los pares requeridos, mostrar un mensaje de error
@@ -460,10 +460,9 @@ class _PopupCredencialesState extends State<PopupCredenciales>
       ],
     );
   }
-  
+
   Estudiante buscarEstudiantePorNombre(String selectedStudentName) {
-    return widget.estudiantes.firstWhere((estudiante) =>
-        estudiante.nombre == selectedStudentName);
-  
+    return widget.estudiantes
+        .firstWhere((estudiante) => estudiante.nombre == selectedStudentName);
   }
 }

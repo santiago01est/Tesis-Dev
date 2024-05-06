@@ -1,7 +1,6 @@
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/actividad_desconectada.dart';
-import 'package:dev_tesis/ui/bloc/actividad_custio_test.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
@@ -15,7 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class ActividadDesconectadaScreen extends StatefulWidget {
-  final String actividadId;
+  final int actividadId;
   const ActividadDesconectadaScreen({Key? key, required this.actividadId})
       : super(key: key);
 
@@ -115,17 +114,18 @@ class _ActividadDesconectadaScreenState
                                 path: "assets/items/ButtonBlue.png",
                                 text: 'Siguiente',
                                 onPressed: () {
-                                  context.read<SeguimientosEstudiantesCubit>()
-                      .actualizarRespuestasActividadesEstudiantes(
-                      context.read<EstudiantesCubit>().obtenerIds(),1,
-                                                        unidadesCubit
-                                                            .indiceActividadPorId(
-                                                                actividadDesconectada!.id!)!);
+                                  context
+                                      .read<SeguimientosEstudiantesCubit>()
+                                      .actualizarRespuestasActividadesEstudiantes(
+                                          estudiantes.obtenerIds(),
+                                          'Entregable',
+                                          1,
+                                          actividadDesconectada!.id!);
                                   _mostrarDialogoSiguienteActividad(
                                       context,
                                       router,
                                       unidadesCubit,
-                                      actividadDesconectada!);
+                                      actividadDesconectada);
                                 }),
                           ],
                         ),
@@ -165,7 +165,6 @@ class _ActividadDesconectadaScreenState
               path: "assets/items/ButtonBlue.png",
               text: 'Siguiente',
               onPressed: () {
-                
                 if (context
                     .read<UnidadesCubit>()
                     .esUltimaActividadGlobal(actividadCuestionario.id!)) {

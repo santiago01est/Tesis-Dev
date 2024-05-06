@@ -23,20 +23,29 @@ class SeguimientosEstudiantesCubit extends Cubit<List<Seguimiento>> {
     emit(list);
   }
 
-  void limpiarCubit(){
+  void limpiarCubit() {
     emit([]);
   }
 
   void actualizarRespuestasActividadesEstudiantes(
-      List<int> idsEstudiantes, int numeroRespuesta, int ubicacion) {
+      List<int> idsEstudiantes, String respuesta, int peso, int idActividad) {
     emit(state.map((seguimiento) {
       if (idsEstudiantes.contains(seguimiento.userId)) {
-        List<int> nuevasRespuestas =
-            List.from(seguimiento.respuestasActividades!);
-        if (ubicacion >= 0 && ubicacion < nuevasRespuestas.length) {
-          nuevasRespuestas[ubicacion] = numeroRespuesta;
-        }
-        return seguimiento.copyWith(respuestasActividades: nuevasRespuestas);
+        // Clonar el seguimiento para modificarlo
+        final nuevoSeguimiento = seguimiento.copyWith(
+          respuestasActividades: seguimiento.respuestasActividades?.map((r) {
+            if (r.actividadId == idActividad) {
+              // Actualizar la respuesta si la actividad coincide
+              return r.copyWith(
+                respuestaUsuario: respuesta,
+                peso: peso,
+              );
+            } else {
+              return r;
+            }
+          }).toList(),
+        );
+        return nuevoSeguimiento;
       } else {
         return seguimiento;
       }
@@ -55,8 +64,6 @@ class SeguimientosEstudiantesCubit extends Cubit<List<Seguimiento>> {
   }
 
   Seguimiento obtenerSeguimientoEstudiante(int userId) {
-    final seguimientoEstudiante =
-        state.firstWhere((seguimiento) => seguimiento.userId == userId);
-    return seguimientoEstudiante;
+    return state.firstWhere((seguimiento) => seguimiento.userId == userId);
   }
 }

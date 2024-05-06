@@ -4,9 +4,14 @@ import 'package:dev_tesis/domain/model/actividad_desconectada.dart';
 import 'package:dev_tesis/domain/model/actividad_laberinto.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
+import 'package:dev_tesis/domain/model/respuesta.dart';
+import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
 import 'package:dev_tesis/game/player/player.dart';
+import 'package:dev_tesis/ui/bloc/bd_demo.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CursosDataAdapter extends CursoRepository {
   @override
@@ -14,13 +19,13 @@ class CursosDataAdapter extends CursoRepository {
     /* TODO: implement getCursos BD mientras sera por mapas */
 
     Curso c1 = Curso(
-        id: '1',
+        id: 1,
         nombre: 'Curso Demo',
         codigoAcceso: '1234',
         departamento: 'Quindío',
         ciudad: 'Armenia',
         colegio: 'Universidad del Quindío',
-        profesor: '1',
+        profesor: 1,
         portada: 'assets/fondos/FondoInicio.png',
         estado: true,
         numEstudiantes: 2,
@@ -30,16 +35,16 @@ class CursosDataAdapter extends CursoRepository {
         fechaFinalizacion: '2024-05-17',
         unidades: [
           Unidad(
-              id: '0',
+              id: 0,
               nombre: 'Unidad \nDiagnóstico',
               estado: 'Activa',
               actividades: [
                 ActividadCuestionario(
-                    id: '1',
+                    id: 1,
                     nombre: 'Actividad 01',
                     estado: 'Activa',
                     indice: 1,
-                    habilidades: [0,0,0,0],
+                    habilidades: [0, 0, 0, 0],
                     descripcion:
                         'Lleva al pollito con su mamá \nRecoge la flor por el camino \nCuidado con el gato: no pases por su casilla',
                     tipoActividad: 'Cuestionario',
@@ -70,11 +75,11 @@ class CursosDataAdapter extends CursoRepository {
                     pesoRespuestas: [3, 4, 2, 1],
                     respuestaCorrecta: 2),
                 ActividadCuestionario(
-                    id: '2',
+                    id: 2,
                     nombre: 'Actividad 02',
                     estado: 'Activa',
                     indice: 2,
-                    habilidades: [0,0,0,0],
+                    habilidades: [0, 0, 0, 0],
                     descripcion: 'Dibuja la siguiente figura:',
                     tipoActividad: 'Cuestionario',
                     dimension: 3,
@@ -109,11 +114,11 @@ class CursosDataAdapter extends CursoRepository {
                     pesoRespuestas: [2, 3, 1, 4],
                     respuestaCorrecta: 4),
                 ActividadCuestionario(
-                    id: '3',
+                    id: 3,
                     nombre: 'Actividad 03',
                     estado: 'Activa',
                     indice: 3,
-                    habilidades: [0,0,0,0],
+                    habilidades: [0, 0, 0, 0],
                     descripcion:
                         'Lleva al pollito con su mamá.\nRecoge la flor por el camino.\nCuidado con el gato: no pases por su casilla.',
                     tipoActividad: 'Cuestionario',
@@ -170,11 +175,11 @@ class CursosDataAdapter extends CursoRepository {
                     pesoRespuestas: [4, 1, 3, 2],
                     respuestaCorrecta: 1),
                 ActividadCuestionario(
-                    id: '4',
+                    id: 4,
                     nombre: 'Actividad 04',
                     estado: 'Activa',
                     indice: 4,
-                    habilidades: [0,0,0,0],
+                    habilidades: [0, 0, 0, 0],
                     descripcion: 'Dibuja la siguiente figura:',
                     tipoActividad: 'Cuestionario',
                     dimension: 4,
@@ -228,11 +233,11 @@ class CursosDataAdapter extends CursoRepository {
                     pesoRespuestas: [1, 2, 4, 3],
                     respuestaCorrecta: 3),
                 ActividadCuestionario(
-                    id: '5',
+                    id: 5,
                     nombre: 'Actividad 05',
                     estado: 'Activa',
                     indice: 5,
-                    habilidades: [0,0,0,0],
+                    habilidades: [0, 0, 0, 0],
                     descripcion: 'Lleva al pollito con su mamá.',
                     tipoActividad: 'Cuestionario',
                     dimension: 4,
@@ -291,11 +296,11 @@ class CursosDataAdapter extends CursoRepository {
                     pesoRespuestas: [1, 3, 4, 2],
                     respuestaCorrecta: 3),
                 ActividadCuestionario(
-                    id: '6',
+                    id: 6,
                     nombre: 'Actividad 06',
                     estado: 'Activa',
                     indice: 6,
-                    habilidades: [0,0,0,0],
+                    habilidades: [0, 0, 0, 0],
                     descripcion:
                         'Lleva al pollito con su mamá.\nCuidado con el gato: no pases por su casilla.',
                     tipoActividad: 'Cuestionario',
@@ -354,11 +359,11 @@ class CursosDataAdapter extends CursoRepository {
                     pesoRespuestas: [4, 2, 3, 1],
                     respuestaCorrecta: 1),
                 ActividadCuestionario(
-                    id: '7',
+                    id: 7,
                     nombre: 'Actividad 07',
                     estado: 'Activa',
                     indice: 7,
-                    habilidades: [0,0,0,0],
+                    habilidades: [0, 0, 0, 0],
                     descripcion:
                         'Lleva al pollito con su mamá.\nRecoge la flor por el camino.',
                     tipoActividad: 'Cuestionario',
@@ -425,11 +430,11 @@ class CursosDataAdapter extends CursoRepository {
                     pesoRespuestas: [3, 1, 2, 4],
                     respuestaCorrecta: 4),
                 ActividadCuestionario(
-                    id: '8',
+                    id: 8,
                     nombre: 'Actividad 08',
                     estado: 'Activa',
                     indice: 8,
-                    habilidades: [0,0,0,0],
+                    habilidades: [0, 0, 0, 0],
                     descripcion:
                         'Lleva al pollito con su mamá.\nRecoge la flor por el camino.\nCuidado con el gato: no pases por su casilla.',
                     tipoActividad: 'Cuestionario',
@@ -508,11 +513,11 @@ class CursosDataAdapter extends CursoRepository {
                     pesoRespuestas: [2, 4, 1, 3],
                     respuestaCorrecta: 2),
                 ActividadCuestionario(
-                    id: '9',
+                    id: 9,
                     nombre: 'Actividad 09',
                     estado: 'Activa',
                     indice: 9,
-                    habilidades: [0,0,0,0],
+                    habilidades: [0, 0, 0, 0],
                     descripcion: 'Lleva al pollito con su mamá.',
                     tipoActividad: 'Cuestionario',
                     dimension: 4,
@@ -567,11 +572,11 @@ class CursosDataAdapter extends CursoRepository {
                     pesoRespuestas: [3, 4, 2, 1],
                     respuestaCorrecta: 2),
                 ActividadCuestionario(
-                    id: '10',
+                    id: 10,
                     nombre: 'Actividad 10',
                     estado: 'Activa',
                     indice: 10,
-                    habilidades: [0,0,0,0],
+                    habilidades: [0, 0, 0, 0],
                     descripcion: 'Dibuja la figura',
                     tipoActividad: 'Cuestionario',
                     dimension: 4,
@@ -630,11 +635,11 @@ class CursosDataAdapter extends CursoRepository {
                     pesoRespuestas: [1, 2, 4, 3],
                     respuestaCorrecta: 3),
                 ActividadCuestionario(
-                    id: '11',
+                    id: 11,
                     nombre: 'Actividad 11',
                     estado: 'Activa',
                     indice: 11,
-                    habilidades: [0,0,0,0],
+                    habilidades: [0, 0, 0, 0],
                     descripcion:
                         'Lleva al pollito con su mamá\nCuidado con el gato: no pases por su casilla',
                     tipoActividad: 'Cuestionario',
@@ -699,11 +704,11 @@ class CursosDataAdapter extends CursoRepository {
                     pesoRespuestas: [4, 2, 1, 3],
                     respuestaCorrecta: 1),
                 ActividadCuestionario(
-                    id: '12',
+                    id: 12,
                     nombre: 'Actividad 12',
                     estado: 'Activa',
                     indice: 12,
-                    habilidades: [0,0,0,0],
+                    habilidades: [0, 0, 0, 0],
                     descripcion:
                         'Lleva al pollito con su mamá\nRecoge la flor por el camino',
                     tipoActividad: 'Cuestionario',
@@ -770,11 +775,11 @@ class CursosDataAdapter extends CursoRepository {
                     pesoRespuestas: [4, 3, 2, 1],
                     respuestaCorrecta: 1),
                 ActividadCuestionario(
-                    id: '13',
+                    id: 13,
                     nombre: 'Actividad 13',
                     estado: 'Activa',
                     indice: 13,
-                    habilidades: [0,0,0,0],
+                    habilidades: [0, 0, 0, 0],
                     descripcion:
                         'Lleva al pollito con su mamá\nRecoge la flor por el camino\nCuidado con el gato: no pases por su casilla',
                     tipoActividad: 'Cuestionario',
@@ -843,11 +848,11 @@ class CursosDataAdapter extends CursoRepository {
                     pesoRespuestas: [2, 1, 3, 4],
                     respuestaCorrecta: 4),
                 ActividadCuestionario(
-                    id: '14',
+                    id: 14,
                     nombre: 'Actividad 14',
                     estado: 'Activa',
                     indice: 14,
-                    habilidades: [0,0,0,0],
+                    habilidades: [0, 0, 0, 0],
                     descripcion: 'Dibuja la figura',
                     dimension: 4,
                     tipoActividad: 'Cuestionario',
@@ -916,11 +921,11 @@ class CursosDataAdapter extends CursoRepository {
                     pesoRespuestas: [1, 3, 4, 2],
                     respuestaCorrecta: 3),
                 ActividadCuestionario(
-                    id: '15',
+                    id: 15,
                     nombre: 'Actividad 15',
                     estado: 'Activa',
                     indice: 15,
-                    habilidades: [0,0,0,0],
+                    habilidades: [0, 0, 0, 0],
                     descripcion:
                         'Lleva al pollito con su mamá\nRecoge la flor por el camino\nCuidado con el gato: no pases por su casilla',
                     tipoActividad: 'Cuestionario',
@@ -989,13 +994,13 @@ class CursosDataAdapter extends CursoRepository {
                     pesoRespuestas: [2, 1, 3, 4],
                     respuestaCorrecta: 4),
               ]),
-          Unidad(id: '1', nombre: 'Unidad Uno', estado: 'Activa', actividades: [
+          Unidad(id: 1, nombre: 'Unidad 1', estado: 'Activa', actividades: [
             ActividadLaberinto(
-                id: '16',
+                id: 16,
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
                 indice: 16,
-                habilidades: [0,0,1,1],
+                habilidades: [0, 0, 1, 1],
                 descripcion:
                     'Juan necesita de tu ayuda!\n\nGuíalo a encontrar a su gallina.',
                 tipoActividad: 'Laberinto',
@@ -1010,11 +1015,11 @@ class CursosDataAdapter extends CursoRepository {
                 ],
                 initialState: PlayerState.idleR),
             ActividadCuestionario(
-                id: '17',
+                id: 17,
                 nombre: 'Buscando el mejor camino',
                 estado: 'Activa',
                 indice: 17,
-                habilidades: [0,0,1,1],
+                habilidades: [0, 0, 1, 1],
                 descripcion:
                     'Ayuda a Juan a encontrar el camino al saco de café que ha recolectado.',
                 tipoActividad: 'Cuestionario',
@@ -1082,11 +1087,11 @@ class CursosDataAdapter extends CursoRepository {
                 pesoRespuestas: [3, 2, 4, 1],
                 respuestaCorrecta: 3),
             ActividadLaberinto(
-                id: '18',
+                id: 18,
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
                 indice: 18,
-                habilidades: [1,0,1,1],
+                habilidades: [1, 0, 1, 1],
                 descripcion:
                     'Tiempo de cosecha!\n\nAyuda a Juan para que llegue a su planta de calabaza 🎃.',
                 tipoActividad: 'Laberinto',
@@ -1105,11 +1110,11 @@ class CursosDataAdapter extends CursoRepository {
                 ],
                 initialState: PlayerState.idleR),
             ActividadCuestionario(
-                id: '19',
+                id: 19,
                 nombre: 'Buscando el mejor camino',
                 estado: 'Activa',
                 indice: 19,
-                habilidades: [0,1,1,1],
+                habilidades: [0, 1, 1, 1],
                 descripcion:
                     'Tiempo de cosecha!. Ayuda a Juan a encontrar la planta de trigo amarilla.',
                 tipoActividad: 'Cuestionario',
@@ -1188,11 +1193,11 @@ class CursosDataAdapter extends CursoRepository {
                 pesoRespuestas: [4, 3, 2, 1],
                 respuestaCorrecta: 1),
             ActividadLaberinto(
-                id: '20',
+                id: 20,
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
                 indice: 20,
-                habilidades: [0,1,1,1],
+                habilidades: [0, 1, 1, 1],
                 descripcion:
                     'Juan necesita de tu ayuda!\n\nMamá pato ha perdido unos de sus huevos y Juan esta ayudandola a buscarlo. Recoge el huevo y llevalo con mamá pato.',
                 tipoActividad: 'Laberinto',
@@ -1214,16 +1219,16 @@ class CursosDataAdapter extends CursoRepository {
                 ],
                 initialState: PlayerState.idleR),
             ActividadCuestionario(
-                id: '21',
+                id: 21,
                 nombre: 'Buscando el mejor camino',
                 estado: 'Activa',
                 indice: 21,
-                habilidades: [1,0,1,1],
+                habilidades: [1, 0, 1, 1],
                 descripcion:
                     'Tiempo de cosecha!. Juan necesita llegar al árbol de mandarinas, pero antes debe recoger la canasta.',
                 tipoActividad: 'Cuestionario',
                 dimension: 6,
-                ejemploImage: 'ejemplocuestionarioN2Giros.png',
+                ejemploImage: 'ejemplocuestionarioN6REcogerGiros.png',
                 ejercicioImage: '',
                 casillas: [
                   25,
@@ -1310,11 +1315,11 @@ class CursosDataAdapter extends CursoRepository {
                 pesoRespuestas: [2, 1, 4, 3],
                 respuestaCorrecta: 3),
             ActividadLaberinto(
-                id: '22',
+                id: 22,
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
                 indice: 22,
-                habilidades: [0,1,1,1],
+                habilidades: [0, 1, 1, 1],
                 descripcion:
                     'Juan necesita de tu ayuda!\n\nEl pequeño pollito Tito se ha perdido cerca del puente. Recogelo  y llévalo al gallinero.',
                 tipoActividad: 'Laberinto',
@@ -1340,11 +1345,11 @@ class CursosDataAdapter extends CursoRepository {
                 ],
                 initialState: PlayerState.idleR),
             ActividadCuestionario(
-                id: '23',
+                id: 23,
                 nombre: 'Buscando el mejor camino',
                 estado: 'Activa',
                 indice: 23,
-                habilidades: [0,1,1,1],
+                habilidades: [0, 1, 1, 1],
                 descripcion:
                     'El pequeño cerdito rosa se salió de su corral.\nRecoge al cerdito.\nLlévalo a su corral.\nTen cuidado con las abejas, no pases por su casillas.',
                 tipoActividad: 'Cuestionario',
@@ -1435,27 +1440,27 @@ class CursosDataAdapter extends CursoRepository {
                 pesoRespuestas: [2, 4, 3, 1],
                 respuestaCorrecta: 2),
             ActividadDesconectada(
-              id: '24',
+              id: 24,
               nombre: 'Actividad Desconectada',
               estado: 'Activa',
               indice: 24,
-              habilidades: [0,1,1,1],
+              habilidades: [0, 1, 1, 1],
               descripcion:
                   '¡Bienvenidos a estas divertidas aventuras de Pensamiento Computacional! \nPara solucionarlas no necesitas de una computadora. Tu super inteligencia y creatividad te ayudarán a resolverlas.',
               tipoActividad: 'Desconectada',
               ejemploImage: 'ejemploactividaddesconectada1.png',
               ejercicioImage:
-                  '/assets/items/ejemplosImg/actividaddesconectada1.png',
+                  'assets/items/ejemplosImg/actividaddesconectada1.png',
               pesoRespuestas: [0, 0, 0, 0],
             ),
           ]),
-          Unidad(id: '2', nombre: 'Unidad Dos', estado: 'Activa', actividades: [
+          Unidad(id: 2, nombre: 'Unidad 2', estado: 'Activa', actividades: [
             ActividadLaberinto(
-                id: '25',
+                id: 25,
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
                 indice: 25,
-                habilidades: [1,1,1,1],
+                habilidades: [1, 1, 1, 1],
                 descripcion:
                     'Juan se fue a explorar un viejo templo.\n\nGuíalo a encontrar la entrada al templo.',
                 tipoActividad: 'Laberinto',
@@ -1472,11 +1477,11 @@ class CursosDataAdapter extends CursoRepository {
                 ],
                 initialState: PlayerState.idleL),
             ActividadCuestionario(
-                id: '26',
+                id: 26,
                 nombre: 'Actividad Cuestionario de ',
                 estado: 'Activa',
                 indice: 26,
-                habilidades: [1,1,1,1],
+                habilidades: [1, 1, 1, 1],
                 descripcion:
                     'Ayuda a Juan a recoger la gema del bosque que es de color verde.\nRecuerda llegar con el menor número de instrucciones.',
                 tipoActividad: 'Cuestionario',
@@ -1554,11 +1559,11 @@ class CursosDataAdapter extends CursoRepository {
                 pesoRespuestas: [3, 2, 4, 1],
                 respuestaCorrecta: 3),
             ActividadLaberinto(
-                id: '27',
+                id: 27,
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
                 indice: 27,
-                habilidades: [0,1,1,1],
+                habilidades: [0, 1, 1, 1],
                 descripcion:
                     'Jhon necesita de tu ayuda!\n\nGuialo para recoger la gema del sol que es de color amarilla.\n\nRecoge la bolsa con comida que encontraras en el camino.',
                 tipoActividad: 'Laberinto',
@@ -1588,11 +1593,11 @@ class CursosDataAdapter extends CursoRepository {
                 ],
                 initialState: PlayerState.idleR),
             ActividadCuestionario(
-                id: '28',
+                id: 28,
                 nombre: 'Actividad Cuestionario de ',
                 estado: 'Activa',
                 indice: 28,
-                habilidades: [1,1,1,1],
+                habilidades: [1, 1, 1, 1],
                 descripcion:
                     'Juan quiere llegar al cofre del tesoro.\nNo pases por el fuego\nRecoje la llave del cofre para abrirlo',
                 tipoActividad: 'Cuestionario',
@@ -1698,11 +1703,11 @@ class CursosDataAdapter extends CursoRepository {
                 pesoRespuestas: [3, 2, 1, 4],
                 respuestaCorrecta: 4),
             ActividadLaberinto(
-                id: '29',
+                id: 29,
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
                 indice: 29,
-                habilidades: [1,1,1,1],
+                habilidades: [1, 1, 1, 1],
                 descripcion:
                     'Juan necesita de tu ayuda!\n\nGuíalo para recoger la gema del agua de color azul.\n\nPuedes recoger la llave para pasar por la puerta dorada y así llegar más rápido y recoger la gema.',
                 tipoActividad: 'Laberinto',
@@ -1767,11 +1772,11 @@ class CursosDataAdapter extends CursoRepository {
                 ],
                 initialState: PlayerState.idleR),
             ActividadCuestionario(
-                id: '30',
+                id: 30,
                 nombre: 'Actividad Cuestionario de ',
                 estado: 'Activa',
                 indice: 30,
-                habilidades: [0,1,1,1],
+                habilidades: [0, 1, 1, 1],
                 descripcion:
                     'Ayuda a Juan a llegar hasta el cofre.\nNo pases por el fuego\nRecoge la gema de color rojo\nRecoge la llave para abrir el cofre',
                 tipoActividad: 'Cuestionario',
@@ -1888,11 +1893,11 @@ class CursosDataAdapter extends CursoRepository {
                 pesoRespuestas: [2, 1, 3, 4],
                 respuestaCorrecta: 4),
             ActividadLaberinto(
-                id: '30',
+                id: 31,
                 nombre: 'Primeros Pasos',
                 estado: 'Activa',
-                indice: 30,
-                habilidades: [0,1,1,1],
+                indice: 31,
+                habilidades: [0, 1, 1, 1],
                 descripcion:
                     'Juan necesita de tu ayuda!\n\nGuíalo para recoger la gema del fuego que es de color rojo, luego llegar a la salida.\n\nUsa las escaleras para llegar al otro lado del abismo y NO recogas la gema verde.',
                 tipoActividad: 'Laberinto',
@@ -1963,152 +1968,36 @@ class CursosDataAdapter extends CursoRepository {
                 ],
                 initialState: PlayerState.idleL),
             ActividadDesconectada(
-              id: '31',
+              id: 32,
               nombre: 'Actividad Desconectada',
               estado: 'Activa',
-              indice: 31,
-              habilidades: [0,1,1,0],
+              indice: 32,
+              habilidades: [0, 1, 1, 0],
               descripcion:
                   '¡Bienvenidos a estas divertidas aventuras de Pensamiento Computacional! \nPara solucionarlas no necesitas de una computadora. Tu super inteligencia y creatividad te ayudarán a resolverlas.',
               tipoActividad: 'Desconectada',
               ejemploImage: 'ejemploactividaddesconectada1.png',
               ejercicioImage:
-                  '/assets/items/ejemplosImg/actividaddesconectada2.png',
+                  'assets/items/ejemplosImg/actividaddesconectada2.png',
               pesoRespuestas: [0, 0, 0, 0],
             ),
           ]),
         ],
         estudiantes: [
           Estudiante(
-              id: 1,
-              nombre: 'Andres Perez Perez',
-              avatar: 'assets/avatares/aguila_avatar.png'),
-          Estudiante(
-            id: 2,
-            nombre: 'Sofia González Perez',
-            avatar: 'assets/avatares/mujergranjera_avatar.png',
+            id: 1,
+            nombre: 'Andres Perez Perez',
+            avatar: 'assets/avatares/aguila_avatar.png',
+            genero: 'Masculino',
           ),
-          
+          Estudiante(
+              id: 2,
+              nombre: 'Sofia González Perez',
+              avatar: 'assets/avatares/mujergranjera_avatar.png',
+              genero: 'Femenino'),
         ]);
-    Curso c2 = Curso(
-        id: '2',
-        nombre: 'Curso Cuarto B',
-        codigoAcceso: '1234',
-        departamento: 'Huila',
-        ciudad: 'Neiva',
-        colegio: 'Camilo Torres',
-        profesor: '2',
-        portada: 'assets/fondos/FondoNevado.png',
-        estado: true,
-        numEstudiantes: 10,
-        descripcion:
-            "Espacio de aprendizaje para mis estudiantes de cuarto grado para mejorar el pensamiento computacional",
-        fechaCreacion: '2022-01-01',
-        fechaFinalizacion: '2022-01-01',
-        unidades: [
-          Unidad(id: '1', nombre: 'Unidad 1', estado: 'Activa', actividades: [
-            Actividad(
-              id: '1',
-              nombre: 'Actividad 1',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '2',
-              nombre: 'Actividad 2',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '3',
-              nombre: 'Actividad 3',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '4',
-              nombre: 'Actividad 4',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '5',
-              nombre: 'Actividad 5',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-          ]),
-          Unidad(id: '2', nombre: 'Unidad 2', estado: 'Activa', actividades: [
-            Actividad(
-              id: '6',
-              nombre: 'Actividad 6',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '7',
-              nombre: 'Actividad 7',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '8',
-              nombre: 'Actividad 8',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '9',
-              nombre: 'Actividad 9',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-            Actividad(
-              id: '10',
-              nombre: 'Actividad 10',
-              estado: 'Activa',
-              descripcion: '',
-              tipoActividad: 'Laberinto',
-            ),
-          ])
-        ],
-        estudiantes: [
-          Estudiante(
-              nombre: 'Andres Perez Perez',
-              avatar: 'assets/avatares/finca_avatar.png'),
-          Estudiante(
-            nombre: 'Sofia González Perez',
-            avatar: 'assets/avatares/indio_avatar.png',
-          ),
-          Estudiante(
-            nombre: 'Nicolas Rodriguez Hernandez',
-            avatar: 'assets/avatares/cultivo_avatar.png',
-          ),
-          Estudiante(
-            nombre: 'Sergio Torres Diaz',
-            avatar: 'assets/avatares/gato_avatar.png',
-          ),
-          Estudiante(
-            nombre: 'Estefania Gutierrez Gutierrez',
-            avatar: 'assets/granjeroboy_avatar.png',
-          ),
-          Estudiante(
-            nombre: 'Camila Salazar Salazar',
-            avatar: 'assets/avatares/gato_avatar.png',
-          )
-        ]);
-    
-    
-    List<Curso> cursos = [c1, c2];
+
+    List<Curso> cursos = [c1];
     return Future.value(cursos);
   }
 
@@ -2121,5 +2010,48 @@ class CursosDataAdapter extends CursoRepository {
   Future<Curso> getCursoById(String id) {
     // TODO: implement getCursoById
     throw UnimplementedError();
+  }
+
+  @override
+  void crearSeguimientos(List<Seguimiento> seguimientos) {}
+
+  //obtener seguimientos
+  @override
+  Future<List<Seguimiento>> getSeguimientos(
+      int cursoId, List<Actividad> actividades, BuildContext context) {
+    if (cursoId == 1) {
+      return Future.value([
+        Seguimiento(
+            id: 1,
+            respuestasActividades: List.generate(
+                actividades.length,
+                (index) => Respuesta(
+                    id: 1,
+                    respuestaUsuario: '',
+                    peso: -1,
+                    actividadId: actividades[index].id!)),
+            test: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            calificacion: 0,
+            userId: 1,
+            cursoId: 1),
+        Seguimiento(
+            id: 2,
+            respuestasActividades: List.generate(
+                actividades.length,
+                (index) => Respuesta(
+                    id: 2,
+                    respuestaUsuario: '',
+                    peso: -1,
+                    actividadId: actividades[index].id!)),
+            test: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            calificacion: 0,
+            userId: 2,
+            cursoId: 1),
+      ]);
+    } else {
+      // Buscar en la BD los Seguimientos del curso
+      return Future.value(
+          context.read<BDemoMundoPC>().obtenerSeguimiento(cursoId));
+    }
   }
 }

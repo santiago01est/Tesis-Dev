@@ -50,15 +50,18 @@ class CursoCard extends StatelessWidget {
                     curso.nombre!, // Nombre del curso
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 4,),
-
+                  SizedBox(
+                    height: 4,
+                  ),
                   Text(
                     curso.descripcion ?? '',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 3,
-                     // Descripción del curso
+                    // Descripción del curso
                   ),
-                  const SizedBox(height: 8,),
+                  const SizedBox(
+                    height: 8,
+                  ),
                   Text(
                     'Profesor: $nombreProfesor',
                     maxLines: 2, // Nombre del profesor
