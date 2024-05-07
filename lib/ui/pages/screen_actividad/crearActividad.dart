@@ -58,7 +58,16 @@ class CrearActividadState extends State<CrearActividad> {
     'Avanzar.png',
     'GirarIzq.png',
     'GirarDerecha.png',
-    'Agarrar.png'
+    'Agarrar.png',
+    'DosAvanzar.png',
+    'TresAvanzar.png',
+    'CuatroAvanzar.png',
+    'DosGiroIzq.png',
+    'DosGiroDerecha.png',
+    'DosComboGiroDerecha.png',
+    'DosComboGiroIzq.png',
+    'DosComboGiroDerechaAvanzar.png',
+    'DosComboGiroIzqAvanzar.png',
   ];
 
   List<List<String>> imagesList = [[], [], [], []]; // Elementos en cada tarjeta
@@ -341,16 +350,41 @@ class CrearActividadState extends State<CrearActividad> {
                                           feedback: Image.asset(
                                             'assets/buttons/${entry.value}',
                                             width: 40,
-                                            height: 40,
+                                            height: entry.value ==
+                                                        'Avanzar.png' ||
+                                                    entry.value ==
+                                                        'GirarIzq.png' ||
+                                                    entry.value ==
+                                                        'GirarDerecha.png' ||
+                                                    entry.value == 'Agarrar.png'
+                                                ? 40
+                                                : 70,
                                           ),
                                           child: Container(
                                             width: 50,
-                                            height: 50,
+                                            height: entry.value ==
+                                                        'Avanzar.png' ||
+                                                    entry.value ==
+                                                        'GirarIzq.png' ||
+                                                    entry.value ==
+                                                        'GirarDerecha.png' ||
+                                                    entry.value == 'Agarrar.png'
+                                                ? 40
+                                                : 70,
                                             child: Center(
                                               child: Image.asset(
                                                 'assets/buttons/${entry.value}',
                                                 width: 50,
-                                                height: 50,
+                                                height: entry.value ==
+                                                            'Avanzar.png' ||
+                                                        entry.value ==
+                                                            'GirarIzq.png' ||
+                                                        entry.value ==
+                                                            'GirarDerecha.png' ||
+                                                        entry.value ==
+                                                            'Agarrar.png'
+                                                    ? 40
+                                                    : 70,
                                               ),
                                             ),
                                           ),
@@ -360,59 +394,7 @@ class CrearActividadState extends State<CrearActividad> {
                                 ),
                                 SizedBox(height: 12),
                                 // Tarjeta con un TextField y un DragTarget
-                                Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  elevation: 6,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Respuesta adicional:',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        SizedBox(height: 8),
-                                        TextField(
-                                          decoration: InputDecoration(
-                                            hintText:
-                                                'Escribe tu respuesta aquí',
-                                          ),
-                                        ),
-                                        SizedBox(height: 16),
-                                        DragTarget<String>(
-                                          builder: (context, candidateData,
-                                              rejectedData) {
-                                            return Container(
-                                              height: 100,
-                                              alignment: Alignment.center,
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color: Colors.grey),
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                              ),
-                                              child: Text(
-                                                'Arrastra imágenes aquí',
-                                                style: TextStyle(
-                                                  color: Colors.grey,
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                          onAccept: (String? data) {
-                                            // Aquí puedes manejar la lógica para cuando se acepta una imagen
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+
                                 const SizedBox(height: 12),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -425,6 +407,7 @@ class CrearActividadState extends State<CrearActividad> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Radio<int>(
+                                            // indice de la opcion de respuesta
                                             value: index,
                                             groupValue: _selectedOptionIndex,
                                             onChanged: (int? value) {
@@ -482,8 +465,16 @@ class CrearActividadState extends State<CrearActividad> {
                                                               (imgIndex) =>
                                                                   Image.asset(
                                                                 'assets/buttons/${imagesList[index][imgIndex]}',
-                                                                height: 40,
-                                                                width: 40,
+                                                                height: 50,
+                                                                width: imagesList[index][imgIndex] == 'Avanzar.png' ||
+                                                                        imagesList[index][imgIndex] ==
+                                                                            'GirarIzq.png' ||
+                                                                        imagesList[index][imgIndex] ==
+                                                                            'GirarDerecha.png' ||
+                                                                        imagesList[index][imgIndex] ==
+                                                                            'Agarrar.png'
+                                                                    ? 50
+                                                                    : 90,
                                                                 fit:
                                                                     BoxFit.fill,
                                                               ),

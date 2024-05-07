@@ -207,7 +207,7 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
 
                                       //Boton
                                       SizedBox(height: 10),
-                                      rolCubit.state == 'profesor'
+                                      rolCubit.state == 'profesor' && index != 0
                                           ? PixelLargeBttn(
                                               path:
                                                   'assets/items/ButtonBlue.png',
