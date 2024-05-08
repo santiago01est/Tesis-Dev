@@ -41,6 +41,16 @@ class UnidadesCubit extends Cubit<List<Unidad>> {
     emit(nuevasUnidades);
   }
 
+  // obtener unidad por id
+  Unidad? obtenerUnidadPorId(int id) {
+    for (var unidad in state) {
+      if (unidad.id == id) {
+        return unidad;
+      }
+    }
+    return null;
+  }
+
   void addActividad(Actividad actividad, int idUnidad) {
     List<Unidad> nuevasUnidades = [];
     for (var unidad in state) {
@@ -59,8 +69,8 @@ class UnidadesCubit extends Cubit<List<Unidad>> {
     List<Unidad> ordenUnidades = [];
     for (var unidad in state) {
       if (unidad.actividades != null) {
-        for (var actividad in unidad.actividades!) {
-          actividad.indice = unidad.actividades!.indexOf(actividad);
+        for (int i = 0; i < unidad.actividades!.length; i) {
+          unidad.actividades![i].indice = i+1;
         }
         ordenUnidades.add(unidad);
       }

@@ -8,6 +8,7 @@ class Actividad {
   List<int>? pesoRespuestas;
   List<int>? habilidades;
 
+
   Actividad(
       {this.id,
       this.nombre,

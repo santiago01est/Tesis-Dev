@@ -90,11 +90,11 @@ final appRouter = GoRouter(
         path: '/estudiocuestionario/:unidadId',
         builder: (context, state) {
           // se valida que sea profesor y que este logueado
-          final String cursoId = state.pathParameters['cursoId'] ?? '-1';
+          
           final String unidadId = state.pathParameters['unidadId'] ?? '-1';
           int unidadIdInt = int.parse(unidadId);
           return CrearActividad(
-              unidadId: unidadIdInt, cursoId: int.parse(cursoId));
+              unidadId: unidadIdInt);
         }),
     GoRoute(
         path: '/seguimientoprofesor/:cursoId',

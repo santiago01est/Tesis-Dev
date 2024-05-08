@@ -7,6 +7,8 @@ import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/actividad_custio_test.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
+import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
+import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_profesor.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_small_bttn.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
@@ -17,9 +19,8 @@ import 'package:number_inc_dec/number_inc_dec.dart';
 
 class CrearActividad extends StatefulWidget {
   final int unidadId;
-  final int cursoId;
   const CrearActividad(
-      {super.key, required this.unidadId, required this.cursoId});
+      {super.key, required this.unidadId});
 
   @override
   CrearActividadState createState() => CrearActividadState();
@@ -110,6 +111,7 @@ class CrearActividadState extends State<CrearActividad> {
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
+    final unidadesCubit= context.read<UnidadesCubit>().obtenerUnidadPorId(widget.unidadId);
 
     return Scaffold(
         appBar: AppBarProfesor(),
@@ -324,6 +326,7 @@ class CrearActividadState extends State<CrearActividad> {
                                                         .text,
                                                 estado: 'Activo',
                                                 indice: 0,
+                                                
                                                 tipoActividad: 'Cuestionario',
                                                 dimension: 6,
                                                 habilidades: _selectedOptions,
@@ -337,36 +340,22 @@ class CrearActividadState extends State<CrearActividad> {
                                                 respuestaCorrecta:
                                                     _selectedOptionIndex);
 
-                                        context
-                                            .read<ActividadCuestionarioCubit>()
-                                            .addActividadCuestionario(
-                                                actividadCuestionarioSave);
+                                        
                                         context.read<UnidadesCubit>().addActividad(
-                                            Actividad(
-                                                id: actividadCuestionarioSave
-                                                    .id,
-                                                indice: actividadCuestionarioSave
-                                                    .indice,
-                                                nombre:
-                                                    actividadCuestionarioSave
-                                                        .nombre,
-                                                descripcion:
-                                                    actividadCuestionarioSave
-                                                        .descripcion,
-                                                estado:
-                                                    actividadCuestionarioSave
-                                                        .estado,
-                                                tipoActividad:
-                                                    actividadCuestionarioSave
-                                                        .tipoActividad),
+                                            actividadCuestionarioSave,
                                             widget.unidadId);
 
                                         CursosCasoUso cursosCasoUso =
                                             getIt<CursosCasoUso>();
 
                                         cursosCasoUso.agregarActividad(
-                                            widget.cursoId,
-                                            actividadCuestionarioSave);
+                                            unidadesCubit!.cursoId,
+                                            unidadesCubit.actividades!.firstWhere(
+                                                (actividad) =>
+                                                    actividad.id ==
+                                                    actividadCuestionarioSave.id,));
+                                                
+                                                
 
                                         // cerrar screen y volver
                                         /*

@@ -5,7 +5,6 @@ class ActividadCuestionario extends Actividad {
   int? dimension;
   List<int>? casillas;
   List<List<Object>>? respuestas;
-
   String? ejercicioImage;
   String? ejemploImage;
   String? pista;

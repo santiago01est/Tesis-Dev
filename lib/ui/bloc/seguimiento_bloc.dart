@@ -71,13 +71,21 @@ class SeguimientosEstudiantesCubit extends Cubit<List<Seguimiento>> {
 
   // Agregar una respuesta a la lista en cada seguimiento
   void agregarRespuesta(int cursoId, Actividad actividad) {
-    emit(state.map((seguimiento) {
-      if (seguimiento.cursoId == cursoId) {
-        Respuesta nuevaRespuesta=Respuesta(
-            id: 1, respuestaUsuario: '', peso: -1, actividadId: actividad.id!, seguimientoId: seguimiento.id);
-            seguimiento.respuestasActividades?.add(nuevaRespuesta); 
-      }
-      return seguimiento;
-    }).toList());
+  emit(state.map((seguimiento) {
+    if (seguimiento.cursoId == cursoId) {
+      // Inicializar la lista si es nula
+      seguimiento.respuestasActividades ??= [];
+      Respuesta nuevaRespuesta = Respuesta(
+        id: 1, 
+        respuestaUsuario: '', 
+        peso: -1, 
+        actividadId: actividad.id!, 
+        seguimientoId: seguimiento.id
+      );
+      // Añadir la nueva respuesta a la lista
+      seguimiento.respuestasActividades!.add(nuevaRespuesta);
+    }
+    return seguimiento;
+  }).toList());
   }
 }

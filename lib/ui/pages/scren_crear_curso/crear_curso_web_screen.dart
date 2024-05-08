@@ -765,9 +765,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                     .firstWhere((curso) => curso.id == 1);
                                 // obtener en una lista todas las unidades del curso
                                 List<Unidad> unidades = [];
-                                for (var unidad in cursoDemo.unidades!) {
-                                  unidades.add(unidad);
-                                }
+                               
                                 //TODO: Validar la información
                                 Curso curso = Curso(
                                     // numero random para el id
@@ -788,6 +786,13 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                     estado: true,
                                     estudiantes: listaEstudiantes,
                                     unidades: unidades);
+
+                                     for (var unidad in cursoDemo.unidades!) {
+                                  unidad.cursoId= curso.id!;
+                                  unidades.add(unidad);
+                                }
+
+                                curso.unidades=unidades;
 
                                 bool isValid =
                                     _validateInformation(); // Verifica la información

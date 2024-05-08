@@ -39,7 +39,7 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
 
   @override
   Widget build(BuildContext context) {
-    final unidades = context.watch<UnidadesCubit>();
+    final unidades = context.read<UnidadesCubit>();
     final seguimientosCubit = context.read<SeguimientosEstudiantesCubit>();
     final rolCubit = context.read<RolCubit>();
     final router = GoRouter.of(context);
@@ -153,7 +153,7 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                                         .state[index]
                                                         .actividades![
                                                             activityIndex]
-                                                        .id!,
+                                                        .indice!,
                                                     seguimientosCubit
                                                         .obtenerSeguimientoEstudiante(
                                                             userID)),
@@ -213,7 +213,7 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                                   'assets/items/ButtonBlue.png',
                                               onPressed: () {
                                                 router.push(
-                                                    '/estudiocuestionario/${unidades.state[index].cursoId}/${unidades.state[index].id}');
+                                                    '/estudiocuestionario/${unidades.state[index].id}');
                                               },
                                               text: 'Crear Actividad')
                                           : SizedBox(),
