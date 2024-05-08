@@ -71,7 +71,7 @@ class UnidadesCubit extends Cubit<List<Unidad>> {
     for (var unidad in state) {
       if (unidad.actividades != null) {
         for (int i = 0; i < unidad.actividades!.length; i) {
-          unidad.actividades![i].indice = i+1;
+          //unidad.actividades![i].indice = i+1;
         }
         ordenUnidades.add(unidad);
       }

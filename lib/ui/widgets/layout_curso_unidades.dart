@@ -153,7 +153,7 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                                         .state[index]
                                                         .actividades![
                                                             activityIndex]
-                                                        .indice!,
+                                                        .id!,
                                                     seguimientosCubit
                                                         .obtenerSeguimientoEstudiante(
                                                             userID)),

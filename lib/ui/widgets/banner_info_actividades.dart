@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 
 class BannerInfoActividades extends StatelessWidget {
   final String titulo;
-  final int indice;
+  final bool isDiagnostico;
   final List<int> habilidades;
   const BannerInfoActividades(
       {super.key,
       required this.titulo,
-      required this.indice,
+      required this.isDiagnostico,
       required this.habilidades});
 
   @override
@@ -41,7 +41,7 @@ class BannerInfoActividades extends StatelessWidget {
                   ),
                 ),
                 //si la pantalla es menor a 880 es un dispositivo movil y el padding no se visualiza
-                MediaQuery.of(context).size.width < 768 || indice <= 15
+                MediaQuery.of(context).size.width < 768 || isDiagnostico
                     ? Container()
                     : (
                         // Lista de mini tarjetas con tags

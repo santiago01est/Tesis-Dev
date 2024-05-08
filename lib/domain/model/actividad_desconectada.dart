@@ -9,7 +9,6 @@ class ActividadDesconectada extends Actividad {
       super.nombre,
       super.descripcion,
       super.estado,
-      super.indice,
       super.tipoActividad,
       super.pesoRespuestas,
       super.habilidades,

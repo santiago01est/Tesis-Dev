@@ -15,7 +15,6 @@ class ActividadCuestionario extends Actividad {
       super.nombre,
       super.descripcion,
       super.estado,
-      super.indice,
       super.tipoActividad,
       super.pesoRespuestas,
       super.habilidades,
@@ -30,6 +29,6 @@ class ActividadCuestionario extends Actividad {
   //Tostring
   @override
   String toString() {
-    return 'ActividadCuestionario: $id, $nombre, $dimension, $casillas, $respuestas, $ejercicioImage, $ejemploImage, $pista, $respuestaCorrecta, $habilidades, $estado, $indice, ${pesoRespuestas}';
+    return 'ActividadCuestionario: $id, $nombre, $dimension, $casillas, $respuestas, $ejercicioImage, $ejemploImage, $pista, $respuestaCorrecta, $habilidades, $estado, ${pesoRespuestas}';
   }
 }

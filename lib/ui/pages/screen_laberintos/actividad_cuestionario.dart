@@ -139,7 +139,8 @@ class _ActividadCuestionarioScreenState
                           children: [
                             IntrinsicHeight(
                               child: BannerInfoActividades(
-                                indice: actividadCuestionario.indice!,
+                                isDiagnostico: actividadCuestionario.nombre! ==
+                                    'Diagnostico',
                                 habilidades: actividadCuestionario.habilidades!,
                                 titulo:
                                     '$nombreUnidad \nActividad ${unidadesCubit.obtenerIndiceActividadEnUnidad(actividadCuestionario.id!)! + 1}',
@@ -313,7 +314,8 @@ class _ActividadCuestionarioScreenState
                           children: [
                             IntrinsicHeight(
                               child: BannerInfoActividades(
-                                indice: actividadCuestionario.indice!,
+                                isDiagnostico: actividadCuestionario.nombre! ==
+                                    'Diagnostico',
                                 habilidades: actividadCuestionario.habilidades!,
                                 titulo:
                                     '$nombreUnidad \nActividad ${unidadesCubit.obtenerIndiceActividadEnUnidad(actividadCuestionario.id!)! + 1}',

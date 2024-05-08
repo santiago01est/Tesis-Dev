@@ -92,7 +92,8 @@ class _LaberintoState extends State<Laberinto> {
                         children: [
                           IntrinsicHeight(
                             child: BannerInfoActividades(
-                              indice: actividadLaberinto.indice!,
+                              isDiagnostico:
+                                  actividadLaberinto.nombre! == 'Diagnostico',
                               habilidades: actividadLaberinto.habilidades!,
                               titulo:
                                   '$nombreUnidad \nActividad ${unidadesCubit.obtenerIndiceActividadEnUnidad(actividadLaberinto.id!)! + 1}',
@@ -574,7 +575,8 @@ class _LaberintoState extends State<Laberinto> {
                         children: [
                           IntrinsicHeight(
                             child: BannerInfoActividades(
-                              indice: actividadLaberinto.indice!,
+                              isDiagnostico:
+                                  actividadLaberinto.nombre! == 'Diagnostico',
                               habilidades: actividadLaberinto.habilidades!,
                               titulo:
                                   '$nombreUnidad \n${actividadLaberinto.nombre!}',

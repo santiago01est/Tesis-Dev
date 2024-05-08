@@ -240,7 +240,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     // Agregar las columnas para las actividades
     columns.addAll(widget.actividades.map((activity) {
       return DataColumn(
-        label: Text('Act ${activity.indice}'),
+        label: Text('Act 11b'),
       );
     }).toList());
 
@@ -269,7 +269,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     List<int> activityValues =
         []; // Lista para almacenar los valores de actividades
     widget.actividades.forEach((activity) {
-      Color cellColor = asignarColor(activity.indice! - 1);
+      Color cellColor = asignarColor(activity.id!);
       final seguimientos = context.read<SeguimientosEstudiantesCubit>();
       final seguimiento =
           seguimientos.obtenerSeguimientoEstudiante(student.id!);

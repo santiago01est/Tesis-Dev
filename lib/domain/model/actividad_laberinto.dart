@@ -12,13 +12,11 @@ class ActividadLaberinto extends Actividad {
       super.nombre,
       super.descripcion,
       super.estado,
-      super.indice,
       super.tipoActividad,
       super.pesoRespuestas,
       super.habilidades,
       this.nombreArchivo,
       required this.mejorCamino,
       this.mejorCamino2 = const [],
-      required this.initialState
-  });
+      required this.initialState});
 }

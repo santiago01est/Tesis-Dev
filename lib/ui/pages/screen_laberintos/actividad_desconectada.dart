@@ -83,7 +83,8 @@ class _ActividadDesconectadaScreenState
                     children: [
                       IntrinsicHeight(
                         child: BannerInfoActividades(
-                          indice: actividadDesconectada.indice!,
+                          isDiagnostico:
+                              actividadDesconectada.nombre == 'Diagnostico',
                           habilidades: actividadDesconectada.habilidades!,
                           titulo:
                               '$nombreUnidad \nActividad ${unidadesCubit.obtenerIndiceActividadEnUnidad(actividadDesconectada.id!)! + 1}',

@@ -19,8 +19,7 @@ import 'package:number_inc_dec/number_inc_dec.dart';
 
 class CrearActividad extends StatefulWidget {
   final int unidadId;
-  const CrearActividad(
-      {super.key, required this.unidadId});
+  const CrearActividad({super.key, required this.unidadId});
 
   @override
   CrearActividadState createState() => CrearActividadState();
@@ -111,7 +110,8 @@ class CrearActividadState extends State<CrearActividad> {
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
-    final unidadesCubit= context.read<UnidadesCubit>().obtenerUnidadPorId(widget.unidadId);
+    final unidadesCubit =
+        context.read<UnidadesCubit>().obtenerUnidadPorId(widget.unidadId);
 
     return Scaffold(
         appBar: AppBarProfesor(),
@@ -325,8 +325,6 @@ class CrearActividadState extends State<CrearActividad> {
                                                     descripcionTextEditingController
                                                         .text,
                                                 estado: 'Activo',
-                                                indice: 0,
-                                                
                                                 tipoActividad: 'Cuestionario',
                                                 dimension: 6,
                                                 habilidades: _selectedOptions,
@@ -340,10 +338,11 @@ class CrearActividadState extends State<CrearActividad> {
                                                 respuestaCorrecta:
                                                     _selectedOptionIndex);
 
-                                        
-                                        context.read<UnidadesCubit>().addActividad(
-                                            actividadCuestionarioSave,
-                                            widget.unidadId);
+                                        context
+                                            .read<UnidadesCubit>()
+                                            .addActividad(
+                                                actividadCuestionarioSave,
+                                                widget.unidadId);
 
                                         CursosCasoUso cursosCasoUso =
                                             getIt<CursosCasoUso>();
@@ -358,7 +357,7 @@ class CrearActividadState extends State<CrearActividad> {
                                         */
 
                                         // cerrar screen y volver
-                                        
+
                                         showDialog(
                                           context: context,
                                           builder: (BuildContext context) {
@@ -372,9 +371,12 @@ class CrearActividadState extends State<CrearActividad> {
                                                   children: [
                                                     Text(
                                                         'Actv: ${unidadesCubit!.actividades!.firstWhere(
-                                                (actividad) =>
-                                                    actividad.id ==
-                                                    actividadCuestionarioSave.id,).toString()}'),
+                                                              (actividad) =>
+                                                                  actividad
+                                                                      .id ==
+                                                                  actividadCuestionarioSave
+                                                                      .id,
+                                                            ).toString()}'),
 
                                                     // Agrega más detalles de la actividad según sea necesario
                                                   ],
@@ -391,7 +393,6 @@ class CrearActividadState extends State<CrearActividad> {
                                             );
                                           },
                                         );
-                                        
 
                                         router.pop();
                                       },
