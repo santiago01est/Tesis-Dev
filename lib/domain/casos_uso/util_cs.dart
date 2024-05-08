@@ -82,8 +82,15 @@ class InitData {
 
   Future<void> _fetchProfesores() async {
     try {
-      final profesores = await profesorCasoUso.getProfesores();
+      if(context.read<ProfesoresCubit>().state.isEmpty){
+        final profesores = await profesorCasoUso.getProfesores();
       context.read<ProfesoresCubit>().subirProfesores(profesores);
+
+      }else{
+
+      }
+      
+      
     } catch (e) {
       // Manejo de errores, puedes mostrar un mensaje de error
       print('Error al obtener profesores: $e');

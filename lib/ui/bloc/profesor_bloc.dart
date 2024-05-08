@@ -23,8 +23,8 @@ class ProfesoresCubit extends Cubit<List<Profesor>> {
   }
 
   void agregarProfesor(Profesor nuevoProfesor) {
-    List<Profesor> profesores = List.from(state); // Crea una nueva lista
-    profesores.add(nuevoProfesor);
-    emit(profesores);
+    List<Profesor> copiaProfesores = List.from(state);
+    copiaProfesores.add(nuevoProfesor);
+    emit(copiaProfesores);
   }
 }

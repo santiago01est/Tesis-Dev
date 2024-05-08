@@ -18,8 +18,13 @@ class LayoutMisCursos extends StatelessWidget {
     //obtener solo los cursos del profesor
     final cursos = bdCursosCubit.state;
 
-    List<Curso> misCursos = bdCursosCubit.state.where(
-      (curso) => curso.profesor == profesorId).toList();
+    List<Curso> misCursos=[];
+
+    for(int i = 0; i < cursos.length; i++){
+      if(cursos[i].profesor == profesorId){
+        misCursos.add(cursos[i]);
+      }
+    }
 
     return SingleChildScrollView(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -47,7 +52,7 @@ class LayoutMisCursos extends StatelessWidget {
                           // Primera fila
                           LayoutBuilder(builder: (context, constraints) {
                             // Verifica el ancho de la pantalla
-                            if (constraints.maxWidth > 700) {
+                            
                               // Pantalla grande: utiliza una fila
                               return GestureDetector(
                                 onTap: () {
@@ -75,26 +80,8 @@ class LayoutMisCursos extends StatelessWidget {
                                   ],
                                 ),
                               );
-                            } else {
-                              // retorna para Pantalla pequeña: utiliza una columna
-                              return Column(
-                                children: [
-                                  // dos columnas
-                                  Expanded(
-                                      child: Column(children: [
-                                    SubtitleText(
-                                        text: misCursos[index].nombre!),
-                                    SubtitleText(
-                                        text: misCursos[index].descripcion!),
-                                  ])),
-                                  Expanded(
-                                      child: Column(children: [
-                                    SubtitleText(
-                                        text: misCursos[index].descripcion!),
-                                  ]))
-                                ],
-                              );
-                            }
+                            
+                            
                           }),
 
                           // Segunda fila con lista de actividades

@@ -25,7 +25,7 @@ class _PanelPrincipalProfesorScreenState
 
   @override
   Widget build(BuildContext context) {
-    final profesorCubit = context.watch<ProfesorCubit>();
+    final profesorCubit = context.read<ProfesorCubit>();
 
     return Scaffold(
       appBar: AppBarProfesorPanel(
@@ -52,22 +52,22 @@ class _PanelPrincipalProfesorScreenState
                   ),
                   LayoutBuilder(builder: (context, constraints) {
                     // Verifica el ancho de la pantalla
-                    if (constraints.maxWidth > 700) {
+                  return MediaQuery.of(context).size.width > 768 ?
                       // Pantalla grande: utiliza una fila
-                      return FractionallySizedBox(
+                       FractionallySizedBox(
                           widthFactor: 0.6,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               cardImgPerfil(profesorCubit.state.avatar!),
-                              cardInfoProfesor(profesorCubit.state.nombre!,
+                              cardInfoProfesor(profesorCubit.state.nombre!,//profesorCubit.state.nombre!,
                                   profesorCubit.state.bio!),
                             ],
-                          ));
-                    } else {
+                          )):
+                 
                       // retorna para Pantalla pequeña: utiliza una columna
-                      return Column(
+                       Column(
                         children: [
                           cardImgPerfil(profesorCubit.state.avatar!),
                           Container(
@@ -96,13 +96,13 @@ class _PanelPrincipalProfesorScreenState
                           ),
                         ],
                       );
-                    }
+                    
                   }),
                 ],
               ),
             ),
             // Segunda sección con fondo azul
-            /*
+            
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -114,7 +114,7 @@ class _PanelPrincipalProfesorScreenState
                     )),
               ],
             ),
-            */
+            
           ],
         ),
       ),

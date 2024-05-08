@@ -38,7 +38,7 @@ void setupDependencies(BuildContext context) {
 
   getIt.registerSingleton<ProfesorRepository>(ProfesorDataAdapter());
   getIt.registerSingleton<ProfesorCasoUso>(ProfesorCasoUso(
-      profesorRepository: getIt<ProfesorRepository>(), context: context));
+      profesorRepository: getIt<ProfesorRepository>()));
 }
 
 void main() {

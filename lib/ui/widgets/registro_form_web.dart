@@ -42,8 +42,8 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
     Profesor profesor;
-    final profesorCubit = context.watch<ProfesorCubit>();
-    final profesoresCubit = context.watch<ProfesoresCubit>();
+    final profesorCubit = context.read<ProfesorCubit>();
+    final profesoresCubit = context.read<ProfesoresCubit>();
 
     return Padding(
       padding: const EdgeInsets.all(20.0),
@@ -255,7 +255,7 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
                 ),
                 PixelLargeBttn(
                   path: "assets/items/ButtonBlue.png",
-                  onPressed: () async {
+                  onPressed: () {
                     // Marcamos el formulario como enviado
                     if (_formKey.currentState!.validate()) {
                       // Call sign in method of firebase & open home screen based on successful login
@@ -266,6 +266,7 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
                         email: emailEditingController.text,
                         password: pwdEditingController.text,
                         avatar: selectedAvatar,
+                        bio: 'MundoPC'
                       );
                       //actualizamos el estado del objeto profesor
                       profesorCubit.actualizarProfesor(profesor);

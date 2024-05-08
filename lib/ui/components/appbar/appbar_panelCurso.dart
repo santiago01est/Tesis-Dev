@@ -37,7 +37,7 @@ class CustomNavigationBarPanelCurso extends StatelessWidget
       context: context,
     );
 
-    final rol= context.watch<RolCubit>().state;
+    final rol = context.watch<RolCubit>().state;
 
     final estudiantesCubit = context.read<EstudiantesCubit>();
     final router = GoRouter.of(context);
@@ -45,19 +45,23 @@ class CustomNavigationBarPanelCurso extends StatelessWidget
       title: Text(cursoName),
       actions: [
         // Aquí puedes mostrar el avatar cuando esté listo
-        rol == 'profesor' ?
+        rol == 'profesor'
+            ? Center(
+                child: GestureDetector(
+                  onTap: () {
+                    router.go('/panelprofesor/$profesorId');
+                  },
+                  child: const MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: SubtitleText(text: 'Panel'),
+                  ),
+                ),
+              )
+            : const SizedBox(width: 50),
+
+             SizedBox(width: 30),
+
         Center(
-          child: GestureDetector(
-            onTap: () {
-              router.go('/panelprofesor/$profesorId');
-            },
-            child: const MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: SubtitleText(text: 'Panel'),
-            ),
-          ),
-        ): const SizedBox(width: 50),
-Center(
           child: GestureDetector(
             onTap: () {
               router.go('/panelcurso/$cursoId');
