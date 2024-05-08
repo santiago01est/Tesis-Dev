@@ -347,7 +347,7 @@ class CrearActividadState extends State<CrearActividad> {
 
                                         CursosCasoUso cursosCasoUso =
                                             getIt<CursosCasoUso>();
-
+/*
                                         cursosCasoUso.agregarActividad(
                                             unidadesCubit!.cursoId,
                                             unidadesCubit.actividades!.firstWhere(
@@ -355,10 +355,10 @@ class CrearActividadState extends State<CrearActividad> {
                                                     actividad.id ==
                                                     actividadCuestionarioSave.id,));
                                                 
-                                                
+                                        */
 
                                         // cerrar screen y volver
-                                        /*
+                                        
                                         showDialog(
                                           context: context,
                                           builder: (BuildContext context) {
@@ -371,7 +371,10 @@ class CrearActividadState extends State<CrearActividad> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                        'Actv: ${actividadCuestionarioSave.toString()}'),
+                                                        'Actv: ${unidadesCubit!.actividades!.firstWhere(
+                                                (actividad) =>
+                                                    actividad.id ==
+                                                    actividadCuestionarioSave.id,).toString()}'),
 
                                                     // Agrega más detalles de la actividad según sea necesario
                                                   ],
@@ -388,7 +391,7 @@ class CrearActividadState extends State<CrearActividad> {
                                             );
                                           },
                                         );
-                                        */
+                                        
 
                                         router.pop();
                                       },

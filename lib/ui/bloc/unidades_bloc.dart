@@ -57,11 +57,12 @@ class UnidadesCubit extends Cubit<List<Unidad>> {
       if (unidad.id == idUnidad) {
         unidad.actividades!.add(actividad);
         // reordenar indices de las actividades
-        ordenarIndices();
+        
       }
       nuevasUnidades.add(unidad);
     }
-    emit(nuevasUnidades);
+    ordenarIndices();
+  
   }
 
   void ordenarIndices() {
