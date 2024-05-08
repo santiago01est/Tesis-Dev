@@ -27,7 +27,7 @@ class BigText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-        fontSize: MediaQuery.of(context).size.width > 700 ? 50 :40,
+        fontSize: MediaQuery.of(context).size.width > 700 ? 50 : 40,
         fontWeight: FontWeight.bold,
       ),
     );
@@ -64,9 +64,12 @@ class SubtitleText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-        fontSize: MediaQuery.of(context).size.width > 700 ? 16 :12,
+        fontSize: MediaQuery.of(context).size.width > 700 ? 16 : 12,
         fontWeight: FontWeight.w700,
+        color: Colors.black,
       ),
+      // centrar el texto
+      textAlign: TextAlign.start,
     );
   }
 }

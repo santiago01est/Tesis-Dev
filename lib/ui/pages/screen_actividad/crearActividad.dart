@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
@@ -70,13 +72,34 @@ class CrearActividadState extends State<CrearActividad> {
     'DosComboGiroIzqAvanzar.png',
   ];
 
+  // Opciones de las habilidades seleccionadas
+  final List<int> _selectedOptions = List.generate(4, (_) => 0);
+  final List<String> _selectedOptionsText = [
+    'Patrones',
+    'Descomposición',
+    'Abstracción',
+    'Algoritmos'
+  ];
+
+  void _handleOptionChange(int index) {
+    setState(() {
+      // Si la opción está seleccionada, cambiar a no seleccionada; de lo contrario, cambiar a seleccionada
+      _selectedOptions[index] = _selectedOptions[index] == 0 ? 1 : 0;
+    });
+  }
+
   List<List<String>> imagesList = [[], [], [], []]; // Elementos en cada tarjeta
   int _selectedOptionIndex = -1; // Index of the selected card
 
 // lista del tablero a dibujar
   List<int> board = List.generate(36, (index) => -1);
 
+  // Lista de pesos de la actividad en el orden de las tarjetas
+  List<int> pesos = List.generate(4, (index) => 1);
+
   final TextEditingController descripcionTextEditingController =
+      TextEditingController();
+  final TextEditingController pesoTextEditingController =
       TextEditingController();
 
   @override
@@ -104,42 +127,7 @@ class CrearActividadState extends State<CrearActividad> {
                                 const TitleText(
                                     text:
                                         'Estudio de Creación Actividad Cuestionario'),
-                                const SizedBox(height: 40),
-                                const SubtitleText(
-                                    text: 'Descripción de la Actividad'),
                                 const SizedBox(height: 20),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width > 700
-                                      ? 600
-                                      : MediaQuery.of(context).size.width,
-                                  child: TextFormField(
-                                    maxLines: null,
-                                    controller:
-                                        descripcionTextEditingController,
-                                    keyboardType: TextInputType.text,
-                                    autofocus: false,
-                                    enableSuggestions: false,
-                                    autocorrect: false,
-                                    decoration: InputDecoration(
-                                      hintText:
-                                          "Ingresa la descripción para orientar a los estudiantes",
-                                      prefixIcon: Icon(Icons.text_fields,
-                                          color: blueColor),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: const BorderSide(
-                                          width: 0,
-                                          style: BorderStyle.none,
-                                        ),
-                                      ),
-                                      filled: true,
-                                      isDense: true,
-                                      contentPadding: const EdgeInsets.fromLTRB(
-                                          10, 10, 10, 10),
-                                      fillColor: Colors.grey[300],
-                                    ),
-                                  ),
-                                ),
                               ])),
                     ),
                     Row(
@@ -148,7 +136,87 @@ class CrearActividadState extends State<CrearActividad> {
                       children: [
                         Expanded(
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
+                              const Padding(
+                                padding: EdgeInsets.only(left: 50, top: 20),
+                                child: SubtitleText(
+                                    text: 'Descripción de la Actividad'),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 50, top: 20),
+                                child: TextFormField(
+                                  maxLines: null,
+                                  controller: descripcionTextEditingController,
+                                  keyboardType: TextInputType.text,
+                                  autofocus: false,
+                                  enableSuggestions: false,
+                                  autocorrect: false,
+                                  decoration: InputDecoration(
+                                    hintText:
+                                        "Ingresa la descripción para orientar a los estudiantes",
+                                    prefixIcon: Icon(Icons.text_fields,
+                                        color: blueColor),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                        width: 0,
+                                        style: BorderStyle.none,
+                                      ),
+                                    ),
+                                    filled: true,
+                                    isDense: true,
+                                    contentPadding: const EdgeInsets.fromLTRB(
+                                        10, 10, 10, 10),
+                                    fillColor: Colors.grey[300],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    for (int i = 0; i < 4; i++)
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0),
+                                        child: Card(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          color: _selectedOptions[i] == 1
+                                              ? Colors.blue
+                                              : null,
+                                          child: InkWell(
+                                            onTap: () => _handleOptionChange(i),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(20.0),
+                                              child: Center(
+                                                child: Text(
+                                                  _selectedOptionsText[i],
+                                                  style: TextStyle(
+                                                    color:
+                                                        _selectedOptions[i] == 1
+                                                            ? Colors.white
+                                                            : null,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ),
                               Padding(
                                 padding:
                                     const EdgeInsets.only(left: 50, top: 20),
@@ -238,16 +306,23 @@ class CrearActividadState extends State<CrearActividad> {
                                         ActividadCuestionario
                                             actividadCuestionarioSave =
                                             ActividadCuestionario(
-                                                id: 123,
+                                                id: Random().nextInt(1000),
                                                 nombre: 'ACTIVIDAD NUEVA',
                                                 descripcion:
                                                     descripcionTextEditingController
                                                         .text,
                                                 estado: 'Activo',
+                                                indice: 0,
                                                 tipoActividad: 'Cuestionario',
                                                 dimension: 6,
+                                                habilidades: _selectedOptions,
                                                 casillas: board,
+                                                pista: '',
                                                 respuestas: imagesList,
+                                                ejercicioImage:'',
+                                                ejemploImage:
+                                                    'ejemplocuestionarioU2CiclosAgarrar.png',
+                                                pesoRespuestas: pesos,
                                                 respuestaCorrecta:
                                                     _selectedOptionIndex);
 
@@ -275,7 +350,6 @@ class CrearActividadState extends State<CrearActividad> {
 
                                         // cerrar screen y volver
 
-                                        /*
                                         showDialog(
                                           context: context,
                                           builder: (BuildContext context) {
@@ -288,15 +362,8 @@ class CrearActividadState extends State<CrearActividad> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                        'Nombre: ${actividadCuestionarioSave.nombre}'),
-                                                    Text(
-                                                        'Descripción: ${actividadCuestionarioSave.descripcion}'),
-                                                        Text(
-                                                        'Descripción: ${actividadCuestionarioSave.casillas}'),
-                                                        Text(
-                                                        'Descripción: ${actividadCuestionarioSave.respuestas}'),
-                                                        Text(
-                                                        'Descripción: ${actividadCuestionarioSave.respuestaCorrecta}'),
+                                                        'Actv: ${actividadCuestionarioSave.toString()}'),
+
                                                     // Agrega más detalles de la actividad según sea necesario
                                                   ],
                                                 ),
@@ -312,8 +379,8 @@ class CrearActividadState extends State<CrearActividad> {
                                             );
                                           },
                                         );
-                                        */
-                                        router.pop();
+
+                                        // router.pop();
                                       },
                                       text: 'Publicar',
                                     ),
@@ -341,6 +408,7 @@ class CrearActividadState extends State<CrearActividad> {
                                 // Lista de elementos arrastrables
                                 Wrap(
                                   spacing: 10,
+                                  runSpacing: 10,
                                   children: opciones
                                       .asMap()
                                       .entries
@@ -349,33 +417,32 @@ class CrearActividadState extends State<CrearActividad> {
                                           data: entry.value,
                                           feedback: Image.asset(
                                             'assets/buttons/${entry.value}',
-                                            width: 40,
-                                            height: entry.value ==
+                                            width: entry.value ==
                                                         'Avanzar.png' ||
                                                     entry.value ==
                                                         'GirarIzq.png' ||
                                                     entry.value ==
                                                         'GirarDerecha.png' ||
                                                     entry.value == 'Agarrar.png'
-                                                ? 40
-                                                : 70,
+                                                ? 50
+                                                : 120,
+                                            height: 50,
                                           ),
                                           child: Container(
-                                            width: 50,
-                                            height: entry.value ==
+                                            width: entry.value ==
                                                         'Avanzar.png' ||
                                                     entry.value ==
                                                         'GirarIzq.png' ||
                                                     entry.value ==
                                                         'GirarDerecha.png' ||
                                                     entry.value == 'Agarrar.png'
-                                                ? 40
-                                                : 70,
+                                                ? 50
+                                                : 120,
+                                            height: 50,
                                             child: Center(
                                               child: Image.asset(
                                                 'assets/buttons/${entry.value}',
-                                                width: 50,
-                                                height: entry.value ==
+                                                width: entry.value ==
                                                             'Avanzar.png' ||
                                                         entry.value ==
                                                             'GirarIzq.png' ||
@@ -383,8 +450,9 @@ class CrearActividadState extends State<CrearActividad> {
                                                             'GirarDerecha.png' ||
                                                         entry.value ==
                                                             'Agarrar.png'
-                                                    ? 40
-                                                    : 70,
+                                                    ? 50
+                                                    : 120,
+                                                height: 50,
                                               ),
                                             ),
                                           ),
@@ -474,9 +542,7 @@ class CrearActividadState extends State<CrearActividad> {
                                                                         imagesList[index][imgIndex] ==
                                                                             'Agarrar.png'
                                                                     ? 50
-                                                                    : 90,
-                                                                fit:
-                                                                    BoxFit.fill,
+                                                                    : 120,
                                                               ),
                                                             ),
                                                           ),
@@ -505,6 +571,11 @@ class CrearActividadState extends State<CrearActividad> {
                                                         initialValue: 1,
                                                         min: 1,
                                                         max: 4,
+                                                        onChanged: (value) {
+                                                          pesos[index] = int.parse(
+                                                              pesoTextEditingController
+                                                                  .text);
+                                                        },
                                                         incDecBgColor:
                                                             orangeColor,
                                                       ),
