@@ -10,6 +10,7 @@ import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_actividad.dart';
+import 'package:dev_tesis/ui/components/appbar/appbar_panelCurso.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:dev_tesis/ui/widgets/layout_curso_unidades.dart';
@@ -156,6 +157,9 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
     String? nombreProfesor = profesoresCubit.state
         .firstWhere((profesor) => profesor.id == cursoCubit.state.profesor)
         .nombre;
+    int? profesorId= profesoresCubit.state
+        .firstWhere((profesor) => profesor.id == cursoCubit.state.profesor)
+        .id;
 
     late EstudiantesCubit estudiantesCubit;
     List<String> avatares = [];
@@ -176,12 +180,15 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
             length: 2, // Número de pestañas
             child: Scaffold(
               backgroundColor: thirtyColor,
-              appBar: CustomNavigationBarActividad(
+              appBar: CustomNavigationBarPanelCurso(
                 cursoName: 'Mundo PC',
                 cursoId: widget.cursoId,
                 userName: rol == 'estudiante'
                     ? estudiantesCubit.obtenerNombres()
                     : nombreProfesor!,
+                profesorId: rol == 'profesor'
+                    ? profesorId!
+                    : 0,
                 userAvatars: avatares,
                 onLogout: () {
                   // Aquí implementa la lógica para cerrar sesión

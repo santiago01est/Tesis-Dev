@@ -45,8 +45,8 @@ class _ActividadCuestionarioScreenState
 
     final curso = context.read<CursoCubit>();
 
-    List<ActividadCuestionario> actividadesCuestionario =
-        context.watch<ActividadCuestionarioCubit>().state;
+    ActividadCuestionario? actividadCuestionario;
+
     for (var unidad in curso.state.unidades!) {
       if (unidad.actividades != null) {
         // for que recorre las actividades
@@ -54,19 +54,17 @@ class _ActividadCuestionarioScreenState
         for (Actividad actividad in unidad.actividades!) {
           if (actividad.id == widget.actividadId) {
             if (actividad is ActividadCuestionario) {
-              actividadesCuestionario.add(actividad);
+              actividadCuestionario=actividad;
             }
           }
         }
       }
     }
 
-    //buscar actividad por id dentro del curso
-    ActividadCuestionario actividadCuestionario = actividadesCuestionario
-        .firstWhere((actividad) => actividad.id == widget.actividadId);
+    
 
     String nombreUnidad =
-        unidadesCubit.nombreUnidadDeActividad(actividadCuestionario.id!);
+        unidadesCubit.nombreUnidadDeActividad(actividadCuestionario!.id!);
 
     // Verificar si la actividad tiene una pista
     if (actividadCuestionario.pista != null &&
@@ -82,7 +80,7 @@ class _ActividadCuestionarioScreenState
             return AlertDialog(
               title: Text('Información '),
               content:
-                  Image.asset(actividadCuestionario.pista!, fit: BoxFit.cover),
+                  Image.asset(actividadCuestionario!.pista!, fit: BoxFit.cover),
               actions: <Widget>[
                 TextButton(
                   onPressed: () {
@@ -116,6 +114,7 @@ class _ActividadCuestionarioScreenState
         cursoName: 'Mundo PC',
         cursoId: curso.state.id!,
         userName: estudiantes.obtenerNombres(),
+        
         userAvatars: avatares,
         onLogout: () {
           // Aquí implementa la lógica para cerrar sesión
@@ -221,7 +220,7 @@ class _ActividadCuestionarioScreenState
                                                         '$_selectedOptionIndex',
                                                         obtenerPesoActividad(
                                                             _selectedOptionIndex,
-                                                            actividadCuestionario
+                                                            actividadCuestionario!
                                                                 .id!),
                                                         actividadCuestionario
                                                             .id!);
@@ -281,7 +280,7 @@ class _ActividadCuestionarioScreenState
                                                               context,
                                                               router,
                                                               unidadesCubit,
-                                                              actividadCuestionario);
+                                                              actividadCuestionario!);
                                                     })
                                               ]),
                                         )
@@ -388,7 +387,7 @@ class _ActividadCuestionarioScreenState
                                                   .actualizarRespuestasActividadesEstudiantes(
                                                       estudiantes.obtenerIds(),
                                                       '$_selectedOptionIndex',
-                                                      actividadCuestionario
+                                                      actividadCuestionario!
                                                               .pesoRespuestas![
                                                           _selectedOptionIndex],
                                                       actividadCuestionario
@@ -448,7 +447,7 @@ class _ActividadCuestionarioScreenState
                                                             context,
                                                             router,
                                                             unidadesCubit,
-                                                            actividadCuestionario);
+                                                            actividadCuestionario!);
                                                   })
                                             ]),
                                       )
@@ -476,7 +475,7 @@ class _ActividadCuestionarioScreenState
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: Text('Información '),
-                      content: Image.asset(actividadCuestionario.pista!,
+                      content: Image.asset(actividadCuestionario!.pista!,
                           fit: BoxFit.cover),
                       actions: <Widget>[
                         TextButton(

@@ -24,4 +24,17 @@ class BDCursosCubit extends Cubit<List<Curso>> {
     cursos.add(nuevoCurso);
     emit(cursos);
   }
+
+
+  //actualizar atributo name del curso  buscando el curso por id y actualiza
+void actualizarUnidadesCurso(Curso curso) {
+  // Buscar el índice del curso existente en la lista
+  int index = state.indexWhere((c) => c.id == curso.id);
+  if (index != -1) {
+    // Si se encuentra el curso, reemplazarlo con el nuevo curso
+    List<Curso> cursos = List.from(state);
+    cursos[index] = curso;
+    emit(cursos);
+  }
+}
 }

@@ -61,7 +61,8 @@ class UnidadesCubit extends Cubit<List<Unidad>> {
       }
       nuevasUnidades.add(unidad);
     }
-    ordenarIndices();
+   emit(nuevasUnidades);
+   
   
   }
 

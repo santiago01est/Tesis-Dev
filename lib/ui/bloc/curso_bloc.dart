@@ -2,6 +2,8 @@ import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
+import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Cubit para manejar el estado del nombre completo
@@ -32,6 +34,24 @@ class CursoCubit extends Cubit<Curso> {
 
     // Si no hay lista de estudiantes o no se encuentra el estudiante, devolvemos null
     return null;
+  }
+
+  void addActividad(Actividad actividad, int idUnidad, BuildContext context) {
+    List<Unidad> nuevasUnidades = [];
+    for (var unidad in state.unidades!) {
+      if (unidad.id == idUnidad) {
+        unidad.actividades!.add(actividad);
+      }
+      nuevasUnidades.add(unidad);
+    }
+    Curso curso=state;
+    curso.unidades=nuevasUnidades;
+   //emit(curso);
+
+   context.read<BDCursosCubit>().actualizarUnidadesCurso(curso);
+
+   
+  
   }
 
   // retornar lista de estudiantes dado una lista de Ids

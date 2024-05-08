@@ -4,6 +4,7 @@ import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
+import 'package:dev_tesis/domain/repository/curso_repository.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/actividad_custio_test.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
@@ -320,7 +321,7 @@ class CrearActividadState extends State<CrearActividad> {
                                             actividadCuestionarioSave =
                                             ActividadCuestionario(
                                                 id: Random().nextInt(1000),
-                                                nombre: 'ACTIVIDAD NUEVA',
+                                                nombre: 'Diagnostico',
                                                 descripcion:
                                                     descripcionTextEditingController
                                                         .text,
@@ -338,26 +339,18 @@ class CrearActividadState extends State<CrearActividad> {
                                                 respuestaCorrecta:
                                                     _selectedOptionIndex);
 
-                                        context
-                                            .read<UnidadesCubit>()
-                                            .addActividad(
-                                                actividadCuestionarioSave,
-                                                widget.unidadId);
+                                        
 
-                                        CursosCasoUso cursosCasoUso =
-                                            getIt<CursosCasoUso>();
-/*
+                                        CursosCasoUso cursosCasoUso= CursosCasoUso(cursoRepository:  getIt<CursoRepository>(), context: context);
+
                                         cursosCasoUso.agregarActividad(
                                             unidadesCubit!.cursoId,
-                                            unidadesCubit.actividades!.firstWhere(
-                                                (actividad) =>
-                                                    actividad.id ==
-                                                    actividadCuestionarioSave.id,));
+                                            actividadCuestionarioSave, widget.unidadId);
                                                 
-                                        */
+                                        
 
                                         // cerrar screen y volver
-
+/*
                                         showDialog(
                                           context: context,
                                           builder: (BuildContext context) {
@@ -393,7 +386,7 @@ class CrearActividadState extends State<CrearActividad> {
                                             );
                                           },
                                         );
-
+*/
                                         router.pop();
                                       },
                                       text: 'Publicar',

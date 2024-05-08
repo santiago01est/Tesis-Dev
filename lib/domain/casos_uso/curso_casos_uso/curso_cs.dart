@@ -4,7 +4,10 @@ import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/respuesta.dart';
 import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
+import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
+import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
+import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -76,7 +79,20 @@ class CursosCasoUso {
   }
 
   //Metodo que agrega una actividad en el seguimiento del grupo
-  void agregarActividad(int idCurso, Actividad actividad) {
+  void agregarActividad(int idCurso, Actividad actividad, int unidadId) {
+    /*
+    context.read<UnidadesCubit>().addActividad(
+        Actividad(
+            id: actividad.id,
+            nombre: actividad.nombre,
+            descripcion: actividad.descripcion,
+            estado: actividad.estado,
+            pesoRespuestas: actividad.pesoRespuestas,
+            habilidades: actividad.habilidades,
+            tipoActividad: actividad.tipoActividad),
+        unidadId);
+*/
+    context.read<CursoCubit>().addActividad(actividad, unidadId, context);
     context
         .read<SeguimientosEstudiantesCubit>()
         .agregarRespuesta(idCurso, actividad);

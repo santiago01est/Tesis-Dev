@@ -39,8 +39,8 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
 
   @override
   Widget build(BuildContext context) {
-    final unidades = context.read<UnidadesCubit>();
-    final seguimientosCubit = context.read<SeguimientosEstudiantesCubit>();
+    final unidades = context.watch<UnidadesCubit>();
+    final seguimientosCubit = context.watch<SeguimientosEstudiantesCubit>();
     final rolCubit = context.read<RolCubit>();
     final router = GoRouter.of(context);
 

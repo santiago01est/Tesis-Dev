@@ -10,23 +10,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class CustomNavigationBarActividad extends StatelessWidget
+class CustomNavigationBarPanelCurso extends StatelessWidget
     implements PreferredSizeWidget {
   final String cursoName;
   final int cursoId;
   final String userName;
   final List<String> userAvatars;
   final Function onLogout;
-  final int? profesorId;
+  final int profesorId;
 
-  const CustomNavigationBarActividad({
+  const CustomNavigationBarPanelCurso({
     super.key,
     required this.cursoName,
     required this.cursoId,
     required this.userName,
     required this.userAvatars,
     required this.onLogout,
-    this.profesorId,
+    required this.profesorId,
   });
 
   @override
@@ -45,7 +45,18 @@ class CustomNavigationBarActividad extends StatelessWidget
       title: Text(cursoName),
       actions: [
         // Aquí puedes mostrar el avatar cuando esté listo
-       const SizedBox(width: 50),
+        rol == 'profesor' ?
+        Center(
+          child: GestureDetector(
+            onTap: () {
+              router.go('/panelprofesor/$profesorId');
+            },
+            child: const MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: SubtitleText(text: 'Panel'),
+            ),
+          ),
+        ): const SizedBox(width: 50),
 Center(
           child: GestureDetector(
             onTap: () {
