@@ -18,7 +18,8 @@ class LayoutMisCursos extends StatelessWidget {
     //obtener solo los cursos del profesor
     final cursos = bdCursosCubit.state;
 
-    List<Curso> misCursos = obtenerMisCursos(profesorId, cursos);
+    List<Curso> misCursos = bdCursosCubit.state.where(
+      (curso) => curso.profesor == profesorId).toList();
 
     return SingleChildScrollView(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

@@ -21,54 +21,7 @@ class PanelPrincipalProfesorScreen extends StatefulWidget {
 
 class _PanelPrincipalProfesorScreenState
     extends State<PanelPrincipalProfesorScreen> {
-  final ProfesorCasoUso profesorCasoUso = getIt<ProfesorCasoUso>();
-  final CursosCasoUso cursosCasoUso = getIt<CursosCasoUso>();
-
-  @override
-  void initState() {
-    super.initState();
-    // si el cubit no tiene datos, los obtiene
-    _fetchProfesor();
-    _fetchCurso();
-  }
-
-  void _fetchProfesor() async {
-    /* forma local */
-    try {
-      if (context.read<ProfesoresCubit>().state.isEmpty) {
-        final profesores = await profesorCasoUso.getProfesores();
-        // ignore: use_build_context_synchronously
-        context.read<ProfesoresCubit>().subirProfesores(profesores);
-        // buscar en cursos el curso con el id correspondiente
-        final profesor =
-            profesores.firstWhere((c) => c.id == widget.profesorId);
-        // ignore: use_build_context_synchronously
-        context.read<ProfesorCubit>().actualizarProfesor(profesor);
-      } else {
-        final profesores = context.read<ProfesoresCubit>().state;
-        // buscar en cursos el curso con el id correspondiente
-        final profesor =
-            profesores.firstWhere((c) => c.id == widget.profesorId);
-        context.read<ProfesorCubit>().actualizarProfesor(profesor);
-      }
-    } catch (e) {
-      // Manejo de errores, puedes mostrar un mensaje de error
-      print('Error al obtener cursos: $e');
-    }
-  }
-
-  void _fetchCurso() async {
-    /* forma local */
-    try {
-      if (context.read<BDCursosCubit>().state.isEmpty) {
-        final cursos = await cursosCasoUso.getCursos();
-        context.read<BDCursosCubit>().subirCursos(cursos);
-      }
-    } catch (e) {
-      // Manejo de errores, puedes mostrar un mensaje de error
-      print('Error al obtener cursos: $e');
-    }
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +40,7 @@ class _PanelPrincipalProfesorScreenState
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
-                      'assets/fondos/FondoHome.png'), // Ruta de tu imagen de fondo
+                      'assets/fondos/FondoInicio.png'), // Ruta de tu imagen de fondo
                   fit: BoxFit.cover, // Ajuste para cubrir el contenedor
                 ),
               ),
@@ -149,6 +102,7 @@ class _PanelPrincipalProfesorScreenState
               ),
             ),
             // Segunda sección con fondo azul
+            /*
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -160,6 +114,7 @@ class _PanelPrincipalProfesorScreenState
                     )),
               ],
             ),
+            */
           ],
         ),
       ),
