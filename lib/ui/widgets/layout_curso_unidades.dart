@@ -213,7 +213,7 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                                   'assets/items/ButtonBlue.png',
                                               onPressed: () {
                                                 router.push(
-                                                    '/estudiocuestionario/${unidades.state[index].id}');
+                                                    '/estudiocuestionario/${unidades.state[index].cursoId}/${unidades.state[index].id}');
                                               },
                                               text: 'Crear Actividad')
                                           : SizedBox(),

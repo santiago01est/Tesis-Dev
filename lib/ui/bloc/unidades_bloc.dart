@@ -46,10 +46,26 @@ class UnidadesCubit extends Cubit<List<Unidad>> {
     for (var unidad in state) {
       if (unidad.id == idUnidad) {
         unidad.actividades!.add(actividad);
+        // reordenar indices de las actividades
+        ordenarIndices();
       }
       nuevasUnidades.add(unidad);
     }
     emit(nuevasUnidades);
+  }
+
+  void ordenarIndices() {
+    // Recorre cada unidad y reordena los índices de las actividades
+    List<Unidad> ordenUnidades = [];
+    for (var unidad in state) {
+      if (unidad.actividades != null) {
+        for (var actividad in unidad.actividades!) {
+          actividad.indice = unidad.actividades!.indexOf(actividad);
+        }
+        ordenUnidades.add(unidad);
+      }
+    }
+    emit(ordenUnidades);
   }
 
   SiguienteActividadInfo siguienteActividadInfo(int idActividad) {

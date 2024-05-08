@@ -1,8 +1,10 @@
 import 'dart:math';
 
 import 'package:dev_tesis/constants/styles.dart';
+import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
+import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/actividad_custio_test.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_profesor.dart';
@@ -15,7 +17,9 @@ import 'package:number_inc_dec/number_inc_dec.dart';
 
 class CrearActividad extends StatefulWidget {
   final int unidadId;
-  const CrearActividad({super.key, required this.unidadId});
+  final int cursoId;
+  const CrearActividad(
+      {super.key, required this.unidadId, required this.cursoId});
 
   @override
   CrearActividadState createState() => CrearActividadState();
@@ -99,8 +103,9 @@ class CrearActividadState extends State<CrearActividad> {
 
   final TextEditingController descripcionTextEditingController =
       TextEditingController();
-  final TextEditingController pesoTextEditingController =
-      TextEditingController();
+
+  List<TextEditingController> _controllers =
+      List.generate(4, (_) => TextEditingController());
 
   @override
   Widget build(BuildContext context) {
@@ -303,6 +308,12 @@ class CrearActividadState extends State<CrearActividad> {
                                     PixelSmallBttn(
                                       path: 'assets/items/ButtonBlue.png',
                                       onPressed: () {
+                                        for (int i = 0;
+                                            i < _controllers.length;
+                                            i++) {
+                                          pesos[i] =
+                                              int.parse(_controllers[i].text);
+                                        }
                                         ActividadCuestionario
                                             actividadCuestionarioSave =
                                             ActividadCuestionario(
@@ -319,7 +330,7 @@ class CrearActividadState extends State<CrearActividad> {
                                                 casillas: board,
                                                 pista: '',
                                                 respuestas: imagesList,
-                                                ejercicioImage:'',
+                                                ejercicioImage: '',
                                                 ejemploImage:
                                                     'ejemplocuestionarioU2CiclosAgarrar.png',
                                                 pesoRespuestas: pesos,
@@ -334,6 +345,8 @@ class CrearActividadState extends State<CrearActividad> {
                                             Actividad(
                                                 id: actividadCuestionarioSave
                                                     .id,
+                                                indice: actividadCuestionarioSave
+                                                    .indice,
                                                 nombre:
                                                     actividadCuestionarioSave
                                                         .nombre,
@@ -348,8 +361,15 @@ class CrearActividadState extends State<CrearActividad> {
                                                         .tipoActividad),
                                             widget.unidadId);
 
-                                        // cerrar screen y volver
+                                        CursosCasoUso cursosCasoUso =
+                                            getIt<CursosCasoUso>();
 
+                                        cursosCasoUso.agregarActividad(
+                                            widget.cursoId,
+                                            actividadCuestionarioSave);
+
+                                        // cerrar screen y volver
+                                        /*
                                         showDialog(
                                           context: context,
                                           builder: (BuildContext context) {
@@ -379,8 +399,9 @@ class CrearActividadState extends State<CrearActividad> {
                                             );
                                           },
                                         );
+                                        */
 
-                                        // router.pop();
+                                        router.pop();
                                       },
                                       text: 'Publicar',
                                     ),
@@ -567,14 +588,14 @@ class CrearActividadState extends State<CrearActividad> {
                                                           NumberInputPrefabbed
                                                               .leafyButtons(
                                                         controller:
-                                                            TextEditingController(),
+                                                            _controllers[index],
                                                         initialValue: 1,
                                                         min: 1,
                                                         max: 4,
                                                         onChanged: (value) {
-                                                          pesos[index] = int.parse(
-                                                              pesoTextEditingController
-                                                                  .text);
+                                                          _controllers[index]
+                                                                  .text =
+                                                              value.toString();
                                                         },
                                                         incDecBgColor:
                                                             orangeColor,

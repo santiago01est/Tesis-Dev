@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 class RadioRespuestasCuestionario extends StatefulWidget {
   final List<List<dynamic>> imagesList;
   final Function(int) radioRespuesta;
-   final int initialValue;
+  final int initialValue;
 
-  const  RadioRespuestasCuestionario(
-      {Key? key, required this.imagesList, required this.radioRespuesta, required this.initialValue})
+  const RadioRespuestasCuestionario(
+      {Key? key,
+      required this.imagesList,
+      required this.radioRespuesta,
+      required this.initialValue})
       : super(key: key);
 
   @override
@@ -17,23 +20,23 @@ class RadioRespuestasCuestionario extends StatefulWidget {
 
 class _RadioRespuestasCuestionarioState
     extends State<RadioRespuestasCuestionario> {
-   late int _selectedOptionIndex;
+  late int _selectedOptionIndex;
 
   @override
   void initState() {
     super.initState();
     _selectedOptionIndex = widget.initialValue;
   }
- @override
+
+  @override
   void dispose() {
-    _selectedOptionIndex = widget.initialValue; // Reinicia el estado al desechar el widget
+    _selectedOptionIndex =
+        widget.initialValue; // Reinicia el estado al desechar el widget
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: List.generate(
@@ -48,7 +51,6 @@ class _RadioRespuestasCuestionarioState
                 groupValue: _selectedOptionIndex,
                 onChanged: (int? value) {
                   setState(() {
-            
                     _selectedOptionIndex = value!;
                     widget.radioRespuesta(index);
                   });
@@ -62,7 +64,6 @@ class _RadioRespuestasCuestionarioState
               SizedBox(
                 width: MediaQuery.of(context).size.width / 3,
                 child: Card(
-                  
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
                   elevation: 6,
@@ -73,24 +74,26 @@ class _RadioRespuestasCuestionarioState
                       spacing: 8.0, // Espacio entre las imágenes
                       runSpacing: 8.0,
 
-                      children: List.generate(
-                        widget.imagesList[index].length,
-
-                      (imgIndex) {
+                      children: List.generate(widget.imagesList[index].length,
+                          (imgIndex) {
                         // si es mapa es porque tiene ciclos
-                          final dynamic img = widget.imagesList[index][imgIndex];
-                          if (img is Map) {
-                            return _buildCardForMap(img);
-                          } else {
-                            return Image.asset(
-                              'assets/buttons/$img',
-                              height: 40,
-                              width: 40,
-                              fit: BoxFit.cover,
-                            );
-                          }}
-
-                      ),
+                        final dynamic img = widget.imagesList[index][imgIndex];
+                        if (img is Map) {
+                          return _buildCardForMap(img);
+                        } else {
+                          return Image.asset(
+                            'assets/buttons/$img',
+                            height: 40,
+                            width: img == 'Avanzar.png' ||
+                                    img == 'GirarIzq.png' ||
+                                    img == 'GirarDerecha.png' ||
+                                    img == 'Agarrar.png'
+                                ? 40
+                                : 100,
+                            fit: BoxFit.cover,
+                          );
+                        }
+                      }),
                     ),
                   ),
                 ),
@@ -102,55 +105,45 @@ class _RadioRespuestasCuestionarioState
     );
   }
 
- Widget _buildCardForMap(dynamic respuesta) {
-  return Card(
-    color: Colors.blue,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(12),
-    ),
-    elevation: 6,
-    child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          
-          Text(
-            '${respuesta['Repeticion']}x',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(height: 8),
-          
-          Wrap(
-            alignment: WrapAlignment.start,
-            spacing: 8.0, // Espacio entre las imágenes
-            runSpacing: 8.0,
-            children: 
-
-
-            List.generate(
-              respuesta['Respuestas'].length,
-
-              (imgIndex) => Image.asset(
-                'assets/buttons/${respuesta['Respuestas'][imgIndex]}',
-                height: 40,
-                width: 40,
-                fit: BoxFit.cover,
+  Widget _buildCardForMap(dynamic respuesta) {
+    return Card(
+      color: Colors.blue,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      elevation: 6,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              '${respuesta['Repeticion']}x',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
               ),
             ),
-
-            
-           
-          ),
-        ],
+            SizedBox(height: 8),
+            Wrap(
+              alignment: WrapAlignment.start,
+              spacing: 8.0, // Espacio entre las imágenes
+              runSpacing: 8.0,
+              children: List.generate(
+                respuesta['Respuestas'].length,
+                (imgIndex) => Image.asset(
+                  'assets/buttons/${respuesta['Respuestas'][imgIndex]}',
+                  height: 40,
+                  width: 40,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 
   String _getImagePath(String direction) {
     // Implementa la lógica para obtener la ruta de la imagen según la dirección

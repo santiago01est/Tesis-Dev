@@ -44,7 +44,8 @@ class CursosCasoUso {
                     id: i,
                     respuestaUsuario: '',
                     peso: -1,
-                    actividadId: actividades[index].id!)),
+                    actividadId: actividades[index].id!,
+                    seguimientoId: i)),
             test: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             calificacion: 0,
             userId: estudiantes[i].id,
@@ -60,7 +61,8 @@ class CursosCasoUso {
                 id: 1,
                 respuestaUsuario: '',
                 peso: -1,
-                actividadId: actividades[index].id!)),
+                actividadId: actividades[index].id!,
+                seguimientoId: seguimientos.length + 1)),
         test: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         calificacion: 0,
         userId: idProfesor,
@@ -71,5 +73,12 @@ class CursosCasoUso {
     context
         .read<SeguimientosEstudiantesCubit>()
         .subirSeguimientos(seguimientos);
+  }
+
+  //Metodo que agrega una actividad en el seguimiento del grupo
+  void agregarActividad(int idCurso, Actividad actividad) {
+    context
+        .read<SeguimientosEstudiantesCubit>()
+        .agregarRespuesta(idCurso, actividad);
   }
 }

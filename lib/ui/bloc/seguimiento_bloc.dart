@@ -1,3 +1,5 @@
+import 'package:dev_tesis/domain/model/actividad.dart';
+import 'package:dev_tesis/domain/model/respuesta.dart';
 import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -65,5 +67,17 @@ class SeguimientosEstudiantesCubit extends Cubit<List<Seguimiento>> {
 
   Seguimiento obtenerSeguimientoEstudiante(int userId) {
     return state.firstWhere((seguimiento) => seguimiento.userId == userId);
+  }
+
+  // Agregar una respuesta a la lista en cada seguimiento
+  void agregarRespuesta(int cursoId, Actividad actividad) {
+    emit(state.map((seguimiento) {
+      if (seguimiento.cursoId == cursoId) {
+        Respuesta nuevaRespuesta=Respuesta(
+            id: 1, respuestaUsuario: '', peso: -1, actividadId: actividad.id!, seguimientoId: seguimiento.id);
+            seguimiento.respuestasActividades?.add(nuevaRespuesta); 
+      }
+      return seguimiento;
+    }).toList());
   }
 }

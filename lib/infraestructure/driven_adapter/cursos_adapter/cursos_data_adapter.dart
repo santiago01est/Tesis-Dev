@@ -36,6 +36,7 @@ class CursosDataAdapter extends CursoRepository {
         unidades: [
           Unidad(
               id: 0,
+              cursoId: 1,
               nombre: 'Unidad \nDiagnóstico',
               estado: 'Activa',
               actividades: [
@@ -994,7 +995,7 @@ class CursosDataAdapter extends CursoRepository {
                     pesoRespuestas: [2, 1, 3, 4],
                     respuestaCorrecta: 4),
               ]),
-          Unidad(id: 1, nombre: 'Unidad 1', estado: 'Activa', actividades: [
+          Unidad(id: 1,  cursoId: 1,nombre: 'Unidad 1', estado: 'Activa', actividades: [
             ActividadLaberinto(
                 id: 16,
                 nombre: 'Primeros Pasos',
@@ -1454,7 +1455,7 @@ class CursosDataAdapter extends CursoRepository {
               pesoRespuestas: [0, 0, 0, 0],
             ),
           ]),
-          Unidad(id: 2, nombre: 'Unidad 2', estado: 'Activa', actividades: [
+          Unidad(id: 2, cursoId: 1 ,nombre: 'Unidad 2', estado: 'Activa', actividades: [
             ActividadLaberinto(
                 id: 25,
                 nombre: 'Primeros Pasos',
@@ -2029,7 +2030,8 @@ class CursosDataAdapter extends CursoRepository {
                     id: 1,
                     respuestaUsuario: '',
                     peso: -1,
-                    actividadId: actividades[index].id!)),
+                    actividadId: actividades[index].id!,
+                    seguimientoId: 1)),
             test: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             calificacion: 0,
             userId: 1,
@@ -2042,7 +2044,8 @@ class CursosDataAdapter extends CursoRepository {
                     id: 2,
                     respuestaUsuario: '',
                     peso: -1,
-                    actividadId: actividades[index].id!)),
+                    actividadId: actividades[index].id!,
+                    seguimientoId: 2)),
             test: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             calificacion: 0,
             userId: 2,

@@ -6,7 +6,13 @@ class Unidad {
   String? descripcion;
   String? estado;
   List<Actividad>? actividades;
+  int cursoId;
 
   Unidad(
-      {this.id, this.nombre, this.descripcion, this.estado, this.actividades});
+      {this.id,
+      this.nombre,
+      this.descripcion,
+      this.estado,
+      this.actividades,
+      required this.cursoId});
 }
