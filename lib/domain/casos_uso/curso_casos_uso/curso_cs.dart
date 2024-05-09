@@ -14,9 +14,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CursosCasoUso {
   final CursoRepository cursoRepository;
-  final BuildContext context;
 
-  CursosCasoUso({required this.cursoRepository, required this.context});
+
+  CursosCasoUso({required this.cursoRepository});
 
   Future<List<Curso>> getCursos() async {
     return await cursoRepository.getCursos();
@@ -32,7 +32,7 @@ class CursosCasoUso {
   }
 
   // crear Seguimientos del curso
-  void crearSeguimientos(List<Estudiante> estudiantes, int idProfesor,
+  List<Seguimiento> crearSeguimientos(List<Estudiante> estudiantes, int idProfesor,
       int idCurso, List<Actividad> actividades) {
     /*
     Recorre la lista de estudiantes y crea un seguimiento para cada uno de ellos
@@ -74,11 +74,8 @@ class CursosCasoUso {
 
     cursoRepository.crearSeguimientos(seguimientos);
     // Copia en Cubit
-    context
-        .read<SeguimientosEstudiantesCubit>()
-        .subirSeguimientos(seguimientos);
-        
-        subirSeguimientosFB(seguimientos);
+    return seguimientos;
+    
   }
 
   //Metodo que agrega una actividad en el seguimiento del grupo

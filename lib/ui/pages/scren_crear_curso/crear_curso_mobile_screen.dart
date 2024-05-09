@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
@@ -7,6 +8,7 @@ import 'package:dev_tesis/domain/casos_uso/unidad_casos_uso/unidad_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
+import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
@@ -14,6 +16,7 @@ import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
+import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_profesor.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
@@ -795,13 +798,24 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                               cursoCubit.actualizarCurso(curso);
                                               bdCursosCubit.agregarCurso(curso);
 
-                                              // Agregar Seguimientos
-                                              cursoCasoUso.crearSeguimientos(
-                                                  listaEstudiantes,
-                                                  profesorCubit.state.id!,
-                                                  curso.id!,
-                                                  cursoCubit
-                                                      .obtenerTodasActividadesCurso());
+                                             // Agregar Seguimientos
+                                              List<Seguimiento>
+                                                  seguimientosToCubit =
+                                                  cursoCasoUso.crearSeguimientos(
+                                                      curso.estudiantes!,
+                                                      profesorCubit.state.id!,
+                                                      curso.id!,
+                                                      curso
+                                                          .obtenerTodasActividadesCurso(
+                                                              curso.unidades));
+                                              context
+                                                  .read<
+                                                      SeguimientosEstudiantesCubit>()
+                                                  .subirSeguimientos(
+                                                      seguimientosToCubit);
+
+                                              subirSeguimientosFB(
+                                                  seguimientosToCubit);
                                               // Crear Cubit de estudiante para que el profe pueda resolver actividades
                                               estudiantesCubit
                                                   .agregarEstudiante(Estudiante(
@@ -884,6 +898,27 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
       ),
     );
   }
+
+  
+  void subirSeguimientosFB(List<Seguimiento> seguimientos) {
+    // Referencia a la colección "cursos" en Firestore
+    CollectionReference seguimientosDBRef =
+        FirebaseFirestore.instance.collection('seguimientos');
+
+    // recorrer la lista e ir subiendo cada uno de los objetos
+    seguimientos.forEach((seguimiento) async {
+      // Convertir el objeto Producto a un mapa
+      Map<String, dynamic> data = seguimiento.toMap();
+
+      // Agregar el documento a la colección
+      await seguimientosDBRef.add(data).then((value) {
+        print('Seguimiento agregado con ID: ${value.id}');
+      }).catchError((error) {
+        print('Error al agregar el Seguimiento: $error');
+      });
+    });
+  }
+
 
   Future<Future<List<String>>> cargarArchivoExcel() async {
     final completer = Completer<List<String>>();

@@ -32,7 +32,7 @@ void setupDependencies(BuildContext context) {
   // Registra tus dependencias aquí
   getIt.registerSingleton<CursoRepository>(CursosDataAdapter());
   getIt.registerSingleton<CursosCasoUso>(CursosCasoUso(
-      cursoRepository: getIt<CursoRepository>(), context: context));
+      cursoRepository: getIt<CursoRepository>());
 
   getIt.registerSingleton<UnidadRepository>(UnidadDataAdapter());
   getIt.registerSingleton<UnidadCasoUso>(
