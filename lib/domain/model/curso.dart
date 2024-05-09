@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
@@ -57,6 +58,35 @@ class Curso {
     );
   }
 
+  // Método para asignar valores desde un mapa
+  void fromMap(Map<String, dynamic> map) {
+    id = map['id'];
+    nombre = map['nombre'];
+    codigoAcceso = map['codigoAcceso'];
+    departamento = map['departamento'];
+    ciudad = map['ciudad'];
+    colegio = map['colegio'];
+    profesor = map['profesor'];
+    portada = map['portada'];
+    numEstudiantes = map['numEstudiantes'];
+    descripcion = map['descripcion'];
+    fechaCreacion = map['fechaCreacion'];
+    fechaFinalizacion = map['fechaFinalizacion'];
+    estado = map['estado'];
+    // Convertir la lista de estudiantes si existe
+    if (map['estudiantes'] != null) {
+      estudiantes = (map['estudiantes'] as List<dynamic>)
+          .map((estudiante) => Estudiante.fromJson(estudiante))
+          .toList();
+    }
+    // Convertir la lista de unidades si existe
+    if (map['unidades'] != null) {
+      unidades = (map['unidades'] as List<dynamic>)
+          .map((unidad) => Unidad.fromJson(unidad))
+          .toList();
+    }
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -84,24 +114,53 @@ class Curso {
 
   //metodo toMap
   Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'nombre': nombre,
-      'codigoAcceso': codigoAcceso,
-      'departamento': departamento,
-      'ciudad': ciudad,
-      'colegio': colegio,
-      'profesor': profesor,
-      'portada': portada,
-      'numEstudiantes': numEstudiantes,
-      'descripcion': descripcion,
-      'fechaCreacion': fechaCreacion,
-      'fechaFinalizacion': fechaFinalizacion,
-      'estado': estado,
-      'estudiantes': estudiantes,
-      'unidades': unidades,
-    };
+  return {
+    'id': id,
+    'nombre': nombre,
+    'codigoAcceso': codigoAcceso,
+    'departamento': departamento,
+    'ciudad': ciudad,
+    'colegio': colegio,
+    'profesor': profesor,
+    'portada': portada,
+    'numEstudiantes': numEstudiantes,
+    'descripcion': descripcion,
+    'fechaCreacion': fechaCreacion,
+    'fechaFinalizacion': fechaFinalizacion,
+    'estado': estado,
+    'estudiantes': estudiantes?.map((estudiante) => estudiante.toMap()).toList(),
+    'unidades': unidades?.map((unidad) => unidad.toMap()).toList(),
+  };
+}
+
+factory Curso.fromFirestore(
+    DocumentSnapshot<Map<String, dynamic>> snapshot
+  ) {
+    final data = snapshot.data();
+    return Curso(
+      id: data?['id'],
+      nombre: data?['nombre'],
+      codigoAcceso: data?['codigoAcceso'],
+      departamento: data?['departamento'],
+      ciudad: data?['ciudad'],
+      colegio: data?['colegio'],
+      profesor: data?['profesor'],
+      portada: data?['portada'],
+      numEstudiantes: data?['numEstudiantes'],
+      descripcion: data?['descripcion'],
+      fechaCreacion: data?['fechaCreacion'],
+      fechaFinalizacion: data?['fechaFinalizacion'],
+      estado: data?['estado'],
+      estudiantes: data?['estudiantes'] is Iterable
+          ? List.from(data?['estudiantes'])
+          : null,
+      unidades: data?['unidades'] is Iterable
+          ? List.from(data?['unidades'])
+          : null,
+    );
   }
+
+
 
   List<Actividad> obtenerTodasActividadesCurso(List<Unidad>? unidades) {
     List<Actividad> todasLasActividades = [];

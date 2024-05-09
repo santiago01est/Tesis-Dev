@@ -25,4 +25,28 @@ class Respuesta {
         actividadId: actividadId ?? this.actividadId,
         seguimientoId: seguimientoId ?? this.seguimientoId);
   }
+
+  // To Map
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'respuestaUsuario': respuestaUsuario,
+      'peso': peso,
+      'actividadId': actividadId,
+      'seguimientoId': seguimientoId,
+    };
+  }
+
+
+
+  factory Respuesta.fromJson(respuesta) {
+    return Respuesta(
+        id: respuesta['id'],
+        respuestaUsuario: respuesta['respuestaUsuario'],
+        peso: respuesta['peso'],
+        actividadId: respuesta['actividadId'],
+        seguimientoId: respuesta['seguimientoId'],
+        );
+    
+  }
 }

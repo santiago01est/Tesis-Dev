@@ -141,7 +141,7 @@ class CustomNavigationBarPanelCurso extends StatelessWidget
               leading: Icon(Icons.exit_to_app),
               title: Text('Cerrar sesión'),
               onTap: () {
-                cs_init.cerrarSesionEstudiante('idsEstudiantes');
+                
                 Navigator.pop(context); // Cerrar el menú
               },
             ),

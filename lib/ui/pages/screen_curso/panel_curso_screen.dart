@@ -137,6 +137,8 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
   }
   */
 
+  /*
+
   bool isSesioCentinela = true;
   Future<void> isSesion() async {
     if (!await _cursosProfesoresCasoUso.isSesion()) {
@@ -146,11 +148,11 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
       });
     }
   }
-
+*/
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
-    isSesion();
+   
     final cursoCubit = context.watch<CursoCubit>();
     final rol = context.read<RolCubit>().state;
     final profesoresCubit = context.watch<ProfesoresCubit>();
@@ -175,8 +177,8 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
           .avatar!);
     }
 
-    return isSesioCentinela
-        ? DefaultTabController(
+    return 
+        DefaultTabController(
             length: 2, // Número de pestañas
             child: Scaffold(
               backgroundColor: thirtyColor,
@@ -436,7 +438,7 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
               ),
             ),
           )
-        : const CircularProgressIndicator();
+       ;
   }
 
   Widget cardInfoCurso(

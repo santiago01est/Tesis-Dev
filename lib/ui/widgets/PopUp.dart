@@ -1,12 +1,14 @@
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
+import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_square.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:dev_tesis/ui/widgets/pop_up_credenciales.dart';
 import 'package:dev_tesis/utils/rutasImagenes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PopupUtils {
   /* PopUp para seleccionar Avatar */
@@ -125,6 +127,8 @@ class PopupUtils {
   static void showCodeAccessPopup(BuildContext context, Curso curso) {
     final TextEditingController codigoEditingController =
         TextEditingController();
+    final profesores= context.read<ProfesoresCubit>().state;
+    
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -158,7 +162,9 @@ class PopupUtils {
                       children: [
                         PixelSquareBttn(
                           path: 'assets/items/buttn_close.png',
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
                           text: '',
                         ),
                       ],
@@ -171,10 +177,10 @@ class PopupUtils {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const BigText(text: 'Curso C'),
-                          const SizedBox(height: 30.0),
-                          const TitleText(text: 'Profesor: Angela Muñoz'),
-                          const SizedBox(height: 20.0),
+                           BigText(text: '${curso.nombre}'),
+                           const SizedBox(height: 30.0),
+                           TitleText(text: '${profesores.firstWhere((element) => element.id == curso.profesor).nombre}'),
+                           const SizedBox(height: 20.0),
                           Row(
                             children: [
                               Expanded(
@@ -190,13 +196,13 @@ class PopupUtils {
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                    SizedBox(height: 30.0),
+                                    const SizedBox(height: 30.0),
                                     Container(
                                       width: 300,
                                       child: TextFormField(
                                         controller: codigoEditingController,
                                         keyboardType: TextInputType.number,
-                                        autofocus: false,
+                                        autofocus: true,
                                         maxLength: 4,
                                         enableSuggestions: false,
                                         autocorrect: false,

@@ -109,7 +109,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
   }
 
   late InitData _cursosProfesoresCasoUso;
-  late CursosCasoUso _cursoCasoUso;
+  late CursosCasoUso cursoCasoUso;
   final UnidadCasoUso unidadCasoUso = getIt<UnidadCasoUso>();
 
   @override
@@ -123,7 +123,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
       context: context,
     );
     _cursosProfesoresCasoUso.obtenerCursosYProfesores();
-    _cursoCasoUso = CursosCasoUso(
+    cursoCasoUso = CursosCasoUso(
         cursoRepository: getIt<CursoRepository>(), context: context);
   }
 
@@ -587,6 +587,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                   path: "assets/items/ButtonBlue.png",
                   onPressed: () async {
                     Estudiante estudiante = Estudiante(
+                      id: listaEstudiantes.length + 1,
                       nombre: _nombreEstudianteController.text,
                       avatar: selectedAvatar,
                     );
@@ -794,8 +795,6 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                 }
 
                                 curso.unidades = unidades;
-                                //TODO: Crear Seguimientos para los estudiantes y el profesor en la BD
-                                await _cursoCasoUso.subirCursoFB(curso);
 
                                 bool isValid =
                                     _validateInformation(); // Verifica la información
@@ -818,13 +817,13 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                           TextButton(
                                             onPressed: () {
                                               //TODO: Llamar a la API para guardar la información
-                                              _cursoCasoUso.guardarCurso(curso);
+                                              cursoCasoUso.guardarCurso(curso);
                                               // Guardar en Cubit
                                               cursoCubit.actualizarCurso(curso);
                                               bdCursosCubit.agregarCurso(curso);
 
                                               // Agregar Seguimientos
-                                              _cursoCasoUso.crearSeguimientos(
+                                              cursoCasoUso.crearSeguimientos(
                                                   curso.estudiantes!,
                                                   profesorCubit.state.id!,
                                                   curso.id!,
@@ -832,6 +831,9 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                                       .obtenerTodasActividadesCurso(
                                                           curso.unidades));
 
+                                    //TODO: Crear Seguimientos para los estudiantes y el profesor en la BD
+                                              cursoCasoUso.subirCursoFB(curso);
+                                              //estudiantesCubit.subirEstudiantes(curso.estudiantes!);
                                               // Crear Cubit de estudiante para que el profe pueda resolver actividades
                                               estudiantesCubit
                                                   .agregarEstudiante(Estudiante(
@@ -842,10 +844,13 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                                       avatar:
                                                           '${profesorCubit.state.avatar}',
                                                       genero: 'Otro'));
+
                                               // Establecer Rol de Profesor
                                               context
                                                   .read<RolCubit>()
                                                   .actualizarRol('profesor');
+
+                                              
 
                                               router.go(
                                                   '/panelcurso/${curso.id}');
@@ -934,6 +939,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
             //obtener un dato de una posicion
 
             Estudiante estudiante = Estudiante(
+                id: i,
                 nombre: datos[i],
                 avatar: RutasImagenes.getRandomRuta(),
                 genero: 'Masculino');

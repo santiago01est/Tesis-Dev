@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
+import 'package:dev_tesis/domain/model/seguimiento.dart';
+import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/bd_demo.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
@@ -14,7 +17,7 @@ import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 class InitData {
   final CursosCasoUso cursosCasoUso;
@@ -31,30 +34,24 @@ class InitData {
     if (context.read<BDCursosCubit>().state.isEmpty) {
       await _fetchCursos();
       await _fetchProfesores();
-      //TODO: obtener sesion estudiantes si el rol es estudiante
+     
       context.read<RolCubit>().actualizarRol('estudiante');
     }
   }
 
   Future<void> obtenerCursosYProfesoresYUnidades(int cursoId) async {
-    //TODO: obtener sesion estudiantes si el rol es estudiante
     if (context.read<RolCubit>().state.isEmpty) {
       context.read<RolCubit>().actualizarRol('estudiante');
     }
 
     if (context.read<BDCursosCubit>().state.isEmpty) {
-      List<int>? jsonString = await leerStringList('idsEstudiantes');
+     // List<int>? jsonString = await leerStringList('idsEstudiantes');
       // Si la lista no está vacía, convertirla a una lista de Estudiante
-      if (jsonString != null) {
-        List<Estudiante> estudiantes =
-            context.read<CursoCubit>().obtenerEstudiantesPorIds(jsonString);
-        context.read<EstudiantesCubit>().subirEstudiantes(estudiantes);
-      } else {
-        //TODO: obtener sesion estudiantes si el rol es estudiante
-        //TODO: obtener sesion del profesor
-        //context.read<RolCubit>().actualizarRol('profesor');
-        GoRouter.of(context).pushReplacement('/');
-      }
+      //if (jsonString != null) {
+        
+      
+        
+      
       await _fetchCursos();
       await _fetchProfesores();
       await _fetchCursoYUnidad(cursoId);
@@ -82,13 +79,11 @@ class InitData {
 
   Future<void> _fetchProfesores() async {
     try {
-      if(context.read<ProfesoresCubit>().state.isEmpty){
+      
         final profesores = await profesorCasoUso.getProfesores();
       context.read<ProfesoresCubit>().subirProfesores(profesores);
 
-      }else{
-
-      }
+      
       
       
     } catch (e) {
@@ -113,6 +108,7 @@ class InitData {
         final curso = cursos.firstWhere((c) => c.id == cursoId);
         context.read<CursoCubit>().actualizarCurso(curso);
         context.read<UnidadesCubit>().subirUnidades(curso.unidades!);
+        
       }
     } catch (e) {
       // Manejo de errores, puedes mostrar un mensaje de error
@@ -120,6 +116,7 @@ class InitData {
     }
   }
 
+/*
   Future<List<int>?> leerStringList(String key) async {
     final prefs = await SharedPreferences.getInstance();
     String? jsonString = prefs.getString(key); // Obtener la cadena JSON
@@ -159,12 +156,13 @@ class InitData {
     context.read<ProfesoresCubit>().limpiarCubit();
     GoRouter.of(context).pushReplacement('/');
   }
+  */
 
   Future<void> _fetchSeguimientosCurso(int cursoId) async {
-    if (cursoId == 1) {
+    
       if (context.read<BDemoMundoPC>().state.isEmpty) {
         final curso =
-            context.read<BDCursosCubit>().state.firstWhere((c) => c.id == 1);
+            context.read<BDCursosCubit>().state.firstWhere((c) => c.id == cursoId);
         final unidades = curso.unidades;
         List<Actividad> actividades = [];
         // se recorre cada unidad y se pasa actividad a la lista
@@ -173,12 +171,26 @@ class InitData {
             actividades.add(actividad);
           }
         }
-        context.read<BDemoMundoPC>().subirSeguimientos(actividades);
+        if(cursoId == 1){
+          context.read<BDemoMundoPC>().subirSeguimientos(actividades);
+
+        }else{
+
+         CursosCasoUso _cursosProfesoresCasoUso = getIt<CursosCasoUso>();
+
+         _cursosProfesoresCasoUso.crearSeguimientos(curso.estudiantes!, curso.profesor!, curso.id!, actividades);
+
+    
+
+
+        }
+        
         context
             .read<SeguimientosEstudiantesCubit>()
             .subirSeguimientos(context.read<BDemoMundoPC>().state);
       }
-    }
+    
+  
     //TODO: obtener seguimientos del curso de la BD
     if (context.read<SeguimientosEstudiantesCubit>().state.isEmpty) {}
   }

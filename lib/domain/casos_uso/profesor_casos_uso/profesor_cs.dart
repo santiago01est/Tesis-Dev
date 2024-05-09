@@ -22,7 +22,7 @@ class ProfesorCasoUso {
     productos.add(data).then((value) {
       print('Profesor agregado con ID: ${value.id}');
     }).catchError((error) {
-      print('Error al agregar el Curso: $error');
+      print('Error al agregar el Profesor: $error');
     });
   }
 }

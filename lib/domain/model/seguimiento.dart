@@ -34,4 +34,31 @@ class Seguimiento {
       cursoId: cursoId ?? this.cursoId,
     );
   }
+
+  // To Map
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'respuestasActividades': respuestasActividades?.map((x) => x.toMap()).toList(),
+      'test': test,
+      'calificacion': calificacion,
+      'userId': userId,
+      'cursoId': cursoId,
+    };
+    
+  }
+
+  void fromMap(Map<String, dynamic> data) {
+    id = data['id'];
+    if (data['respuestasActividades'] != null) {
+      respuestasActividades = (data['respuestasActividades'] as List<dynamic>)
+          .map((respuesta) => Respuesta.fromJson(respuesta))
+          .toList();
+    }
+    test = data['test'];
+    calificacion = data['calificacion'];
+    userId = data['userId'];
+    cursoId = data['cursoId'];
+  
+  }
 }

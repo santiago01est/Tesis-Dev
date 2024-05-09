@@ -42,7 +42,7 @@ class _PopupCredencialesState extends State<PopupCredenciales>
 
   @override
   Widget build(BuildContext context) {
-    final estudiantesCubit = context.watch<EstudiantesCubit>();
+    final estudiantesCubit = context.read<EstudiantesCubit>();
     final router = GoRouter.of(context);
     return AlertDialog(
       shape: RoundedRectangleBorder(
@@ -105,7 +105,7 @@ class _PopupCredencialesState extends State<PopupCredenciales>
                   });
                 }),
             // TabBarView para contenido de los tabs
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Expanded(
               child: TabBarView(
                 controller: _tabController,
@@ -136,24 +136,25 @@ class _PopupCredencialesState extends State<PopupCredenciales>
                           String selectedStudentName = widget
                               .estudiantes[selectedStudentIndividualIndex]
                               .nombre!;
+                          
                           String selectedAvatarPath = RutasImagenes
                               .getRutasAvatares()[selectedAvatarIndex];
                           bool isValid = widget.estudiantes.any((estudiante) =>
                               estudiante.nombre == selectedStudentName &&
                               estudiante.avatar == selectedAvatarPath);
                           if (isValid) {
-                            estudiantesCubit.agregarEstudiante(
-                                buscarEstudiantePorNombre(selectedStudentName));
+                           
 
                             // Toast
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(
-                                  'Bienvenido ${estudiantesCubit.state[0].nombre}'),
+                                  'Bienvenido $selectedStudentName !'),
                             ));
-                            // espera de 2 segundos
-                            Future.delayed(const Duration(seconds: 2), () {
+                            print('${widget.estudiantes.firstWhere((estudiante) => estudiante.nombre == selectedStudentName)}');
+                             context.read<EstudiantesCubit>().subirEstudiantes([widget.estudiantes.firstWhere((estudiante) => estudiante.nombre == selectedStudentName)]);
+                            
                               router.go('/panelcurso/${widget.idCurso}');
-                            });
+                            
                             // Navegar a la siguiente pantalla
                           } else {
                             // Mostrar mensaje de error

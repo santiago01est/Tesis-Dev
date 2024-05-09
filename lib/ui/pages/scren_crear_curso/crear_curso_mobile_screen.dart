@@ -38,7 +38,7 @@ class CrearCursoMobileScreen extends StatefulWidget {
 }
 
 class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
-  final CursosCasoUso cursosCasoUso = getIt<CursosCasoUso>();
+  final CursosCasoUso cursoCasoUso = getIt<CursosCasoUso>();
   final UnidadCasoUso unidadCasoUso = getIt<UnidadCasoUso>();
 //ruta imagene portada prederteminada
   String selectedImages = RutasImagenes.getRutasPortadas()[0];
@@ -790,13 +790,13 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                           TextButton(
                                             onPressed: () {
                                               //TODO: Llamar a la API para guardar la información
-                                              cursosCasoUso.guardarCurso(curso);
+                                              cursoCasoUso.guardarCurso(curso);
                                               // Guardar en Cubit
                                               cursoCubit.actualizarCurso(curso);
                                               bdCursosCubit.agregarCurso(curso);
 
                                               // Agregar Seguimientos
-                                              cursosCasoUso.crearSeguimientos(
+                                              cursoCasoUso.crearSeguimientos(
                                                   listaEstudiantes,
                                                   profesorCubit.state.id!,
                                                   curso.id!,
@@ -831,7 +831,9 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                                     ToastGravity.BOTTOM, // Pos
                                               );
 
-                                              //TODO: Crear Seguimientos para los estudiantes y el profesor en la BD
+                                              
+                                               //TODO: Crear Seguimientos para los estudiantes y el profesor en la BD
+                                              cursoCasoUso.subirCursoFB(curso);
                                               _onStepContinue();
                                             },
                                             child: Text('Confirmar'),

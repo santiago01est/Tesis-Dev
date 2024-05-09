@@ -1,10 +1,10 @@
 class Profesor {
-  final int? id;
-  final String? nombre;
-  final String? email;
-  final String? password;
-  final String? avatar;
-  final String? bio;
+   int? id;
+   String? nombre;
+   String? email;
+   String? password;
+   String? avatar;
+   String? bio;
 
   Profesor({
     this.id,
@@ -25,5 +25,15 @@ class Profesor {
       'avatar': avatar,
       'bio': bio,
     };
+  }
+
+  void fromMap(Map<String, dynamic> data) {
+    id = data['id'];
+    nombre = data['nombre'];
+    email = data['email'];
+    password = data['password'];
+    avatar = data['avatar'];
+    bio = data['bio'];
+
   }
 }

@@ -34,7 +34,7 @@ class AppBarProfesorPanel extends StatelessWidget
                   children: [
                     GestureDetector(
                         onTap: () {
-                          router.go('/home');
+                          router.go('/inicio');
                         },
                         child: const SubtitleText(text: 'Inicio')),
                     

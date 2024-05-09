@@ -77,6 +77,8 @@ class CursosCasoUso {
     context
         .read<SeguimientosEstudiantesCubit>()
         .subirSeguimientos(seguimientos);
+        
+        subirSeguimientosFB(seguimientos);
   }
 
   //Metodo que agrega una actividad en el seguimiento del grupo
@@ -101,21 +103,41 @@ class CursosCasoUso {
 
   //** FIREBASE */
   // Método para subir el objeto a Firestore
-  Future<void> subirCursoFB(Curso curso) async {
-    // Referencia a la colección "productos" en Firestore
-    final db = FirebaseFirestore.instance;
+  void subirCursoFB(Curso curso) {
+    // Referencia a la colección "cursos" en Firestore
+    CollectionReference cursos =
+        FirebaseFirestore.instance.collection('cursos');
 
-    // Convertir el objeto Curso a un mapa
+    // Convertir el objeto Producto a un mapa
     Map<String, dynamic> data = curso.toMap();
 
     // Agregar el documento a la colección
-    final cursoref = db.collection("cursos").doc();
-
-    try {
-      await cursoref.set(data);
-      print("Curso creado exitosamente");
-    } catch (e) {
-      print("Error al crear curso: $e");
-    }
+    cursos.add(data).then((value) {
+      print('Curso agregado con ID: ${value.id}');
+    }).catchError((error) {
+      print('Error al agregar el Curso: $error');
+    });
   }
+
+  // metodo para subir cada seguimiento
+  void subirSeguimientosFB(List<Seguimiento> seguimientos) {
+    // Referencia a la colección "cursos" en Firestore
+    CollectionReference seguimientosDBRef =
+        FirebaseFirestore.instance.collection('seguimientos');
+
+    // recorrer la lista e ir subiendo cada uno de los objetos
+    seguimientos.forEach((seguimiento) async {
+      // Convertir el objeto Producto a un mapa
+      Map<String, dynamic> data = seguimiento.toMap();
+
+    // Agregar el documento a la colección
+    await seguimientosDBRef.add(data).then((value) {
+      print('Seguimiento agregado con ID: ${value.id}');
+    }).catchError((error) {
+      print('Error al agregar el Seguimiento: $error');
+    });
+
+    });
+  }
+  
 }
