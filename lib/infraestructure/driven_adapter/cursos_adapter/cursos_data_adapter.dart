@@ -19,29 +19,27 @@ class CursosDataAdapter extends CursoRepository {
   Future<List<Curso>> getCursos() async {
     /* TODO: implement getCursos BD mientras sera por mapas */
 
-    
     List<Curso> cursos = [];
 
     // obtener los cursos de la base de datos
 
     // Referencia a la colección "cursos" en Firestore
-  CollectionReference cursosRef =
-      FirebaseFirestore.instance.collection('cursos');
+    CollectionReference cursosRef =
+        FirebaseFirestore.instance.collection('cursos');
 
-  // Obtener los documentos de la colección
-  QuerySnapshot querySnapshot = await cursosRef.get();
+    // Obtener los documentos de la colección
+    QuerySnapshot querySnapshot = await cursosRef.get();
 
-  // Iterar sobre cada documento obtenido
-  for (var doc in querySnapshot.docs) {
-    // Crear un objeto Curso
-    Curso curso = Curso();
-    // Leer los datos del documento y guardarlos en el objeto Curso
-    print((doc.data() as Map<String, dynamic>));
-    curso.fromMap(doc.data() as Map<String, dynamic>);
-    // Agregar el objeto Curso a la lista de cursos
-    cursos.add(curso);
-  }
-    
+    // Iterar sobre cada documento obtenido
+    for (var doc in querySnapshot.docs) {
+      // Crear un objeto Curso
+      Curso curso = Curso();
+      // Leer los datos del documento y guardarlos en el objeto Curso
+
+      curso.fromMap(doc.data() as Map<String, dynamic>);
+      // Agregar el objeto Curso a la lista de cursos
+      cursos.add(curso);
+    }
 
     return cursos;
   }

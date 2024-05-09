@@ -14,9 +14,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CursosCasoUso {
   final CursoRepository cursoRepository;
-  final BuildContext context;
 
-  CursosCasoUso({required this.cursoRepository, required this.context});
+  CursosCasoUso({required this.cursoRepository});
 
   Future<List<Curso>> getCursos() async {
     return await cursoRepository.getCursos();
@@ -32,8 +31,8 @@ class CursosCasoUso {
   }
 
   // crear Seguimientos del curso
-  void crearSeguimientos(List<Estudiante> estudiantes, int idProfesor,
-      int idCurso, List<Actividad> actividades) {
+  List<Seguimiento> crearSeguimientos(List<Estudiante> estudiantes,
+      int idProfesor, int idCurso, List<Actividad> actividades) {
     /*
     Recorre la lista de estudiantes y crea un seguimiento para cada uno de ellos
     */
@@ -72,13 +71,8 @@ class CursosCasoUso {
         userId: idProfesor,
         cursoId: idCurso));
 
-    cursoRepository.crearSeguimientos(seguimientos);
+    return seguimientos;
     // Copia en Cubit
-    context
-        .read<SeguimientosEstudiantesCubit>()
-        .subirSeguimientos(seguimientos);
-        
-        subirSeguimientosFB(seguimientos);
   }
 
   //Metodo que agrega una actividad en el seguimiento del grupo
@@ -95,10 +89,6 @@ class CursosCasoUso {
             tipoActividad: actividad.tipoActividad),
         unidadId);
 */
-    context.read<CursoCubit>().addActividad(actividad, unidadId, context);
-    context
-        .read<SeguimientosEstudiantesCubit>()
-        .agregarRespuesta(idCurso, actividad);
   }
 
   //** FIREBASE */
@@ -112,9 +102,7 @@ class CursosCasoUso {
     Map<String, dynamic> data = curso.toMap();
 
     // Agregar el documento a la colección
-    cursos.add(data).then((value) {
-      print('Curso agregado con ID: ${value.id}');
-    }).catchError((error) {
+    cursos.add(data).then((value) {}).catchError((error) {
       print('Error al agregar el Curso: $error');
     });
   }
@@ -130,14 +118,12 @@ class CursosCasoUso {
       // Convertir el objeto Producto a un mapa
       Map<String, dynamic> data = seguimiento.toMap();
 
-    // Agregar el documento a la colección
-    await seguimientosDBRef.add(data).then((value) {
-      print('Seguimiento agregado con ID: ${value.id}');
-    }).catchError((error) {
-      print('Error al agregar el Seguimiento: $error');
-    });
-
+      // Agregar el documento a la colección
+      await seguimientosDBRef.add(data).then((value) {
+        print('Seguimiento agregado con ID: ${value.id}');
+      }).catchError((error) {
+        print('Error al agregar el Seguimiento: $error');
+      });
     });
   }
-  
 }

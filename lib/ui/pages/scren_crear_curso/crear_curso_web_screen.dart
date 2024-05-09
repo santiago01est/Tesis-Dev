@@ -7,6 +7,7 @@ import 'package:dev_tesis/domain/casos_uso/unidad_casos_uso/unidad_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
+import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
 import 'package:dev_tesis/main.dart';
@@ -15,6 +16,7 @@ import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
+import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_profesor.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/combobox/combobox_ubicacion.dart';
@@ -123,8 +125,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
       context: context,
     );
     _cursosProfesoresCasoUso.obtenerCursosYProfesores();
-    cursoCasoUso = CursosCasoUso(
-        cursoRepository: getIt<CursoRepository>(), context: context);
+    cursoCasoUso = CursosCasoUso(cursoRepository: getIt<CursoRepository>());
   }
 
   Future<void> _fetchDepartamentos() async {
@@ -823,15 +824,24 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                               bdCursosCubit.agregarCurso(curso);
 
                                               // Agregar Seguimientos
-                                              cursoCasoUso.crearSeguimientos(
-                                                  curso.estudiantes!,
-                                                  profesorCubit.state.id!,
-                                                  curso.id!,
-                                                  curso
-                                                      .obtenerTodasActividadesCurso(
-                                                          curso.unidades));
+                                              List<Seguimiento>
+                                                  seguimientosData =
+                                                  cursoCasoUso.crearSeguimientos(
+                                                      curso.estudiantes!,
+                                                      profesorCubit.state.id!,
+                                                      curso.id!,
+                                                      curso
+                                                          .obtenerTodasActividadesCurso(
+                                                              curso.unidades));
+                                              context
+                                                  .read<
+                                                      SeguimientosEstudiantesCubit>()
+                                                  .subirSeguimientos(
+                                                      seguimientosData);
 
-                                    //TODO: Crear Seguimientos para los estudiantes y el profesor en la BD
+                                              cursoCasoUso.subirSeguimientosFB(
+                                                  seguimientosData);
+                                              //TODO: Crear Seguimientos para los estudiantes y el profesor en la BD
                                               cursoCasoUso.subirCursoFB(curso);
                                               //estudiantesCubit.subirEstudiantes(curso.estudiantes!);
                                               // Crear Cubit de estudiante para que el profe pueda resolver actividades
@@ -849,8 +859,6 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                               context
                                                   .read<RolCubit>()
                                                   .actualizarRol('profesor');
-
-                                              
 
                                               router.go(
                                                   '/panelcurso/${curso.id}');

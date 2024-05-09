@@ -18,7 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-
 class InitData {
   final CursosCasoUso cursosCasoUso;
   final ProfesorCasoUso profesorCasoUso;
@@ -31,11 +30,12 @@ class InitData {
   });
 
   Future<void> obtenerCursosYProfesores() async {
+    final cubitRol = context.read<RolCubit>();
     if (context.read<BDCursosCubit>().state.isEmpty) {
       await _fetchCursos();
       await _fetchProfesores();
-     
-      context.read<RolCubit>().actualizarRol('estudiante');
+
+      cubitRol.actualizarRol('estudiante');
     }
   }
 
@@ -45,13 +45,10 @@ class InitData {
     }
 
     if (context.read<BDCursosCubit>().state.isEmpty) {
-     // List<int>? jsonString = await leerStringList('idsEstudiantes');
+      // List<int>? jsonString = await leerStringList('idsEstudiantes');
       // Si la lista no está vacía, convertirla a una lista de Estudiante
       //if (jsonString != null) {
-        
-      
-        
-      
+
       await _fetchCursos();
       await _fetchProfesores();
       await _fetchCursoYUnidad(cursoId);
@@ -68,9 +65,13 @@ class InitData {
   }
 
   Future<void> _fetchCursos() async {
+    final cursosBDCubit = context.read<BDCursosCubit>();
+
     try {
       final cursos = await cursosCasoUso.getCursos();
-      context.read<BDCursosCubit>().subirCursos(cursos);
+      cursosBDCubit.subirCursos(cursos);
+      print(
+          'Estoyyy ${cursosBDCubit.state.runtimeType} ${cursosBDCubit.state}');
     } catch (e) {
       // Manejo de errores, puedes mostrar un mensaje de error
       print('Error al obtener cursos: $e');
@@ -79,13 +80,8 @@ class InitData {
 
   Future<void> _fetchProfesores() async {
     try {
-      
-        final profesores = await profesorCasoUso.getProfesores();
+      final profesores = await profesorCasoUso.getProfesores();
       context.read<ProfesoresCubit>().subirProfesores(profesores);
-
-      
-      
-      
     } catch (e) {
       // Manejo de errores, puedes mostrar un mensaje de error
       print('Error al obtener profesores: $e');
@@ -94,21 +90,23 @@ class InitData {
 
   Future<void> _fetchCursoYUnidad(int cursoId) async {
     /* forma local */
+    final cursosBDCubit = context.read<BDCursosCubit>();
+    final cursoCubit = context.read<CursoCubit>();
+    final unidades = context.read<UnidadesCubit>();
     try {
       if (context.read<BDCursosCubit>().state.isEmpty) {
         final cursos = await cursosCasoUso.getCursos();
-        context.read<BDCursosCubit>().subirCursos(cursos);
+        cursosBDCubit.subirCursos(cursos);
         // buscar en cursos el curso con el id correspondiente
         final curso = cursos.firstWhere((c) => c.id == cursoId);
-        context.read<CursoCubit>().actualizarCurso(curso);
-        context.read<UnidadesCubit>().subirUnidades(curso.unidades!);
+        cursoCubit.actualizarCurso(curso);
+        unidades.subirUnidades(curso.unidades!);
       } else {
         final cursos = context.read<BDCursosCubit>().state;
         // buscar en cursos el curso con el id correspondiente
         final curso = cursos.firstWhere((c) => c.id == cursoId);
         context.read<CursoCubit>().actualizarCurso(curso);
         context.read<UnidadesCubit>().subirUnidades(curso.unidades!);
-        
       }
     } catch (e) {
       // Manejo de errores, puedes mostrar un mensaje de error
@@ -159,39 +157,58 @@ class InitData {
   */
 
   Future<void> _fetchSeguimientosCurso(int cursoId) async {
-    
-      if (context.read<BDemoMundoPC>().state.isEmpty) {
-        final curso =
-            context.read<BDCursosCubit>().state.firstWhere((c) => c.id == cursoId);
-        final unidades = curso.unidades;
-        List<Actividad> actividades = [];
-        // se recorre cada unidad y se pasa actividad a la lista
-        for (var unidad in unidades!) {
-          for (var actividad in unidad.actividades!) {
-            actividades.add(actividad);
-          }
+    if (context.read<BDemoMundoPC>().state.isEmpty) {
+      final curso = context
+          .read<BDCursosCubit>()
+          .state
+          .firstWhere((c) => c.id == cursoId);
+      final unidades = curso.unidades;
+      List<Actividad> actividades = [];
+      // se recorre cada unidad y se pasa actividad a la lista
+      for (var unidad in unidades!) {
+        for (var actividad in unidad.actividades!) {
+          actividades.add(actividad);
         }
-        if(cursoId == 1){
-          context.read<BDemoMundoPC>().subirSeguimientos(actividades);
-
-        }else{
-
-         CursosCasoUso _cursosProfesoresCasoUso = getIt<CursosCasoUso>();
-
-         _cursosProfesoresCasoUso.crearSeguimientos(curso.estudiantes!, curso.profesor!, curso.id!, actividades);
-
-    
-
-
-        }
-        
-        context
-            .read<SeguimientosEstudiantesCubit>()
-            .subirSeguimientos(context.read<BDemoMundoPC>().state);
       }
-    
-  
-    //TODO: obtener seguimientos del curso de la BD
-    if (context.read<SeguimientosEstudiantesCubit>().state.isEmpty) {}
+      if (cursoId == 1) {
+        context.read<BDemoMundoPC>().subirSeguimientos(actividades);
+      } else {
+        //TODO Conectarme a la bd y traer los seguimientos segun el id
+        CursosCasoUso _cursosProfesoresCasoUso = getIt<CursosCasoUso>();
+
+        _cursosProfesoresCasoUso.crearSeguimientos(
+            curso.estudiantes!, curso.profesor!, curso.id!, actividades);
+      }
+
+      context
+          .read<SeguimientosEstudiantesCubit>()
+          .subirSeguimientos(context.read<BDemoMundoPC>().state);
+    } else {
+      final seguimientoCubit = context.read<SeguimientosEstudiantesCubit>();
+      List<Seguimiento> seguimientosCurso = [];
+      //TODO Conectarme a la bd y traer los seguimientos segun el id
+      // Referencia a la colección "cursos" en Firestore
+      CollectionReference seguimientosref =
+          FirebaseFirestore.instance.collection('seguimientos');
+
+      // Obtener los documentos de la colección
+      QuerySnapshot querySnapshot = await seguimientosref.get();
+
+      // Iterar sobre cada documento obtenido
+      for (var doc in querySnapshot.docs) {
+        // Crear un objeto Curso
+        Seguimiento seguimiento = Seguimiento();
+        // Leer los datos del documento y guardarlos en el objeto seguimiento
+
+        seguimiento.fromMap(doc.data() as Map<String, dynamic>);
+        // Agregar el objeto seguimiento a la lista de seguimientos
+        if (seguimiento.cursoId == cursoId) {
+          seguimientosCurso.add(seguimiento);
+        }
+      }
+      print('estoyyy ${seguimientosCurso}');
+
+      seguimientoCubit.subirSeguimientos(seguimientosCurso);
+    }
   }
 }
