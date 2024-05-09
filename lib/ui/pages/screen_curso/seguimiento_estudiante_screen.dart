@@ -37,8 +37,7 @@ class _SeguimientoEstudianteScreenState
   void initState() {
     super.initState();
     _cursosProfesoresCasoUso = InitData(
-      cursosCasoUso: CursosCasoUso(
-          cursoRepository: getIt<CursoRepository>(), context: context),
+      cursosCasoUso: CursosCasoUso(cursoRepository: getIt<CursoRepository>()),
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,
     );

@@ -7,6 +7,8 @@ import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/actividad_custio_test.dart';
+import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
+import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
@@ -339,15 +341,16 @@ class CrearActividadState extends State<CrearActividad> {
                                                 respuestaCorrecta:
                                                     _selectedOptionIndex);
 
-                                        
-
-                                        CursosCasoUso cursosCasoUso= CursosCasoUso(cursoRepository:  getIt<CursoRepository>(), context: context);
-
-                                        cursosCasoUso.agregarActividad(
-                                            unidadesCubit!.cursoId,
-                                            actividadCuestionarioSave, widget.unidadId);
-                                                
-                                        
+                                        context.read<CursoCubit>().addActividad(
+                                            actividadCuestionarioSave,
+                                            widget.unidadId,
+                                            context);
+                                        context
+                                            .read<
+                                                SeguimientosEstudiantesCubit>()
+                                            .agregarRespuesta(
+                                                unidadesCubit!.cursoId,
+                                                actividadCuestionarioSave);
 
                                         // cerrar screen y volver
 /*

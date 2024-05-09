@@ -126,8 +126,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
       context: context,
     );
     _cursosProfesoresCasoUso.obtenerCursosYProfesores();
-    cursoCasoUso = CursosCasoUso(
-        cursoRepository: getIt<CursoRepository>());
+    cursoCasoUso = CursosCasoUso(cursoRepository: getIt<CursoRepository>());
   }
 
   Future<void> _fetchDepartamentos() async {
@@ -826,21 +825,24 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                               bdCursosCubit.agregarCurso(curso);
 
                                               // Agregar Seguimientos
-                                              List<Seguimiento> seguimientosToCubit=cursoCasoUso.crearSeguimientos(
-                                                  curso.estudiantes!,
-                                                  profesorCubit.state.id!,
-                                                  curso.id!,
-                                                  curso
-                                                      .obtenerTodasActividadesCurso(
-                                                          curso.unidades));
-                                                          context
-        .read<SeguimientosEstudiantesCubit>()
-        .subirSeguimientos(seguimientosToCubit);
-        
-        subirSeguimientosFB(seguimientosToCubit);
+                                              List<Seguimiento>
+                                                  seguimientosToCubit =
+                                                  cursoCasoUso.crearSeguimientos(
+                                                      curso.estudiantes!,
+                                                      profesorCubit.state.id!,
+                                                      curso.id!,
+                                                      curso
+                                                          .obtenerTodasActividadesCurso(
+                                                              curso.unidades));
+                                              context
+                                                  .read<
+                                                      SeguimientosEstudiantesCubit>()
+                                                  .subirSeguimientos(
+                                                      seguimientosToCubit);
 
-                                    //TODO: Crear Seguimientos para los estudiantes y el profesor en la BD
-                                              cursoCasoUso.subirCursoFB(curso);
+                                              subirSeguimientosFB(
+                                                  seguimientosToCubit);
+
                                               //estudiantesCubit.subirEstudiantes(curso.estudiantes!);
                                               // Crear Cubit de estudiante para que el profe pueda resolver actividades
                                               estudiantesCubit
@@ -857,8 +859,6 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                               context
                                                   .read<RolCubit>()
                                                   .actualizarRol('profesor');
-
-                                              
 
                                               router.go(
                                                   '/panelcurso/${curso.id}');
@@ -925,7 +925,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
     );
   }
 
-   void subirSeguimientosFB(List<Seguimiento> seguimientos) {
+  void subirSeguimientosFB(List<Seguimiento> seguimientos) {
     // Referencia a la colección "cursos" en Firestore
     CollectionReference seguimientosDBRef =
         FirebaseFirestore.instance.collection('seguimientos');
@@ -935,13 +935,12 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
       // Convertir el objeto Producto a un mapa
       Map<String, dynamic> data = seguimiento.toMap();
 
-    // Agregar el documento a la colección
-    await seguimientosDBRef.add(data).then((value) {
-      print('Seguimiento agregado con ID: ${value.id}');
-    }).catchError((error) {
-      print('Error al agregar el Seguimiento: $error');
-    });
-
+      // Agregar el documento a la colección
+      await seguimientosDBRef.add(data).then((value) {
+        print('Seguimiento agregado con ID: ${value.id}');
+      }).catchError((error) {
+        print('Error al agregar el Seguimiento: $error');
+      });
     });
   }
 

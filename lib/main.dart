@@ -31,8 +31,8 @@ final getIt = GetIt.instance;
 void setupDependencies(BuildContext context) {
   // Registra tus dependencias aquí
   getIt.registerSingleton<CursoRepository>(CursosDataAdapter());
-  getIt.registerSingleton<CursosCasoUso>(CursosCasoUso(
-      cursoRepository: getIt<CursoRepository>());
+  getIt.registerSingleton<CursosCasoUso>(
+      CursosCasoUso(cursoRepository: getIt<CursoRepository>()));
 
   getIt.registerSingleton<UnidadRepository>(UnidadDataAdapter());
   getIt.registerSingleton<UnidadCasoUso>(

@@ -15,7 +15,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class CursosCasoUso {
   final CursoRepository cursoRepository;
 
-
   CursosCasoUso({required this.cursoRepository});
 
   Future<List<Curso>> getCursos() async {
@@ -32,8 +31,8 @@ class CursosCasoUso {
   }
 
   // crear Seguimientos del curso
-  List<Seguimiento> crearSeguimientos(List<Estudiante> estudiantes, int idProfesor,
-      int idCurso, List<Actividad> actividades) {
+  List<Seguimiento> crearSeguimientos(List<Estudiante> estudiantes,
+      int idProfesor, int idCurso, List<Actividad> actividades) {
     /*
     Recorre la lista de estudiantes y crea un seguimiento para cada uno de ellos
     */
@@ -75,7 +74,6 @@ class CursosCasoUso {
     cursoRepository.crearSeguimientos(seguimientos);
     // Copia en Cubit
     return seguimientos;
-    
   }
 
   //Metodo que agrega una actividad en el seguimiento del grupo
@@ -92,10 +90,6 @@ class CursosCasoUso {
             tipoActividad: actividad.tipoActividad),
         unidadId);
 */
-    context.read<CursoCubit>().addActividad(actividad, unidadId, context);
-    context
-        .read<SeguimientosEstudiantesCubit>()
-        .agregarRespuesta(idCurso, actividad);
   }
 
   //** FIREBASE */
@@ -127,14 +121,12 @@ class CursosCasoUso {
       // Convertir el objeto Producto a un mapa
       Map<String, dynamic> data = seguimiento.toMap();
 
-    // Agregar el documento a la colección
-    await seguimientosDBRef.add(data).then((value) {
-      print('Seguimiento agregado con ID: ${value.id}');
-    }).catchError((error) {
-      print('Error al agregar el Seguimiento: $error');
-    });
-
+      // Agregar el documento a la colección
+      await seguimientosDBRef.add(data).then((value) {
+        print('Seguimiento agregado con ID: ${value.id}');
+      }).catchError((error) {
+        print('Error al agregar el Seguimiento: $error');
+      });
     });
   }
-  
 }
