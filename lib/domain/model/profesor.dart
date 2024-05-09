@@ -14,4 +14,16 @@ class Profesor {
     this.avatar,
     this.bio,
   });
+
+  //Map
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'nombre': nombre,
+      'email': email,
+      'password': password,
+      'avatar': avatar,
+      'bio': bio,
+    };
+  }
 }

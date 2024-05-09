@@ -10,6 +10,7 @@ import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CursosCasoUso {
   final CursoRepository cursoRepository;
@@ -96,5 +97,25 @@ class CursosCasoUso {
     context
         .read<SeguimientosEstudiantesCubit>()
         .agregarRespuesta(idCurso, actividad);
+  }
+
+  //** FIREBASE */
+  // Método para subir el objeto a Firestore
+  Future<void> subirCursoFB(Curso curso) async {
+    // Referencia a la colección "productos" en Firestore
+    final db = FirebaseFirestore.instance;
+
+    // Convertir el objeto Curso a un mapa
+    Map<String, dynamic> data = curso.toMap();
+
+    // Agregar el documento a la colección
+    final cursoref = db.collection("cursos").doc();
+
+    try {
+      await cursoref.set(data);
+      print("Curso creado exitosamente");
+    } catch (e) {
+      print("Error al crear curso: $e");
+    }
   }
 }

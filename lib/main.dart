@@ -5,6 +5,7 @@ import 'package:dev_tesis/domain/casos_uso/unidad_casos_uso/unidad_cs.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
 import 'package:dev_tesis/domain/repository/profesor_respository.dart';
 import 'package:dev_tesis/domain/repository/unidad_repository.dart';
+import 'package:dev_tesis/firebase_options.dart';
 import 'package:dev_tesis/infraestructure/driven_adapter/profesor_adapter/profesor_data_adapter.dart';
 import 'package:dev_tesis/infraestructure/driven_adapter/unidad_adapter/unidad_data_adapter.dart';
 import 'package:dev_tesis/ui/bloc/actividad_custio_test.dart';
@@ -17,6 +18,7 @@ import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -37,11 +39,14 @@ void setupDependencies(BuildContext context) {
       UnidadCasoUso(getIt<UnidadRepository>()));
 
   getIt.registerSingleton<ProfesorRepository>(ProfesorDataAdapter());
-  getIt.registerSingleton<ProfesorCasoUso>(ProfesorCasoUso(
-      profesorRepository: getIt<ProfesorRepository>()));
+  getIt.registerSingleton<ProfesorCasoUso>(
+      ProfesorCasoUso(profesorRepository: getIt<ProfesorRepository>()));
 }
 
-void main() {
+Future<void> main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 

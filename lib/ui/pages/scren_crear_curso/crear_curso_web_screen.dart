@@ -757,7 +757,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                           Expanded(
                             child: PixelLargeBttn(
                               path: 'assets/items/ButtonBlue.png',
-                              onPressed: () {
+                              onPressed: () async {
                                 // traer el codigo demo para extraer las unidades plantilla
                                 Curso cursoDemo = context
                                     .read<BDCursosCubit>()
@@ -765,7 +765,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                     .firstWhere((curso) => curso.id == 1);
                                 // obtener en una lista todas las unidades del curso
                                 List<Unidad> unidades = [];
-                               
+
                                 //TODO: Validar la información
                                 Curso curso = Curso(
                                     // numero random para el id
@@ -787,12 +787,15 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                     estudiantes: listaEstudiantes,
                                     unidades: unidades);
 
-                                     for (var unidad in cursoDemo.unidades!) {
-                                  unidad.cursoId= curso.id!;
+                                // Crear las unidades extraidas del demo
+                                for (var unidad in cursoDemo.unidades!) {
+                                  unidad.cursoId = curso.id!;
                                   unidades.add(unidad);
                                 }
 
-                                curso.unidades=unidades;
+                                curso.unidades = unidades;
+                                //TODO: Crear Seguimientos para los estudiantes y el profesor en la BD
+                                await _cursoCasoUso.subirCursoFB(curso);
 
                                 bool isValid =
                                     _validateInformation(); // Verifica la información
@@ -802,7 +805,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        title: Text('Confirmación'),
+                                        title: const Text('Confirmación'),
                                         content: Text(
                                             '¿Estás seguro de guardar el curso?'),
                                         actions: [
@@ -857,8 +860,6 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                                 gravity:
                                                     ToastGravity.BOTTOM, // Pos
                                               );
-
-                                              //TODO: Crear Seguimientos para los estudiantes y el profesor en la BD
 
                                               _onStepContinue();
                                             },

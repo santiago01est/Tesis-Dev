@@ -1,24 +1,25 @@
 import 'dart:math';
-
 import 'package:dev_tesis/constants/styles.dart';
+import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
 import 'package:dev_tesis/domain/model/profesor.dart';
-import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
+import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/widgets/PopUp.dart';
 import 'package:dev_tesis/utils/rutasImagenes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class RegistroFormWeb extends StatefulWidget {
-  RegistroFormWeb({Key? key}) : super(key: key);
+  const RegistroFormWeb({Key? key}) : super(key: key);
 
   @override
-  _RegistroFormWebState createState() => _RegistroFormWebState();
+  RegistroFormWebState createState() => RegistroFormWebState();
 }
 
-class _RegistroFormWebState extends State<RegistroFormWeb> {
+class RegistroFormWebState extends State<RegistroFormWeb> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController nombreEditingController = TextEditingController();
   final TextEditingController emailEditingController = TextEditingController();
@@ -41,6 +42,7 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
+
     Profesor profesor;
     final profesorCubit = context.read<ProfesorCubit>();
     final profesoresCubit = context.read<ProfesoresCubit>();
@@ -255,23 +257,57 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
                 ),
                 PixelLargeBttn(
                   path: "assets/items/ButtonBlue.png",
-                  onPressed: () {
+                  onPressed: () async {
                     // Marcamos el formulario como enviado
-                    if (_formKey.currentState!.validate()) {
-                      // Call sign in method of firebase & open home screen based on successful login
+                    setState(() {
                       _formSubmitted = true;
+                    });
+
+                    // Validar el formulario
+                    if (_formKey.currentState!.validate()) {
+                      // Validar el formato del correo electrónico
+                      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                          .hasMatch(emailEditingController.text)) {
+                        // Si el correo electrónico no tiene un formato válido, mostrar un error
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              'Por favor, ingrese un correo electrónico válido.'),
+                        ));
+                        return;
+                      }
+
+                      // Validar que las contraseñas sean iguales
+                      if (pwdEditingController.text !=
+                          confirmpwdEditingController.text) {
+                        // Si las contraseñas no coinciden, mostrar un error
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text('Las contraseñas no coinciden.'),
+                        ));
+                        return;
+                      }
+
+                      // Crear el usuario en Firebase Authentication
+                      _register(emailEditingController.text,
+                          pwdEditingController.text);
+                      // Si se crea el usuario correctamente, continuar con el registro en la aplicación
                       profesor = Profesor(
                         id: Random().nextInt(1000000),
                         nombre: nombreEditingController.text,
                         email: emailEditingController.text,
                         password: pwdEditingController.text,
                         avatar: selectedAvatar,
-                        bio: 'MundoPC'
+                        bio: 'MundoPC',
                       );
-                      //actualizamos el estado del objeto profesor
+
+                      // Actualizar el estado del objeto profesor
                       profesorCubit.actualizarProfesor(profesor);
                       profesoresCubit.agregarProfesor(profesor);
-                      /* TODO:Caso de Uso crear Profesor*/
+                      //Subir a BD
+                      ProfesorCasoUso profesorCasoUso =
+                          getIt<ProfesorCasoUso>();
+                      profesorCasoUso.subirProfesorFB(profesor);
+
+                      // Navegar a la siguiente pantalla
                       router.go('/crearcursobienvenida');
                     }
                   },
@@ -286,6 +322,20 @@ class _RegistroFormWebState extends State<RegistroFormWeb> {
         ],
       ),
     );
+  }
+
+  Future<void> _register(String email, String pass) async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: pass,
+      );
+      // Registro exitoso, podrías navegar a la siguiente pantalla o realizar alguna acción adicional aquí.
+      //print('Usuario registrado: ${userCredential.user!.email}');
+    } catch (e) {
+      print('Error desconocido: $e');
+    }
   }
 
   void _selectAvatar(String avatarPath) {
