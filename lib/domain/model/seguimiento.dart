@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dev_tesis/domain/model/respuesta.dart';
 
 class Seguimiento {
@@ -35,30 +38,30 @@ class Seguimiento {
     );
   }
 
-  // To Map
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'respuestasActividades': respuestasActividades?.map((x) => x.toMap()).toList(),
-      'test': test,
-      'calificacion': calificacion,
-      'userId': userId,
-      'cursoId': cursoId,
-    };
-    
-  }
 
-  void fromMap(Map<String, dynamic> data) {
-    id = data['id'];
-    if (data['respuestasActividades'] != null) {
-      respuestasActividades = (data['respuestasActividades'] as List<dynamic>)
-          .map((respuesta) => Respuesta.fromJson(respuesta))
-          .toList();
-    }
-    test = data['test'];
-    calificacion = data['calificacion'];
-    userId = data['userId'];
-    cursoId = data['cursoId'];
-  
+Map<String, dynamic> toFirestore() {
+    return {
+      if (id != null) "id": id,
+      if (respuestasActividades != null) "respuestasActividades": respuestasActividades?.map((respuesta) => respuesta.toFirestore()).toList(),
+      if (test != null) "test": test,
+      if (calificacion != null) "calificacion": calificacion,
+      if (userId != null) "userId": userId,
+      if (cursoId != null) "cursoId": cursoId,
+    };
+  }
+  factory Seguimiento.fromFirestore(
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+  ) {
+    final data = snapshot.data();
+    return Seguimiento(
+      id: data?['id'],
+      calificacion: data?['calificacion'],
+      userId: data?['userId'],
+      cursoId: data?['cursoId'],
+      test: (data?['test'] as List<dynamic>?)?.cast<int>(),
+      respuestasActividades: (data?['respuestasActividades'] as List<dynamic>?)
+          ?.map((cityData) => Respuesta.fromFirestore(cityData))
+          .toList(),
+    );
   }
 }

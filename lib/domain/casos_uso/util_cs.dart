@@ -32,11 +32,14 @@ class InitData {
 
   Future<void> obtenerCursosYProfesores() async {
     final cubitRol = context.read<RolCubit>();
+    final seguimientoCubit = context.watch<SeguimientosEstudiantesCubit>();
     if (context.read<BDCursosCubit>().state.isEmpty) {
       await _fetchCursos();
       await _fetchProfesores();
+      List<Seguimiento> seguimientosCursos= await fetchSeguimientosTodosCursos();
+      seguimientoCubit.subirSeguimientos(seguimientosCursos);
 
-      cubitRol.actualizarRol('estudiante');
+      cubitRol.actualizarRol('profesor');
     }
   }
 
@@ -53,13 +56,13 @@ class InitData {
       await _fetchCursos();
       await _fetchProfesores();
       await _fetchCursoYUnidad(cursoId);
-      await _fetchSeguimientosCurso(cursoId);
+      //await _fetchSeguimientosCurso(cursoId);
 
       //Obtener sesion estudiantes si el rol es estudiante
       // Leer y mostrar la lista guardada
     } else {
       await _fetchCursoYUnidad(cursoId);
-      await _fetchSeguimientosCurso(cursoId);
+      //await _fetchSeguimientosCurso(cursoId);
     }
 
     // subir seguimientos para Demo
@@ -186,32 +189,34 @@ class InitData {
           .subirSeguimientos(context.read<BDemoMundoPC>().state);
     } else {
       final seguimientoCubit = context.read<SeguimientosEstudiantesCubit>();
-      List<Seguimiento> seguimientosCurso = [];
-      //TODO Conectarme a la bd y traer los seguimientos segun el id
-      // Referencia a la colección "cursos" en Firestore
-      CollectionReference seguimientosref =
-          FirebaseFirestore.instance.collection('seguimientos');
+       final ref = FirebaseFirestore.instance.collection("seguimientos");
 
-      // Obtener los documentos de la colección
-      QuerySnapshot querySnapshot = await seguimientosref.get();
+  final querySnapshot = await ref.get();
 
-      // Iterar sobre cada documento obtenido
-      for (var doc in querySnapshot.docs) {
-        // Crear un objeto Curso
-        Seguimiento seguimiento = Seguimiento();
-        // Leer los datos del documento y guardarlos en el objeto seguimiento
+  final List<Seguimiento> seguimientos = querySnapshot.docs.map((doc) {
+    final seguimiento = Seguimiento.fromFirestore(doc);
+    return seguimiento;
+  }).toList();
 
-        seguimiento.fromMap(doc.data() as Map<String, dynamic>);
-        // Agregar el objeto seguimiento a la lista de seguimientos
-        if (seguimiento.cursoId == cursoId) {
-          seguimientosCurso.add(seguimiento);
-        }
-      }
-      if (kDebugMode) {
-        print('estoyyy ${seguimientosCurso.length}');
-      }
 
-      seguimientoCubit.subirSeguimientos(seguimientosCurso);
+
+      seguimientoCubit.subirSeguimientos(seguimientos);
     }
   }
+
+  
+ Future<List<Seguimiento>> fetchSeguimientosTodosCursos() async {
+ final ref = FirebaseFirestore.instance.collection("seguimientos");
+
+  final querySnapshot = await ref.get();
+
+  final List<Seguimiento> seguimientos = querySnapshot.docs.map((doc) {
+    final seguimiento = Seguimiento.fromFirestore(doc);
+    return seguimiento;
+  }).toList();
+
+return seguimientos;
+
+}
+  
 }

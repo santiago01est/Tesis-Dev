@@ -16,24 +16,46 @@ class Welcome extends StatefulWidget {
 
 class _WelcomeState extends State<Welcome> {
   late InitData _cursosProfesoresCasoUso;
+  bool _isLoading = true; // Variable para controlar el estado de carga
 
-  @override
-  void initState() {
-    super.initState();
-    _cursosProfesoresCasoUso = InitData(
-      cursosCasoUso: getIt<CursosCasoUso>(),
-      profesorCasoUso: getIt<ProfesorCasoUso>(),
-      context: context,
-    );
-    _cursosProfesoresCasoUso.obtenerCursosYProfesores();
-  }
+ @override
+void didChangeDependencies() {
+
+  super.didChangeDependencies();
+  // Iniciar la carga de datos y establecer _isLoading en true
+  setState(() {
+    _isLoading = true;
+  });
+
+  _cursosProfesoresCasoUso = InitData(
+    cursosCasoUso: getIt<CursosCasoUso>(),
+    profesorCasoUso: getIt<ProfesorCasoUso>(),
+    context: context,
+  );
+
+  // Simular la carga de datos con un retardo de 3 segundos
+  Future.delayed(const Duration(seconds: 3), () {
+    // Una vez que los datos se han cargado, actualizar el estado para indicar que la carga ha terminado
+    _cursosProfesoresCasoUso.obtenerCursosYProfesores().then((_) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+  });
+}
 
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
 
     return Scaffold(
-      body: Stack(
+      body: _isLoading
+          ? const Center(
+              child: CircularProgressIndicator(), // Indicador de carga
+            )
+          : 
+      
+      Stack(
         fit: StackFit.expand,
         children: [
           Image.asset(

@@ -108,22 +108,12 @@ class CursosCasoUso {
   }
 
   // metodo para subir cada seguimiento
-  void subirSeguimientosFB(List<Seguimiento> seguimientos) {
-    // Referencia a la colección "cursos" en Firestore
-    CollectionReference seguimientosDBRef =
-        FirebaseFirestore.instance.collection('seguimientos');
-
-    // recorrer la lista e ir subiendo cada uno de los objetos
-    seguimientos.forEach((seguimiento) async {
-      // Convertir el objeto Producto a un mapa
-      Map<String, dynamic> data = seguimiento.toMap();
-
-      // Agregar el documento a la colección
-      await seguimientosDBRef.add(data).then((value) {
-        print('Seguimiento agregado con ID: ${value.id}');
-      }).catchError((error) {
-        print('Error al agregar el Seguimiento: $error');
-      });
-    });
+Future<void> subirSeguimientosFB(List<Seguimiento> seguimientos) async {
+   final collectionRef = FirebaseFirestore.instance.collection('seguimientos');
+  
+  for (var seguimiento in seguimientos) {
+    final seguimientoMap = seguimiento.toFirestore();
+    await collectionRef.add(seguimientoMap);
   }
+}
 }

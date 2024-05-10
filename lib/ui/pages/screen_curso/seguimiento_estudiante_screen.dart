@@ -6,6 +6,7 @@ import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/respuesta.dart';
+import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
@@ -47,7 +48,7 @@ class _SeguimientoEstudianteScreenState
   @override
   Widget build(BuildContext context) {
     final cursoCubit = context.read<CursoCubit>();
-    final seguimientos = context.read<SeguimientosEstudiantesCubit>().state;
+    final seguimientos = context.watch<SeguimientosEstudiantesCubit>().state;
     final estudiantesCubit = context.read<EstudiantesCubit>();
     final router = GoRouter.of(context);
     final estudiantes = estudiantesCubit.state;
@@ -75,6 +76,36 @@ class _SeguimientoEstudianteScreenState
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
+              // Boton que al dar cli aparezca una ventana
+              // con el nombre del curso
+              
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Nombre del Curso'),
+                          content: Text('${seguimientos.length}'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Cerrar'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: Text('Nombre del Curso'),
+                ),
+              ),
+
+              
+
               Center(
                 child: TitleText(text: '${cursoCubit.state.nombre}'),
               ),
@@ -141,7 +172,8 @@ class _SeguimientoEstudianteScreenState
               ),
               DataTableWidget(
                   estudiantes: estudiantes,
-                  actividades: cursoCubit.state.unidades![0].actividades!),
+                  actividades: cursoCubit.state.unidades![0].actividades!,
+                  seguimientos: seguimientos),
               SizedBox(
                 height: 20,
               ),
@@ -153,7 +185,8 @@ class _SeguimientoEstudianteScreenState
               ),
               DataTableWidget(
                   estudiantes: estudiantes,
-                  actividades: cursoCubit.state.unidades![1].actividades!),
+                  actividades: cursoCubit.state.unidades![1].actividades!,
+                  seguimientos: seguimientos),
               SizedBox(
                 height: 20,
               ),
@@ -165,7 +198,8 @@ class _SeguimientoEstudianteScreenState
               ),
               DataTableWidget(
                   estudiantes: estudiantes,
-                  actividades: cursoCubit.state.unidades![2].actividades!),
+                  actividades: cursoCubit.state.unidades![2].actividades!,
+                  seguimientos: seguimientos),
               SizedBox(
                 height: 20,
               ),
@@ -192,9 +226,10 @@ class _SeguimientoEstudianteScreenState
 class DataTableWidget extends StatefulWidget {
   final List<Estudiante> estudiantes;
   final List<Actividad> actividades;
+  final List<Seguimiento> seguimientos;
 
   const DataTableWidget(
-      {super.key, required this.estudiantes, required this.actividades});
+      {super.key, required this.estudiantes, required this.actividades,  required this.seguimientos});
   @override
   _DataTableWidgetState createState() => _DataTableWidgetState();
 }
@@ -269,9 +304,10 @@ class _DataTableWidgetState extends State<DataTableWidget> {
         []; // Lista para almacenar los valores de actividades
     widget.actividades.forEach((activity) {
       Color cellColor = asignarColor(activity.id!);
-      final seguimientos = context.read<SeguimientosEstudiantesCubit>();
-      final seguimiento =
-          seguimientos.obtenerSeguimientoEstudiante(student.id!);
+
+      Seguimiento seguimiento =
+          widget.seguimientos.firstWhere((element) => element.userId == student.id);
+
 
       Respuesta miRespuesta = seguimiento.respuestasActividades!
           .firstWhere((element) => element.actividadId == activity.id);

@@ -27,13 +27,23 @@ class Respuesta {
   }
 
   // To Map
-  Map<String, dynamic> toMap() {
+   factory Respuesta.fromFirestore(Map<String, dynamic> data) {
+    return Respuesta(
+      id: data['id'],
+      respuestaUsuario: data['respuestaUsuario'],
+      peso: data['peso'],
+      actividadId: data['actividadId'],
+      seguimientoId: data['seguimientoId'],
+    );
+  }
+
+  Map<String, dynamic> toFirestore() {
     return {
-      'id': id,
-      'respuestaUsuario': respuestaUsuario,
-      'peso': peso,
-      'actividadId': actividadId,
-      'seguimientoId': seguimientoId,
+      if (id != null) "id": id,
+      "respuestaUsuario": respuestaUsuario,
+      "peso": peso,
+      "actividadId": actividadId,
+      "seguimientoId": seguimientoId,
     };
   }
 
