@@ -14,6 +14,7 @@ import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -206,7 +207,9 @@ class InitData {
           seguimientosCurso.add(seguimiento);
         }
       }
-      print('estoyyy ${seguimientosCurso}');
+      if (kDebugMode) {
+        print('estoyyy ${seguimientosCurso.length}');
+      }
 
       seguimientoCubit.subirSeguimientos(seguimientosCurso);
     }

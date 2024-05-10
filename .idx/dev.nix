@@ -1,16 +1,15 @@
 {pkgs}: {
   channel = "stable-23.11";
   packages = [
-    pkgs.nodePackages.firebase-tools
+    pkgs.flutter
     pkgs.jdk17
-    pkgs.unzip
   ];
   idx.extensions = [
     
   ];
   idx.previews = {
-    previews = {
-      web = {
+    previews = [
+      {
         command = [
           "flutter"
           "run"
@@ -22,9 +21,10 @@
           "--web-port"
           "$PORT"
         ];
+        id = "web";
         manager = "flutter";
-      };
-      android = {
+      }
+      {
         command = [
           "flutter"
           "run"
@@ -34,8 +34,9 @@
           "-d"
           "emulator-5554"
         ];
+        id = "android";
         manager = "flutter";
-      };
-    };
+      }
+    ];
   };
 }
