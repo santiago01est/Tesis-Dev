@@ -28,26 +28,23 @@ class _HomeWebState extends State<HomeWeb> {
   late InitData _cursosProfesoresCasoUso;
   bool _isLoading = true;
 
+  Future<void> _simularCarga() async {
+    // Simular una carga de 5 segundos
+    await Future.delayed(Duration(seconds: 2));
+    setState(() {
+      _isLoading = false;
+    });
+  }
   @override
-  void initState() {
-    super.initState();
-
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _cursosProfesoresCasoUso = InitData(
       cursosCasoUso: getIt<CursosCasoUso>(),
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,
     );
     _cursosProfesoresCasoUso.obtenerCursosYProfesores();
-    //_cursosProfesoresCasoUso.fetchSeguimientosCurso(cursoId)
     _simularCarga();
-  }
-
-  Future<void> _simularCarga() async {
-    // Simular una carga de 5 segundos
-    await Future.delayed(Duration(seconds: 5));
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   @override

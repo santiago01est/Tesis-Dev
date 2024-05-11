@@ -39,7 +39,7 @@ class InitData {
       List<Seguimiento> seguimientosCursos= await fetchSeguimientosTodosCursos();
       seguimientoCubit.subirSeguimientos(seguimientosCursos);
 
-      cubitRol.actualizarRol('profesor');
+      cubitRol.actualizarRol('estudiante');
     }
   }
 

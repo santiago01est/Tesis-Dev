@@ -34,15 +34,21 @@ void didChangeDependencies() {
   );
 
   // Simular la carga de datos con un retardo de 3 segundos
-  Future.delayed(const Duration(seconds: 3), () {
     // Una vez que los datos se han cargado, actualizar el estado para indicar que la carga ha terminado
     _cursosProfesoresCasoUso.obtenerCursosYProfesores().then((_) {
       setState(() {
         _isLoading = false;
       });
     });
-  });
+  
 }
+Future<void> _simularCarga() async {
+    // Simular una carga de 5 segundos
+    await Future.delayed(Duration(seconds: 5));
+    setState(() {
+      _isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
