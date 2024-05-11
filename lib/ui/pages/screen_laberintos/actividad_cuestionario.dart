@@ -1,7 +1,8 @@
 import 'package:dev_tesis/constants/styles.dart';
+import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
-import 'package:dev_tesis/ui/bloc/actividad_custio_test.dart';
+import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
@@ -31,6 +32,8 @@ class _ActividadCuestionarioScreenState
     extends State<ActividadCuestionarioScreen> {
   int _selectedOptionIndex = -1;
   bool _mostrarPista = true;
+  CursosCasoUso cursoCs = getIt<CursosCasoUso>();
+
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
@@ -54,14 +57,12 @@ class _ActividadCuestionarioScreenState
         for (Actividad actividad in unidad.actividades!) {
           if (actividad.id == widget.actividadId) {
             if (actividad is ActividadCuestionario) {
-              actividadCuestionario=actividad;
+              actividadCuestionario = actividad;
             }
           }
         }
       }
     }
-
-    
 
     String nombreUnidad =
         unidadesCubit.nombreUnidadDeActividad(actividadCuestionario!.id!);
@@ -95,26 +96,11 @@ class _ActividadCuestionarioScreenState
       });
     }
 
-    // Obtener Peso de la actividad segun la respuesta del estudiante
-    int obtenerPesoActividad(int respuestaEstudiante, int id) {
-      final unidad = context.read<UnidadesCubit>();
-      Actividad actividad = unidad.actividadPorId(id)!;
-
-      // toast
-
-      if (respuestaEstudiante == -1) {
-        return 0;
-      } else {
-        return actividad.pesoRespuestas![respuestaEstudiante];
-      }
-    }
-
     return Scaffold(
       appBar: CustomNavigationBarActividad(
         cursoName: 'Mundo PC',
         cursoId: curso.state.id!,
         userName: estudiantes.obtenerNombres(),
-        
         userAvatars: avatares,
         onLogout: () {
           // Aquí implementa la lógica para cerrar sesión
@@ -213,17 +199,6 @@ class _ActividadCuestionarioScreenState
 
                                                 //seguimiento.respuestasActividades![unidadesCubit.indiceActividadPorId(actividadCuestionario.id!)!]=_selectedOptionIndex;
                                                 //seguimientoCubit.actualizarSeguimiento(seguimiento);
-                                                seguimientosCubit
-                                                    .actualizarRespuestasActividadesEstudiantes(
-                                                        estudiantes
-                                                            .obtenerIds(),
-                                                        '$_selectedOptionIndex',
-                                                        obtenerPesoActividad(
-                                                            _selectedOptionIndex,
-                                                            actividadCuestionario!
-                                                                .id!),
-                                                        actividadCuestionario
-                                                            .id!);
                                               });
                                             },
                                             initialValue: -1),
@@ -276,11 +251,13 @@ class _ActividadCuestionarioScreenState
                                                                 );
                                                               },
                                                             )
-                                                          : _mostrarDialogoSiguienteActividad(
+                                                          : actualizarCambiosSeguimientos(
                                                               context,
                                                               router,
                                                               unidadesCubit,
-                                                              actividadCuestionario!);
+                                                              actividadCuestionario!,
+                                                              seguimientosCubit,
+                                                              estudiantes, curso.state.id!);
                                                     })
                                               ]),
                                         )
@@ -383,15 +360,13 @@ class _ActividadCuestionarioScreenState
 
                                               //seguimiento.respuestasActividades![unidadesCubit.indiceActividadPorId(actividadCuestionario.id!)!]=_selectedOptionIndex;
                                               //seguimientoCubit.actualizarSeguimiento(seguimiento);
-                                              seguimientosCubit
-                                                  .actualizarRespuestasActividadesEstudiantes(
-                                                      estudiantes.obtenerIds(),
-                                                      '$_selectedOptionIndex',
-                                                      actividadCuestionario!
-                                                              .pesoRespuestas![
-                                                          _selectedOptionIndex],
-                                                      actividadCuestionario
-                                                          .id!);
+                                             actualizarCambiosSeguimientos(
+                                                              context,
+                                                              router,
+                                                              unidadesCubit,
+                                                              actividadCuestionario!,
+                                                              seguimientosCubit,
+                                                              estudiantes, curso.state.id!);
                                             });
                                           },
                                           initialValue: -1),
@@ -550,6 +525,48 @@ class _ActividadCuestionarioScreenState
         );
       },
     );
+  }
+
+  actualizarCambiosSeguimientos(
+      BuildContext context,
+      GoRouter router,
+      UnidadesCubit unidadesCubit,
+      ActividadCuestionario actividadCuestionario,
+      SeguimientosEstudiantesCubit seguimientosCubit,
+      EstudiantesCubit estudiantes, int cursoId) {
+
+        int peso= obtenerPesoActividad(_selectedOptionIndex, actividadCuestionario.id!);
+
+        // actualizar cubit para el estado en la plataforma
+    seguimientosCubit.actualizarRespuestasActividadesEstudiantes(
+        estudiantes.obtenerIds(),
+        '$_selectedOptionIndex',
+        peso,
+        actividadCuestionario.id!);
+
+        //guardar en la base de datos FB
+        cursoCs.actualizarRespuesta(
+           cursoId,  estudiantes.obtenerIds(),
+       actividadCuestionario.id!, peso, '$_selectedOptionIndex'
+            );
+        
+
+    _mostrarDialogoSiguienteActividad(
+        context, router, unidadesCubit, actividadCuestionario);
+  }
+
+  // Obtener Peso de la actividad segun la respuesta del estudiante
+  int obtenerPesoActividad(int respuestaEstudiante, int id) {
+    final unidad = context.read<UnidadesCubit>();
+    Actividad actividad = unidad.actividadPorId(id)!;
+
+    // toast
+
+    if (respuestaEstudiante == -1) {
+      return 0;
+    } else {
+      return actividad.pesoRespuestas![respuestaEstudiante];
+    }
   }
 }
 
