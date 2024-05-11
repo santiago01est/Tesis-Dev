@@ -148,7 +148,15 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                                       BorderRadius.circular(
                                                           10.0),
                                                 ),
-                                                color:Colors.amber,
+                                                color:getBackgroundColor(
+                                                    unidades
+                                                        .state[index]
+                                                        .actividades![
+                                                            activityIndex]
+                                                        .id!,
+                                                    seguimientosCubit
+                                                        .obtenerSeguimientoEstudiante(
+                                                            userID)),
                                                 margin: EdgeInsets.symmetric(
                                                     vertical: 5),
                                                 child: GestureDetector(
@@ -225,13 +233,5 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
 
 
 /*
- getBackgroundColor(
-                                                    unidades
-                                                        .state[index]
-                                                        .actividades![
-                                                            activityIndex]
-                                                        .id!,
-                                                    seguimientosCubit
-                                                        .obtenerSeguimientoEstudiante(
-                                                            userID)),
+ 
 */

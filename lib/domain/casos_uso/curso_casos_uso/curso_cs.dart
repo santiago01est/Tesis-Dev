@@ -108,12 +108,54 @@ class CursosCasoUso {
   }
 
   // metodo para subir cada seguimiento
-Future<void> subirSeguimientosFB(List<Seguimiento> seguimientos) async {
-   final collectionRef = FirebaseFirestore.instance.collection('seguimientos');
-  
-  for (var seguimiento in seguimientos) {
-    final seguimientoMap = seguimiento.toFirestore();
-    await collectionRef.add(seguimientoMap);
+  Future<void> subirSeguimientosFB(List<Seguimiento> seguimientos) async {
+    final collectionRef = FirebaseFirestore.instance.collection('seguimientos');
+
+    for (var seguimiento in seguimientos) {
+      final seguimientoMap = seguimiento.toFirestore();
+      await collectionRef.add(seguimientoMap);
+    }
   }
+
+// actualizar una respuesta en el seguimiento
+  Future<void> actualizarRespuesta(int cursoId, List<int> estudianteId,
+      int actividadId, int peso, String respuestaEstudiante) async {
+    final collectionRef = FirebaseFirestore.instance.collection('seguimientos');
+
+for( var estudiante in estudianteId){
+
+  // Buscar documentos
+    final querySnapshot = await collectionRef
+        .where('cursoId', isEqualTo: cursoId)
+        .where('userId', isEqualTo: estudiante)
+        .get();
+
+// Iterar sobre los documentos encontrados (debería ser solo uno en este caso)
+    for (var doc in querySnapshot.docs) {
+      // Obtener la referencia al documento
+      final docRef = collectionRef.doc(doc.id);
+      final seguimiento = Seguimiento.fromFirestore(doc);
+      List<Respuesta> misRespuestas = seguimiento.respuestasActividades!;
+      List<Respuesta> respuestaActualizada = [];
+
+      for (var respuesta in misRespuestas) {
+        if (respuesta.actividadId == actividadId) {
+          respuesta.peso = peso;
+          respuesta.respuestaUsuario = respuestaEstudiante;
+          respuestaActualizada.add(respuesta);
+        } else {
+          respuestaActualizada.add(respuesta);
+        }
+      }
+
+// agrega respuestas actualizadas al seguimiento
+// Actualizar el campo respuestasActividades en el documento de seguimiento
+await docRef.update({
+  'respuestasActividades': respuestaActualizada.map((respuesta) => respuesta.toFirestore()).toList(),
+});
+    }
+
 }
+
+  }
 }
