@@ -14,4 +14,27 @@ class ActividadDesconectada extends Actividad {
       super.habilidades,
       this.ejercicioImage,
       this.ejemploImage});
+
+      @override
+        Map<String, dynamic> toMap() {
+    return {
+      ...super.toMap(), // Llama al método toMap de la clase madre
+      'ejercicioImage': ejercicioImage,
+      'ejemploImage': ejemploImage,
+    };
+  }
+
+  factory ActividadDesconectada.fromJson(Map<String, dynamic> json) {
+    return ActividadDesconectada(
+      id: json['id'],
+      nombre: json['nombre'],
+      descripcion: json['descripcion'],
+      estado: json['estado'],
+      tipoActividad: json['tipoActividad'],
+      pesoRespuestas: json['pesoRespuestas'],
+      habilidades: json['habilidades'],
+      ejercicioImage: json['ejercicioImage'],
+      ejemploImage: json['ejemploImage'],
+    );
+  }
 }

@@ -44,7 +44,6 @@ dependencies:
   carousel_slider: ^4.2.1
   universal_html: ^2.0.8
   excel: ^4.0.0
-  uuid: ^4.4.0
   flame: ^1.11.0
   flame_tiled: ^1.18.0
   number_inc_dec: ^0.8.0

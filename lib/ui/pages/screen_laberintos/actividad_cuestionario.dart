@@ -37,8 +37,8 @@ class _ActividadCuestionarioScreenState
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
-    final unidadesCubit = context.watch<UnidadesCubit>();
-    final seguimientosCubit = context.watch<SeguimientosEstudiantesCubit>();
+    final unidadesCubit = context.read<UnidadesCubit>();
+    final seguimientosCubit = context.read<SeguimientosEstudiantesCubit>();
 
     final estudiantes = context.read<EstudiantesCubit>();
     List<String> avatares = [];

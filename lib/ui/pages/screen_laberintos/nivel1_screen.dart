@@ -60,9 +60,13 @@ class _LaberintoState extends State<Laberinto> {
         ? 'Laberinto1'
         : actividadLaberinto.nombreArchivo!);
     Player player = game.player;
+
+    
+
     actividadLaberinto == null
         ? game.player.initialState = PlayerState.idleR
         : game.player.initialState = actividadLaberinto.initialState;
+
     String nombreUnidad =
         unidadesCubit.nombreUnidadDeActividad(actividadLaberinto!.id!);
     String nombreArchivo = actividadLaberinto.nombreArchivo!;

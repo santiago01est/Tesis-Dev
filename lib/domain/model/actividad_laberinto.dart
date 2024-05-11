@@ -5,7 +5,10 @@ class ActividadLaberinto extends Actividad {
   String? nombreArchivo;
   List<dynamic> mejorCamino;
   List<dynamic>? mejorCamino2;
-  PlayerState initialState;
+  int? initialState;
+  
+
+ 
 
   ActividadLaberinto(
       {super.id,
@@ -18,5 +21,31 @@ class ActividadLaberinto extends Actividad {
       this.nombreArchivo,
       required this.mejorCamino,
       this.mejorCamino2 = const [],
-      required this.initialState});
+       this.initialState});
+
+      @override
+        Map<String, dynamic> toMap() {
+    return {
+      ...super.toMap(), // Llama al método toMap de la clase madre
+      'nombreArchivo': nombreArchivo,
+      'mejorCamino': mejorCamino,
+      'mejorCamino2': mejorCamino2,
+    };
+  }
+
+  factory ActividadLaberinto.fromJson(Map<String, dynamic> json) {
+    return ActividadLaberinto(
+      id: json['id'],
+      nombre: json['nombre'],
+      descripcion: json['descripcion'],
+      estado: json['estado'],
+      tipoActividad: json['tipoActividad'],
+      pesoRespuestas: json['pesoRespuestas'],
+      habilidades: json['habilidades'],
+      nombreArchivo: json['nombreArchivo'],
+      mejorCamino: json['mejorCamino'] != null ? List<dynamic>.from(json['mejorCamino']) : [],
+      mejorCamino2: json['mejorCamino2'] != null ? List<dynamic>.from(json['mejorCamino2']) : [],
+      initialState: json['initialState'],
+    );
+  }
 }

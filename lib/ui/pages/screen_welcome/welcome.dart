@@ -38,6 +38,8 @@ void didChangeDependencies() {
     _cursosProfesoresCasoUso.obtenerCursosYProfesores().then((_) {
       setState(() {
         _isLoading = false;
+        // pasa 5 segundos y carga la pagina
+        _simularCarga();
       });
     });
   
