@@ -1,10 +1,11 @@
 import 'package:dev_tesis/domain/model/actividad.dart';
+import 'package:dev_tesis/game/player/player.dart';
 
 class ActividadLaberinto extends Actividad {
   String? nombreArchivo;
   List<dynamic> mejorCamino;
   List<dynamic>? mejorCamino2;
-  int initialState;
+  PlayerState initialState;
 
   ActividadLaberinto(
       {super.id,
