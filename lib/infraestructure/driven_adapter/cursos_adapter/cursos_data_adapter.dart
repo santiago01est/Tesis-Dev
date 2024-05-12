@@ -45,7 +45,7 @@ class CursosDataAdapter extends CursoRepository {
               actividades: [
                 ActividadCuestionario(
                     id: 1,
-                    nombre: 'Actividad 01',
+                    nombre: 'Diagnostico',
                     estado: 'Activa',
                     
                     habilidades: [0, 0, 0, 0],
@@ -80,7 +80,7 @@ class CursosDataAdapter extends CursoRepository {
                     respuestaCorrecta: 2),
                 ActividadCuestionario(
                     id: 2,
-                    nombre: 'Actividad 02',
+                    nombre: 'Diagnostico',
                     estado: 'Activa',
                     habilidades: [0, 0, 0, 0],
                     descripcion: 'Dibuja la siguiente figura:',
@@ -118,7 +118,7 @@ class CursosDataAdapter extends CursoRepository {
                     respuestaCorrecta: 4),
                 ActividadCuestionario(
                     id: 3,
-                    nombre: 'Actividad 03',
+                    nombre: 'Diagnostico',
                     estado: 'Activa',
                     
                     habilidades: [0, 0, 0, 0],
@@ -179,7 +179,7 @@ class CursosDataAdapter extends CursoRepository {
                     respuestaCorrecta: 1),
                 ActividadCuestionario(
                     id: 4,
-                    nombre: 'Actividad 04',
+                    nombre: 'Diagnostico',
                     estado: 'Activa',
                     
                     habilidades: [0, 0, 0, 0],
@@ -237,7 +237,7 @@ class CursosDataAdapter extends CursoRepository {
                     respuestaCorrecta: 3),
                 ActividadCuestionario(
                     id: 5,
-                    nombre: 'Actividad 05',
+                    nombre: 'Diagnostico',
                     estado: 'Activa',
                   
                     habilidades: [0, 0, 0, 0],
@@ -300,7 +300,7 @@ class CursosDataAdapter extends CursoRepository {
                     respuestaCorrecta: 3),
                 ActividadCuestionario(
                     id: 6,
-                    nombre: 'Actividad 06',
+                    nombre: 'Diagnostico',
                     estado: 'Activa',
                   
                     habilidades: [0, 0, 0, 0],
@@ -363,7 +363,7 @@ class CursosDataAdapter extends CursoRepository {
                     respuestaCorrecta: 1),
                 ActividadCuestionario(
                     id: 7,
-                    nombre: 'Actividad 07',
+                    nombre: 'Diagnostico',
                     estado: 'Activa',
                     
                     habilidades: [0, 0, 0, 0],
@@ -434,7 +434,7 @@ class CursosDataAdapter extends CursoRepository {
                     respuestaCorrecta: 4),
                 ActividadCuestionario(
                     id: 8,
-                    nombre: 'Actividad 08',
+                    nombre: 'Diagnostico',
                     estado: 'Activa',
                   
                     habilidades: [0, 0, 0, 0],
@@ -517,7 +517,7 @@ class CursosDataAdapter extends CursoRepository {
                     respuestaCorrecta: 2),
                 ActividadCuestionario(
                     id: 9,
-                    nombre: 'Actividad 09',
+                    nombre: 'Diagnostico',
                     estado: 'Activa',
                    
                     habilidades: [0, 0, 0, 0],
@@ -576,7 +576,7 @@ class CursosDataAdapter extends CursoRepository {
                     respuestaCorrecta: 2),
                 ActividadCuestionario(
                     id: 10,
-                    nombre: 'Actividad 10',
+                    nombre: 'Diagnostico',
                     estado: 'Activa',
                    
                     habilidades: [0, 0, 0, 0],
@@ -639,7 +639,7 @@ class CursosDataAdapter extends CursoRepository {
                     respuestaCorrecta: 3),
                 ActividadCuestionario(
                     id: 11,
-                    nombre: 'Actividad 11',
+                    nombre: 'Diagnostico',
                     estado: 'Activa',
                    
                     habilidades: [0, 0, 0, 0],
@@ -708,7 +708,7 @@ class CursosDataAdapter extends CursoRepository {
                     respuestaCorrecta: 1),
                 ActividadCuestionario(
                     id: 12,
-                    nombre: 'Actividad 12',
+                    nombre: 'Diagnostico',
                     estado: 'Activa',
                     
                     habilidades: [0, 0, 0, 0],
@@ -779,7 +779,7 @@ class CursosDataAdapter extends CursoRepository {
                     respuestaCorrecta: 1),
                 ActividadCuestionario(
                     id: 13,
-                    nombre: 'Actividad 13',
+                    nombre: 'Diagnostico',
                     estado: 'Activa',
                   
                     habilidades: [0, 0, 0, 0],
@@ -852,7 +852,7 @@ class CursosDataAdapter extends CursoRepository {
                     respuestaCorrecta: 4),
                 ActividadCuestionario(
                     id: 14,
-                    nombre: 'Actividad 14',
+                    nombre: 'Diagnostico',
                     estado: 'Activa',
                     
                     habilidades: [0, 0, 0, 0],
@@ -925,7 +925,7 @@ class CursosDataAdapter extends CursoRepository {
                     respuestaCorrecta: 3),
                 ActividadCuestionario(
                     id: 15,
-                    nombre: 'Actividad 15',
+                    nombre: 'Diagnostico',
                     estado: 'Activa',
                     
                     habilidades: [0, 0, 0, 0],
@@ -1017,7 +1017,7 @@ class CursosDataAdapter extends CursoRepository {
                   'avanzar',
                   'avanzar',
                 ],
-                initialState: PlayerState.idleR),
+                initialState:0),
             ActividadCuestionario(
                 id: 17,
                 nombre: 'Buscando el mejor camino',
@@ -1112,7 +1112,7 @@ class CursosDataAdapter extends CursoRepository {
                   'avanzar',
                   'avanzar',
                 ],
-                initialState: PlayerState.idleR),
+                initialState: 0),
             ActividadCuestionario(
                 id: 19,
                 nombre: 'Buscando el mejor camino',
@@ -1221,7 +1221,7 @@ class CursosDataAdapter extends CursoRepository {
                   'avanzar',
                   'avanzar',
                 ],
-                initialState: PlayerState.idleR),
+                initialState: 0),
             ActividadCuestionario(
                 id: 21,
                 nombre: 'Buscando el mejor camino',
@@ -1347,7 +1347,7 @@ class CursosDataAdapter extends CursoRepository {
                   'giroDeIzquierda',
                   'avanzar',
                 ],
-                initialState: PlayerState.idleR),
+                initialState: 0),
             ActividadCuestionario(
                 id: 23,
                 nombre: 'Buscando el mejor camino',
@@ -1480,7 +1480,7 @@ class CursosDataAdapter extends CursoRepository {
                     'avanzar',
                   ]
                 ],
-                initialState: PlayerState.idleL),
+                initialState: 1),
             ActividadCuestionario(
                 id: 26,
                 nombre: 'Actividad Cuestionario de ',
@@ -1596,7 +1596,7 @@ class CursosDataAdapter extends CursoRepository {
                     'avanzar',
                   ],
                 ],
-                initialState: PlayerState.idleR),
+                initialState:0),
             ActividadCuestionario(
                 id: 28,
                 nombre: 'Actividad Cuestionario de ',
@@ -1775,7 +1775,7 @@ class CursosDataAdapter extends CursoRepository {
                     'avanzar',
                   ],
                 ],
-                initialState: PlayerState.idleR),
+                initialState: 0),
             ActividadCuestionario(
                 id: 30,
                 nombre: 'Actividad Cuestionario de ',
@@ -1971,7 +1971,7 @@ class CursosDataAdapter extends CursoRepository {
                   'giroDeIzquierda',
                   'avanzar',
                 ],
-                initialState: PlayerState.idleL),
+                initialState: 1),
             ActividadDesconectada(
               id: 32,
               nombre: 'Actividad Desconectada',
@@ -1987,6 +1987,18 @@ class CursosDataAdapter extends CursoRepository {
               pesoRespuestas: [0, 0, 0, 0],
             ),
           ]),
+        ], estudiantes: [
+          Estudiante(
+            id: 1,
+            nombre: 'Andres Perez Perez',
+            avatar: 'assets/avatares/aguila_avatar.png',
+            genero: 'Masculino',
+          ),
+          Estudiante(
+              id: 2,
+              nombre: 'Sofia González Perez',
+              avatar: 'assets/avatares/mujergranjera_avatar.png',
+              genero: 'Femenino'),
         ]);
 
     

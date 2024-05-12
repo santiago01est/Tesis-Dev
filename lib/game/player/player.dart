@@ -164,6 +164,11 @@ class Player extends SpriteAnimationGroupComponent
     current = initialState;
   }
 
+  void chargeInitialState(int initialStateEnum) {
+    initialState = PlayerState.values[initialStateEnum];
+  }
+
+
   /*
   * processMovementInstructions: metodo que se encarga de procesar las instrucciones
   * de movimiento del jugador pasadas desde la interfaz del nivel y retornar un boolean

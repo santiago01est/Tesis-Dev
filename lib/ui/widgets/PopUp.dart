@@ -9,6 +9,7 @@ import 'package:dev_tesis/ui/widgets/pop_up_credenciales.dart';
 import 'package:dev_tesis/utils/rutasImagenes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class PopupUtils {
   /* PopUp para seleccionar Avatar */
@@ -247,6 +248,7 @@ class PopupUtils {
                                     PixelLargeBttn(
                                       path: "assets/items/ButtonBlue.png",
                                       onPressed: () {
+                                        
                                         if (codigoEditingController
                                                 .text.isNotEmpty &&
                                             codigoEditingController.text ==

@@ -24,30 +24,27 @@ class ProfesorDataAdapter extends ProfesorRepository {
             'Apasionado por la enseñanza del pensamiento computacional! 👩‍🏫, Promuevo el uso de la tecnología en los estudiantes');
 
 
-// obtener los cursos de la base de datos
+/// obtener los cursos de la base de datos
 
     // Referencia a la colección "cursos" en Firestore
-  CollectionReference profesoresref =
-      FirebaseFirestore.instance.collection('profesores');
+    CollectionReference profesoresRef =
+        FirebaseFirestore.instance.collection('profesores');
 
-  // Obtener los documentos de la colección
-  QuerySnapshot querySnapshot = await profesoresref.get();
-  print(querySnapshot.docs[0].data());
-  // Iterar sobre cada documento obtenido
-  for (var doc in querySnapshot.docs) {
-    // Verificar si los datos del documento no son null
-  if (doc.data() != null) {
-    // Crear un objeto Profesor
-    Profesor profesor = Profesor();
-    // Leer los datos del documento y guardarlos en el objeto Profesor
-    profesor.fromMap(doc.data() as Map<String, dynamic>);
-    // Agregar el objeto Profesor a la lista de profesores
-    profesores.add(profesor);
-  }
-    
-  }
+    // Obtener los documentos de la colección
+    QuerySnapshot querySnapshot = await profesoresRef.get();
+
+    // Iterar sobre cada documento obtenido
+    for (var doc in querySnapshot.docs) {
+      // Crear un objeto Curso
+      Profesor profesor = Profesor();
+      // Leer los datos del documento y guardarlos en el objeto profesor
+
+      profesor.fromMap(doc.data() as Map<String, dynamic>);
+      // Agregar el objeto profesor a la lista de profesors
+      profesores.add(profesor);
+    }
 
   profesores.add(p1);
-    return Future.value(profesores);
+    return profesores;
   }
 }

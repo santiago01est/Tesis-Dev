@@ -544,11 +544,15 @@ class _ActividadCuestionarioScreenState
         peso,
         actividadCuestionario.id!);
 
-        //guardar en la base de datos FB
-        cursoCs.actualizarRespuesta(
+        //guardar en la base de datos FB si es diferente del curso demo
+        if (cursoId != 1){
+           cursoCs.actualizarRespuesta(
            cursoId,  estudiantes.obtenerIds(),
        actividadCuestionario.id!, peso, '$_selectedOptionIndex'
             );
+
+        }
+       
         
 
     _mostrarDialogoSiguienteActividad(

@@ -59,13 +59,14 @@ class _LaberintoState extends State<Laberinto> {
     final GameActivity game = GameActivity(actividadLaberinto == null
         ? 'Laberinto1'
         : actividadLaberinto.nombreArchivo!);
-    Player player = game.player;
-
     
 
+    Player player = game.player;
     actividadLaberinto == null
-        ? game.player.initialState = PlayerState.idleR
-        : game.player.initialState = actividadLaberinto.initialState;
+        ? game.player.chargeInitialState(0)
+        : game.player.chargeInitialState(actividadLaberinto.initialState!);
+
+  
 
     String nombreUnidad =
         unidadesCubit.nombreUnidadDeActividad(actividadLaberinto!.id!);
