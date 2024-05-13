@@ -1,8 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
-import 'package:dev_tesis/domain/model/unidad.dart';
-import 'package:dev_tesis/domain/model/unidad_firebase.dart';
 
 class CursoFirebase {
   int? id;
@@ -37,16 +34,13 @@ class CursoFirebase {
     this.estudiantes,
   });
 
- 
   @override
   String toString() {
     return 'Curso: $id, $nombre, $codigoAcceso, $departamento, $ciudad, $colegio,$profesor, $portada, $numEstudiantes, $descripcion, $fechaCreacion, $fechaFinalizacion, $estado';
   }
 
- 
-factory CursoFirebase.fromFirestore(
-    DocumentSnapshot<Map<String, dynamic>> snapshot
-  ) {
+  factory CursoFirebase.fromFirestore(
+      DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data();
     return CursoFirebase(
       id: data?['id'],
@@ -65,8 +59,6 @@ factory CursoFirebase.fromFirestore(
       estudiantes: (data?['estudiantes'] as List<dynamic>?)
           ?.map((estudianteData) => Estudiante.fromFirestore(estudianteData))
           .toList(),
-      
-    
     );
   }
 
@@ -85,10 +77,9 @@ factory CursoFirebase.fromFirestore(
       if (fechaCreacion != null) "fechaCreacion": fechaCreacion,
       if (fechaFinalizacion != null) "fechaFinalizacion": fechaFinalizacion,
       if (estado != null) "estado": estado,
-      if (estudiantes != null) "estudiantes": estudiantes?.map((estudiante) => estudiante.toFirestore()).toList(),
-      
+      if (estudiantes != null)
+        "estudiantes":
+            estudiantes?.map((estudiante) => estudiante.toFirestore()).toList(),
     };
   }
-
-
 }

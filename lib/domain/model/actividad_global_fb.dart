@@ -74,7 +74,7 @@ class ActividadGlobalFB {
       if (pesoRespuestas != null) "pesoRespuestas": pesoRespuestas,
       if (habilidades != null) "habilidades": habilidades,
       if (nombreArchivo != null) "nombreArchivo": nombreArchivo,
-      "mejorCamino": mejorCamino,
+      if (mejorCamino != null) "mejorCamino": mejorCamino,
       if (mejorCamino2 != null) "mejorCamino2": mejorCamino2,
       if (initialState != null) "initialState": initialState,
       if (dimension != null) "dimension": dimension,

@@ -119,7 +119,7 @@ class CursosCasoUso {
 
     for (var seguimiento in seguimientos) {
       final seguimientoMap = seguimiento.toFirestore();
-      await collectionRef.add(seguimientoMap);
+      collectionRef.add(seguimientoMap);
     }
   }
 

@@ -778,7 +778,6 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                 //TODO: Validar la información
                                 Curso curso = Curso(
                                     // numero random para el id
-
                                     id: Random().nextInt(10000000),
                                     nombre: _nombreCursoController.text,
                                     codigoAcceso: _codigoAccesoController.text,
@@ -889,9 +888,6 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                                     //TODO: Crear Seguimientos para los estudiantes y el profesor en la BD
                                                     subirCursoFB(curso, router);
 
-                                                    setState(() {
-                                                      _loading = true;
-                                                    });
                                                     //Navigator.of(context).pop();
 
                                                     //_onStepContinue();
@@ -966,6 +962,10 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
       estudiantes: curso.estudiantes,
     );
 
+    //Subir curso
+    final cursoMap = cursoFirebase.toFirestore();
+    cursosRef.add(cursoMap);
+
     List<UnidadFirebase> unidadesFB = [];
 
     // for que recorre cada unidad y de cada unidad toma cada actividad y la agrega a actividadesFB
@@ -979,13 +979,15 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
           actividades: [],
           cursoId: curso.unidades![i].cursoId);
 
+      print(unidadFirebase);
+
       List<ActividadGlobalFB> actividadesFB = [];
       for (var actividad in curso.unidades![i].actividades!) {
         ActividadCuestionario actividadCuestionario = ActividadCuestionario();
         ActividadLaberinto actividadLaberinto = ActividadLaberinto();
         ActividadDesconectada actividadDesconectada = ActividadDesconectada();
 
-        if (actividad.tipoActividad == 'laberinto') {
+        if (actividad.tipoActividad == 'Laberinto') {
           if (actividad is ActividadLaberinto) {
             actividadLaberinto = actividad;
             ActividadGlobalFB actividadGlobalFB = ActividadGlobalFB(
@@ -1013,65 +1015,64 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
           }
         }
 
-        if (actividad is ActividadCuestionario) {
-          actividadCuestionario = actividad;
+        if (actividad.tipoActividad == 'Cuestionario') {
+          if (actividad is ActividadCuestionario) {
+            actividadCuestionario = actividad;
 
-          ActividadGlobalFB actividadGlobalFB = ActividadGlobalFB(
-            id: actividad.id,
-            nombre: actividad.nombre,
-            descripcion: actividad.descripcion,
-            estado: actividad.estado,
-            tipoActividad: actividad.tipoActividad,
-            pesoRespuestas: '[${actividad.pesoRespuestas!.join(', ')}]',
-            habilidades: '[${actividad.habilidades!.join(', ')}]',
-            nombreArchivo: '',
-            mejorCamino: {},
-            mejorCamino2: {},
-            initialState: 0,
-            dimension: actividad.dimension,
-            casillas: '[${actividad.casillas!.join(', ')}]',
-            respuestas: convertirListadeListaAMapa(actividad.respuestas!),
-            ejercicioImage: actividad.ejercicioImage,
-            ejemploImage: actividad.ejemploImage,
-            pista: actividad.pista,
-            respuestaCorrecta: actividad.respuestaCorrecta,
-          );
-          actividadesFB.add(actividadGlobalFB);
+            ActividadGlobalFB actividadGlobalFB = ActividadGlobalFB(
+              id: actividad.id,
+              nombre: actividad.nombre,
+              descripcion: actividad.descripcion,
+              estado: actividad.estado,
+              tipoActividad: actividad.tipoActividad,
+              pesoRespuestas: '[${actividad.pesoRespuestas!.join(', ')}]',
+              habilidades: '[${actividad.habilidades!.join(', ')}]',
+              nombreArchivo: '',
+              mejorCamino: {},
+              mejorCamino2: {},
+              initialState: 0,
+              dimension: actividad.dimension,
+              casillas: '[${actividad.casillas!.join(', ')}]',
+              respuestas: convertirListadeListaAMapa(actividad.respuestas!),
+              ejercicioImage: actividad.ejercicioImage,
+              ejemploImage: actividad.ejemploImage,
+              pista: actividad.pista,
+              respuestaCorrecta: actividad.respuestaCorrecta,
+            );
+            actividadesFB.add(actividadGlobalFB);
+          }
         }
 
-        if (actividad is ActividadDesconectada) {
-          actividadDesconectada = actividad;
-          ActividadGlobalFB actividadGlobalFB = ActividadGlobalFB(
-            id: actividad.id,
-            nombre: actividad.nombre,
-            descripcion: actividad.descripcion,
-            estado: actividad.estado,
-            tipoActividad: actividad.tipoActividad,
-            pesoRespuestas: '[${actividad.pesoRespuestas!.join(', ')}]',
-            habilidades: '[${actividad.habilidades!.join(', ')}]',
-            nombreArchivo: '',
-            mejorCamino: {},
-            mejorCamino2: {},
-            initialState: 0,
-            dimension: 0,
-            casillas: '',
-            respuestas: {},
-            ejercicioImage: actividad.ejercicioImage,
-            ejemploImage: actividad.ejemploImage,
-            pista: actividad.pista,
-            respuestaCorrecta: 1,
-          );
-          actividadesFB.add(actividadGlobalFB);
+        if (actividad.tipoActividad == 'Desconectada') {
+          if (actividad is ActividadDesconectada) {
+            actividadDesconectada = actividad;
+            ActividadGlobalFB actividadGlobalFB = ActividadGlobalFB(
+              id: actividad.id,
+              nombre: actividad.nombre,
+              descripcion: actividad.descripcion,
+              estado: actividad.estado,
+              tipoActividad: actividad.tipoActividad,
+              pesoRespuestas: '[${actividad.pesoRespuestas!.join(', ')}]',
+              habilidades: '[${actividad.habilidades!.join(', ')}]',
+              nombreArchivo: '',
+              mejorCamino: {},
+              mejorCamino2: {},
+              initialState: 0,
+              dimension: 0,
+              casillas: '',
+              respuestas: {},
+              ejercicioImage: actividad.ejercicioImage,
+              ejemploImage: actividad.ejemploImage,
+              pista: actividad.pista,
+              respuestaCorrecta: 1,
+            );
+            actividadesFB.add(actividadGlobalFB);
+          }
         }
       }
       unidadFirebase.actividades = actividadesFB;
       unidadesFB.add(unidadFirebase);
     }
-
-    //Subir curso
-    final cursoMap = cursoFirebase.toFirestore();
-    print(cursoMap); 
-    await cursosRef.add(cursoMap);
 
     // Subir unidades a la BD Firebase
     final collectionRef = FirebaseFirestore.instance.collection('unidades');
