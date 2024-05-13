@@ -19,7 +19,6 @@ class CursoFirebase {
   String? fechaFinalizacion;
   bool? estado;
   List<Estudiante>? estudiantes;
-  List<UnidadFirebase>? unidades;
 
   CursoFirebase({
     this.id,
@@ -36,13 +35,12 @@ class CursoFirebase {
     this.fechaFinalizacion,
     this.estado,
     this.estudiantes,
-    this.unidades,
   });
 
  
   @override
   String toString() {
-    return 'Curso: $id, $nombre, $codigoAcceso, $departamento, $ciudad, $colegio,$profesor, $portada, $numEstudiantes, $descripcion, $fechaCreacion, $fechaFinalizacion, $estado, $unidades';
+    return 'Curso: $id, $nombre, $codigoAcceso, $departamento, $ciudad, $colegio,$profesor, $portada, $numEstudiantes, $descripcion, $fechaCreacion, $fechaFinalizacion, $estado';
   }
 
  
@@ -67,9 +65,7 @@ factory CursoFirebase.fromFirestore(
       estudiantes: (data?['estudiantes'] as List<dynamic>?)
           ?.map((estudianteData) => Estudiante.fromFirestore(estudianteData))
           .toList(),
-      unidades: (data?['unidades'] as List<dynamic>?)
-          !.map((unidadData) => UnidadFirebase.fromFirestore(unidadData))
-          .toList(),
+      
     
     );
   }
@@ -90,20 +86,9 @@ factory CursoFirebase.fromFirestore(
       if (fechaFinalizacion != null) "fechaFinalizacion": fechaFinalizacion,
       if (estado != null) "estado": estado,
       if (estudiantes != null) "estudiantes": estudiantes?.map((estudiante) => estudiante.toFirestore()).toList(),
-      if (unidades != null) "unidades": unidades?.map((unidad) => unidad.toFirestore()).toList(),
+      
     };
   }
 
 
-
-  List<Actividad> obtenerTodasActividadesCurso(List<Unidad>? unidades) {
-    List<Actividad> todasLasActividades = [];
-    for (var i = 0; i < unidades!.length; i++) {
-      for (var j = 0; j < unidades[i].actividades!.length; j++) {
-        todasLasActividades.add(unidades[i].actividades![j]);
-      }
-    }
-
-    return todasLasActividades;
-  }
 }

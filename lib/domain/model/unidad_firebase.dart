@@ -16,9 +16,8 @@ class UnidadFirebase {
       this.actividades,
       required this.cursoId});
 
-
-      // To Map
-   factory UnidadFirebase.fromFirestore(Map<String, dynamic> data) {
+  // To Map
+  factory UnidadFirebase.fromFirestore(Map<String, dynamic> data) {
     return UnidadFirebase(
       id: data['id'],
       nombre: data['nombre'],
@@ -26,9 +25,9 @@ class UnidadFirebase {
       estado: data['estado'],
       cursoId: data['cursoId'],
       actividades: (data['actividades'] as List<dynamic>?)
-          ?.map((actividadData) => ActividadGlobalFB.fromFirestore(actividadData))
+          ?.map(
+              (actividadData) => ActividadGlobalFB.fromFirestore(actividadData))
           .toList(),
-      
     );
   }
 
@@ -39,9 +38,9 @@ class UnidadFirebase {
       "descripcion": descripcion,
       "estado": estado,
       "cursoId": cursoId,
-      "actividades": actividades?.map((actividad) => actividad.toFirestore()).toList(),
+      if (actividades != null)
+        "actividades":
+            actividades?.map((actividad) => actividad.toFirestore()).toList(),
     };
   }
-
- 
 }

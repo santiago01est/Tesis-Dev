@@ -16,7 +16,6 @@ class ActividadLaberinto extends Actividad {
       super.pesoRespuestas,
       super.habilidades,
       super.pista,
-      super.unidadId,
       this.nombreArchivo,
       this.mejorCamino,
       this.mejorCamino2 = const [],
@@ -33,7 +32,6 @@ class ActividadLaberinto extends Actividad {
       pesoRespuestas: data['pesoRespuestas'],
       habilidades: data['habilidades'],
       pista: data['pista'],
-      unidadId: data['unidadId'],
       nombreArchivo: data['nombreArchivo'],
       mejorCamino: data['mejorCamino'] != null
           ? List<dynamic>.from(data['mejorCamino'])
@@ -55,7 +53,6 @@ class ActividadLaberinto extends Actividad {
       "pesoRespuestas": pesoRespuestas,
       "habilidades": habilidades,
       "pista": pista,
-      "unidadId": unidadId,
       "nombreArchivo": nombreArchivo,
       "mejorCamino": mejorCamino,
       "mejorCamino2": mejorCamino2,

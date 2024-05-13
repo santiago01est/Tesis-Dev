@@ -18,7 +18,6 @@ class ActividadCuestionario extends Actividad {
       super.pesoRespuestas,
       super.habilidades,
       super.pista,
-      super.unidadId,
       this.dimension,
       this.casillas,
       this.respuestas,
@@ -51,7 +50,6 @@ class ActividadCuestionario extends Actividad {
       ejercicioImage: data['ejercicioImage'],
       ejemploImage: data['ejemploImage'],
       pista: data['pista'],
-      unidadId: data['unidadId'],
       respuestaCorrecta: data['respuestaCorrecta'],
     );
   }
@@ -71,7 +69,6 @@ class ActividadCuestionario extends Actividad {
       "ejercicioImage": ejercicioImage,
       "ejemploImage": ejemploImage,
       "pista": pista,
-      "unidadId": unidadId,
       "respuestaCorrecta": respuestaCorrecta,
     };
   }

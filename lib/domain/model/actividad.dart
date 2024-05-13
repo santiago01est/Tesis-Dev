@@ -7,7 +7,6 @@ class Actividad {
   List<int>? pesoRespuestas;
   List<int>? habilidades;
   String? pista;
-  int? unidadId;
 
   Actividad(
       {this.id,
@@ -17,8 +16,7 @@ class Actividad {
       this.tipoActividad,
       this.pesoRespuestas,
       this.habilidades,
-      this.pista,
-      this.unidadId});
+      this.pista});
 
   // To Map
   factory Actividad.fromFirestore(Map<String, dynamic> data) {
@@ -31,7 +29,6 @@ class Actividad {
       pesoRespuestas: data['pesoRespuestas'],
       habilidades: data['habilidades'],
       pista: data['pista'],
-      unidadId: data['unidadId'],
     );
   }
 
@@ -45,7 +42,6 @@ class Actividad {
       "pesoRespuestas": pesoRespuestas,
       "habilidades": habilidades,
       "pista": pista,
-      "unidadId": unidadId,
     };
   }
 }

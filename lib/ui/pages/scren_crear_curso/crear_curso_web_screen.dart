@@ -870,14 +870,12 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                                                 '${profesorCubit.state.avatar}',
                                                             genero: 'Otro'));
 
-                                                          
-                                                    
                                                     // mostrar Toats
                                                     Fluttertoast.showToast(
                                                       msg:
                                                           'Curso creado con éxito',
-                                                      toastLength: Toast
-                                                          .LENGTH_LONG, 
+                                                      toastLength:
+                                                          Toast.LENGTH_LONG,
                                                       gravity: ToastGravity
                                                           .BOTTOM, // Pos
                                                     );
@@ -890,12 +888,11 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
 
                                                     //TODO: Crear Seguimientos para los estudiantes y el profesor en la BD
                                                     subirCursoFB(curso, router);
-                                                   
-                                                      setState(() {
-                        _loading = true;
-                      });
-                                                     //Navigator.of(context).pop();
 
+                                                    setState(() {
+                                                      _loading = true;
+                                                    });
+                                                    //Navigator.of(context).pop();
 
                                                     //_onStepContinue();
                                                   },
@@ -952,157 +949,164 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
     CollectionReference cursosRef =
         FirebaseFirestore.instance.collection('cursos');
 
-        CursoFirebase cursoFirebase= CursoFirebase(
-          id: curso.id,
-          nombre: curso.nombre,
-          codigoAcceso: curso.codigoAcceso,
-          departamento: curso.departamento,
-          ciudad: curso.ciudad,
-          colegio: curso.colegio,
-          profesor: curso.profesor,
-          portada: curso.portada,
-          numEstudiantes: curso.numEstudiantes,
-          descripcion: curso.descripcion,
-          fechaCreacion: curso.fechaCreacion,
-          fechaFinalizacion: curso.fechaFinalizacion,
-          estado: curso.estado,
-          estudiantes: curso.estudiantes,
-          unidades: []
-        )
-        ;
+    CursoFirebase cursoFirebase = CursoFirebase(
+      id: curso.id,
+      nombre: curso.nombre,
+      codigoAcceso: curso.codigoAcceso,
+      departamento: curso.departamento,
+      ciudad: curso.ciudad,
+      colegio: curso.colegio,
+      profesor: curso.profesor,
+      portada: curso.portada,
+      numEstudiantes: curso.numEstudiantes,
+      descripcion: curso.descripcion,
+      fechaCreacion: curso.fechaCreacion,
+      fechaFinalizacion: curso.fechaFinalizacion,
+      estado: curso.estado,
+      estudiantes: curso.estudiantes,
+    );
 
-        List<UnidadFirebase> unidadesFB=[];
-        
+    List<UnidadFirebase> unidadesFB = [];
 
-        // for que recorre cada unidad y de cada unidad toma cada actividad y la agrega a actividadesFB
-        for (var i = 0; i < curso.unidades!.length; i++) {
-          // se fija la unidad para formatearla y enviarla a firebase
-          UnidadFirebase unidadFirebase=UnidadFirebase(
-            id: curso.unidades![i].id,
-            nombre: curso.unidades![i].nombre,
-            descripcion: curso.unidades![i].descripcion,
-            estado: curso.unidades![i].estado,
-            actividades: [],
-            cursoId: curso.unidades![i].cursoId);
+    // for que recorre cada unidad y de cada unidad toma cada actividad y la agrega a actividadesFB
+    for (var i = 0; i < curso.unidades!.length; i++) {
+      // se fija la unidad para formatearla y enviarla a firebase
+      UnidadFirebase unidadFirebase = UnidadFirebase(
+          id: curso.unidades![i].id,
+          nombre: curso.unidades![i].nombre,
+          descripcion: curso.unidades![i].descripcion,
+          estado: curso.unidades![i].estado,
+          actividades: [],
+          cursoId: curso.unidades![i].cursoId);
 
-          List<ActividadGlobalFB> actividadesFB=[];
+      List<ActividadGlobalFB> actividadesFB = [];
       for (var actividad in curso.unidades![i].actividades!) {
+        ActividadCuestionario actividadCuestionario = ActividadCuestionario();
+        ActividadLaberinto actividadLaberinto = ActividadLaberinto();
+        ActividadDesconectada actividadDesconectada = ActividadDesconectada();
 
-        ActividadCuestionario actividadCuestionario=ActividadCuestionario();
-        ActividadLaberinto actividadLaberinto=ActividadLaberinto();
-        ActividadDesconectada actividadDesconectada= ActividadDesconectada();
+        if (actividad.tipoActividad == 'laberinto') {
+          if (actividad is ActividadLaberinto) {
+            actividadLaberinto = actividad;
+            ActividadGlobalFB actividadGlobalFB = ActividadGlobalFB(
+              id: actividad.id,
+              nombre: actividad.nombre,
+              descripcion: actividad.descripcion,
+              estado: actividad.estado,
+              tipoActividad: actividad.tipoActividad,
+              pesoRespuestas: '',
+              habilidades: '[${actividad.habilidades!.join(', ')}]',
+              nombreArchivo: actividad.nombreArchivo,
+              mejorCamino: convertirListaAMapa(actividad.mejorCamino!),
+              mejorCamino2: convertirListaAMapa(actividad.mejorCamino2!),
+              initialState: actividad.initialState,
+              dimension: 0,
+              casillas: '',
+              respuestas: {},
+              ejercicioImage: '',
+              ejemploImage: '',
+              pista: actividad.pista,
+              respuestaCorrecta: 1,
+            );
 
-
-
-        if(actividad.tipoActividad == 'laberinto'){
-           if (actividad is ActividadLaberinto) {
-              actividadLaberinto = actividad;
-          ActividadGlobalFB actividadGlobalFB=ActividadGlobalFB(
-          id: actividad.id,
-          nombre: actividad.nombre,
-          descripcion: actividad.descripcion,
-          estado: actividad.estado,
-          tipoActividad: actividad.tipoActividad,
-          pesoRespuestas: actividad.pesoRespuestas,
-          habilidades: actividad.habilidades,
-          nombreArchivo: actividad.nombreArchivo,
-          mejorCamino: actividad.mejorCamino,
-          mejorCamino2:  actividad.mejorCamino2,
-          initialState: actividad.initialState,
-          dimension: 0,
-          casillas: [],
-          respuestas: [],
-          ejercicioImage: '',
-          ejemploImage: '',
-          pista: actividad.pista,
-          respuestaCorrecta: 1,
-
-
-          );
-
-          actividadesFB.add(actividadGlobalFB);
-            }
+            actividadesFB.add(actividadGlobalFB);
+          }
         }
 
         if (actividad is ActividadCuestionario) {
-              actividadCuestionario = actividad;
+          actividadCuestionario = actividad;
 
-          ActividadGlobalFB actividadGlobalFB=ActividadGlobalFB(
-          id: actividad.id,
-          nombre: actividad.nombre,
-          descripcion: actividad.descripcion,
-          estado: actividad.estado,
-          tipoActividad: actividad.tipoActividad,
-          pesoRespuestas: actividad.pesoRespuestas,
-          habilidades: actividad.habilidades,
-          nombreArchivo: '',
-          mejorCamino: [],
-          mejorCamino2:  [],
-          initialState: 0,
-          dimension: actividad.dimension,
-          casillas: actividad.casillas,
-          respuestas: actividad.respuestas,
-          ejercicioImage: actividad.ejercicioImage,
-          ejemploImage: actividad.ejemploImage,
-          pista: actividad.pista,
-          respuestaCorrecta: actividad.respuestaCorrecta,
-
-
+          ActividadGlobalFB actividadGlobalFB = ActividadGlobalFB(
+            id: actividad.id,
+            nombre: actividad.nombre,
+            descripcion: actividad.descripcion,
+            estado: actividad.estado,
+            tipoActividad: actividad.tipoActividad,
+            pesoRespuestas: '[${actividad.pesoRespuestas!.join(', ')}]',
+            habilidades: '[${actividad.habilidades!.join(', ')}]',
+            nombreArchivo: '',
+            mejorCamino: {},
+            mejorCamino2: {},
+            initialState: 0,
+            dimension: actividad.dimension,
+            casillas: '[${actividad.casillas!.join(', ')}]',
+            respuestas: convertirListadeListaAMapa(actividad.respuestas!),
+            ejercicioImage: actividad.ejercicioImage,
+            ejemploImage: actividad.ejemploImage,
+            pista: actividad.pista,
+            respuestaCorrecta: actividad.respuestaCorrecta,
           );
           actividadesFB.add(actividadGlobalFB);
-            }
-       
-            if (actividad is ActividadDesconectada) {
-              actividadDesconectada = actividad;
-              ActividadGlobalFB actividadGlobalFB=ActividadGlobalFB(
-          id: actividad.id,
-          nombre: actividad.nombre,
-          descripcion: actividad.descripcion,
-          estado: actividad.estado,
-          tipoActividad: actividad.tipoActividad,
-          pesoRespuestas: actividad.pesoRespuestas,
-          habilidades: actividad.habilidades,
-          nombreArchivo: '',
-          mejorCamino: [],
-          mejorCamino2:  [],
-          initialState: 0,
-          dimension: 0,
-          casillas: [],
-          respuestas: [],
-          ejercicioImage: actividad.ejercicioImage,
-          ejemploImage: actividad.ejemploImage,
-          pista: actividad.pista,
-          respuestaCorrecta: 1,
+        }
 
-
+        if (actividad is ActividadDesconectada) {
+          actividadDesconectada = actividad;
+          ActividadGlobalFB actividadGlobalFB = ActividadGlobalFB(
+            id: actividad.id,
+            nombre: actividad.nombre,
+            descripcion: actividad.descripcion,
+            estado: actividad.estado,
+            tipoActividad: actividad.tipoActividad,
+            pesoRespuestas: '[${actividad.pesoRespuestas!.join(', ')}]',
+            habilidades: '[${actividad.habilidades!.join(', ')}]',
+            nombreArchivo: '',
+            mejorCamino: {},
+            mejorCamino2: {},
+            initialState: 0,
+            dimension: 0,
+            casillas: '',
+            respuestas: {},
+            ejercicioImage: actividad.ejercicioImage,
+            ejemploImage: actividad.ejemploImage,
+            pista: actividad.pista,
+            respuestaCorrecta: 1,
           );
           actividadesFB.add(actividadGlobalFB);
-            }
-
-        
-        
+        }
       }
-      unidadFirebase.actividades= actividadesFB;
+      unidadFirebase.actividades = actividadesFB;
       unidadesFB.add(unidadFirebase);
     }
 
+    //Subir curso
+    final cursoMap = cursoFirebase.toFirestore();
+    print(cursoMap); 
+    await cursosRef.add(cursoMap);
 
-      cursoFirebase.unidades= unidadesFB;
-        Fluttertoast.showToast(
-                                                      msg:
-                                                          'Curso ${cursoFirebase.id} ${cursoFirebase.unidades!.length} ${cursoFirebase.unidades![1].actividades!.length}',
-                                                      toastLength: Toast
-                                                          .LENGTH_LONG, 
-                                                      gravity: ToastGravity
-                                                          .BOTTOM, // Pos
-                                                    );
+    // Subir unidades a la BD Firebase
+    final collectionRef = FirebaseFirestore.instance.collection('unidades');
+    for (var unidadFb in unidadesFB) {
+      final unidadMap = unidadFb.toFirestore();
+      //print(unidadMap);
+      await collectionRef.add(unidadMap);
+    }
 
-      
+    router.go('/panelcurso/${curso.id}');
+  }
 
-      final cursoMap = cursoFirebase.toFirestore();
-      await cursosRef.add(cursoMap);
-      router.go('/panelcurso/${curso.id}');
+  Map<int, dynamic> convertirListaAMapa(List<dynamic> mejorCamino) {
+    Map<int, dynamic> mejorCaminoMapa = {};
 
+    for (int i = 0; i < mejorCamino.length; i++) {
+      mejorCaminoMapa[i] = mejorCamino[i];
+    }
+
+    return mejorCaminoMapa;
+  }
+
+  Map<int, dynamic> convertirListadeListaAMapa(List<List<dynamic>> respuestas) {
+    Map<int, dynamic> respuestasMapa = {};
+
+    for (int i = 0; i < respuestas.length; i++) {
+      var elemento = respuestas[i];
+      if (elemento is List) {
+        respuestasMapa[i] = elemento;
+      } else if (elemento is Map) {
+        respuestasMapa[i] = elemento;
+      }
+    }
+
+    return respuestasMapa;
   }
 
   Future<Future<List<String>>> cargarArchivoExcel() async {
