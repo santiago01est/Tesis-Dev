@@ -4,7 +4,7 @@ import 'package:dev_tesis/domain/model/actividad.dart';
 class ActividadCuestionario extends Actividad {
   int? dimension;
   List<int>? casillas;
-  List<List<dynamic>>? respuestas;
+  List<dynamic>? respuestas;
   String? ejercicioImage;
   String? ejemploImage;
   int? respuestaCorrecta;

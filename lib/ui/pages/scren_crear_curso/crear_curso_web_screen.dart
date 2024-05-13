@@ -121,10 +121,12 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
   late CursosCasoUso cursoCasoUso;
   final UnidadCasoUso unidadCasoUso = getIt<UnidadCasoUso>();
   bool _loading = false;
-  @override
-  void initState() {
-    super.initState();
-    _fetchDepartamentos();
+
+   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+     _fetchDepartamentos();
 
     _cursosProfesoresCasoUso = InitData(
       cursosCasoUso: getIt<CursosCasoUso>(),
@@ -133,7 +135,10 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
     );
     _cursosProfesoresCasoUso.obtenerCursosYProfesores();
     cursoCasoUso = CursosCasoUso(cursoRepository: getIt<CursoRepository>());
+
+
   }
+
 
   Future<void> _fetchDepartamentos() async {
     final response = await http
@@ -857,6 +862,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                                         .subirSeguimientosFB(
                                                             seguimientosData);
 
+
                                                     //estudiantesCubit.subirEstudiantes(curso.estudiantes!);
                                                     // Crear Cubit de estudiante para que el profe pueda resolver actividades
                                                     estudiantesCubit.agregarEstudiante(
@@ -970,50 +976,55 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
     final cursoMap = cursoFirebase.toFirestore();
     cursosRef.add(cursoMap);
 
-    List<UnidadFirebase> unidadesFB = [];
+    List<Map<String, dynamic>> unidadesFB = [];
 
     // for que recorre cada unidad y de cada unidad toma cada actividad y la agrega a actividadesFB
     for (var i = 0; i < curso.unidades!.length; i++) {
       // se fija la unidad para formatearla y enviarla a firebase
-      UnidadFirebase unidadFirebase = UnidadFirebase(
-          id: curso.unidades![i].id,
-          nombre: curso.unidades![i].nombre,
-          descripcion: curso.unidades![i].descripcion,
-          estado: curso.unidades![i].estado,
-          actividades: [],
-          cursoId: curso.unidades![i].cursoId);
+     Map<String, dynamic> unidadFirebase = {
+    'id': curso.unidades![i].id,
+    'nombre': curso.unidades![i].nombre,
+    'descripcion': curso.unidades![i].descripcion,
+    'estado': curso.unidades![i].estado,
+    'actividades': [],
+    'cursoId': curso.unidades![i].cursoId
+  };
 
       print('whattfucck $unidadFirebase');
 
-      List<ActividadGlobalFB> actividadesFB = [];
+       List<Map<String, dynamic>> actividadesFB = [];
+       
       for (var actividad in curso.unidades![i].actividades!) {
         ActividadCuestionario actividadCuestionario = ActividadCuestionario();
         ActividadLaberinto actividadLaberinto = ActividadLaberinto();
         ActividadDesconectada actividadDesconectada = ActividadDesconectada();
 
+        Map<String, dynamic> actividadGlobalFB = {};
+
         if (actividad.tipoActividad == 'Laberinto') {
           if (actividad is ActividadLaberinto) {
             actividadLaberinto = actividad;
-            ActividadGlobalFB actividadGlobalFB = ActividadGlobalFB(
-              id: actividad.id,
-              nombre: actividad.nombre,
-              descripcion: actividad.descripcion,
-              estado: actividad.estado,
-              tipoActividad: actividad.tipoActividad,
-              pesoRespuestas: '',
-              habilidades: '[${actividad.habilidades!.join(', ')}]',
-              nombreArchivo: actividad.nombreArchivo,
-              mejorCamino: convertirListaAMapa(actividad.mejorCamino!),
-              mejorCamino2: convertirListaAMapa(actividad.mejorCamino2!),
-              initialState: actividad.initialState,
-              dimension: 0,
-              casillas: '',
-              respuestas: {},
-              ejercicioImage: '',
-              ejemploImage: '',
-              pista: actividad.pista,
-              respuestaCorrecta: 1,
-            );
+
+            actividadGlobalFB = {
+        'id': actividadLaberinto.id,
+        'nombre': actividadLaberinto.nombre,
+        'descripcion': actividadLaberinto.descripcion,
+        'estado': actividadLaberinto.estado,
+        'tipoActividad': actividadLaberinto.tipoActividad,
+        'pesoRespuestas': '',
+        'habilidades':  convertirListaAStringPlano(actividadLaberinto.habilidades!),
+        'nombreArchivo': actividadLaberinto.nombreArchivo,
+        'mejorCamino':  convertirListaAStringPlano(actividadLaberinto.mejorCamino!),
+        'mejorCamino2':  convertirListaAStringPlano(actividadLaberinto.mejorCamino2!),
+        'initialState': actividadLaberinto.initialState,
+        'dimension': 0,
+        'casillas': '',
+        'respuestas': '',
+        'ejercicioImage': '',
+        'ejemploImage': '',
+        'pista': actividadLaberinto.pista,
+        'respuestaCorrecta': 1,
+      };
 
             actividadesFB.add(actividadGlobalFB);
           }
@@ -1023,26 +1034,26 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
           if (actividad is ActividadCuestionario) {
             actividadCuestionario = actividad;
 
-            ActividadGlobalFB actividadGlobalFB = ActividadGlobalFB(
-              id: actividad.id,
-              nombre: actividad.nombre,
-              descripcion: actividad.descripcion,
-              estado: actividad.estado,
-              tipoActividad: actividad.tipoActividad,
-              pesoRespuestas: '[${actividad.pesoRespuestas!.join(', ')}]',
-              habilidades: '[${actividad.habilidades!.join(', ')}]',
-              nombreArchivo: '',
-              mejorCamino: {},
-              mejorCamino2: {},
-              initialState: 0,
-              dimension: actividad.dimension,
-              casillas: '[${actividad.casillas!.join(', ')}]',
-              respuestas: convertirListadeListaAMapa(actividad.respuestas!),
-              ejercicioImage: actividad.ejercicioImage,
-              ejemploImage: actividad.ejemploImage,
-              pista: actividad.pista,
-              respuestaCorrecta: actividad.respuestaCorrecta,
-            );
+            actividadGlobalFB = {
+        'id': actividadCuestionario.id,
+        'nombre': actividadCuestionario.nombre,
+        'descripcion': actividadCuestionario.descripcion,
+        'estado': actividadCuestionario.estado,
+        'tipoActividad': actividadCuestionario.tipoActividad,
+        'pesoRespuestas':  convertirListaAStringPlano(actividadCuestionario.pesoRespuestas!),
+        'habilidades':  convertirListaAStringPlano(actividadCuestionario.habilidades!),
+        'nombreArchivo': '',
+        'mejorCamino':'',
+        'mejorCamino2': '',
+        'initialState': 0,
+        'dimension': actividadCuestionario.dimension,
+        'casillas':  convertirListaAStringPlano(actividadCuestionario.casillas!),
+        'respuestas':  convertirListaAStringPlano(actividadCuestionario.respuestas!),
+        'ejercicioImage': actividadCuestionario.ejercicioImage,
+        'ejemploImage': actividadCuestionario.ejemploImage,
+        'pista': actividadCuestionario.pista,
+        'respuestaCorrecta': actividadCuestionario.respuestaCorrecta,
+      };
             actividadesFB.add(actividadGlobalFB);
           }
         }
@@ -1050,40 +1061,42 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
         if (actividad.tipoActividad == 'Desconectada') {
           if (actividad is ActividadDesconectada) {
             actividadDesconectada = actividad;
-            ActividadGlobalFB actividadGlobalFB = ActividadGlobalFB(
-              id: actividad.id,
-              nombre: actividad.nombre,
-              descripcion: actividad.descripcion,
-              estado: actividad.estado,
-              tipoActividad: actividad.tipoActividad,
-              pesoRespuestas: '[${actividad.pesoRespuestas!.join(', ')}]',
-              habilidades: '[${actividad.habilidades!.join(', ')}]',
-              nombreArchivo: '',
-              mejorCamino: {},
-              mejorCamino2: {},
-              initialState: 0,
-              dimension: 0,
-              casillas: '',
-              respuestas: {},
-              ejercicioImage: actividad.ejercicioImage,
-              ejemploImage: actividad.ejemploImage,
-              pista: actividad.pista,
-              respuestaCorrecta: 1,
-            );
+
+              actividadGlobalFB = {
+        'id': actividadDesconectada.id,
+        'nombre': actividadDesconectada.nombre,
+        'descripcion': actividadDesconectada.descripcion,
+        'estado': actividadDesconectada.estado,
+        'tipoActividad': actividadDesconectada.tipoActividad,
+        'pesoRespuestas':  convertirListaAStringPlano(actividadDesconectada.pesoRespuestas!),
+        'habilidades':  convertirListaAStringPlano(actividadDesconectada.habilidades!),
+        'nombreArchivo': '',
+        'mejorCamino':'',
+        'mejorCamino2': '',
+        'initialState': 0,
+        'dimension': 0,
+        'casillas': '',
+        'respuestas':  '',
+        'ejercicioImage': actividadDesconectada.ejercicioImage,
+        'ejemploImage': actividadDesconectada.ejemploImage,
+        'pista': actividadDesconectada.pista,
+        'respuestaCorrecta': 1,
+      };
+
             actividadesFB.add(actividadGlobalFB);
           }
         }
       }
-      unidadFirebase.actividades = actividadesFB;
+      unidadFirebase['actividades'] = actividadesFB;
       unidadesFB.add(unidadFirebase);
     }
 
     // Subir unidades a la BD Firebase
     final collectionRef = FirebaseFirestore.instance.collection('unidades');
     for (var unidadFb in unidadesFB) {
-      final unidadMap = unidadFb.toFirestore();
+      
       //print(unidadMap);
-      await collectionRef.add(unidadMap);
+      await collectionRef.add(unidadFb);
     }
 
     router.go('/panelcurso/${curso.id}');
@@ -1099,19 +1112,12 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
     return mejorCaminoMapa;
   }
 
-  Map<int, dynamic> convertirListadeListaAMapa(List<List<dynamic>> respuestas) {
-    Map<int, dynamic> respuestasMapa = {};
+  String convertirListaAStringPlano(List<dynamic> respuestas) {
+   // Convertir la lista a un string
+  String listAsString = jsonEncode(respuestas);
 
-    for (int i = 0; i < respuestas.length; i++) {
-      var elemento = respuestas[i];
-      if (elemento is List) {
-        respuestasMapa[i] = elemento;
-      } else if (elemento is Map) {
-        respuestasMapa[i] = elemento;
-      }
-    }
 
-    return respuestasMapa;
+    return listAsString;
   }
 
   Future<Future<List<String>>> cargarArchivoExcel() async {

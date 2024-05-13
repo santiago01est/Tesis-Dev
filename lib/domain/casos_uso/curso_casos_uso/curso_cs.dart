@@ -124,50 +124,55 @@ class CursosCasoUso {
     final cursoMap = cursoFirebase.toFirestore();
     cursosRef.add(cursoMap);
 
-    List<UnidadFirebase> unidadesFB = [];
+    List<Map<String, dynamic>> unidadesFB = [];
 
     // for que recorre cada unidad y de cada unidad toma cada actividad y la agrega a actividadesFB
     for (var i = 0; i < curso.unidades!.length; i++) {
       // se fija la unidad para formatearla y enviarla a firebase
-      UnidadFirebase unidadFirebase = UnidadFirebase(
-          id: curso.unidades![i].id,
-          nombre: curso.unidades![i].nombre,
-          descripcion: curso.unidades![i].descripcion,
-          estado: curso.unidades![i].estado,
-          actividades: [],
-          cursoId: curso.unidades![i].cursoId);
+     Map<String, dynamic> unidadFirebase = {
+    'id': curso.unidades![i].id,
+    'nombre': curso.unidades![i].nombre,
+    'descripcion': curso.unidades![i].descripcion,
+    'estado': curso.unidades![i].estado,
+    'actividades': [],
+    'cursoId': curso.unidades![i].cursoId
+  };
 
       print('whattfucck $unidadFirebase');
 
-      List<ActividadGlobalFB> actividadesFB = [];
+       List<Map<String, dynamic>> actividadesFB = [];
+       
       for (var actividad in curso.unidades![i].actividades!) {
         ActividadCuestionario actividadCuestionario = ActividadCuestionario();
         ActividadLaberinto actividadLaberinto = ActividadLaberinto();
         ActividadDesconectada actividadDesconectada = ActividadDesconectada();
 
-        if (actividad.tipoActividad == 'Laberinto') {
+        Map<String, dynamic> actividadGlobalFB = {};
+
+       if (actividad.tipoActividad == 'Laberinto') {
           if (actividad is ActividadLaberinto) {
             actividadLaberinto = actividad;
-            ActividadGlobalFB actividadGlobalFB = ActividadGlobalFB(
-              id: actividad.id,
-              nombre: actividad.nombre,
-              descripcion: actividad.descripcion,
-              estado: actividad.estado,
-              tipoActividad: actividad.tipoActividad,
-              pesoRespuestas: '',
-              habilidades: '[${actividad.habilidades!.join(', ')}]',
-              nombreArchivo: actividad.nombreArchivo,
-              mejorCamino: convertirListaAMapa(actividad.mejorCamino!),
-              mejorCamino2: convertirListaAMapa(actividad.mejorCamino2!),
-              initialState: actividad.initialState,
-              dimension: 0,
-              casillas: '',
-              respuestas: {},
-              ejercicioImage: '',
-              ejemploImage: '',
-              pista: actividad.pista,
-              respuestaCorrecta: 1,
-            );
+
+            actividadGlobalFB = {
+        'id': actividadLaberinto.id,
+        'nombre': actividadLaberinto.nombre,
+        'descripcion': actividadLaberinto.descripcion,
+        'estado': actividadLaberinto.estado,
+        'tipoActividad': actividadLaberinto.tipoActividad,
+        'pesoRespuestas': '',
+        'habilidades': '[${actividadLaberinto.habilidades!.join(', ')}]',
+        'nombreArchivo': actividadLaberinto.nombreArchivo,
+        'mejorCamino': convertirListaAMapa(actividadLaberinto.mejorCamino!),
+        'mejorCamino2': convertirListaAMapa(actividadLaberinto.mejorCamino2!),
+        'initialState': actividadLaberinto.initialState,
+        'dimension': 0,
+        'casillas': '',
+        'respuestas': {},
+        'ejercicioImage': '',
+        'ejemploImage': '',
+        'pista': actividadLaberinto.pista,
+        'respuestaCorrecta': 1,
+      };
 
             actividadesFB.add(actividadGlobalFB);
           }
@@ -177,26 +182,26 @@ class CursosCasoUso {
           if (actividad is ActividadCuestionario) {
             actividadCuestionario = actividad;
 
-            ActividadGlobalFB actividadGlobalFB = ActividadGlobalFB(
-              id: actividad.id,
-              nombre: actividad.nombre,
-              descripcion: actividad.descripcion,
-              estado: actividad.estado,
-              tipoActividad: actividad.tipoActividad,
-              pesoRespuestas: '[${actividad.pesoRespuestas!.join(', ')}]',
-              habilidades: '[${actividad.habilidades!.join(', ')}]',
-              nombreArchivo: '',
-              mejorCamino: {},
-              mejorCamino2: {},
-              initialState: 0,
-              dimension: actividad.dimension,
-              casillas: '[${actividad.casillas!.join(', ')}]',
-              respuestas: convertirListadeListaAMapa(actividad.respuestas!),
-              ejercicioImage: actividad.ejercicioImage,
-              ejemploImage: actividad.ejemploImage,
-              pista: actividad.pista,
-              respuestaCorrecta: actividad.respuestaCorrecta,
-            );
+            actividadGlobalFB = {
+        'id': actividadCuestionario.id,
+        'nombre': actividadCuestionario.nombre,
+        'descripcion': actividadCuestionario.descripcion,
+        'estado': actividadCuestionario.estado,
+        'tipoActividad': actividadCuestionario.tipoActividad,
+        'pesoRespuestas': '[${actividadCuestionario.pesoRespuestas!.join(', ')}]',
+        'habilidades': '[${actividadCuestionario.habilidades!.join(', ')}]',
+        'nombreArchivo': '',
+        'mejorCamino':{},
+        'mejorCamino2': {},
+        'initialState': 0,
+        'dimension': actividadCuestionario.dimension,
+        'casillas': '[${actividadCuestionario.casillas!.join(', ')}]',
+        'respuestas':  {},
+        'ejercicioImage': actividadCuestionario.ejercicioImage,
+        'ejemploImage': actividadCuestionario.ejemploImage,
+        'pista': actividadCuestionario.pista,
+        'respuestaCorrecta': actividadCuestionario.respuestaCorrecta,
+      };
             actividadesFB.add(actividadGlobalFB);
           }
         }
@@ -204,41 +209,44 @@ class CursosCasoUso {
         if (actividad.tipoActividad == 'Desconectada') {
           if (actividad is ActividadDesconectada) {
             actividadDesconectada = actividad;
-            ActividadGlobalFB actividadGlobalFB = ActividadGlobalFB(
-              id: actividad.id,
-              nombre: actividad.nombre,
-              descripcion: actividad.descripcion,
-              estado: actividad.estado,
-              tipoActividad: actividad.tipoActividad,
-              pesoRespuestas: '[${actividad.pesoRespuestas!.join(', ')}]',
-              habilidades: '[${actividad.habilidades!.join(', ')}]',
-              nombreArchivo: '',
-              mejorCamino: {},
-              mejorCamino2: {},
-              initialState: 0,
-              dimension: 0,
-              casillas: '',
-              respuestas: {},
-              ejercicioImage: actividad.ejercicioImage,
-              ejemploImage: actividad.ejemploImage,
-              pista: actividad.pista,
-              respuestaCorrecta: 1,
-            );
+
+              actividadGlobalFB = {
+        'id': actividadDesconectada.id,
+        'nombre': actividadDesconectada.nombre,
+        'descripcion': actividadDesconectada.descripcion,
+        'estado': actividadDesconectada.estado,
+        'tipoActividad': actividadDesconectada.tipoActividad,
+        'pesoRespuestas': '[${actividadDesconectada.pesoRespuestas!.join(', ')}]',
+        'habilidades': '[${actividadDesconectada.habilidades!.join(', ')}]',
+        'nombreArchivo': '',
+        'mejorCamino':{},
+        'mejorCamino2': {},
+        'initialState': 0,
+        'dimension': 0,
+        'casillas': '',
+        'respuestas':  {},
+        'ejercicioImage': actividadDesconectada.ejercicioImage,
+        'ejemploImage': actividadDesconectada.ejemploImage,
+        'pista': actividadDesconectada.pista,
+        'respuestaCorrecta': 1,
+      };
+
             actividadesFB.add(actividadGlobalFB);
           }
         }
       }
-      unidadFirebase.actividades = actividadesFB;
+      unidadFirebase['actividades'] = actividadesFB;
       unidadesFB.add(unidadFirebase);
     }
 
     // Subir unidades a la BD Firebase
     final collectionRef = FirebaseFirestore.instance.collection('unidades');
     for (var unidadFb in unidadesFB) {
-      final unidadMap = unidadFb.toFirestore();
+      
       //print(unidadMap);
-      collectionRef.add(unidadMap);
+    collectionRef.add(unidadFb);
     }
+
   }
 
   Map<int, dynamic> convertirListaAMapa(List<dynamic> mejorCamino) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class RadioRespuestasCuestionario extends StatefulWidget {
-  final List<List<dynamic>> imagesList;
+  final List<dynamic> imagesList;
   final Function(int) radioRespuesta;
   final int initialValue;
 

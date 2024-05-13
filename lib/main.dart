@@ -28,7 +28,7 @@ import 'infraestructure/driven_adapter/cursos_adapter/cursos_data_adapter.dart';
 
 final getIt = GetIt.instance;
 
-void setupDependencies(BuildContext context) {
+void setupDependencies() {
   // Registra tus dependencias aquí
   getIt.registerSingleton<CursoRepository>(CursosDataAdapter());
   getIt.registerSingleton<CursosCasoUso>(
@@ -47,6 +47,8 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  
+setupDependencies();
   runApp(const MyApp());
 }
 
@@ -55,7 +57,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    setupDependencies(context);
+    
     return MultiBlocProvider(
       providers: [
         BlocProvider<CursoCubit>(create: (context) => CursoCubit()),

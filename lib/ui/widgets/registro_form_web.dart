@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
 import 'package:dev_tesis/domain/model/profesor.dart';
@@ -27,7 +28,13 @@ class RegistroFormWebState extends State<RegistroFormWeb> {
   final TextEditingController confirmpwdEditingController =
       TextEditingController();
 
-  ProfesorCasoUso profesorCasoUso = getIt<ProfesorCasoUso>();
+  late ProfesorCasoUso profesorCasoUso;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    profesorCasoUso = getIt<ProfesorCasoUso>();
+  }
 
   String selectedAvatar =
       "assets/avatares/perico_avatar.png"; // Ruta del avatar predeterminado
@@ -288,10 +295,7 @@ class RegistroFormWebState extends State<RegistroFormWeb> {
                         return;
                       }
 
-                      // Crear el usuario en Firebase Authentication
-                      _register(emailEditingController.text,
-                          pwdEditingController.text);
-                      // Si se crea el usuario correctamente, continuar con el registro en la aplicación
+                       // Si se crea el usuario correctamente, continuar con el registro en la aplicación
                       profesor = Profesor(
                         id: Random().nextInt(1000000),
                         nombre: nombreEditingController.text,
@@ -301,12 +305,16 @@ class RegistroFormWebState extends State<RegistroFormWeb> {
                         bio: 'MundoPC',
                       );
 
+                      // Crear el usuario en Firebase Authentication
+                      _register(profesor);
+                     
+
                       // Actualizar el estado del objeto profesor
                       profesorCubit.actualizarProfesor(profesor);
                       profesoresCubit.agregarProfesor(profesor);
                       //Subir a BD
 
-                      profesorCasoUso.subirProfesorFB(profesor);
+                      //profesorCasoUso.subirProfesorFB(profesor);
 
                       // Navegar a la siguiente pantalla
                       router.go('/crearcursobienvenida');
@@ -325,15 +333,26 @@ class RegistroFormWebState extends State<RegistroFormWeb> {
     );
   }
 
-  Future<void> _register(String email, String pass) async {
+  Future<void> _register(Profesor profesor) async {
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: pass,
+        email: profesor.email!,
+        password: profesor.password!,
       );
-      // Registro exitoso, podrías navegar a la siguiente pantalla o realizar alguna acción adicional aquí.
-      //print('Usuario registrado: ${userCredential.user!.email}');
+      CollectionReference profesorRef =
+        FirebaseFirestore.instance.collection('profesores');
+        Map<String, dynamic> data = {
+      'id': profesor.id,
+      'nombre': profesor.nombre,
+      'email': profesor.email,
+      'password': profesor.password,
+      'avatar': profesor.avatar,
+      'bio': profesor.bio,
+        };
+
+    // Agregar el documento a la colección
+    profesorRef.add(data);
     } catch (e) {
       print('Error desconocido: $e');
     }
