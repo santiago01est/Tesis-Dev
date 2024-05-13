@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
@@ -106,6 +107,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
   }
 
   late InitData _cursosProfesoresCasoUso;
+  bool _loading = false;
 
   @override
   void initState() {
@@ -787,57 +789,55 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                             },
                                             child: Text('Cancelar'),
                                           ),
-                                          TextButton(
-                                            onPressed: () {
-                                              //TODO: Llamar a la API para guardar la información
-                                              cursoCasoUso.guardarCurso(curso);
-                                              // Guardar en Cubit
-                                              cursoCubit.actualizarCurso(curso);
-                                              bdCursosCubit.agregarCurso(curso);
+                                          _loading
+                                              ? const Center(
+                                                  child:
+                                                      CircularProgressIndicator())
+                                              : TextButton(
+                                                  onPressed: () {
+                                                    //TODO: Llamar a la API para guardar la información
+                                                    cursoCasoUso
+                                                        .guardarCurso(curso);
+                                                    // Guardar en Cubit
+                                                    cursoCubit
+                                                        .actualizarCurso(curso);
+                                                    bdCursosCubit
+                                                        .agregarCurso(curso);
 
-                                              // Agregar Seguimientos
-                                              cursoCasoUso.crearSeguimientos(
-                                                  listaEstudiantes,
-                                                  profesorCubit.state.id!,
-                                                  curso.id!,
-                                                  cursoCubit
-                                                      .obtenerTodasActividadesCurso());
-                                              // Crear Cubit de estudiante para que el profe pueda resolver actividades
-                                              estudiantesCubit
-                                                  .agregarEstudiante(Estudiante(
-                                                      id: profesorCubit
-                                                          .state.id!,
-                                                      nombre:
-                                                          '${profesorCubit.state.nombre}',
-                                                      avatar:
-                                                          '${profesorCubit.state.avatar}',
-                                                      genero: 'Otro'));
+                                                    // Agregar Seguimientos
+                                                    cursoCasoUso.crearSeguimientos(
+                                                        listaEstudiantes,
+                                                        profesorCubit.state.id!,
+                                                        curso.id!,
+                                                        cursoCubit
+                                                            .obtenerTodasActividadesCurso());
+                                                    // Crear Cubit de estudiante para que el profe pueda resolver actividades
+                                                    estudiantesCubit.agregarEstudiante(
+                                                        Estudiante(
+                                                            id: profesorCubit
+                                                                .state.id!,
+                                                            nombre:
+                                                                '${profesorCubit.state.nombre}',
+                                                            avatar:
+                                                                '${profesorCubit.state.avatar}',
+                                                            genero: 'Otro'));
 
-                                              // Establecer Rol de Profesor
-                                              context
-                                                  .read<RolCubit>()
-                                                  .actualizarRol('profesor');
-                                              router.go(
-                                                  '/panelcurso/${curso.id}');
-                                              // Aquí puedes realizar la acción que desees cuando se confirme
-                                              // Por ejemplo, enviar un formulario, llamar a una función, etc.
-                                              Navigator.of(context).pop();
-                                              // mostrar Toats
-                                              Fluttertoast.showToast(
-                                                msg: 'Curso creado con éxito',
-                                                toastLength: Toast
-                                                    .LENGTH_LONG, // Duración corta del mensaje
-                                                gravity:
-                                                    ToastGravity.BOTTOM, // Pos
-                                              );
+                                                    // Establecer Rol de Profesor
+                                                    context
+                                                        .read<RolCubit>()
+                                                        .actualizarRol(
+                                                            'profesor');
 
-                                              
-                                               //TODO: Crear Seguimientos para los estudiantes y el profesor en la BD
-                                              cursoCasoUso.subirCursoFB(curso);
-                                              _onStepContinue();
-                                            },
-                                            child: Text('Confirmar'),
-                                          ),
+                                                    //TODO: Crear Seguimientos para los estudiantes y el profesor en la BD
+                                                    subirCursoFB(curso, router);
+
+                                                    setState(() {
+                                                      _loading = true;
+                                                    });
+                                                    // _onStepContinue();
+                                                  },
+                                                  child: Text('Confirmar'),
+                                                ),
                                         ],
                                       );
                                     },
@@ -883,6 +883,21 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
         ],
       ),
     );
+  }
+
+  Future<void> subirCursoFB(Curso curso, GoRouter router) async {
+    CollectionReference cursosRef =
+        FirebaseFirestore.instance.collection('cursos');
+
+    final cursoMap = curso.toFirestore();
+    await cursosRef.add(cursoMap).then((value) {
+      setState(() {
+        _loading = false;
+      });
+      router.go('/panelcurso/${curso.id}');
+    }).catchError((error) {
+      print('Error al agregar el Curso: $error');
+    });
   }
 
   Future<Future<List<String>>> cargarArchivoExcel() async {

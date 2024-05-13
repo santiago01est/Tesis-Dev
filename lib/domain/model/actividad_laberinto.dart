@@ -3,12 +3,9 @@ import 'package:dev_tesis/game/player/player.dart';
 
 class ActividadLaberinto extends Actividad {
   String? nombreArchivo;
-  List<dynamic> mejorCamino;
+  List<dynamic>? mejorCamino;
   List<dynamic>? mejorCamino2;
   int? initialState;
-  
-
- 
 
   ActividadLaberinto(
       {super.id,
@@ -18,34 +15,51 @@ class ActividadLaberinto extends Actividad {
       super.tipoActividad,
       super.pesoRespuestas,
       super.habilidades,
+      super.pista,
+      super.unidadId,
       this.nombreArchivo,
-      required this.mejorCamino,
+      this.mejorCamino,
       this.mejorCamino2 = const [],
-       this.initialState});
+      this.initialState});
 
-      @override
-        Map<String, dynamic> toMap() {
-    return {
-      ...super.toMap(), // Llama al método toMap de la clase madre
-      'nombreArchivo': nombreArchivo,
-      'mejorCamino': mejorCamino,
-      'mejorCamino2': mejorCamino2,
-    };
+  // To Map
+  factory ActividadLaberinto.fromFirestore(Map<String, dynamic> data) {
+    return ActividadLaberinto(
+      id: data['id'],
+      nombre: data['nombre'],
+      descripcion: data['descripcion'],
+      estado: data['estado'],
+      tipoActividad: data['tipoActividad'],
+      pesoRespuestas: data['pesoRespuestas'],
+      habilidades: data['habilidades'],
+      pista: data['pista'],
+      unidadId: data['unidadId'],
+      nombreArchivo: data['nombreArchivo'],
+      mejorCamino: data['mejorCamino'] != null
+          ? List<dynamic>.from(data['mejorCamino'])
+          : [],
+      mejorCamino2: data['mejorCamino2'] != null
+          ? List<dynamic>.from(data['mejorCamino2'])
+          : [],
+      initialState: data['initialState'],
+    );
   }
 
-  factory ActividadLaberinto.fromJson(Map<String, dynamic> json) {
-    return ActividadLaberinto(
-      id: json['id'],
-      nombre: json['nombre'],
-      descripcion: json['descripcion'],
-      estado: json['estado'],
-      tipoActividad: json['tipoActividad'],
-      pesoRespuestas: json['pesoRespuestas'],
-      habilidades: json['habilidades'],
-      nombreArchivo: json['nombreArchivo'],
-      mejorCamino: json['mejorCamino'] != null ? List<dynamic>.from(json['mejorCamino']) : [],
-      mejorCamino2: json['mejorCamino2'] != null ? List<dynamic>.from(json['mejorCamino2']) : [],
-      initialState: json['initialState'],
-    );
+  Map<String, dynamic> toFirestore() {
+    return {
+      if (id != null) "id": id,
+      "nombre": nombre,
+      "descripcion": descripcion,
+      "estado": estado,
+      "tipoActividad": tipoActividad,
+      "pesoRespuestas": pesoRespuestas,
+      "habilidades": habilidades,
+      "pista": pista,
+      "unidadId": unidadId,
+      "nombreArchivo": nombreArchivo,
+      "mejorCamino": mejorCamino,
+      "mejorCamino2": mejorCamino2,
+      "initialState": initialState,
+    };
   }
 }

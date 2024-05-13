@@ -1,14 +1,21 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/unidad_casos_uso/unidad_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
+import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
+import 'package:dev_tesis/domain/model/actividad_desconectada.dart';
+import 'package:dev_tesis/domain/model/actividad_global_fb.dart';
+import 'package:dev_tesis/domain/model/actividad_laberinto.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
+import 'package:dev_tesis/domain/model/curso_firebase.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
+import 'package:dev_tesis/domain/model/unidad_firebase.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
@@ -113,7 +120,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
   late InitData _cursosProfesoresCasoUso;
   late CursosCasoUso cursoCasoUso;
   final UnidadCasoUso unidadCasoUso = getIt<UnidadCasoUso>();
-
+  bool _loading = false;
   @override
   void initState() {
     super.initState();
@@ -815,69 +822,85 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                             },
                                             child: Text('Cancelar'),
                                           ),
-                                          TextButton(
-                                            onPressed: () {
-                                              //TODO: Llamar a la API para guardar la información
-                                              cursoCasoUso.guardarCurso(curso);
-                                              // Guardar en Cubit
-                                              cursoCubit.actualizarCurso(curso);
-                                              bdCursosCubit.agregarCurso(curso);
+                                          _loading
+                                              ? const Center(
+                                                  child:
+                                                      CircularProgressIndicator())
+                                              : TextButton(
+                                                  onPressed: () {
+                                                    //TODO: Llamar a la API para guardar la información
+                                                    cursoCasoUso
+                                                        .guardarCurso(curso);
+                                                    // Guardar en Cubit
+                                                    cursoCubit
+                                                        .actualizarCurso(curso);
+                                                    bdCursosCubit
+                                                        .agregarCurso(curso);
 
-                                              // Agregar Seguimientos
-                                              List<Seguimiento>
-                                                  seguimientosData =
-                                                  cursoCasoUso.crearSeguimientos(
-                                                      curso.estudiantes!,
-                                                      profesorCubit.state.id!,
-                                                      curso.id!,
-                                                      curso
-                                                          .obtenerTodasActividadesCurso(
-                                                              curso.unidades));
-                                              context
-                                                  .read<
-                                                      SeguimientosEstudiantesCubit>()
-                                                  .subirSeguimientos(
-                                                      seguimientosData);
+                                                    // Agregar Seguimientos
+                                                    List<Seguimiento>
+                                                        seguimientosData =
+                                                        cursoCasoUso.crearSeguimientos(
+                                                            curso.estudiantes!,
+                                                            profesorCubit
+                                                                .state.id!,
+                                                            curso.id!,
+                                                            curso.obtenerTodasActividadesCurso(
+                                                                curso
+                                                                    .unidades));
+                                                    context
+                                                        .read<
+                                                            SeguimientosEstudiantesCubit>()
+                                                        .subirSeguimientos(
+                                                            seguimientosData);
 
-                                              cursoCasoUso.subirSeguimientosFB(
-                                                  seguimientosData);
-                                              //TODO: Crear Seguimientos para los estudiantes y el profesor en la BD
-                                              cursoCasoUso.subirCursoFB(curso);
-                                              //estudiantesCubit.subirEstudiantes(curso.estudiantes!);
-                                              // Crear Cubit de estudiante para que el profe pueda resolver actividades
-                                              estudiantesCubit
-                                                  .agregarEstudiante(Estudiante(
-                                                      id: profesorCubit
-                                                          .state.id!,
-                                                      nombre:
-                                                          '${profesorCubit.state.nombre}',
-                                                      avatar:
-                                                          '${profesorCubit.state.avatar}',
-                                                      genero: 'Otro'));
+                                                    cursoCasoUso
+                                                        .subirSeguimientosFB(
+                                                            seguimientosData);
 
-                                              // Establecer Rol de Profesor
-                                              context
-                                                  .read<RolCubit>()
-                                                  .actualizarRol('profesor');
+                                                    //estudiantesCubit.subirEstudiantes(curso.estudiantes!);
+                                                    // Crear Cubit de estudiante para que el profe pueda resolver actividades
+                                                    estudiantesCubit.agregarEstudiante(
+                                                        Estudiante(
+                                                            id: profesorCubit
+                                                                .state.id!,
+                                                            nombre:
+                                                                '${profesorCubit.state.nombre}',
+                                                            avatar:
+                                                                '${profesorCubit.state.avatar}',
+                                                            genero: 'Otro'));
 
-                                              router.go(
-                                                  '/panelcurso/${curso.id}');
-                                              // Aquí puedes realizar la acción que desees cuando se confirme
-                                              // Por ejemplo, enviar un formulario, llamar a una función, etc.
-                                              Navigator.of(context).pop();
-                                              // mostrar Toats
-                                              Fluttertoast.showToast(
-                                                msg: 'Curso creado con éxito',
-                                                toastLength: Toast
-                                                    .LENGTH_LONG, // Duración corta del mensaje
-                                                gravity:
-                                                    ToastGravity.BOTTOM, // Pos
-                                              );
+                                                          
+                                                    
+                                                    // mostrar Toats
+                                                    Fluttertoast.showToast(
+                                                      msg:
+                                                          'Curso creado con éxito',
+                                                      toastLength: Toast
+                                                          .LENGTH_LONG, 
+                                                      gravity: ToastGravity
+                                                          .BOTTOM, // Pos
+                                                    );
 
-                                              _onStepContinue();
-                                            },
-                                            child: Text('Confirmar'),
-                                          ),
+                                                    // Establecer Rol de Profesor
+                                                    context
+                                                        .read<RolCubit>()
+                                                        .actualizarRol(
+                                                            'profesor');
+
+                                                    //TODO: Crear Seguimientos para los estudiantes y el profesor en la BD
+                                                    subirCursoFB(curso, router);
+                                                   
+                                                      setState(() {
+                        _loading = true;
+                      });
+                                                     //Navigator.of(context).pop();
+
+
+                                                    //_onStepContinue();
+                                                  },
+                                                  child: Text('Confirmar'),
+                                                ),
                                         ],
                                       );
                                     },
@@ -923,6 +946,163 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
         ],
       ),
     );
+  }
+
+  Future<void> subirCursoFB(Curso curso, GoRouter router) async {
+    CollectionReference cursosRef =
+        FirebaseFirestore.instance.collection('cursos');
+
+        CursoFirebase cursoFirebase= CursoFirebase(
+          id: curso.id,
+          nombre: curso.nombre,
+          codigoAcceso: curso.codigoAcceso,
+          departamento: curso.departamento,
+          ciudad: curso.ciudad,
+          colegio: curso.colegio,
+          profesor: curso.profesor,
+          portada: curso.portada,
+          numEstudiantes: curso.numEstudiantes,
+          descripcion: curso.descripcion,
+          fechaCreacion: curso.fechaCreacion,
+          fechaFinalizacion: curso.fechaFinalizacion,
+          estado: curso.estado,
+          estudiantes: curso.estudiantes,
+          unidades: []
+        )
+        ;
+
+        List<UnidadFirebase> unidadesFB=[];
+        
+
+        // for que recorre cada unidad y de cada unidad toma cada actividad y la agrega a actividadesFB
+        for (var i = 0; i < curso.unidades!.length; i++) {
+          // se fija la unidad para formatearla y enviarla a firebase
+          UnidadFirebase unidadFirebase=UnidadFirebase(
+            id: curso.unidades![i].id,
+            nombre: curso.unidades![i].nombre,
+            descripcion: curso.unidades![i].descripcion,
+            estado: curso.unidades![i].estado,
+            actividades: [],
+            cursoId: curso.unidades![i].cursoId);
+
+          List<ActividadGlobalFB> actividadesFB=[];
+      for (var actividad in curso.unidades![i].actividades!) {
+
+        ActividadCuestionario actividadCuestionario=ActividadCuestionario();
+        ActividadLaberinto actividadLaberinto=ActividadLaberinto();
+        ActividadDesconectada actividadDesconectada= ActividadDesconectada();
+
+
+
+        if(actividad.tipoActividad == 'laberinto'){
+           if (actividad is ActividadLaberinto) {
+              actividadLaberinto = actividad;
+          ActividadGlobalFB actividadGlobalFB=ActividadGlobalFB(
+          id: actividad.id,
+          nombre: actividad.nombre,
+          descripcion: actividad.descripcion,
+          estado: actividad.estado,
+          tipoActividad: actividad.tipoActividad,
+          pesoRespuestas: actividad.pesoRespuestas,
+          habilidades: actividad.habilidades,
+          nombreArchivo: actividad.nombreArchivo,
+          mejorCamino: actividad.mejorCamino,
+          mejorCamino2:  actividad.mejorCamino2,
+          initialState: actividad.initialState,
+          dimension: 0,
+          casillas: [],
+          respuestas: [],
+          ejercicioImage: '',
+          ejemploImage: '',
+          pista: actividad.pista,
+          respuestaCorrecta: 1,
+
+
+          );
+
+          actividadesFB.add(actividadGlobalFB);
+            }
+        }
+
+        if (actividad is ActividadCuestionario) {
+              actividadCuestionario = actividad;
+
+          ActividadGlobalFB actividadGlobalFB=ActividadGlobalFB(
+          id: actividad.id,
+          nombre: actividad.nombre,
+          descripcion: actividad.descripcion,
+          estado: actividad.estado,
+          tipoActividad: actividad.tipoActividad,
+          pesoRespuestas: actividad.pesoRespuestas,
+          habilidades: actividad.habilidades,
+          nombreArchivo: '',
+          mejorCamino: [],
+          mejorCamino2:  [],
+          initialState: 0,
+          dimension: actividad.dimension,
+          casillas: actividad.casillas,
+          respuestas: actividad.respuestas,
+          ejercicioImage: actividad.ejercicioImage,
+          ejemploImage: actividad.ejemploImage,
+          pista: actividad.pista,
+          respuestaCorrecta: actividad.respuestaCorrecta,
+
+
+          );
+          actividadesFB.add(actividadGlobalFB);
+            }
+       
+            if (actividad is ActividadDesconectada) {
+              actividadDesconectada = actividad;
+              ActividadGlobalFB actividadGlobalFB=ActividadGlobalFB(
+          id: actividad.id,
+          nombre: actividad.nombre,
+          descripcion: actividad.descripcion,
+          estado: actividad.estado,
+          tipoActividad: actividad.tipoActividad,
+          pesoRespuestas: actividad.pesoRespuestas,
+          habilidades: actividad.habilidades,
+          nombreArchivo: '',
+          mejorCamino: [],
+          mejorCamino2:  [],
+          initialState: 0,
+          dimension: 0,
+          casillas: [],
+          respuestas: [],
+          ejercicioImage: actividad.ejercicioImage,
+          ejemploImage: actividad.ejemploImage,
+          pista: actividad.pista,
+          respuestaCorrecta: 1,
+
+
+          );
+          actividadesFB.add(actividadGlobalFB);
+            }
+
+        
+        
+      }
+      unidadFirebase.actividades= actividadesFB;
+      unidadesFB.add(unidadFirebase);
+    }
+
+
+      cursoFirebase.unidades= unidadesFB;
+        Fluttertoast.showToast(
+                                                      msg:
+                                                          'Curso ${cursoFirebase.id} ${cursoFirebase.unidades!.length} ${cursoFirebase.unidades![1].actividades!.length}',
+                                                      toastLength: Toast
+                                                          .LENGTH_LONG, 
+                                                      gravity: ToastGravity
+                                                          .BOTTOM, // Pos
+                                                    );
+
+      
+
+      final cursoMap = cursoFirebase.toFirestore();
+      await cursosRef.add(cursoMap);
+      router.go('/panelcurso/${curso.id}');
+
   }
 
   Future<Future<List<String>>> cargarArchivoExcel() async {

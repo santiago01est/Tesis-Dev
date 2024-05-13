@@ -1,14 +1,14 @@
-import 'package:dev_tesis/domain/model/actividad.dart';
+import 'package:dev_tesis/domain/model/actividad_global_fb.dart';
 
-class Unidad {
+class UnidadFirebase {
   int? id;
   String? nombre;
   String? descripcion;
   String? estado;
-  List<Actividad>? actividades;
+  List<ActividadGlobalFB>? actividades;
   int cursoId;
 
-  Unidad(
+  UnidadFirebase(
       {this.id,
       this.nombre,
       this.descripcion,
@@ -16,18 +16,19 @@ class Unidad {
       this.actividades,
       required this.cursoId});
 
-  // metodo toMap
-  // To Map
-  factory Unidad.fromFirestore(Map<String, dynamic> data) {
-    return Unidad(
+
+      // To Map
+   factory UnidadFirebase.fromFirestore(Map<String, dynamic> data) {
+    return UnidadFirebase(
       id: data['id'],
       nombre: data['nombre'],
       descripcion: data['descripcion'],
       estado: data['estado'],
       cursoId: data['cursoId'],
       actividades: (data['actividades'] as List<dynamic>?)
-          ?.map((actividadData) => Actividad.fromFirestore(actividadData))
+          ?.map((actividadData) => ActividadGlobalFB.fromFirestore(actividadData))
           .toList(),
+      
     );
   }
 
@@ -38,8 +39,9 @@ class Unidad {
       "descripcion": descripcion,
       "estado": estado,
       "cursoId": cursoId,
-      "actividades":
-          actividades?.map((actividad) => actividad.toFirestore()).toList(),
+      "actividades": actividades?.map((actividad) => actividad.toFirestore()).toList(),
     };
   }
+
+ 
 }

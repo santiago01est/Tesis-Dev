@@ -4,10 +4,9 @@ import 'package:dev_tesis/domain/model/actividad.dart';
 class ActividadCuestionario extends Actividad {
   int? dimension;
   List<int>? casillas;
-  List<List<Object>>? respuestas;
+  List<List<dynamic>>? respuestas;
   String? ejercicioImage;
   String? ejemploImage;
-  String? pista;
   int? respuestaCorrecta;
 
   ActividadCuestionario(
@@ -18,12 +17,13 @@ class ActividadCuestionario extends Actividad {
       super.tipoActividad,
       super.pesoRespuestas,
       super.habilidades,
+      super.pista,
+      super.unidadId,
       this.dimension,
       this.casillas,
       this.respuestas,
       this.ejercicioImage,
       this.ejemploImage,
-      this.pista,
       this.respuestaCorrecta});
 
   //Tostring
@@ -32,36 +32,47 @@ class ActividadCuestionario extends Actividad {
     return 'ActividadCuestionario: $id, $nombre, $dimension, $casillas, $respuestas, $ejercicioImage, $ejemploImage, $pista, $respuestaCorrecta, $habilidades, $estado, ${pesoRespuestas}';
   }
 
-   @override
-     Map<String, dynamic> toMap() {
-    return {
-      ...super.toMap(), // Llama al método toMap de la clase madre
-      'dimension': dimension,
-      'casillas': casillas,
-      'respuestas': respuestas,
-      'ejercicioImage': ejercicioImage,
-      'ejemploImage': ejemploImage,
-      'pista': pista,
-      'respuestaCorrecta': respuestaCorrecta,
-    };
+  // To Map
+  factory ActividadCuestionario.fromFirestore(Map<String, dynamic> data) {
+    return ActividadCuestionario(
+      id: data['id'],
+      nombre: data['nombre'],
+      descripcion: data['descripcion'],
+      estado: data['estado'],
+      tipoActividad: data['tipoActividad'],
+      pesoRespuestas: data['pesoRespuestas'],
+      habilidades: data['habilidades'],
+      dimension: data['dimension'],
+      casillas:
+          data['casillas'] != null ? List<int>.from(data['casillas']) : null,
+      respuestas: data['respuestas'] != null
+          ? List<List<dynamic>>.from(data['respuestas'])
+          : null,
+      ejercicioImage: data['ejercicioImage'],
+      ejemploImage: data['ejemploImage'],
+      pista: data['pista'],
+      unidadId: data['unidadId'],
+      respuestaCorrecta: data['respuestaCorrecta'],
+    );
   }
 
-  factory ActividadCuestionario.fromJson(Map<String, dynamic> json) {
-    return ActividadCuestionario(
-      id: json['id'],
-      nombre: json['nombre'],
-      descripcion: json['descripcion'],
-      estado: json['estado'],
-      tipoActividad: json['tipoActividad'],
-      pesoRespuestas: json['pesoRespuestas'],
-      habilidades: json['habilidades'],
-      dimension: json['dimension'],
-      casillas: json['casillas'] != null ? List<int>.from(json['casillas']) : null,
-      respuestas: json['respuestas'] != null ? List<List<Object>>.from(json['respuestas']) : null,
-      ejercicioImage: json['ejercicioImage'],
-      ejemploImage: json['ejemploImage'],
-      pista: json['pista'],
-      respuestaCorrecta: json['respuestaCorrecta'],
-    );
+  Map<String, dynamic> toFirestore() {
+    return {
+      if (id != null) "id": id,
+      "nombre": nombre,
+      "descripcion": descripcion,
+      "estado": estado,
+      "tipoActividad": tipoActividad,
+      "pesoRespuestas": pesoRespuestas,
+      "habilidades": habilidades,
+      "dimension": dimension,
+      "casillas": casillas,
+      "respuestas": respuestas,
+      "ejercicioImage": ejercicioImage,
+      "ejemploImage": ejemploImage,
+      "pista": pista,
+      "unidadId": unidadId,
+      "respuestaCorrecta": respuestaCorrecta,
+    };
   }
 }

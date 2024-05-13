@@ -59,14 +59,11 @@ class _LaberintoState extends State<Laberinto> {
     final GameActivity game = GameActivity(actividadLaberinto == null
         ? 'Laberinto1'
         : actividadLaberinto.nombreArchivo!);
-    
 
     Player player = game.player;
     actividadLaberinto == null
         ? game.player.chargeInitialState(0)
         : game.player.chargeInitialState(actividadLaberinto.initialState!);
-
-  
 
     String nombreUnidad =
         unidadesCubit.nombreUnidadDeActividad(actividadLaberinto!.id!);
@@ -503,7 +500,7 @@ class _LaberintoState extends State<Laberinto> {
                                                         .processMovementInstructionsResponse(
                                                             respuestaGeneral,
                                                             actividadLaberinto!
-                                                                .mejorCamino,
+                                                                .mejorCamino!,
                                                             actividadLaberinto
                                                                 .mejorCamino2);
                                                     print(response);
@@ -957,7 +954,7 @@ class _LaberintoState extends State<Laberinto> {
                                                   .processMovementInstructionsResponse(
                                                       respuestaGeneral,
                                                       actividadLaberinto!
-                                                          .mejorCamino,
+                                                          .mejorCamino!,
                                                       actividadLaberinto
                                                           .mejorCamino2);
                                               print(response);

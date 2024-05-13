@@ -2,8 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
+import 'package:dev_tesis/domain/model/unidad_firebase.dart';
 
-class Curso {
+class CursoFirebase {
   int? id;
   String? nombre;
   String? codigoAcceso;
@@ -18,9 +19,9 @@ class Curso {
   String? fechaFinalizacion;
   bool? estado;
   List<Estudiante>? estudiantes;
-  List<Unidad>? unidades;
+  List<UnidadFirebase>? unidades;
 
-  Curso({
+  CursoFirebase({
     this.id,
     this.nombre,
     this.codigoAcceso,
@@ -37,7 +38,7 @@ class Curso {
     this.estudiantes,
     this.unidades,
   });
-  
+
  
   @override
   String toString() {
@@ -45,7 +46,35 @@ class Curso {
   }
 
  
-Map<String, dynamic> toFirestore() {
+factory CursoFirebase.fromFirestore(
+    DocumentSnapshot<Map<String, dynamic>> snapshot
+  ) {
+    final data = snapshot.data();
+    return CursoFirebase(
+      id: data?['id'],
+      nombre: data?['nombre'],
+      codigoAcceso: data?['codigoAcceso'],
+      departamento: data?['departamento'],
+      ciudad: data?['ciudad'],
+      colegio: data?['colegio'],
+      profesor: data?['profesor'],
+      portada: data?['portada'],
+      numEstudiantes: data?['numEstudiantes'],
+      descripcion: data?['descripcion'],
+      fechaCreacion: data?['fechaCreacion'],
+      fechaFinalizacion: data?['fechaFinalizacion'],
+      estado: data?['estado'],
+      estudiantes: (data?['estudiantes'] as List<dynamic>?)
+          ?.map((estudianteData) => Estudiante.fromFirestore(estudianteData))
+          .toList(),
+      unidades: (data?['unidades'] as List<dynamic>?)
+          !.map((unidadData) => UnidadFirebase.fromFirestore(unidadData))
+          .toList(),
+    
+    );
+  }
+
+  Map<String, dynamic> toFirestore() {
     return {
       if (id != null) "id": id,
       if (nombre != null) "nombre": nombre,
@@ -63,31 +92,6 @@ Map<String, dynamic> toFirestore() {
       if (estudiantes != null) "estudiantes": estudiantes?.map((estudiante) => estudiante.toFirestore()).toList(),
       if (unidades != null) "unidades": unidades?.map((unidad) => unidad.toFirestore()).toList(),
     };
-  }
-   factory Curso.fromFirestore(DocumentSnapshot doc) {
-    Map data = doc.data() as Map<String, dynamic>;
-    return Curso(
-      id: data['id'],
-      nombre: data['nombre'],
-      codigoAcceso: data['codigoAcceso'],
-      departamento: data['departamento'],
-      ciudad: data['ciudad'],
-      colegio: data['colegio'],
-      profesor: data['profesor'],
-      portada: data['portada'],
-      numEstudiantes: data['numEstudiantes'],
-      descripcion: data['descripcion'],
-      fechaCreacion: data['fechaCreacion'],
-      fechaFinalizacion: data['fechaFinalizacion'],
-      estado: data['estado'],
-      estudiantes: (data['estudiantes'] as List<dynamic>?)
-          ?.map((estudianteData) => Estudiante.fromFirestore(estudianteData))
-          .toList(),
-      unidades: (data['unidades'] as List<dynamic>?)
-          ?.map((unidadData) => Unidad.fromFirestore(unidadData))
-          .toList(),
-      
-    );
   }
 
 
