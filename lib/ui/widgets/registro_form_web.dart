@@ -27,6 +27,8 @@ class RegistroFormWebState extends State<RegistroFormWeb> {
   final TextEditingController confirmpwdEditingController =
       TextEditingController();
 
+  ProfesorCasoUso profesorCasoUso = getIt<ProfesorCasoUso>();
+
   String selectedAvatar =
       "assets/avatares/perico_avatar.png"; // Ruta del avatar predeterminado
 
@@ -303,8 +305,7 @@ class RegistroFormWebState extends State<RegistroFormWeb> {
                       profesorCubit.actualizarProfesor(profesor);
                       profesoresCubit.agregarProfesor(profesor);
                       //Subir a BD
-                      ProfesorCasoUso profesorCasoUso =
-                          getIt<ProfesorCasoUso>();
+
                       profesorCasoUso.subirProfesorFB(profesor);
 
                       // Navegar a la siguiente pantalla

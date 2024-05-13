@@ -1,8 +1,14 @@
 import 'package:dev_tesis/domain/model/actividad.dart';
+import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
+import 'package:dev_tesis/domain/model/actividad_desconectada.dart';
+import 'package:dev_tesis/domain/model/actividad_global_fb.dart';
+import 'package:dev_tesis/domain/model/actividad_laberinto.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
+import 'package:dev_tesis/domain/model/curso_firebase.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/respuesta.dart';
 import 'package:dev_tesis/domain/model/seguimiento.dart';
+import 'package:dev_tesis/domain/model/unidad_firebase.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
@@ -94,23 +100,170 @@ class CursosCasoUso {
   //** FIREBASE */
   // Método para subir el objeto a Firestore
   Future<void> subirCursoFB(Curso curso) async {
-    // Referencia a la colección "cursos" en Firestore
     CollectionReference cursosRef =
         FirebaseFirestore.instance.collection('cursos');
 
-    final cursoMap = curso.toFirestore();
-    await cursosRef.add(cursoMap);
+    CursoFirebase cursoFirebase = CursoFirebase(
+      id: curso.id,
+      nombre: curso.nombre,
+      codigoAcceso: curso.codigoAcceso,
+      departamento: curso.departamento,
+      ciudad: curso.ciudad,
+      colegio: curso.colegio,
+      profesor: curso.profesor,
+      portada: curso.portada,
+      numEstudiantes: curso.numEstudiantes,
+      descripcion: curso.descripcion,
+      fechaCreacion: curso.fechaCreacion,
+      fechaFinalizacion: curso.fechaFinalizacion,
+      estado: curso.estado,
+      estudiantes: curso.estudiantes,
+    );
 
-/*
-    // Convertir el objeto Producto a un mapa
-    Map<String, dynamic> data = curso.toMap();
+    //Subir curso
+    final cursoMap = cursoFirebase.toFirestore();
+    cursosRef.add(cursoMap);
 
-    // Agregar el documento a la colección
-    await cursos.add(data).then((value) {}).catchError((error) {
-      print('Error al agregar el Curso: $error');
-    });
+    List<UnidadFirebase> unidadesFB = [];
 
-    */
+    // for que recorre cada unidad y de cada unidad toma cada actividad y la agrega a actividadesFB
+    for (var i = 0; i < curso.unidades!.length; i++) {
+      // se fija la unidad para formatearla y enviarla a firebase
+      UnidadFirebase unidadFirebase = UnidadFirebase(
+          id: curso.unidades![i].id,
+          nombre: curso.unidades![i].nombre,
+          descripcion: curso.unidades![i].descripcion,
+          estado: curso.unidades![i].estado,
+          actividades: [],
+          cursoId: curso.unidades![i].cursoId);
+
+      print('whattfucck $unidadFirebase');
+
+      List<ActividadGlobalFB> actividadesFB = [];
+      for (var actividad in curso.unidades![i].actividades!) {
+        ActividadCuestionario actividadCuestionario = ActividadCuestionario();
+        ActividadLaberinto actividadLaberinto = ActividadLaberinto();
+        ActividadDesconectada actividadDesconectada = ActividadDesconectada();
+
+        if (actividad.tipoActividad == 'Laberinto') {
+          if (actividad is ActividadLaberinto) {
+            actividadLaberinto = actividad;
+            ActividadGlobalFB actividadGlobalFB = ActividadGlobalFB(
+              id: actividad.id,
+              nombre: actividad.nombre,
+              descripcion: actividad.descripcion,
+              estado: actividad.estado,
+              tipoActividad: actividad.tipoActividad,
+              pesoRespuestas: '',
+              habilidades: '[${actividad.habilidades!.join(', ')}]',
+              nombreArchivo: actividad.nombreArchivo,
+              mejorCamino: convertirListaAMapa(actividad.mejorCamino!),
+              mejorCamino2: convertirListaAMapa(actividad.mejorCamino2!),
+              initialState: actividad.initialState,
+              dimension: 0,
+              casillas: '',
+              respuestas: {},
+              ejercicioImage: '',
+              ejemploImage: '',
+              pista: actividad.pista,
+              respuestaCorrecta: 1,
+            );
+
+            actividadesFB.add(actividadGlobalFB);
+          }
+        }
+
+        if (actividad.tipoActividad == 'Cuestionario') {
+          if (actividad is ActividadCuestionario) {
+            actividadCuestionario = actividad;
+
+            ActividadGlobalFB actividadGlobalFB = ActividadGlobalFB(
+              id: actividad.id,
+              nombre: actividad.nombre,
+              descripcion: actividad.descripcion,
+              estado: actividad.estado,
+              tipoActividad: actividad.tipoActividad,
+              pesoRespuestas: '[${actividad.pesoRespuestas!.join(', ')}]',
+              habilidades: '[${actividad.habilidades!.join(', ')}]',
+              nombreArchivo: '',
+              mejorCamino: {},
+              mejorCamino2: {},
+              initialState: 0,
+              dimension: actividad.dimension,
+              casillas: '[${actividad.casillas!.join(', ')}]',
+              respuestas: convertirListadeListaAMapa(actividad.respuestas!),
+              ejercicioImage: actividad.ejercicioImage,
+              ejemploImage: actividad.ejemploImage,
+              pista: actividad.pista,
+              respuestaCorrecta: actividad.respuestaCorrecta,
+            );
+            actividadesFB.add(actividadGlobalFB);
+          }
+        }
+
+        if (actividad.tipoActividad == 'Desconectada') {
+          if (actividad is ActividadDesconectada) {
+            actividadDesconectada = actividad;
+            ActividadGlobalFB actividadGlobalFB = ActividadGlobalFB(
+              id: actividad.id,
+              nombre: actividad.nombre,
+              descripcion: actividad.descripcion,
+              estado: actividad.estado,
+              tipoActividad: actividad.tipoActividad,
+              pesoRespuestas: '[${actividad.pesoRespuestas!.join(', ')}]',
+              habilidades: '[${actividad.habilidades!.join(', ')}]',
+              nombreArchivo: '',
+              mejorCamino: {},
+              mejorCamino2: {},
+              initialState: 0,
+              dimension: 0,
+              casillas: '',
+              respuestas: {},
+              ejercicioImage: actividad.ejercicioImage,
+              ejemploImage: actividad.ejemploImage,
+              pista: actividad.pista,
+              respuestaCorrecta: 1,
+            );
+            actividadesFB.add(actividadGlobalFB);
+          }
+        }
+      }
+      unidadFirebase.actividades = actividadesFB;
+      unidadesFB.add(unidadFirebase);
+    }
+
+    // Subir unidades a la BD Firebase
+    final collectionRef = FirebaseFirestore.instance.collection('unidades');
+    for (var unidadFb in unidadesFB) {
+      final unidadMap = unidadFb.toFirestore();
+      //print(unidadMap);
+      collectionRef.add(unidadMap);
+    }
+  }
+
+  Map<int, dynamic> convertirListaAMapa(List<dynamic> mejorCamino) {
+    Map<int, dynamic> mejorCaminoMapa = {};
+
+    for (int i = 0; i < mejorCamino.length; i++) {
+      mejorCaminoMapa[i] = mejorCamino[i];
+    }
+
+    return mejorCaminoMapa;
+  }
+
+  Map<int, dynamic> convertirListadeListaAMapa(List<List<dynamic>> respuestas) {
+    Map<int, dynamic> respuestasMapa = {};
+
+    for (int i = 0; i < respuestas.length; i++) {
+      var elemento = respuestas[i];
+      if (elemento is List) {
+        respuestasMapa[i] = elemento;
+      } else if (elemento is Map) {
+        respuestasMapa[i] = elemento;
+      }
+    }
+
+    return respuestasMapa;
   }
 
   // metodo para subir cada seguimiento

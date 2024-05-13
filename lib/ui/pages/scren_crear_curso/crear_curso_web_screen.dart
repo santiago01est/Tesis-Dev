@@ -826,7 +826,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                                   child:
                                                       CircularProgressIndicator())
                                               : TextButton(
-                                                  onPressed: () {
+                                                  onPressed: () async {
                                                     //TODO: Llamar a la API para guardar la información
                                                     cursoCasoUso
                                                         .guardarCurso(curso);
@@ -886,7 +886,11 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                                             'profesor');
 
                                                     //TODO: Crear Seguimientos para los estudiantes y el profesor en la BD
-                                                    subirCursoFB(curso, router);
+                                                    cursoCasoUso
+                                                        .subirCursoFB(curso);
+
+                                                    router.go(
+                                                        '/panelcurso/${curso.id}');
 
                                                     //Navigator.of(context).pop();
 
@@ -979,7 +983,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
           actividades: [],
           cursoId: curso.unidades![i].cursoId);
 
-      print(unidadFirebase);
+      print('whattfucck $unidadFirebase');
 
       List<ActividadGlobalFB> actividadesFB = [];
       for (var actividad in curso.unidades![i].actividades!) {
