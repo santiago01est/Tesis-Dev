@@ -1,6 +1,8 @@
 import 'package:dev_tesis/constants/styles.dart';
+import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/actividad_desconectada.dart';
+import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
@@ -25,10 +27,13 @@ class ActividadDesconectadaScreen extends StatefulWidget {
 
 class _ActividadDesconectadaScreenState
     extends State<ActividadDesconectadaScreen> {
+
+        CursosCasoUso cursoCs = getIt<CursosCasoUso>();
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
     final unidadesCubit = context.watch<UnidadesCubit>();
+      final seguimientosCubit = context.read<SeguimientosEstudiantesCubit>();
 
     final estudiantes = context.read<EstudiantesCubit>();
     List<String> avatares = [];
@@ -126,7 +131,9 @@ class _ActividadDesconectadaScreenState
                                       context,
                                       router,
                                       unidadesCubit,
-                                      actividadDesconectada);
+                                      actividadDesconectada,seguimientosCubit,estudiantes,
+                                      curso.state.id!,
+                                                            1);
                                 }),
                           ],
                         ),
@@ -142,11 +149,36 @@ class _ActividadDesconectadaScreenState
     );
   }
 
+
+  actualizarCambiosSeguimientos(
+      BuildContext context,
+      GoRouter router,
+      UnidadesCubit unidadesCubit,
+      ActividadDesconectada actividadDesconectada,
+      SeguimientosEstudiantesCubit seguimientosCubit,
+      EstudiantesCubit estudiantes,
+      int cursoId,
+      int response) {
+    // actualizar cubit para el estado en la plataforma
+    seguimientosCubit.actualizarRespuestasActividadesEstudiantes(
+        estudiantes.obtenerIds(), "", response, actividadDesconectada.id!);
+
+    //guardar en la base de datos FB si es diferente del curso demo
+    if (cursoId != 1) {
+      cursoCs.actualizarRespuesta(cursoId, estudiantes.obtenerIds(),
+          actividadDesconectada.id!, response, '');
+    }
+  }
+
   void _mostrarDialogoSiguienteActividad(
     BuildContext context,
     GoRouter router,
     UnidadesCubit unidadesCubit,
-    ActividadDesconectada actividadCuestionario,
+    ActividadDesconectada actividadDesconectada,
+     SeguimientosEstudiantesCubit seguimientosCubit,
+      EstudiantesCubit estudiantes,
+      int cursoId,
+      int response
   ) {
     showDialog(
       context: context,
@@ -166,14 +198,23 @@ class _ActividadDesconectadaScreenState
               path: "assets/items/ButtonBlue.png",
               text: 'Siguiente',
               onPressed: () {
+actualizarCambiosSeguimientos(
+                    context,
+                    router,
+                    unidadesCubit,
+                    actividadDesconectada,
+                    seguimientosCubit,
+                    estudiantes,
+                    cursoId,
+                    response);
                 if (context
                     .read<UnidadesCubit>()
-                    .esUltimaActividadGlobal(actividadCuestionario.id!)) {
+                    .esUltimaActividadGlobal(actividadDesconectada.id!)) {
                   router.push(
                       '/testautopercepcion/${context.read<CursoCubit>().state.id}');
                 } else {
                   SiguienteActividadInfo siguienteActividadInfo = unidadesCubit
-                      .siguienteActividadInfo(actividadCuestionario.id!);
+                      .siguienteActividadInfo(actividadDesconectada.id!);
                   if (siguienteActividadInfo.tipoActividad == "Laberinto") {
                     router.push(
                         '/laberinto/${siguienteActividadInfo.idActividad}');

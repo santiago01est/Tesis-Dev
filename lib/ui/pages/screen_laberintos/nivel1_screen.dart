@@ -1,8 +1,10 @@
 import 'package:dev_tesis/constants/styles.dart';
+import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/actividad_laberinto.dart';
 import 'package:dev_tesis/game/player/player.dart';
 import 'package:dev_tesis/game/game_activity.dart';
+import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/game/instrucciones_bloc.dart';
@@ -26,19 +28,21 @@ class Laberinto extends StatefulWidget {
 }
 
 class _LaberintoState extends State<Laberinto> {
+  CursosCasoUso cursoCs = getIt<CursosCasoUso>();
   int calificacion = -1;
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
     final unidadesCubit = context.read<UnidadesCubit>();
     final seguimientosCubit = context.read<SeguimientosEstudiantesCubit>();
+    final curso = context.read<CursoCubit>();
 
     final estudiantes = context.read<EstudiantesCubit>();
     List<String> avatares = [];
     for (var estudiante in estudiantes.state) {
       avatares.add(estudiante.avatar!);
     }
-    final curso = context.read<CursoCubit>();
+
     ActividadLaberinto? actividadLaberinto;
     for (var unidad in curso.state.unidades!) {
       // Verifica si la unidad actual tiene la actividad a eliminar
@@ -513,17 +517,12 @@ class _LaberintoState extends State<Laberinto> {
                                                             context,
                                                             router,
                                                             unidadesCubit,
-                                                            actividadLaberinto!);
+                                                            actividadLaberinto!,
+                                                            seguimientosCubit,
+                                                            estudiantes,
+                                                            curso.state.id!,
+                                                            response);
                                                       });
-
-                                                      seguimientosCubit
-                                                          .actualizarRespuestasActividadesEstudiantes(
-                                                              estudiantes
-                                                                  .obtenerIds(),
-                                                              "",
-                                                              response,
-                                                              actividadLaberinto
-                                                                  .id!);
                                                     }
                                                   }),
                                             ),
@@ -962,13 +961,17 @@ class _LaberintoState extends State<Laberinto> {
                                                 Future.delayed(
                                                     Duration(seconds: 2), () {
                                                   // ignore: use_build_context_synchronously
-                                                  _mostrarDialogoVictoria(
-                                                      context,
-                                                      router,
-                                                      unidadesCubit,
-                                                      actividadLaberinto!);
+                                                   _mostrarDialogoVictoria(
+                                                            context,
+                                                            router,
+                                                            unidadesCubit,
+                                                            actividadLaberinto!,
+                                                            seguimientosCubit,
+                                                            estudiantes,
+                                                            curso.state.id!,
+                                                            response);
                                                 });
-
+/*
                                                 seguimientosCubit
                                                     .actualizarRespuestasActividadesEstudiantes(
                                                         estudiantes
@@ -976,6 +979,7 @@ class _LaberintoState extends State<Laberinto> {
                                                         '',
                                                         response,
                                                         actividadLaberinto.id!);
+                                                        */
                                               }
                                             }),
                                       ),
@@ -1016,8 +1020,35 @@ class _LaberintoState extends State<Laberinto> {
     );
   }
 
-  void _mostrarDialogoVictoria(BuildContext context, GoRouter router,
-      UnidadesCubit unidadesCubit, ActividadLaberinto actividadLaberinto) {
+  actualizarCambiosSeguimientos(
+      BuildContext context,
+      GoRouter router,
+      UnidadesCubit unidadesCubit,
+      ActividadLaberinto actividadLaberinto,
+      SeguimientosEstudiantesCubit seguimientosCubit,
+      EstudiantesCubit estudiantes,
+      int cursoId,
+      int response) {
+    // actualizar cubit para el estado en la plataforma
+    seguimientosCubit.actualizarRespuestasActividadesEstudiantes(
+        estudiantes.obtenerIds(), "", response, actividadLaberinto.id!);
+
+    //guardar en la base de datos FB si es diferente del curso demo
+    if (cursoId != 1) {
+      cursoCs.actualizarRespuesta(cursoId, estudiantes.obtenerIds(),
+          actividadLaberinto.id!, response, '');
+    }
+  }
+
+  void _mostrarDialogoVictoria(
+      BuildContext context,
+      GoRouter router,
+      UnidadesCubit unidadesCubit,
+      ActividadLaberinto actividadLaberinto,
+      SeguimientosEstudiantesCubit seguimientosCubit,
+      EstudiantesCubit estudiantes,
+      int cursoId,
+      int response) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -1037,6 +1068,16 @@ class _LaberintoState extends State<Laberinto> {
               path: "assets/items/ButtonBlue.png",
               text: 'Siguiente',
               onPressed: () {
+                actualizarCambiosSeguimientos(
+                    context,
+                    router,
+                    unidadesCubit,
+                    actividadLaberinto!,
+                    seguimientosCubit,
+                    estudiantes,
+                    cursoId,
+                    response);
+
                 SiguienteActividadInfo siguienteActividadInfo = unidadesCubit
                     .siguienteActividadInfo(actividadLaberinto.id!);
                 if (context

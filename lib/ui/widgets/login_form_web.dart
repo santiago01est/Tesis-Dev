@@ -1,5 +1,6 @@
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -27,7 +28,7 @@ class LoginForm extends StatelessWidget {
           ),
           const Text(
             "Ingresa y que el aprendizaje continue.\nInnovació́n, creatividad y enseñanza.",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400), 
           ),
           const SizedBox(
             height: 30,
@@ -110,41 +111,11 @@ class LoginForm extends StatelessWidget {
                 PixelLargeBttn(
                         path: "assets/items/ButtonBlue.png",
                         onPressed: () async {
-                          /*
-                      if (_formKey.currentState!.validate()) {
-                        AuthenticationService()
-                            .signUpWithEmail(
-                                name: 'admin',
-                                email: emailEditingController.text,
-                                password: pwdEditingController.text)
-                            .then((authResponse) {
-                          if (authResponse.authStatus == AuthStatus.success) {
-                            Fluttertoast.showToast(
-                              msg: 'Usuario registrado',
-                              toastLength: Toast
-                                  .LENGTH_SHORT, // Duración corta del mensaje
-                              gravity: ToastGravity
-                                  .BOTTOM, // Posición del mensaje en la pantalla
-                              backgroundColor: Colors
-                                  .grey[700], // Color de fondo del mensaje
-                              textColor:
-                                  Colors.white, // Color del texto del mensaje
-                            ).then((value) => {
-                                  SedeService.guardarEnFirestoreUsuario(
-                                      'admin', emailEditingController.text)
-                                });
-                          } else {
-                            //In case error we will show error message using snackbar.
-                            //For that lets write utility class which has functions to show
-                            //error & success messages
-                            Util.showErrorMessage(
-                                context, authResponse.message);
-                          }
-                        });
-                      }*/
+                        
 
-                          if (_formKey.currentState!.validate()) {
+                          if (emailEditingController.text.isNotEmpty && pwdEditingController.text.isNotEmpty) {
                             //Call sign in method of firebase & open home screen based on successfull login
+                              _login(emailEditingController.text, pwdEditingController.text, context, router);
                           }
                         },
                         text: 'Ingresar'),
@@ -184,4 +155,25 @@ class LoginForm extends StatelessWidget {
       ),
     );
   }
+
+  Future<void> _login(String email, String password, BuildContext context, GoRouter router, ) async {
+  try {
+    UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    // Si el inicio de sesión es exitoso, puedes acceder al usuario actual a través de userCredential.user
+    //Toast
+     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text('Bienvenido de nuevo a Mundo PC!'),
+                        ));
+
+                         router.go('/crearcursobienvenida');
+  } catch (e) {
+    // Manejar cualquier error que ocurra durante el inicio de sesión
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text('Ups! Algo salio mal, intentalo de nuevo.'),
+                        ));
+  }
+}
 }
