@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
@@ -2018,26 +2020,136 @@ class CursosDataAdapter extends CursoRepository {
 
     // Obtener los documentos de la colección
     QuerySnapshot querySnapshot = await cursosRef.get();
-   
 
     // Iterar sobre cada documento obtenido
     for (var doc in querySnapshot.docs) {
       // Crear un objeto Curso
-      Curso miCurso= Curso();
-      int cursoId= doc.get('id');
-      QuerySnapshot querySnapshotUnidades = await cursosRef.where( 'cursoId', isEqualTo: cursoId).get();
-       // Recorremos los documentos obtenidos de la consulta
-       List<Map<String, dynamic>> unidadesFB = [];
-    querySnapshotUnidades.docs.forEach((doc) {
-      // Convertimos el documento a un mapa y lo agregamos a la lista de unidadesFB
-      unidadesFB.add(doc.data() as Map<String, dynamic>);
-    });
+      Curso miCurso = Curso(
+        id: doc['id'],
+        nombre: doc['nombre'],
+        codigoAcceso: doc['codigoAcceso'],
+        departamento: doc['departamento'],
+        ciudad: doc['ciudad'],
+        colegio: doc['colegio'],
+        profesor: doc['profesor'],
+        portada: doc['portada'],
+        numEstudiantes: doc['numEstudiantes'],
+        descripcion: doc['descripcion'],
+        fechaCreacion: doc['fechaCreacion'],
+        fechaFinalizacion: doc['fechaFinalizacion'],
+        estado: doc['estado'],
+        estudiantes: doc['estudiantes'],
+        unidades:[],
 
-    print('Mapapa $unidadesFB');
-      cursos.add(Curso.fromFirestore(doc));
+      );
+      int cursoId = doc.get('id');
+      QuerySnapshot querySnapshotUnidades =
+          await unidadesRef.where('cursoId', isEqualTo: cursoId).get();
+      // Recorremos los documentos obtenidos de la consulta
+      
+      List<Unidad> unidadesModelo=[];     
+      querySnapshotUnidades.docs.forEach((doc) {
+        // Convertimos el documento a un mapa y lo agregamos a la lista de unidadesFB
+        Map<String, dynamic> unidadFB = doc.data() as Map<String, dynamic>;
+        List<Map<String, dynamic>> actividadesFB = unidadFB['actividades'];
+            //Instanciamos Actividades del Modelo
+            Unidad unidadModelo= Unidad(
+               id: unidadFB['id'],
+          nombre: unidadFB['nombre'],
+          descripcion: unidadFB['descripcion'],
+          estado: unidadFB['estado'],
+          actividades: [],
+          cursoId: unidadFB['cursoId'],
+            );
+    List<Actividad> actividadesModelo = [];
+        // recorrer actividadesFB
+        for (var actividadFB in actividadesFB) {
+          if (actividadFB['tipoActividad'].isEqualTo('Laberinto')) {
+            ActividadLaberinto actividadLaberinto = ActividadLaberinto(
+              id: actividadFB['id'],
+              nombre: actividadFB['nombre'],
+              descripcion: actividadFB['descripcion'],
+              estado: actividadFB['estado'],
+              tipoActividad: actividadFB['tipoActividad'],
+              pesoRespuestas: converirAListaEnteros(actividadFB['pesoRespuestas']),
+              habilidades: converirAListaEnteros(actividadFB['habilidades']),
+              pista: actividadFB['pista'],
+              nombreArchivo: actividadFB['nombreArchivo'],
+              mejorCamino: converirALista(actividadFB['mejorCamino']),
+              mejorCamino2: converirALista(actividadFB['mejorCamino2']),
+              initialState: actividadFB['initialState'],
+            );
+
+            actividadesModelo.add(actividadLaberinto);
+          }
+          if (actividadFB['tipoActividad'].isEqualTo('Cuestionario')) {
+            ActividadCuestionario actividadCuestionario = ActividadCuestionario(
+              id: actividadFB['id'],
+              nombre: actividadFB['nombre'],
+              descripcion: actividadFB['descripcion'],
+              estado: actividadFB['estado'],
+              tipoActividad: actividadFB['tipoActividad'],
+              pesoRespuestas: converirAListaEnteros(actividadFB['pesoRespuestas']),
+              habilidades: converirAListaEnteros(actividadFB['habilidades']),
+              pista: actividadFB['pista'],
+              dimension: actividadFB['dimension'],
+              casillas: converirAListaEnteros(actividadFB['casillas']),
+              respuestas : converirALista(actividadFB['respuestas']),
+              ejercicioImage: actividadFB['ejercicioImage'],
+              ejemploImage: actividadFB['ejemploImage'],
+              respuestaCorrecta: actividadFB['respuestaCorrecta'],
+              
+            );
+
+            actividadesModelo.add(actividadCuestionario);
+          }
+
+          if (actividadFB['tipoActividad'].isEqualTo('Desconectada')) {
+            ActividadDesconectada actividadDesconectada = ActividadDesconectada(
+              id: actividadFB['id'],
+              nombre: actividadFB['nombre'],
+              descripcion: actividadFB['descripcion'],
+              estado: actividadFB['estado'],
+              tipoActividad: actividadFB['tipoActividad'],
+              pesoRespuestas: actividadFB['pesoRespuestas'],
+              habilidades: converirAListaEnteros(actividadFB['habilidades']),
+              pista: actividadFB['pista'],
+              ejercicioImage: actividadFB['ejercicioImage'],
+              ejemploImage: actividadFB['ejemploImage'],
+              
+            );
+
+            actividadesModelo.add(actividadDesconectada);
+          }
+        }
+
+        unidadModelo.actividades=actividadesModelo;
+
+        unidadesModelo.add(unidadModelo);
+        
+      });
+
+      //print('Mapapa $unidadesFB');
+
+      miCurso.unidades=unidadesModelo;
+      cursos.add(miCurso);
+
+      //cursos.add(Curso.fromFirestore(doc));
     }
 
     return cursos;
+  }
+
+  List<dynamic> converirALista(String lista) {
+    // Convertir el string de vuelta a una lista
+    List<dynamic> newList = jsonDecode(lista);
+    return newList;
+  }
+
+  List<int> converirAListaEnteros(String lista) {
+    // Convertir el string de vuelta a una lista
+    List<int> newList = jsonDecode(lista);
+    return newList;
   }
 
   @override

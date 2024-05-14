@@ -24,7 +24,7 @@ void didChangeDependencies() {
   super.didChangeDependencies();
   // Iniciar la carga de datos y establecer _isLoading en true
   setState(() {
-    _isLoading = true;
+    _isLoading = false;
   });
 
   _cursosProfesoresCasoUso = InitData(
@@ -39,7 +39,7 @@ void didChangeDependencies() {
       setState(() {
         _isLoading = false;
         // pasa 5 segundos y carga la pagina
-        _simularCarga();
+        //_simularCarga();
       });
     });
   
