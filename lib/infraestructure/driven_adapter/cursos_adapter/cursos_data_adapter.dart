@@ -2050,10 +2050,10 @@ class CursosDataAdapter extends CursoRepository {
       // Recorremos los documentos obtenidos de la consulta
       
       List<Unidad> unidadesModelo=[];     
-      querySnapshotUnidades.docs.forEach((doc) {
+      for (var doc in querySnapshotUnidades.docs) {
         // Convertimos el documento a un mapa y lo agregamos a la lista de unidadesFB
-        Map<String, dynamic> unidadFB = doc.data() as Map<String, dynamic>;
-        List<Map<String, dynamic>> actividadesFB = unidadFB['actividades'];
+        var unidadFB = doc.data() as Map<String, dynamic>;
+        
             //Instanciamos Actividades del Modelo
             Unidad unidadModelo= Unidad(
                id: unidadFB['id'],
@@ -2063,9 +2063,12 @@ class CursosDataAdapter extends CursoRepository {
           actividades: [],
           cursoId: unidadFB['cursoId'],
             );
+            
     List<Actividad> actividadesModelo = [];
         // recorrer actividadesFB
-        for (var actividadFB in actividadesFB) {
+        List<dynamic> actividadesFB =unidadFB['actividades'];
+        for (var actividadFB in actividadesFB ) {
+/*
           if (actividadFB['tipoActividad'].isEqualTo('Laberinto')) {
             ActividadLaberinto actividadLaberinto = ActividadLaberinto(
               id: actividadFB['id'],
@@ -2123,13 +2126,16 @@ class CursosDataAdapter extends CursoRepository {
 
             actividadesModelo.add(actividadDesconectada);
           }
+          */
         }
 
         unidadModelo.actividades=actividadesModelo;
 
         unidadesModelo.add(unidadModelo);
         
-      });
+      
+      
+      }
 
       //print('Mapapa $unidadesFB');
 
