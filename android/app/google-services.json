@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "292650825275",
+    "project_id": "mundopc-58433",
+    "storage_bucket": "mundopc-58433.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:292650825275:android:8b8115bf7fb417fba08e1e",
+        "android_client_info": {
+          "package_name": "com.example.dev_tesis"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBysEp6Sa2IFxNwO1lqchfDev18pfVB1D8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

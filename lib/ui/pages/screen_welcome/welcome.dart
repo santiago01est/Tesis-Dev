@@ -18,33 +18,32 @@ class _WelcomeState extends State<Welcome> {
   late InitData _cursosProfesoresCasoUso;
   bool _isLoading = true; // Variable para controlar el estado de carga
 
- @override
-void didChangeDependencies() {
+  @override
+  Future<void> didChangeDependencies() async {
+    super.didChangeDependencies();
+    // Iniciar la carga de datos y establecer _isLoading en true
+    setState(() {
+      _isLoading = false;
+    });
 
-  super.didChangeDependencies();
-  // Iniciar la carga de datos y establecer _isLoading en true
-  setState(() {
-    _isLoading = false;
-  });
+    _cursosProfesoresCasoUso = InitData(
+      cursosCasoUso: getIt<CursosCasoUso>(),
+      profesorCasoUso: getIt<ProfesorCasoUso>(),
+      context: context,
+    );
 
-  _cursosProfesoresCasoUso = InitData(
-    cursosCasoUso: getIt<CursosCasoUso>(),
-    profesorCasoUso: getIt<ProfesorCasoUso>(),
-    context: context,
-  );
-
-  // Simular la carga de datos con un retardo de 3 segundos
+    // Simular la carga de datos con un retardo de 3 segundos
     // Una vez que los datos se han cargado, actualizar el estado para indicar que la carga ha terminado
-    _cursosProfesoresCasoUso.obtenerCursosYProfesores().then((_) {
+    await _cursosProfesoresCasoUso.obtenerCursosYProfesores().then((_) {
       setState(() {
         _isLoading = false;
         // pasa 5 segundos y carga la pagina
         //_simularCarga();
       });
     });
-  
-}
-Future<void> _simularCarga() async {
+  }
+
+  Future<void> _simularCarga() async {
     // Simular una carga de 5 segundos
     await Future.delayed(Duration(seconds: 5));
     setState(() {
@@ -61,52 +60,50 @@ Future<void> _simularCarga() async {
           ? const Center(
               child: CircularProgressIndicator(), // Indicador de carga
             )
-          : 
-      
-      Stack(
-        fit: StackFit.expand,
-        children: [
-          Image.asset(
-            'assets/fondos/FondoInicio.png',
-            fit: BoxFit.cover,
-          ),
+          : Stack(
+              fit: StackFit.expand,
+              children: [
+                Image.asset(
+                  'assets/fondos/FondoInicio.png',
+                  fit: BoxFit.cover,
+                ),
 
-          Positioned(
-            right: 0,
-            left: 0,
-            top: 20,
-            child: Center(
-              child: Image.asset(
-                width: 800,
-                height: 200,
-                'assets/logomundopc.png',
-                fit: BoxFit.fill,
-              ),
+                Positioned(
+                  right: 0,
+                  left: 0,
+                  top: 20,
+                  child: Center(
+                    child: Image.asset(
+                      width: 800,
+                      height: 200,
+                      'assets/logomundopc.png',
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+                //carrusel en el centro
+                const Center(
+                    child: ImageCarousel(
+                  imagePaths: [
+                    "assets/PosterWelcome1.png",
+                    "assets/PosterWelcome2.png",
+                    "assets/PosterWelcome3.png",
+                    // Agrega más rutas de imágenes según sea necesario
+                  ],
+                )),
+                Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 20,
+                    child: PixelLargeBttn(
+                      path: 'assets/items/ButtonBlue.png',
+                      onPressed: () {
+                        router.go('/inicio');
+                      },
+                      text: 'Empezar',
+                    )),
+              ],
             ),
-          ),
-          //carrusel en el centro
-          const Center(
-              child: ImageCarousel(
-            imagePaths: [
-              "assets/PosterWelcome1.png",
-              "assets/PosterWelcome2.png",
-              "assets/PosterWelcome3.png",
-              // Agrega más rutas de imágenes según sea necesario
-            ],
-          )),
-          Positioned(
-              left: 0,
-              right: 0,
-              bottom: 20,
-              child: PixelLargeBttn(
-                path: 'assets/items/ButtonBlue.png',
-                onPressed: () {
-                  router.go('/inicio');
-                },
-                text: 'Empezar',
-              )),
-        ],
-      ),
     );
   }
 }

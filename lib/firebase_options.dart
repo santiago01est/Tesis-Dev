@@ -27,10 +27,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.macOS:
         return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -44,41 +41,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-      apiKey: "AIzaSyBjsLS_rz8elEsmRacp5mcGo3PZN6Xy_Rw",
-      authDomain: "mundopc-58433.firebaseapp.com",
-      projectId: "mundopc-58433",
-      storageBucket: "mundopc-58433.appspot.com",
-      messagingSenderId: "292650825275",
-      appId: "1:292650825275:web:8cd22c8c6397f96fa08e1e",
-      measurementId: "G-41FR0DM8SF");
+    apiKey: 'AIzaSyBjsLS_rz8elEsmRacp5mcGo3PZN6Xy_Rw',
+    appId: '1:292650825275:web:17cbf9eded9cc00ca08e1e',
+    messagingSenderId: '292650825275',
+    projectId: 'mundopc-58433',
+    authDomain: 'mundopc-58433.firebaseapp.com',
+    storageBucket: 'mundopc-58433.appspot.com',
+    measurementId: 'G-X95HR9Y52R',
+  );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBjsLS_rz8elEsmRacp5mcGo3PZN6Xy_Rw',
-    appId: "1:292650825275:web:8cd22c8c6397f96fa08e1e",
-    messagingSenderId: "292650825275",
-    projectId: "mundopc",
-    storageBucket: 'mundopc.appspot.com',
+    apiKey: 'AIzaSyBysEp6Sa2IFxNwO1lqchfDev18pfVB1D8',
+    appId: '1:292650825275:android:8b8115bf7fb417fba08e1e',
+    messagingSenderId: '292650825275',
+    projectId: 'mundopc-58433',
+    storageBucket: 'mundopc-58433.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAeAJETe6eYIQj0zszwdfsFZTaDWvjCYYU',
-    appId: '1:976426204856:ios:ab03036dc7dc63d76dbe4d',
-    messagingSenderId: '976426204856',
-    projectId: 'club-delfines-panel',
-    storageBucket: 'club-delfines-panel.appspot.com',
-    iosClientId:
-        '976426204856-atvg010ctoqfuidl34ju6mf7rtt69h3g.apps.googleusercontent.com',
-    iosBundleId: 'com.example.clubdelfinespanel',
+    apiKey: 'AIzaSyD66Zro0MxnOZkNAaVCvSDJO8ofDV3U0Hg',
+    appId: '1:292650825275:ios:afd70ecaff4d94a5a08e1e',
+    messagingSenderId: '292650825275',
+    projectId: 'mundopc-58433',
+    storageBucket: 'mundopc-58433.appspot.com',
+    iosBundleId: 'com.example.devTesis',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAeAJETe6eYIQj0zszwdfsFZTaDWvjCYYU',
-    appId: '1:976426204856:ios:fce3ebd9cc43c7566dbe4d',
-    messagingSenderId: '976426204856',
-    projectId: 'club-delfines-panel',
-    storageBucket: 'club-delfines-panel.appspot.com',
-    iosClientId:
-        '976426204856-oj3mbv8biua5dvk4kq54nilafae0ue8v.apps.googleusercontent.com',
-    iosBundleId: 'com.example.clubdelfinespanel.RunnerTests',
+    apiKey: 'AIzaSyD66Zro0MxnOZkNAaVCvSDJO8ofDV3U0Hg',
+    appId: '1:292650825275:ios:afd70ecaff4d94a5a08e1e',
+    messagingSenderId: '292650825275',
+    projectId: 'mundopc-58433',
+    storageBucket: 'mundopc-58433.appspot.com',
+    iosBundleId: 'com.example.devTesis',
   );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyBjsLS_rz8elEsmRacp5mcGo3PZN6Xy_Rw',
+    appId: '1:292650825275:web:5d851c0820f79fc6a08e1e',
+    messagingSenderId: '292650825275',
+    projectId: 'mundopc-58433',
+    authDomain: 'mundopc-58433.firebaseapp.com',
+    storageBucket: 'mundopc-58433.appspot.com',
+    measurementId: 'G-KESV5DTEYH',
+  );
+
 }
