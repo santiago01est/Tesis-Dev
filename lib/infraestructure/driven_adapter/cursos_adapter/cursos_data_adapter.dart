@@ -2038,11 +2038,13 @@ class CursosDataAdapter extends CursoRepository {
         fechaCreacion: doc['fechaCreacion'],
         fechaFinalizacion: doc['fechaFinalizacion'],
         estado: doc['estado'],
-        estudiantes: doc['estudiantes'],
+        estudiantes:[],
         unidades:[],
 
       );
-      int cursoId = doc.get('id');
+
+      print('Wtfff $miCurso');
+     int cursoId = doc.get('id');
       QuerySnapshot querySnapshotUnidades =
           await unidadesRef.where('cursoId', isEqualTo: cursoId).get();
       // Recorremos los documentos obtenidos de la consulta
@@ -2131,7 +2133,7 @@ class CursosDataAdapter extends CursoRepository {
 
       //print('Mapapa $unidadesFB');
 
-      miCurso.unidades=unidadesModelo;
+      //miCurso.unidades=unidadesModelo;
       cursos.add(miCurso);
 
       //cursos.add(Curso.fromFirestore(doc));
