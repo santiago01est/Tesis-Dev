@@ -36,9 +36,11 @@ class InitData {
     if (context.read<BDCursosCubit>().state.isEmpty) {
       await _fetchCursos();
       await _fetchProfesores();
+      /*
       List<Seguimiento> seguimientosCursos =
           await fetchSeguimientosTodosCursos();
       seguimientoCubit.subirSeguimientos(seguimientosCursos);
+      */
 
       cubitRol.actualizarRol('estudiante');
     }

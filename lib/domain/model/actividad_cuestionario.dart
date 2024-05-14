@@ -45,7 +45,7 @@ class ActividadCuestionario extends Actividad {
       casillas:
           data['casillas'] != null ? List<int>.from(data['casillas']) : null,
       respuestas: data['respuestas'] != null
-          ? List<List<dynamic>>.from(data['respuestas'])
+          ? List<dynamic>.from(data['respuestas'])
           : null,
       ejercicioImage: data['ejercicioImage'],
       ejemploImage: data['ejemploImage'],
