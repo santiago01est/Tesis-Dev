@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
 import 'package:dev_tesis/domain/model/actividad_desconectada.dart';
+import 'package:dev_tesis/domain/model/actividad_global_fb.dart';
 import 'package:dev_tesis/domain/model/actividad_laberinto.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
@@ -2012,14 +2013,27 @@ class CursosDataAdapter extends CursoRepository {
 
     CollectionReference cursosRef =
         FirebaseFirestore.instance.collection('cursos');
+    CollectionReference unidadesRef =
+        FirebaseFirestore.instance.collection('unidades');
 
     // Obtener los documentos de la colección
     QuerySnapshot querySnapshot = await cursosRef.get();
+   
 
     // Iterar sobre cada documento obtenido
     for (var doc in querySnapshot.docs) {
-      // Crear un objeto Curso y agregarlo a la lista
+      // Crear un objeto Curso
+      Curso miCurso= Curso();
+      int cursoId= doc.get('id');
+      QuerySnapshot querySnapshotUnidades = await cursosRef.where( 'cursoId', isEqualTo: cursoId).get();
+       // Recorremos los documentos obtenidos de la consulta
+       List<Map<String, dynamic>> unidadesFB = [];
+    querySnapshotUnidades.docs.forEach((doc) {
+      // Convertimos el documento a un mapa y lo agregamos a la lista de unidadesFB
+      unidadesFB.add(doc.data() as Map<String, dynamic>);
+    });
 
+    print('Mapapa $unidadesFB');
       cursos.add(Curso.fromFirestore(doc));
     }
 

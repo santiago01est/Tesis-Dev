@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
 import 'package:dev_tesis/domain/model/actividad_desconectada.dart';
@@ -160,14 +162,14 @@ class CursosCasoUso {
         'estado': actividadLaberinto.estado,
         'tipoActividad': actividadLaberinto.tipoActividad,
         'pesoRespuestas': '',
-        'habilidades': '[${actividadLaberinto.habilidades!.join(', ')}]',
+        'habilidades':  convertirListaAStringPlano(actividadLaberinto.habilidades!),
         'nombreArchivo': actividadLaberinto.nombreArchivo,
-        'mejorCamino': convertirListaAMapa(actividadLaberinto.mejorCamino!),
-        'mejorCamino2': convertirListaAMapa(actividadLaberinto.mejorCamino2!),
+        'mejorCamino':  convertirListaAStringPlano(actividadLaberinto.mejorCamino!),
+        'mejorCamino2':  convertirListaAStringPlano(actividadLaberinto.mejorCamino2!),
         'initialState': actividadLaberinto.initialState,
         'dimension': 0,
         'casillas': '',
-        'respuestas': {},
+        'respuestas': '',
         'ejercicioImage': '',
         'ejemploImage': '',
         'pista': actividadLaberinto.pista,
@@ -188,15 +190,15 @@ class CursosCasoUso {
         'descripcion': actividadCuestionario.descripcion,
         'estado': actividadCuestionario.estado,
         'tipoActividad': actividadCuestionario.tipoActividad,
-        'pesoRespuestas': '[${actividadCuestionario.pesoRespuestas!.join(', ')}]',
-        'habilidades': '[${actividadCuestionario.habilidades!.join(', ')}]',
+        'pesoRespuestas':  convertirListaAStringPlano(actividadCuestionario.pesoRespuestas!),
+        'habilidades':  convertirListaAStringPlano(actividadCuestionario.habilidades!),
         'nombreArchivo': '',
-        'mejorCamino':{},
-        'mejorCamino2': {},
+        'mejorCamino':'',
+        'mejorCamino2': '',
         'initialState': 0,
         'dimension': actividadCuestionario.dimension,
-        'casillas': '[${actividadCuestionario.casillas!.join(', ')}]',
-        'respuestas':  {},
+        'casillas':  convertirListaAStringPlano(actividadCuestionario.casillas!),
+        'respuestas':  convertirListaAStringPlano(actividadCuestionario.respuestas!),
         'ejercicioImage': actividadCuestionario.ejercicioImage,
         'ejemploImage': actividadCuestionario.ejemploImage,
         'pista': actividadCuestionario.pista,
@@ -216,15 +218,15 @@ class CursosCasoUso {
         'descripcion': actividadDesconectada.descripcion,
         'estado': actividadDesconectada.estado,
         'tipoActividad': actividadDesconectada.tipoActividad,
-        'pesoRespuestas': '[${actividadDesconectada.pesoRespuestas!.join(', ')}]',
-        'habilidades': '[${actividadDesconectada.habilidades!.join(', ')}]',
+        'pesoRespuestas':  convertirListaAStringPlano(actividadDesconectada.pesoRespuestas!),
+        'habilidades':  convertirListaAStringPlano(actividadDesconectada.habilidades!),
         'nombreArchivo': '',
-        'mejorCamino':{},
-        'mejorCamino2': {},
+        'mejorCamino':'',
+        'mejorCamino2': '',
         'initialState': 0,
         'dimension': 0,
         'casillas': '',
-        'respuestas':  {},
+        'respuestas':  '',
         'ejercicioImage': actividadDesconectada.ejercicioImage,
         'ejemploImage': actividadDesconectada.ejemploImage,
         'pista': actividadDesconectada.pista,
@@ -248,30 +250,12 @@ class CursosCasoUso {
     }
 
   }
+ String convertirListaAStringPlano(List<dynamic> respuestas) {
+   // Convertir la lista a un string
+  String listAsString = jsonEncode(respuestas);
 
-  Map<int, dynamic> convertirListaAMapa(List<dynamic> mejorCamino) {
-    Map<int, dynamic> mejorCaminoMapa = {};
 
-    for (int i = 0; i < mejorCamino.length; i++) {
-      mejorCaminoMapa[i] = mejorCamino[i];
-    }
-
-    return mejorCaminoMapa;
-  }
-
-  Map<int, dynamic> convertirListadeListaAMapa(List<List<dynamic>> respuestas) {
-    Map<int, dynamic> respuestasMapa = {};
-
-    for (int i = 0; i < respuestas.length; i++) {
-      var elemento = respuestas[i];
-      if (elemento is List) {
-        respuestasMapa[i] = elemento;
-      } else if (elemento is Map) {
-        respuestasMapa[i] = elemento;
-      }
-    }
-
-    return respuestasMapa;
+    return listAsString;
   }
 
   // metodo para subir cada seguimiento

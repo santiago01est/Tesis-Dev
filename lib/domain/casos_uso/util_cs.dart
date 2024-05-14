@@ -95,24 +95,15 @@ class InitData {
 
   Future<void> _fetchCursoYUnidad(int cursoId) async {
     /* forma local */
-    final cursosBDCubit = context.read<BDCursosCubit>();
-    final cursoCubit = context.read<CursoCubit>();
-    final unidades = context.read<UnidadesCubit>();
+    
     try {
-      if (context.read<BDCursosCubit>().state.isEmpty) {
-        final cursos = await cursosCasoUso.getCursos();
-        cursosBDCubit.subirCursos(cursos);
-        // buscar en cursos el curso con el id correspondiente
-        final curso = cursos.firstWhere((c) => c.id == cursoId);
-        cursoCubit.actualizarCurso(curso);
-        unidades.subirUnidades(curso.unidades!);
-      } else {
+     
         final cursos = context.read<BDCursosCubit>().state;
         // buscar en cursos el curso con el id correspondiente
         final curso = cursos.firstWhere((c) => c.id == cursoId);
         context.read<CursoCubit>().actualizarCurso(curso);
         context.read<UnidadesCubit>().subirUnidades(curso.unidades!);
-      }
+      
     } catch (e) {
       // Manejo de errores, puedes mostrar un mensaje de error
       print('Error al obtener cursos: $e');
@@ -183,8 +174,8 @@ class InitData {
       } else {
         //TODO Conectarme a la bd y traer los seguimientos segun el id
 
-        final seguimientoCubit = context.read<SeguimientosEstudiantesCubit>();
-        final ref = FirebaseFirestore.instance.collection("seguimientos");
+       final seguimientoCubit = context.read<SeguimientosEstudiantesCubit>();
+        final ref = FirebaseFirestore.instance.collection("seguimientos").where('cursoId', isEqualTo: cursoId);
 
         final querySnapshot = await ref.get();
 
@@ -222,7 +213,7 @@ class InitData {
         // para los cursos subidos en la BD
 
         final seguimientoCubit = context.read<SeguimientosEstudiantesCubit>();
-        final ref = FirebaseFirestore.instance.collection("seguimientos");
+        final ref = FirebaseFirestore.instance.collection("seguimientos").where('cursoId', isEqualTo: cursoId);
 
         final querySnapshot = await ref.get();
 
