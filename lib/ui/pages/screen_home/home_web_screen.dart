@@ -28,13 +28,7 @@ class _HomeWebState extends State<HomeWeb> {
   late InitData _cursosProfesoresCasoUso;
   bool _isLoading = true;
 
-  Future<void> _simularCarga() async {
-    // Simular una carga de 5 segundos
-    await Future.delayed(Duration(seconds: 2));
-    setState(() {
-      _isLoading = false;
-    });
-  }
+ 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -44,7 +38,10 @@ class _HomeWebState extends State<HomeWeb> {
       context: context,
     );
     _cursosProfesoresCasoUso.obtenerCursosYProfesores();
-    _simularCarga();
+    setState(() {
+      _isLoading=false;
+    });
+    //_simularCarga();
   }
 
   @override

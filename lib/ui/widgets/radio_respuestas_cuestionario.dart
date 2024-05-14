@@ -87,7 +87,11 @@ class _RadioRespuestasCuestionarioState
                             width: img == 'Avanzar.png' ||
                                     img == 'GirarIzq.png' ||
                                     img == 'GirarDerecha.png' ||
-                                    img == 'Agarrar.png'
+                                    img == 'Agarrar.png' ||
+                                    img == 'Derecha.png' ||
+                                    img == 'Arriba.png' ||
+                                    img == 'Abajo.png' ||
+                                    img == 'Izquierda.png' 
                                 ? 40
                                 : 100,
                             fit: BoxFit.cover,
