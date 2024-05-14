@@ -150,7 +150,7 @@ class _PopupCredencialesState extends State<PopupCredenciales>
                               content: Text(
                                   'Bienvenido $selectedStudentName !'),
                             ));
-                            print('${widget.estudiantes.firstWhere((estudiante) => estudiante.nombre == selectedStudentName)}');
+                            //print('${widget.estudiantes.firstWhere((estudiante) => estudiante.nombre == selectedStudentName)}');
                              context.read<EstudiantesCubit>().subirEstudiantes([widget.estudiantes.firstWhere((estudiante) => estudiante.nombre == selectedStudentName)]);
                             
                               router.go('/panelcurso/${widget.idCurso}');
@@ -190,17 +190,25 @@ class _PopupCredencialesState extends State<PopupCredenciales>
                                   estudiante.avatar == avatar2Path);
 
                           if (isValid) {
+                             // Toast
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                  'Bienvenidos $student1Name Y $student2Name !'),
+                            ));
+                            context.read<EstudiantesCubit>().subirEstudiantes([widget.estudiantes.firstWhere((estudiante) => estudiante.nombre == student1Name),widget.estudiantes.firstWhere((estudiante) => estudiante.nombre == student2Name)]);
+                            /*
                             estudiantesCubit.agregarEstudiante(
                                 buscarEstudiantePorNombre(student1Name));
                             estudiantesCubit.agregarEstudiante(
                                 buscarEstudiantePorNombre(student2Name));
+                                */
                             // Si la validación es exitosa, redirigir al usuario a la siguiente pantalla
                             router.go('/panelcurso/${widget.idCurso}');
                           } else {
                             // Si la validación falla, mostrar un mensaje de error
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(
-                                  'Bienvenidos $student1Name y $student2Name'),
+                                  'La combinación de nombre y avatar no es válida.'),
                             ));
                           }
                         } else {

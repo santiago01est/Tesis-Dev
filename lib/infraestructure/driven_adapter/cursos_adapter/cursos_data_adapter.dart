@@ -2140,8 +2140,24 @@ class CursosDataAdapter extends CursoRepository {
       });
 
       //print('Mapapa $unidadesFB');
+      //organizar unidades
+      List<Unidad> unidadesOrganizadas=  List<Unidad>.filled(3, Unidad( cursoId: 1));
+;
+      for(var unidad in unidadesModelo){
+        if(unidad.nombre=='Unidad \nDiagnóstico'){
+          unidadesOrganizadas[0]=unidad;
+        }
+         if(unidad.nombre=='Unidad 1'){
+          unidadesOrganizadas[1]=unidad;
+        }
+         if(unidad.nombre=='Unidad 2'){
+          unidadesOrganizadas[2]=unidad;
+        }
 
-     // miCurso.unidades=unidadesModelo;
+      }
+      
+
+      miCurso.unidades=unidadesOrganizadas;
       cursos.add(miCurso);
 
       //cursos.add(Curso.fromFirestore(doc));
