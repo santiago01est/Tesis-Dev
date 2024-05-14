@@ -28,7 +28,6 @@ class _HomeWebState extends State<HomeWeb> {
   late InitData _cursosProfesoresCasoUso;
   bool _isLoading = true;
 
- 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -39,7 +38,7 @@ class _HomeWebState extends State<HomeWeb> {
     );
     _cursosProfesoresCasoUso.obtenerCursosYProfesores();
     setState(() {
-      _isLoading=false;
+      _isLoading = false;
     });
     //_simularCarga();
   }
@@ -50,6 +49,7 @@ class _HomeWebState extends State<HomeWeb> {
     final router = GoRouter.of(context);
     final profesoresCubit = context.watch<ProfesoresCubit>();
     final rolCubit = context.watch<RolCubit>();
+    final cursosCubit = context.watch<BDCursosCubit>();
 
     List<Profesor> profesores = profesoresCubit.state;
     return _isLoading
@@ -199,7 +199,9 @@ class _HomeWebState extends State<HomeWeb> {
                               child: BlocBuilder<BDCursosCubit, List<Curso>>(
                                 builder: (context, cursos) {
                                   if (cursos.isEmpty) {
-                                    return const CircularProgressIndicator();
+                                    return Center(
+                                        child:
+                                            const CircularProgressIndicator());
                                   } else {
                                     return Wrap(
                                       alignment: WrapAlignment.start,

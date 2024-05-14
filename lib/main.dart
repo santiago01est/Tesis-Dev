@@ -44,11 +44,17 @@ void setupDependencies() {
 }
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    options: FirebaseOptions(
+      apiKey: "AIzaSyBjsLS_rz8elEsmRacp5mcGo3PZN6Xy_Rw",
+      projectId: "mundopc-58433",
+      messagingSenderId: "292650825275",
+      appId: "1:292650825275:web:17cbf9eded9cc00ca08e1e",
+    ),
   );
-  
-setupDependencies();
+
+  setupDependencies();
   runApp(const MyApp());
 }
 
@@ -57,7 +63,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return MultiBlocProvider(
       providers: [
         BlocProvider<CursoCubit>(create: (context) => CursoCubit()),
