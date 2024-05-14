@@ -2050,11 +2050,16 @@ class CursosDataAdapter extends CursoRepository {
       // Recorremos los documentos obtenidos de la consulta
       
       List<Unidad> unidadesModelo=[];     
-      for (var doc in querySnapshotUnidades.docs) {
+      querySnapshotUnidades.docs.forEach((doc) {
         // Convertimos el documento a un mapa y lo agregamos a la lista de unidadesFB
-        var unidadFB = doc.data() as Map<String, dynamic>;
-        
-            //Instanciamos Actividades del Modelo
+        Map<String, dynamic> unidadFB = doc.data() as Map<String, dynamic>;
+        List<dynamic> actividadesFBB = unidadFB['actividades'];
+        // Convertir cada elemento de la lista a Map<String, dynamic>
+        List<Map<String, dynamic>> actividadesFB =
+            actividadesFBB.map((actividad) {
+          return actividad as Map<String, dynamic>;
+        }).toList();
+        //Instanciamos Actividades del Modelo
             Unidad unidadModelo= Unidad(
                id: unidadFB['id'],
           nombre: unidadFB['nombre'],
@@ -2063,13 +2068,12 @@ class CursosDataAdapter extends CursoRepository {
           actividades: [],
           cursoId: unidadFB['cursoId'],
             );
-            
+      
     List<Actividad> actividadesModelo = [];
         // recorrer actividadesFB
-        List<dynamic> actividadesFB =unidadFB['actividades'];
-        for (var actividadFB in actividadesFB ) {
-/*
-          if (actividadFB['tipoActividad'].isEqualTo('Laberinto')) {
+        for (var actividadFB in actividadesFB) {
+          print(actividadFB);
+          if (actividadFB['tipoActividad']==('Laberinto')) {
             ActividadLaberinto actividadLaberinto = ActividadLaberinto(
               id: actividadFB['id'],
               nombre: actividadFB['nombre'],
@@ -2087,7 +2091,8 @@ class CursosDataAdapter extends CursoRepository {
 
             actividadesModelo.add(actividadLaberinto);
           }
-          if (actividadFB['tipoActividad'].isEqualTo('Cuestionario')) {
+          print(actividadFB['tipoActividad']);
+          if (actividadFB['tipoActividad']==('Cuestionario')) {
             ActividadCuestionario actividadCuestionario = ActividadCuestionario(
               id: actividadFB['id'],
               nombre: actividadFB['nombre'],
@@ -2109,14 +2114,14 @@ class CursosDataAdapter extends CursoRepository {
             actividadesModelo.add(actividadCuestionario);
           }
 
-          if (actividadFB['tipoActividad'].isEqualTo('Desconectada')) {
+          if (actividadFB['tipoActividad']==('Desconectada')) {
             ActividadDesconectada actividadDesconectada = ActividadDesconectada(
               id: actividadFB['id'],
               nombre: actividadFB['nombre'],
               descripcion: actividadFB['descripcion'],
               estado: actividadFB['estado'],
               tipoActividad: actividadFB['tipoActividad'],
-              pesoRespuestas: actividadFB['pesoRespuestas'],
+              pesoRespuestas: converirAListaEnteros(actividadFB['pesoRespuestas']),
               habilidades: converirAListaEnteros(actividadFB['habilidades']),
               pista: actividadFB['pista'],
               ejercicioImage: actividadFB['ejercicioImage'],
@@ -2126,16 +2131,13 @@ class CursosDataAdapter extends CursoRepository {
 
             actividadesModelo.add(actividadDesconectada);
           }
-          */
         }
 
         unidadModelo.actividades=actividadesModelo;
 
         unidadesModelo.add(unidadModelo);
         
-      
-      
-      }
+      });
 
       //print('Mapapa $unidadesFB');
 
@@ -2150,13 +2152,15 @@ class CursosDataAdapter extends CursoRepository {
 
   List<dynamic> converirALista(String lista) {
     // Convertir el string de vuelta a una lista
-    List<dynamic> newList = jsonDecode(lista);
+    List<dynamic> newList;
+    lista == "" ? newList = [] : newList = jsonDecode(lista);
     return newList;
   }
 
   List<int> converirAListaEnteros(String lista) {
     // Convertir el string de vuelta a una lista
-    List<int> newList = jsonDecode(lista);
+    List<int> newList;
+    lista == "" ? newList = [] : newList = List<int>.from(jsonDecode(lista));
     return newList;
   }
 
