@@ -1,10 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Profesor {
-   int? id;
-   String? nombre;
-   String? email;
-   String? password;
-   String? avatar;
-   String? bio;
+  int? id;
+  String? nombre;
+  String? email;
+  String? password;
+  String? avatar;
+  String? bio;
 
   Profesor({
     this.id,
@@ -34,6 +36,19 @@ class Profesor {
     password = data['password'];
     avatar = data['avatar'];
     bio = data['bio'];
+  }
 
+  factory Profesor.fromFirestore(
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+  ) {
+    final data = snapshot.data();
+    return Profesor(
+      id: data?['id'],
+      nombre: data?['nombre'],
+      email: data?['email'],
+      password: data?['password'],
+      avatar: data?['avatar'],
+      bio: data?['bio'],
+    );
   }
 }

@@ -1,6 +1,10 @@
 import 'package:dev_tesis/constants/styles.dart';
+import 'package:dev_tesis/domain/model/profesor.dart';
+import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginFormMobile extends StatelessWidget {
@@ -13,6 +17,7 @@ class LoginFormMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
+    final profesoresCubit = context.watch<ProfesoresCubit>().state;
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
@@ -107,47 +112,21 @@ class LoginFormMobile extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-               PixelLargeBttn(
-                        path: "assets/items/ButtonBlue.png",
-                        onPressed: () async {
-                          /*
-                      if (_formKey.currentState!.validate()) {
-                        AuthenticationService()
-                            .signUpWithEmail(
-                                name: 'admin',
-                                email: emailEditingController.text,
-                                password: pwdEditingController.text)
-                            .then((authResponse) {
-                          if (authResponse.authStatus == AuthStatus.success) {
-                            Fluttertoast.showToast(
-                              msg: 'Usuario registrado',
-                              toastLength: Toast
-                                  .LENGTH_SHORT, // Duración corta del mensaje
-                              gravity: ToastGravity
-                                  .BOTTOM, // Posición del mensaje en la pantalla
-                              backgroundColor: Colors
-                                  .grey[700], // Color de fondo del mensaje
-                              textColor:
-                                  Colors.white, // Color del texto del mensaje
-                            ).then((value) => {
-                                  SedeService.guardarEnFirestoreUsuario(
-                                      'admin', emailEditingController.text)
-                                });
-                          } else {
-                            //In case error we will show error message using snackbar.
-                            //For that lets write utility class which has functions to show
-                            //error & success messages
-                            Util.showErrorMessage(
-                                context, authResponse.message);
-                          }
-                        });
-                      }*/
-
-                          if (_formKey.currentState!.validate()) {
-                            //Call sign in method of firebase & open home screen based on successfull login
-                          }
-                        },
-                        text: 'Ingresar'),
+                PixelLargeBttn(
+                    path: "assets/items/ButtonBlue.png",
+                    onPressed: () async {
+                      if (emailEditingController.text.isNotEmpty &&
+                          pwdEditingController.text.isNotEmpty) {
+                        //Call sign in method of firebase & open home screen based on successfull login
+                        _login(
+                            emailEditingController.text,
+                            pwdEditingController.text,
+                            context,
+                            router,
+                            profesoresCubit);
+                      }
+                    },
+                    text: 'Ingresar'),
                 const SizedBox(
                   height: 10,
                 ),
@@ -185,5 +164,42 @@ class LoginFormMobile extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _login(
+    String email,
+    String password,
+    BuildContext context,
+    GoRouter router,
+    List<Profesor> profesoresCubit,
+  ) async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      final profesorCubit = context.read<ProfesorCubit>();
+      profesorCubit.actualizarProfesor(
+          profesoresCubit.firstWhere((element) => element.email == email));
+      // Si el inicio de sesión es exitoso, puedes acceder al usuario actual a través de userCredential.user
+      //Toast
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Bienvenido de nuevo a Mundo PC!'),
+      ));
+
+      // espera 5 segundos para imprimir hola
+      await Future.delayed(const Duration(seconds: 2));
+
+      int? profesorId =
+          profesoresCubit.firstWhere((element) => element.email == email).id;
+
+      router.go('/panelprofesor/$profesorId');
+    } catch (e) {
+      // Manejar cualquier error que ocurra durante el inicio de sesión
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Ups! Algo salio mal, intentalo de nuevo.'),
+      ));
+    }
   }
 }

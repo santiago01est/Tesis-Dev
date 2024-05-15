@@ -1,28 +1,48 @@
 import 'package:dev_tesis/constants/styles.dart';
+import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
+import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
+import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
+import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
+import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
+import 'package:dev_tesis/ui/components/cards/curso_cards.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
+import 'package:dev_tesis/ui/widgets/PopUp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class LayoutMisCursos extends StatelessWidget {
+class LayoutMisCursos extends StatefulWidget {
   final int profesorId;
 
   const LayoutMisCursos({Key? key, required this.profesorId}) : super(key: key);
 
   @override
+  State<LayoutMisCursos> createState() => _LayoutMisCursosState();
+}
+
+class _LayoutMisCursosState extends State<LayoutMisCursos> {
+  late InitData _cursosProfesoresCasoUso;
+  bool _isLoading = true;
+
+  @override
+  @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
     final BDCursosCubit bdCursosCubit = context.watch<BDCursosCubit>();
     //obtener solo los cursos del profesor
-    final cursos = bdCursosCubit.state;
+    final cursosCubit = bdCursosCubit.state;
+    final rolCubit = context.watch<RolCubit>();
+    final profesorCubit = context.watch<ProfesorCubit>();
 
-    List<Curso> misCursos=[];
+    List<Curso> misCursos = [];
 
-    for(int i = 0; i < cursos.length; i++){
-      if(cursos[i].profesor == profesorId){
-        misCursos.add(cursos[i]);
+    for (int i = 0; i < cursosCubit.length; i++) {
+      if (cursosCubit[i].profesor == widget.profesorId) {
+        misCursos.add(cursosCubit[i]);
       }
     }
 
@@ -40,53 +60,37 @@ class LayoutMisCursos extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: misCursos.length,
                 itemBuilder: (context, index) {
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    color: index == 1 ? orangeColor : blueColor,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        children: [
-                          // Primera fila
-                          LayoutBuilder(builder: (context, constraints) {
-                            // Verifica el ancho de la pantalla
-                            
-                              // Pantalla grande: utiliza una fila
-                              return GestureDetector(
-                                onTap: () {
-                                  router.go(
-                                      '/panelprofesorcurso/${misCursos[index].id}');
-                                },
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    // dos columnas
-                                    Expanded(
-                                        child: Column(children: [
-                                      SubtitleText(
-                                          text: misCursos[index].nombre!),
-                                      SubtitleText(
-                                          text: misCursos[index].descripcion!),
-                                    ])),
-                                    /* Expanded(
-                                        child: Column(children: [
-                                      SubtitleText(
-                                          text: misCursos[index].descripcion!),
-                                    ])) */
-                                  ],
-                                ),
-                              );
-                            
-                            
-                          }),
-
-                          // Segunda fila con lista de actividades
-                        ],
-                      ),
+                  return Wrap(
+                    alignment: WrapAlignment.start,
+                    crossAxisAlignment: WrapCrossAlignment.start,
+                    spacing: 8.0, // Espacio entre las imágenes
+                    runSpacing: 8.0,
+                    children: List.generate(
+                      misCursos.length,
+                      (index) {
+                        return GestureDetector(
+                          onTap: () {
+                            if (rolCubit.state == 'profesor') {
+                              router.push('/panelcurso/${misCursos[index].id}');
+                            } else {
+                              if (context
+                                  .read<EstudiantesCubit>()
+                                  .state
+                                  .isEmpty) {
+                                PopupUtils.showCodeAccessPopup(
+                                    context, misCursos[index]);
+                              } else {
+                                router
+                                    .push('/panelcurso/${misCursos[index].id}');
+                              }
+                            }
+                          },
+                          child: CursoCard(
+                            curso: misCursos[index],
+                            nombreProfesor: profesorCubit.state.nombre!,
+                          ),
+                        );
+                      },
                     ),
                   );
                 },

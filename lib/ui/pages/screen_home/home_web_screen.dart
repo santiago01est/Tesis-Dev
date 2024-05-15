@@ -216,7 +216,8 @@ class _HomeWebState extends State<HomeWeb> {
                                           return GestureDetector(
                                             onTap: () {
                                               if (rolCubit.state ==
-                                                  'profesor') {
+                                                      'profesor' &&
+                                                  cursos[index].id != 1) {
                                                 router.push(
                                                     '/panelcurso/${cursos[index].id}');
                                               } else {

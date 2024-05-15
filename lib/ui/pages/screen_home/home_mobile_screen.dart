@@ -191,7 +191,8 @@ class _HomeMobileState extends State<HomeMobile> {
                                       (index) {
                                         return GestureDetector(
                                           onTap: () {
-                                            if (rolCubit.state == 'profesor') {
+                                            if (rolCubit.state == 'profesor' &&
+                                                cursos[index].id != 1) {
                                               router.push(
                                                   '/panelcurso/${cursos[index].id}');
                                             } else {

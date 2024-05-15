@@ -1,23 +1,23 @@
-import 'dart:math';
-
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
-import 'package:dev_tesis/domain/casos_uso/unidad_casos_uso/unidad_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
+import 'package:dev_tesis/domain/model/grupo.dart';
 import 'package:dev_tesis/domain/model/respuesta.dart';
 import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
+import 'package:dev_tesis/ui/bloc/grupo_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:number_inc_dec/number_inc_dec.dart';
 
 class SeguimientoProfesorScreen extends StatefulWidget {
   final int cursoId;
@@ -31,28 +31,31 @@ class SeguimientoProfesorScreen extends StatefulWidget {
 
 class _SeguimientoProfesorScreenState extends State<SeguimientoProfesorScreen> {
   late InitData _cursosProfesoresCasoUso;
+  bool _isLoading = true;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _cursosProfesoresCasoUso = InitData(
       cursosCasoUso: CursosCasoUso(cursoRepository: getIt<CursoRepository>()),
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,
     );
-    _cursosProfesoresCasoUso.obtenerCursosYProfesoresYUnidades(widget.cursoId);
+    _cursosProfesoresCasoUso
+        .obtenerCursosYProfesoresYUnidades(widget.cursoId)
+        .then((value) => setState(() => _isLoading = false));
   }
-
-  List<Estudiante> totalEstudiantes = [];
 
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
     final cursoCubit = context.read<CursoCubit>();
-    totalEstudiantes.addAll(cursoCubit.state.estudiantes!);
+    final totalEstudiantes = cursoCubit.state.estudiantes!;
+    /*
     final estudianteProfesorSeguimiento =
         context.read<EstudiantesCubit>().state[0];
     totalEstudiantes.add(estudianteProfesorSeguimiento);
+    */
     final seguimientos = context.read<SeguimientosEstudiantesCubit>().state;
 
     return Scaffold(
@@ -74,123 +77,126 @@ class _SeguimientoProfesorScreenState extends State<SeguimientoProfesorScreen> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              Center(
-                child: TitleText(text: '${cursoCubit.state.nombre}'),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              const Center(
-                child: SubtitleText(text: 'Unidad Diagnóstica'),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Center(
-                child: Wrap(
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
                   children: [
-                    //cuadro de color azul y un texto al lado
-                    Container(
-                      width: 20,
-                      height: 20,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFB6C979),
-                        borderRadius: BorderRadius.circular(5),
+                    Center(
+                      child: TitleText(text: '${cursoCubit.state.nombre}'),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    const Center(
+                      child: SubtitleText(text: 'Unidad Diagnóstica'),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Center(
+                      child: Wrap(
+                        children: [
+                          //cuadro de color azul y un texto al lado
+                          Container(
+                            width: 20,
+                            height: 20,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFB6C979),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text('Actividades Secuencia'),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Container(
+                            width: 20,
+                            height: 20,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF4A662),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text('Actividades Ciclos'),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Container(
+                            width: 20,
+                            height: 20,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF69B5D8),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text('Actividades Ciclos Anidados'),
+                        ],
                       ),
                     ),
                     SizedBox(
-                      width: 10,
-                    ),
-                    Text('Actividades Secuencia'),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Container(
-                      width: 20,
                       height: 20,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF4A662),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
                     ),
+                    DataTableWidget(
+                        estudiantes: totalEstudiantes,
+                        actividades: cursoCubit.state.unidades![0].actividades!,
+                        seguimientos: seguimientos),
                     SizedBox(
-                      width: 10,
-                    ),
-                    Text('Actividades Ciclos'),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Container(
-                      width: 20,
                       height: 20,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF69B5D8),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
                     ),
+                    const Center(
+                      child: SubtitleText(text: 'Unidad 1'),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    DataTableWidget(
+                        estudiantes: totalEstudiantes,
+                        actividades: cursoCubit.state.unidades![1].actividades!,
+                        seguimientos: seguimientos),
                     SizedBox(
-                      width: 10,
+                      height: 20,
                     ),
-                    Text('Actividades Ciclos Anidados'),
+                    const Center(
+                      child: SubtitleText(text: 'Unidad 2'),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    DataTableWidget(
+                        estudiantes: totalEstudiantes,
+                        actividades: cursoCubit.state.unidades![2].actividades!,
+                        seguimientos: seguimientos),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    const Center(
+                      child: SubtitleText(text: 'Test Autopercepción'),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    DataTestTableWidget(
+                        estudiantes: totalEstudiantes,
+                        respuestas: seguimientos),
+                    SizedBox(
+                      height: 20,
+                    ),
                   ],
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
-              DataTableWidget(
-                  estudiantes: totalEstudiantes,
-                  actividades: cursoCubit.state.unidades![0].actividades!,
-                  seguimientos: seguimientos),
-              SizedBox(
-                height: 20,
-              ),
-              const Center(
-                child: SubtitleText(text: 'Unidad 1'),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              DataTableWidget(
-                  estudiantes: totalEstudiantes,
-                  actividades: cursoCubit.state.unidades![1].actividades!,
-                  seguimientos: seguimientos),
-              SizedBox(
-                height: 20,
-              ),
-              const Center(
-                child: SubtitleText(text: 'Unidad 2'),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              DataTableWidget(
-                  estudiantes: totalEstudiantes,
-                  actividades: cursoCubit.state.unidades![2].actividades!,
-                  seguimientos: seguimientos),
-              SizedBox(
-                height: 20,
-              ),
-              const Center(
-                child: SubtitleText(text: 'Test Autopercepción'),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              DataTestTableWidget(
-                  estudiantes: totalEstudiantes, respuestas: seguimientos),
-              SizedBox(
-                height: 20,
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }
@@ -212,8 +218,60 @@ class DataTableWidget extends StatefulWidget {
 class _DataTableWidgetState extends State<DataTableWidget> {
   final ScrollController _scrollController = ScrollController();
 
+  Map<String, TextEditingController> createControllersMap(
+      List<Grupo> grupos, List<Estudiante> estudiantes) {
+    Map<String, TextEditingController> controllersMap = {};
+
+    // Iterar sobre la lista de grupos
+    for (var grupo in grupos) {
+      // Obtener los IDs de los estudiantes en el grupo
+      List<int> studentIds = [grupo.idEstudiante1!, grupo.idEstudiante2!];
+
+      // Si el grupo tiene dos estudiantes, combinar sus IDs y crear un TextEditingController
+      String combinedIds = "${studentIds[0]},${studentIds[1]}";
+      controllersMap[combinedIds] =
+          TextEditingController(text: "Valor inicial para $combinedIds");
+    }
+
+    // Iterar sobre la lista de estudiantes individuales
+    for (var estudiante in estudiantes) {
+      // Verificar si el estudiante no está en ningún grupo
+      if (!grupos.any((grupo) =>
+          grupo.idEstudiante1 == estudiante.id ||
+          grupo.idEstudiante2 == estudiante.id)) {
+        // Si el estudiante no está en ningún grupo, crear un TextEditingController para él y agregarlo al mapa
+        controllersMap[estudiante.id.toString()] =
+            TextEditingController(text: "Valor inicial para ${estudiante.id}");
+      }
+    }
+
+    return controllersMap;
+  }
+
+  TextEditingController? getControllerForStudentId(
+      int studentId, Map<String, TextEditingController> controllersMap) {
+    // Buscar el estudiante en las claves del mapa
+    for (var key in controllersMap.keys) {
+      // Separar los IDs de la clave por coma
+      List<String> ids = key.split(',');
+      // Verificar si el ID del estudiante coincide con alguno de los IDs en la clave
+      if (ids.contains('$studentId')) {
+        // Retornar el TextEditingController correspondiente
+        return controllersMap[key];
+      }
+    }
+    // Si no se encuentra ningún TextEditingController para el estudiante
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final grupos = context.watch<GrupoEstudiantesCubit>().state;
+
+    Map<String, TextEditingController> controllersMap =
+        createControllersMap(grupos, widget.estudiantes);
+
+    print('$controllersMap');
     return Scrollbar(
       thumbVisibility: true,
       controller: _scrollController,
@@ -291,22 +349,38 @@ class _DataTableWidgetState extends State<DataTableWidget> {
         peso = 0;
       }
 
-      cells.add(
-        DataCell(
-          Container(
-            width: 48.0,
-            alignment: Alignment.center,
-            child: Text(
-              peso.toString(),
-              style: TextStyle(color: Colors.white),
-            ),
-            decoration: BoxDecoration(
-              color: cellColor,
-              borderRadius: BorderRadius.circular(8.0),
+      if (activity.tipoActividad == 'Desconectada') {
+        // Llamar a esta función cuando se cambie el valor en el NumberPicker
+        cells.add(DataCell(
+          NumberInputPrefabbed.leafyButtons(
+            controller: TextEditingController(),
+            initialValue: 1,
+            min: 1,
+            max: 4,
+            onChanged: (value) {
+              TextEditingController().text = value.toString();
+            },
+            incDecBgColor: orangeColor,
+          ),
+        ));
+      } else {
+        cells.add(
+          DataCell(
+            Container(
+              width: 48.0,
+              alignment: Alignment.center,
+              child: Text(
+                peso.toString(),
+                style: TextStyle(color: Colors.white),
+              ),
+              decoration: BoxDecoration(
+                color: cellColor,
+                borderRadius: BorderRadius.circular(8.0),
+              ),
             ),
           ),
-        ),
-      );
+        );
+      }
 
       // Agregar el valor numérico de la actividad a la lista
       activityValues.add(peso);
@@ -335,6 +409,14 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     );
 
     return cells;
+  }
+
+  // Función para manejar los cambios en el TextField
+  void handleNumberPickerChange(
+      int actividadId, int estudianteId, String text) {
+    // Aquí puedes hacer lo que necesites con la información recibida
+    print(
+        'Actividad ID: $actividadId, Estudiante ID: $estudianteId, Texto: $text');
   }
 
   Color asignarColor(int colIndex) {

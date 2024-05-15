@@ -46,122 +46,30 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,
     );
-    _cursosProfesoresCasoUso.obtenerCursosYProfesoresYUnidades(widget.cursoId);
-    _simularCarga();
+    _cursosProfesoresCasoUso
+        .obtenerCursosYProfesoresYUnidades(widget.cursoId)
+        .then((value) => setState(() => _isLoading = false));
   }
 
-  Future<void> _simularCarga() async {
-    // Simular una carga de 5 segundos
-    await Future.delayed(Duration(seconds: 2));
-    setState(() {
-      _isLoading = false;
-    });
-  }
-
-/*
-  void _fetchCurso() async {
-    /* forma local */
-    try {
-      if (context.read<BDCursosCubit>().state.isEmpty) {
-        //Cuando la BDCursosCubit esta vacia y se trae toda la info
-        final cursos = await cursosCasoUso.getCursos();
-        context.watch<BDCursosCubit>().subirCursos(cursos);
-        final profesores = await profesorCasoUso.getProfesores();
-        context.watch<ProfesoresCubit>().subirProfesores(profesores);
-        // buscar en cursos el curso con el id correspondiente
-        final curso = cursos.firstWhere((c) => c.id == widget.cursoId);
-        context.watch<CursoCubit>().actualizarCurso(curso);
-        context.watch<UnidadesCubit>().subirUnidades(curso.unidades!);
-        context.watch<RolCubit>().actualizarRol("estudiante");
-      } else {
-        final profesores = await profesorCasoUso.getProfesores();
-        context.read<ProfesoresCubit>().subirProfesores(profesores);
-        final cursos = context.read<BDCursosCubit>().state;
-        // buscar en cursos el curso con el id correspondiente
-        final curso = cursos.firstWhere((c) => c.id == widget.cursoId);
-        context.read<CursoCubit>().actualizarCurso(curso);
-        context.read<UnidadesCubit>().subirUnidades(curso.unidades!);
-        context.read<RolCubit>().actualizarRol("estudiante");
-      }
-
-      if (context.read<SeguimientosEstudiantesCubit>().state.isEmpty) {
-        context.watch<SeguimientosEstudiantesCubit>().subirSeguimientos([
-          Seguimiento(
-              id: 1,
-              respuestasActividades: List.generate(80, (index) => -1),
-              test: [],
-              calificacion: 0,
-              userId: 1,
-              cursoId: 1),
-          Seguimiento(
-              id: 2,
-              respuestasActividades: List.generate(80, (index) => -1),
-              test: [],
-              calificacion: 0,
-              userId: 2,
-              cursoId: 1),
-          Seguimiento(
-              id: 3,
-              respuestasActividades: List.generate(80, (index) => -1),
-              test: [],
-              calificacion: 0,
-              userId: 3,
-              cursoId: 1),
-          Seguimiento(
-              id: 4,
-              respuestasActividades: List.generate(80, (index) => -1),
-              test: [],
-              calificacion: 0,
-              userId: 4,
-              cursoId: 1),
-          Seguimiento(
-              id: 5,
-              respuestasActividades: List.generate(80, (index) => -1),
-              test: [],
-              calificacion: 0,
-              userId: 5,
-              cursoId: 1),
-          Seguimiento(
-              id: 6,
-              respuestasActividades: List.generate(80, (index) => -1),
-              test: [],
-              calificacion: 0,
-              userId: 6,
-              cursoId: 1),
-        ]);
-      }
-    } catch (e) {
-      // Manejo de errores, puedes mostrar un mensaje de error
-      print('Error al obtener cursos: $e');
-    }
-  }
-  */
-
-  /*
-
-  bool isSesioCentinela = true;
-  Future<void> isSesion() async {
-    if (!await _cursosProfesoresCasoUso.isSesion()) {
-      setState(() {
-        isSesioCentinela = false;
-        GoRouter.of(context).go('/');
-      });
-    }
-  }
-*/
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
-   
+
     final cursoCubit = context.watch<CursoCubit>();
     final rol = context.read<RolCubit>().state;
+
     final profesoresCubit = context.watch<ProfesoresCubit>();
     String? nombreProfesor = profesoresCubit.state
         .firstWhere((profesor) => profesor.id == cursoCubit.state.profesor)
         .nombre;
-    int? profesorId= profesoresCubit.state
+    int? profesorId = profesoresCubit.state
         .firstWhere((profesor) => profesor.id == cursoCubit.state.profesor)
         .id;
+
+    context.read<EstudiantesCubit>().subirEstudiantes([
+      cursoCubit.state.estudiantes!
+          .firstWhere((element) => profesorId == element.id)
+    ]);
 
     late EstudiantesCubit estudiantesCubit;
     List<String> avatares = [];
@@ -177,27 +85,26 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
           .avatar!);
     }
 
-    return 
-        DefaultTabController(
-            length: 2, // Número de pestañas
-            child: Scaffold(
-              backgroundColor: thirtyColor,
-              appBar: CustomNavigationBarPanelCurso(
-                cursoName: 'Mundo PC',
-                cursoId: widget.cursoId,
-                userName: rol == 'estudiante'
-                    ? estudiantesCubit.obtenerNombres()
-                    : nombreProfesor!,
-                profesorId: rol == 'profesor'
-                    ? profesorId!
-                    : 0,
-                userAvatars: avatares,
-                onLogout: () {
-                  // Aquí implementa la lógica para cerrar sesión
-                  print('Cerrar sesión');
-                },
-              ),
-              body: SingleChildScrollView(
+    return DefaultTabController(
+      length: 2, // Número de pestañas
+      child: Scaffold(
+        backgroundColor: thirtyColor,
+        appBar: CustomNavigationBarPanelCurso(
+          cursoName: 'Mundo PC',
+          cursoId: widget.cursoId,
+          userName: rol == 'estudiante'
+              ? estudiantesCubit.obtenerNombres()
+              : nombreProfesor!,
+          profesorId: rol == 'profesor' ? profesorId! : 0,
+          userAvatars: avatares,
+          onLogout: () {
+            // Aquí implementa la lógica para cerrar sesión
+            print('Cerrar sesión');
+          },
+        ),
+        body: _isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
                 child: Column(
                   children: [
                     // Encabezado (header)
@@ -377,10 +284,10 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
                                       : 'Seguimiento',
                                   onPressed: () {
                                     if (rol == 'estudiante') {
-                                      router.push(
+                                      router.go(
                                           '/seguimientoestudiante/${cursoCubit.state.id}');
                                     } else {
-                                      router.push(
+                                      router.go(
                                           '/seguimientoprofesor/${cursoCubit.state.id}');
                                     }
                                   })),
@@ -436,9 +343,8 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
                   ],
                 ),
               ),
-            ),
-          )
-       ;
+      ),
+    );
   }
 
   Widget cardInfoCurso(

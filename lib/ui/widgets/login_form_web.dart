@@ -1,19 +1,47 @@
 import 'package:dev_tesis/constants/styles.dart';
+import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
+import 'package:dev_tesis/domain/model/profesor.dart';
+import 'package:dev_tesis/main.dart';
+import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
   LoginForm({Key? key}) : super(key: key);
 
+  @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
+
   final TextEditingController emailEditingController = TextEditingController();
+
   final TextEditingController pwdEditingController = TextEditingController();
+
+  late InitData _cursosProfesoresCasoUso;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _cursosProfesoresCasoUso = InitData(
+      cursosCasoUso: getIt<CursosCasoUso>(),
+      profesorCasoUso: getIt<ProfesorCasoUso>(),
+      context: context,
+    );
+    _cursosProfesoresCasoUso.obtenerCursosYProfesores();
+  }
 
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
+    final profesoresCubit = context.watch<ProfesoresCubit>().state;
 
     return Padding(
       padding: const EdgeInsets.all(20.0),
@@ -28,7 +56,7 @@ class LoginForm extends StatelessWidget {
           ),
           const Text(
             "Ingresa y que el aprendizaje continue.\nInnovació́n, creatividad y enseñanza.",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400), 
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
           ),
           const SizedBox(
             height: 30,
@@ -109,16 +137,20 @@ class LoginForm extends StatelessWidget {
                   height: 10,
                 ),
                 PixelLargeBttn(
-                        path: "assets/items/ButtonBlue.png",
-                        onPressed: () async {
-                        
-
-                          if (emailEditingController.text.isNotEmpty && pwdEditingController.text.isNotEmpty) {
-                            //Call sign in method of firebase & open home screen based on successfull login
-                              _login(emailEditingController.text, pwdEditingController.text, context, router);
-                          }
-                        },
-                        text: 'Ingresar'),
+                    path: "assets/items/ButtonBlue.png",
+                    onPressed: () async {
+                      if (emailEditingController.text.isNotEmpty &&
+                          pwdEditingController.text.isNotEmpty) {
+                        //Call sign in method of firebase & open home screen based on successfull login
+                        _login(
+                            emailEditingController.text,
+                            pwdEditingController.text,
+                            context,
+                            router,
+                            profesoresCubit);
+                      }
+                    },
+                    text: 'Ingresar'),
                 const SizedBox(
                   height: 10,
                 ),
@@ -156,24 +188,40 @@ class LoginForm extends StatelessWidget {
     );
   }
 
-  Future<void> _login(String email, String password, BuildContext context, GoRouter router, ) async {
-  try {
-    UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    // Si el inicio de sesión es exitoso, puedes acceder al usuario actual a través de userCredential.user
-    //Toast
-     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text('Bienvenido de nuevo a Mundo PC!'),
-                        ));
+  Future<void> _login(
+    String email,
+    String password,
+    BuildContext context,
+    GoRouter router,
+    List<Profesor> profesoresCubit,
+  ) async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      final profesorCubit = context.read<ProfesorCubit>();
+      profesorCubit.actualizarProfesor(
+          profesoresCubit.firstWhere((element) => element.email == email));
+      // Si el inicio de sesión es exitoso, puedes acceder al usuario actual a través de userCredential.user
+      //Toast
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Bienvenido de nuevo a Mundo PC!'),
+      ));
 
-                         router.go('/crearcursobienvenida');
-  } catch (e) {
-    // Manejar cualquier error que ocurra durante el inicio de sesión
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text('Ups! Algo salio mal, intentalo de nuevo.'),
-                        ));
+      // espera 5 segundos para imprimir hola
+      await Future.delayed(const Duration(seconds: 2));
+
+      int? profesorId =
+          profesoresCubit.firstWhere((element) => element.email == email).id;
+
+      router.go('/panelprofesor/$profesorId');
+    } catch (e) {
+      // Manejar cualquier error que ocurra durante el inicio de sesión
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Ups! Algo salio mal, intentalo de nuevo.'),
+      ));
+    }
   }
-}
 }
