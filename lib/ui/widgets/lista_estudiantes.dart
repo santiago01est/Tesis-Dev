@@ -87,8 +87,8 @@ class _ListaEstudiantesWidgetState extends State<ListaEstudiantesWidget> {
                                         },
                                         child: CircleAvatar(
                                           radius: 20,
-                                          backgroundImage: AssetImage(
-                                              state.estudiantes![index].avatar!),
+                                          backgroundImage: AssetImage(state
+                                              .estudiantes![index].avatar!),
                                         ),
                                       ),
                                       title: Text(
@@ -97,7 +97,7 @@ class _ListaEstudiantesWidgetState extends State<ListaEstudiantesWidget> {
                                         icon: Icon(Icons.delete,
                                             color: orangeColor),
                                         onPressed: () {
-                                          eliminarEstudiante(index);
+                                          //eliminarEstudiante(index);
                                         },
                                       ),
                                     );

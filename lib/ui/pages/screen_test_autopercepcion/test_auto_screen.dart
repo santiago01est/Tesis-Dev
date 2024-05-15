@@ -89,6 +89,7 @@ class _TestAutoPercepcionScreenState extends State<TestAutoPercepcionScreen> {
 
   //lista de para guardar las respuestas de 13 posiciones
   List<int> _selectedOptions = List.filled(13, -1);
+  CursosCasoUso cursoCs = getIt<CursosCasoUso>();
 
   @override
   Widget build(BuildContext context) {
@@ -97,6 +98,7 @@ class _TestAutoPercepcionScreenState extends State<TestAutoPercepcionScreen> {
     final rol = context.read<RolCubit>().state;
     final cursoCubit = context.watch<CursoCubit>();
     final estudiantes = context.read<EstudiantesCubit>();
+    final seguimientosCubit = context.read<SeguimientosEstudiantesCubit>();
     List<String> avatares = [];
     for (var estudiante in estudiantes.state) {
       avatares.add(estudiante.avatar!);
@@ -968,6 +970,11 @@ class _TestAutoPercepcionScreenState extends State<TestAutoPercepcionScreen> {
                                             .read<EstudiantesCubit>()
                                             .obtenerIds(),
                                         _selectedOptions);
+                                actualizarCambiosSeguimientos(
+                                    context,
+                                    _selectedOptions,
+                                    estudiantes,
+                                    cursoCubit.state.id!);
                                 if (rol == 'estudiante') {
                                   router.push(
                                       '/seguimientoestudiante/${cursoCubit.state.id}');
@@ -996,6 +1003,15 @@ class _TestAutoPercepcionScreenState extends State<TestAutoPercepcionScreen> {
         ],
       ),
     );
+  }
+
+  actualizarCambiosSeguimientos(BuildContext context, List<int> respuestas,
+      EstudiantesCubit estudiantes, int cursoId) {
+    //guardar en la base de datos FB si es diferente del curso demo
+    if (cursoId != 1) {
+      cursoCs.actualizarRespuestaTest(
+          cursoId, estudiantes.obtenerIds(), respuestas);
+    }
   }
 }
 

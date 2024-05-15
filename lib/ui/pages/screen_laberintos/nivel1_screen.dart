@@ -30,6 +30,7 @@ class Laberinto extends StatefulWidget {
 class _LaberintoState extends State<Laberinto> {
   CursosCasoUso cursoCs = getIt<CursosCasoUso>();
   int calificacion = -1;
+  bool _mostrarPista = true;
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
@@ -73,6 +74,36 @@ class _LaberintoState extends State<Laberinto> {
         unidadesCubit.nombreUnidadDeActividad(actividadLaberinto!.id!);
     String nombreArchivo = actividadLaberinto.nombreArchivo!;
     movementInstructionsCubit.limpiarInstrucciones();
+
+    // Verificar si la actividad tiene una pista
+    if (actividadLaberinto.pista != null &&
+        actividadLaberinto.pista!.isNotEmpty &&
+        _mostrarPista) {
+      _mostrarPista = false;
+      // Mostrar el diálogo después de que se haya construido la pantalla
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        // Mostrar el diálogo después de que se haya construido la pantalla
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Información '),
+              content:
+                  Image.asset(actividadLaberinto!.pista!, fit: BoxFit.cover),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Cerrar'),
+                ),
+              ],
+            );
+          },
+        );
+      });
+    }
+
     return Scaffold(
       appBar: CustomNavigationBarActividad(
         cursoName: 'Mundo PC',
@@ -961,15 +992,15 @@ class _LaberintoState extends State<Laberinto> {
                                                 Future.delayed(
                                                     Duration(seconds: 2), () {
                                                   // ignore: use_build_context_synchronously
-                                                   _mostrarDialogoVictoria(
-                                                            context,
-                                                            router,
-                                                            unidadesCubit,
-                                                            actividadLaberinto!,
-                                                            seguimientosCubit,
-                                                            estudiantes,
-                                                            curso.state.id!,
-                                                            response);
+                                                  _mostrarDialogoVictoria(
+                                                      context,
+                                                      router,
+                                                      unidadesCubit,
+                                                      actividadLaberinto!,
+                                                      seguimientosCubit,
+                                                      estudiantes,
+                                                      curso.state.id!,
+                                                      response);
                                                 });
 /*
                                                 seguimientosCubit
@@ -1017,6 +1048,36 @@ class _LaberintoState extends State<Laberinto> {
                 ],
               ),
             ),
+
+      floatingActionButton: actividadLaberinto.pista != null &&
+              actividadLaberinto.pista!.isNotEmpty
+          ? FloatingActionButton(
+              onPressed: () {
+                // Acción al hacer clic en el botón flotante
+                // Aquí puedes mostrar el showDialog de la pista
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Información '),
+                      content: Image.asset(actividadLaberinto!.pista!,
+                          fit: BoxFit.cover),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('Cerrar'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: Icon(Icons.lightbulb),
+            )
+          : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 

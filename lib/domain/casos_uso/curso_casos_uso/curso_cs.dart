@@ -313,4 +313,27 @@ class CursosCasoUso {
       }
     }
   }
+
+  Future<void> actualizarRespuestaTest(int cursoId, List<int> estudianteId,
+      List<int> testRespuestas) async {
+    final collectionRef = FirebaseFirestore.instance.collection('seguimientos');
+
+    for (var estudiante in estudianteId) {
+      // Buscar documentos
+      final querySnapshot = await collectionRef
+          .where('cursoId', isEqualTo: cursoId)
+          .where('userId', isEqualTo: estudiante)
+          .get();
+
+// Iterar sobre los documentos encontrados (debería ser solo uno en este caso)
+      for (var doc in querySnapshot.docs) {
+        // Obtener la referencia al documento
+        final docRef = collectionRef.doc(doc.id);
+
+// agrega respuestas actualizadas al seguimiento
+// Actualizar el campo respuestasActividades en el documento de seguimiento
+        await docRef.update({'test': testRespuestas});
+      }
+    }
+  }
 }

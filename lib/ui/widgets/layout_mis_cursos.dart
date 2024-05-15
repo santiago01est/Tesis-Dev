@@ -71,7 +71,7 @@ class _LayoutMisCursosState extends State<LayoutMisCursos> {
                         return GestureDetector(
                           onTap: () {
                             if (rolCubit.state == 'profesor') {
-                              router.push('/panelcurso/${misCursos[index].id}');
+                              router.go('/panelcurso/${misCursos[index].id}');
                             } else {
                               if (context
                                   .read<EstudiantesCubit>()

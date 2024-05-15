@@ -14,6 +14,7 @@ import 'package:dev_tesis/ui/bloc/bd_demo.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/game/instrucciones_bloc.dart';
+import 'package:dev_tesis/ui/bloc/grupo_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
@@ -91,6 +92,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<SeguimientosEstudiantesCubit>(
           create: (context) => SeguimientosEstudiantesCubit(),
+        ),
+        BlocProvider<GrupoEstudiantesCubit>(
+          create: (context) => GrupoEstudiantesCubit(),
         ),
       ],
       child: MaterialApp.router(

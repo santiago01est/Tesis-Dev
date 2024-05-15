@@ -12,6 +12,7 @@ import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/grupo_bloc.dart';
+import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,10 @@ class _SeguimientoProfesorScreenState extends State<SeguimientoProfesorScreen> {
     );
     _cursosProfesoresCasoUso
         .obtenerCursosYProfesoresYUnidades(widget.cursoId)
-        .then((value) => setState(() => _isLoading = false));
+        .then((value) => setState(() {
+              context.read<RolCubit>().actualizarRol("profesor");
+              _isLoading = false;
+            }));
   }
 
   @override
@@ -266,12 +270,12 @@ class _DataTableWidgetState extends State<DataTableWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final grupos = context.watch<GrupoEstudiantesCubit>().state;
+    //final grupos = context.watch<GrupoEstudiantesCubit>().state;
 
     Map<String, TextEditingController> controllersMap =
-        createControllersMap(grupos, widget.estudiantes);
+        createControllersMap([], widget.estudiantes);
 
-    print('$controllersMap');
+    //print('$controllersMap');
     return Scrollbar(
       thumbVisibility: true,
       controller: _scrollController,
@@ -307,7 +311,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     // Agregar las columnas para las actividades
     columns.addAll(widget.actividades.map((activity) {
       return DataColumn(
-        label: Text('Act 11b'),
+        label: Text('Act ${activity.id! + 1}'),
       );
     }).toList());
 

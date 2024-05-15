@@ -7,10 +7,12 @@ import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_profesor_panel.dart';
+import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:dev_tesis/ui/widgets/layout_mis_cursos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class PanelPrincipalProfesorScreen extends StatefulWidget {
   final int profesorId;
@@ -43,6 +45,7 @@ class _PanelPrincipalProfesorScreenState
   @override
   Widget build(BuildContext context) {
     final profesorCubit = context.watch<ProfesorCubit>();
+    final router = GoRouter.of(context);
 
     return Scaffold(
       appBar: AppBarProfesorPanel(
@@ -141,6 +144,18 @@ class _PanelPrincipalProfesorScreenState
                             profesorId: widget.profesorId,
                           )),
                     ],
+                  ),
+                  Center(
+                    child: Container(
+                        width: 300,
+                        height: 100,
+                        margin: const EdgeInsets.symmetric(horizontal: 10),
+                        child: PixelLargeBttn(
+                            path: 'assets/items/ButtonBlue.png',
+                            onPressed: () {
+                              router.go('/crearcurso');
+                            },
+                            text: 'CREAR CURSO')),
                   ),
                 ],
               ),

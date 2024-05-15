@@ -245,7 +245,7 @@ class CursosDataAdapter extends CursoRepository {
                     descripcion: 'Lleva al pollito con su mamá.',
                     tipoActividad: 'Cuestionario',
                     dimension: 4,
-                    pista: 'assets/items/ejemplosImg/pistaCiclos.png',
+                    pista: 'assets/items/ejemplosImg/pistaCiclosDiag.png',
                     casillas: [
                       -1,
                       -1,
@@ -1009,7 +1009,7 @@ class CursosDataAdapter extends CursoRepository {
                     id: 16,
                     nombre: 'Primeros Pasos',
                     estado: 'Activa',
-                    pista: '',
+                    pista: 'assets/items/ejemplosImg/pistaAvanzar.png',
                     habilidades: [0, 0, 1, 1],
                     descripcion:
                         'Juan necesita de tu ayuda!\n\nGuíalo a encontrar a su gallina.',
@@ -1100,7 +1100,7 @@ class CursosDataAdapter extends CursoRepository {
                     id: 18,
                     nombre: 'Primeros Pasos',
                     estado: 'Activa',
-                    pista: '',
+                    pista: 'assets/items/ejemplosImg/pistaGirar.png',
                     habilidades: [1, 0, 1, 1],
                     descripcion:
                         'Tiempo de cosecha!\n\nAyuda a Juan para que llegue a su planta de calabaza 🎃.',
@@ -1206,7 +1206,7 @@ class CursosDataAdapter extends CursoRepository {
                     id: 20,
                     nombre: 'Primeros Pasos',
                     estado: 'Activa',
-                    pista: '',
+                    pista: 'assets/items/ejemplosImg/pistaRecoger.png',
                     habilidades: [0, 1, 1, 1],
                     descripcion:
                         'Juan necesita de tu ayuda!\n\nMamá pato ha perdido unos de sus huevos y Juan esta ayudandola a buscarlo. Recoge el huevo y llevalo con mamá pato.',
@@ -1328,7 +1328,7 @@ class CursosDataAdapter extends CursoRepository {
                     id: 22,
                     nombre: 'Primeros Pasos',
                     estado: 'Activa',
-                    pista: '',
+                    pista: 'assets/items/ejemplosImg/pistaRecoger.png',
                     habilidades: [0, 1, 1, 1],
                     descripcion:
                         'Juan necesita de tu ayuda!\n\nEl pequeño pollito Tito se ha perdido cerca del puente. Recogelo  y llévalo al gallinero.',
@@ -1475,7 +1475,7 @@ class CursosDataAdapter extends CursoRepository {
                     id: 25,
                     nombre: 'Primeros Pasos',
                     estado: 'Activa',
-                    pista: '',
+                    pista: 'assets/items/ejemplosImg/pistaGirar.png',
                     habilidades: [1, 1, 1, 1],
                     descripcion:
                         'Juan se fue a explorar un viejo templo.\n\nGuíalo a encontrar la entrada al templo.',
@@ -1577,7 +1577,7 @@ class CursosDataAdapter extends CursoRepository {
                     id: 27,
                     nombre: 'Primeros Pasos',
                     estado: 'Activa',
-                    pista: '',
+                    pista: 'assets/items/ejemplosImg/pistaRecoger.png',
                     habilidades: [0, 1, 1, 1],
                     descripcion:
                         'Jhon necesita de tu ayuda!\n\nGuialo para recoger la gema del sol que es de color amarilla.\n\nRecoge la bolsa con comida que encontraras en el camino.',
@@ -1720,7 +1720,7 @@ class CursosDataAdapter extends CursoRepository {
                     id: 29,
                     nombre: 'Primeros Pasos',
                     estado: 'Activa',
-                    pista: '',
+                    pista: 'assets/items/ejemplosImg/pistaCiclosLaberinto.png',
                     habilidades: [1, 1, 1, 1],
                     descripcion:
                         'Juan necesita de tu ayuda!\n\nGuíalo para recoger la gema del agua de color azul.\n\nPuedes recoger la llave para pasar por la puerta dorada y así llegar más rápido y recoger la gema.',
@@ -1909,7 +1909,7 @@ class CursosDataAdapter extends CursoRepository {
                     id: 31,
                     nombre: 'Primeros Pasos',
                     estado: 'Activa',
-                    pista: '',
+                    pista: 'assets/items/ejemplosImg/pistaCiclosLaberinto.png',
                     habilidades: [0, 1, 1, 1],
                     descripcion:
                         'Juan necesita de tu ayuda!\n\nGuíalo para recoger la gema del fuego que es de color rojo, luego llegar a la salida.\n\nUsa las escaleras para llegar al otro lado del abismo y NO recogas la gema verde.',
@@ -2038,18 +2038,17 @@ class CursosDataAdapter extends CursoRepository {
         fechaCreacion: doc['fechaCreacion'],
         fechaFinalizacion: doc['fechaFinalizacion'],
         estado: doc['estado'],
-        estudiantes:(doc['estudiantes'] as List<dynamic>?)
-          ?.map((estudianteData) => Estudiante.fromFirestore(estudianteData))
-          .toList(),
-        unidades:[],
-
+        estudiantes: (doc['estudiantes'] as List<dynamic>?)
+            ?.map((estudianteData) => Estudiante.fromFirestore(estudianteData))
+            .toList(),
+        unidades: [],
       );
       int cursoId = doc.get('id');
       QuerySnapshot querySnapshotUnidades =
           await unidadesRef.where('cursoId', isEqualTo: cursoId).get();
       // Recorremos los documentos obtenidos de la consulta
-      
-      List<Unidad> unidadesModelo=[];     
+
+      List<Unidad> unidadesModelo = [];
       querySnapshotUnidades.docs.forEach((doc) {
         // Convertimos el documento a un mapa y lo agregamos a la lista de unidadesFB
         Map<String, dynamic> unidadFB = doc.data() as Map<String, dynamic>;
@@ -2060,27 +2059,28 @@ class CursosDataAdapter extends CursoRepository {
           return actividad as Map<String, dynamic>;
         }).toList();
         //Instanciamos Actividades del Modelo
-            Unidad unidadModelo= Unidad(
-               id: unidadFB['id'],
+        Unidad unidadModelo = Unidad(
+          id: unidadFB['id'],
           nombre: unidadFB['nombre'],
           descripcion: unidadFB['descripcion'],
           estado: unidadFB['estado'],
           actividades: [],
           cursoId: unidadFB['cursoId'],
-            );
-      
-    List<Actividad> actividadesModelo = [];
+        );
+
+        List<Actividad> actividadesModelo = [];
         // recorrer actividadesFB
         for (var actividadFB in actividadesFB) {
           print(actividadFB);
-          if (actividadFB['tipoActividad']==('Laberinto')) {
+          if (actividadFB['tipoActividad'] == ('Laberinto')) {
             ActividadLaberinto actividadLaberinto = ActividadLaberinto(
               id: actividadFB['id'],
               nombre: actividadFB['nombre'],
               descripcion: actividadFB['descripcion'],
               estado: actividadFB['estado'],
               tipoActividad: actividadFB['tipoActividad'],
-              pesoRespuestas: converirAListaEnteros(actividadFB['pesoRespuestas']),
+              pesoRespuestas:
+                  converirAListaEnteros(actividadFB['pesoRespuestas']),
               habilidades: converirAListaEnteros(actividadFB['habilidades']),
               pista: actividadFB['pista'],
               nombreArchivo: actividadFB['nombreArchivo'],
@@ -2092,72 +2092,70 @@ class CursosDataAdapter extends CursoRepository {
             actividadesModelo.add(actividadLaberinto);
           }
           print(actividadFB['tipoActividad']);
-          if (actividadFB['tipoActividad']==('Cuestionario')) {
+          if (actividadFB['tipoActividad'] == ('Cuestionario')) {
             ActividadCuestionario actividadCuestionario = ActividadCuestionario(
               id: actividadFB['id'],
               nombre: actividadFB['nombre'],
               descripcion: actividadFB['descripcion'],
               estado: actividadFB['estado'],
               tipoActividad: actividadFB['tipoActividad'],
-              pesoRespuestas: converirAListaEnteros(actividadFB['pesoRespuestas']),
+              pesoRespuestas:
+                  converirAListaEnteros(actividadFB['pesoRespuestas']),
               habilidades: converirAListaEnteros(actividadFB['habilidades']),
               pista: actividadFB['pista'],
               dimension: actividadFB['dimension'],
               casillas: converirAListaEnteros(actividadFB['casillas']),
-              respuestas : converirALista(actividadFB['respuestas']),
+              respuestas: converirALista(actividadFB['respuestas']),
               ejercicioImage: actividadFB['ejercicioImage'],
               ejemploImage: actividadFB['ejemploImage'],
               respuestaCorrecta: actividadFB['respuestaCorrecta'],
-              
             );
 
             actividadesModelo.add(actividadCuestionario);
           }
 
-          if (actividadFB['tipoActividad']==('Desconectada')) {
+          if (actividadFB['tipoActividad'] == ('Desconectada')) {
             ActividadDesconectada actividadDesconectada = ActividadDesconectada(
               id: actividadFB['id'],
               nombre: actividadFB['nombre'],
               descripcion: actividadFB['descripcion'],
               estado: actividadFB['estado'],
               tipoActividad: actividadFB['tipoActividad'],
-              pesoRespuestas: converirAListaEnteros(actividadFB['pesoRespuestas']),
+              pesoRespuestas:
+                  converirAListaEnteros(actividadFB['pesoRespuestas']),
               habilidades: converirAListaEnteros(actividadFB['habilidades']),
               pista: actividadFB['pista'],
               ejercicioImage: actividadFB['ejercicioImage'],
               ejemploImage: actividadFB['ejemploImage'],
-              
             );
 
             actividadesModelo.add(actividadDesconectada);
           }
         }
 
-        unidadModelo.actividades=actividadesModelo;
+        unidadModelo.actividades = actividadesModelo;
 
         unidadesModelo.add(unidadModelo);
-        
       });
 
       //print('Mapapa $unidadesFB');
       //organizar unidades
-      List<Unidad> unidadesOrganizadas=  List<Unidad>.filled(3, Unidad( cursoId: 1));
-;
-      for(var unidad in unidadesModelo){
-        if(unidad.nombre=='Unidad \nDiagnóstico'){
-          unidadesOrganizadas[0]=unidad;
+      List<Unidad> unidadesOrganizadas =
+          List<Unidad>.filled(3, Unidad(cursoId: 1));
+      ;
+      for (var unidad in unidadesModelo) {
+        if (unidad.nombre == 'Unidad \nDiagnóstico') {
+          unidadesOrganizadas[0] = unidad;
         }
-         if(unidad.nombre=='Unidad 1'){
-          unidadesOrganizadas[1]=unidad;
+        if (unidad.nombre == 'Unidad 1') {
+          unidadesOrganizadas[1] = unidad;
         }
-         if(unidad.nombre=='Unidad 2'){
-          unidadesOrganizadas[2]=unidad;
+        if (unidad.nombre == 'Unidad 2') {
+          unidadesOrganizadas[2] = unidad;
         }
-
       }
-      
 
-      miCurso.unidades=unidadesOrganizadas;
+      miCurso.unidades = unidadesOrganizadas;
       cursos.add(miCurso);
 
       //cursos.add(Curso.fromFirestore(doc));

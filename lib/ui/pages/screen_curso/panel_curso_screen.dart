@@ -39,8 +39,8 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
   bool _isLoading = true;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
 
     _cursosProfesoresCasoUso = InitData(
       cursosCasoUso: getIt<CursosCasoUso>(),
@@ -68,14 +68,15 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
     int? profesorId = profesoresCubit.state
         .firstWhere((profesor) => profesor.id == cursoCubit.state.profesor)
         .id;
-
-    context.read<EstudiantesCubit>().subirEstudiantes([
-      Estudiante(
-          id: yoProfesor.id!,
-          nombre: yoProfesor.nombre!,
-          avatar: yoProfesor.avatar!,
-          genero: 'Otro')
-    ]);
+    if (rol == 'profesor') {
+      context.read<EstudiantesCubit>().subirEstudiantes([
+        Estudiante(
+            id: yoProfesor.id!,
+            nombre: yoProfesor.nombre!,
+            avatar: yoProfesor.avatar!,
+            genero: 'Otro')
+      ]);
+    }
 
     late EstudiantesCubit estudiantesCubit;
     List<String> avatares = [];

@@ -78,7 +78,7 @@ class _SeguimientoEstudianteScreenState
             children: [
               // Boton que al dar cli aparezca una ventana
               // con el nombre del curso
-              
+/*
               Center(
                 child: ElevatedButton(
                   onPressed: () {
@@ -103,9 +103,7 @@ class _SeguimientoEstudianteScreenState
                   child: Text('Nombre del Curso'),
                 ),
               ),
-
-              
-
+*/
               Center(
                 child: TitleText(text: '${cursoCubit.state.nombre}'),
               ),
@@ -229,7 +227,10 @@ class DataTableWidget extends StatefulWidget {
   final List<Seguimiento> seguimientos;
 
   const DataTableWidget(
-      {super.key, required this.estudiantes, required this.actividades,  required this.seguimientos});
+      {super.key,
+      required this.estudiantes,
+      required this.actividades,
+      required this.seguimientos});
   @override
   _DataTableWidgetState createState() => _DataTableWidgetState();
 }
@@ -274,7 +275,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     // Agregar las columnas para las actividades
     columns.addAll(widget.actividades.map((activity) {
       return DataColumn(
-        label: Text('Act 11b'),
+        label: Text('Act ${activity.id! + 1}'),
       );
     }).toList());
 
@@ -305,9 +306,8 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     widget.actividades.forEach((activity) {
       Color cellColor = asignarColor(activity.id!);
 
-      Seguimiento seguimiento =
-          widget.seguimientos.firstWhere((element) => element.userId == student.id);
-
+      Seguimiento seguimiento = widget.seguimientos
+          .firstWhere((element) => element.userId == student.id);
 
       Respuesta miRespuesta = seguimiento.respuestasActividades!
           .firstWhere((element) => element.actividadId == activity.id);
