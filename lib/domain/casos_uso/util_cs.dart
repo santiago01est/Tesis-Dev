@@ -79,11 +79,11 @@ class InitData {
   }
 
   Future<void> _fetchCursos() async {
-    final cursosBDCubit = context.read<BDCursosCubit>();
+    context.read<BDCursosCubit>();
 
     try {
       final cursos = await cursosCasoUso.getCursos();
-      cursosBDCubit.subirCursos(cursos);
+      context.read<BDCursosCubit>().subirCursos(cursos);
     } catch (e) {
       // Manejo de errores, puedes mostrar un mensaje de error
       print('Error al obtener cursos: $e');

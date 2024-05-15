@@ -29,14 +29,12 @@ class _LayoutMisCursosState extends State<LayoutMisCursos> {
   bool _isLoading = true;
 
   @override
-  @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
-    final BDCursosCubit bdCursosCubit = context.watch<BDCursosCubit>();
     //obtener solo los cursos del profesor
-    final cursosCubit = bdCursosCubit.state;
-    final rolCubit = context.watch<RolCubit>();
-    final profesorCubit = context.watch<ProfesorCubit>();
+    List<Curso>  cursosCubit = context.read<BDCursosCubit>().state;
+    final rolCubit = context.read<RolCubit>();
+    final profesorCubit = context.read<ProfesorCubit>();
 
     List<Curso> misCursos = [];
 
@@ -45,6 +43,8 @@ class _LayoutMisCursosState extends State<LayoutMisCursos> {
         misCursos.add(cursosCubit[i]);
       }
     }
+
+  
 
     return SingleChildScrollView(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
