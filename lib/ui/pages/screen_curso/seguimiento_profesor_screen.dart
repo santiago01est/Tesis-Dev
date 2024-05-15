@@ -51,11 +51,11 @@ class _SeguimientoProfesorScreenState extends State<SeguimientoProfesorScreen> {
     final router = GoRouter.of(context);
     final cursoCubit = context.read<CursoCubit>();
     final totalEstudiantes = cursoCubit.state.estudiantes!;
-    /*
+
     final estudianteProfesorSeguimiento =
         context.read<EstudiantesCubit>().state[0];
     totalEstudiantes.add(estudianteProfesorSeguimiento);
-    */
+
     final seguimientos = context.read<SeguimientosEstudiantesCubit>().state;
 
     return Scaffold(

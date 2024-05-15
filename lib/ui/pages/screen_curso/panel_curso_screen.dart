@@ -4,6 +4,7 @@ import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/unidad_casos_uso/unidad_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
+import 'package:dev_tesis/domain/model/profesor.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
@@ -59,6 +60,8 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
     final rol = context.read<RolCubit>().state;
 
     final profesoresCubit = context.watch<ProfesoresCubit>();
+    Profesor yoProfesor = profesoresCubit.state
+        .firstWhere((profesor) => profesor.id == cursoCubit.state.profesor);
     String? nombreProfesor = profesoresCubit.state
         .firstWhere((profesor) => profesor.id == cursoCubit.state.profesor)
         .nombre;
@@ -67,8 +70,11 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
         .id;
 
     context.read<EstudiantesCubit>().subirEstudiantes([
-      cursoCubit.state.estudiantes!
-          .firstWhere((element) => profesorId == element.id)
+      Estudiante(
+          id: yoProfesor.id!,
+          nombre: yoProfesor.nombre!,
+          avatar: yoProfesor.avatar!,
+          genero: 'Otro')
     ]);
 
     late EstudiantesCubit estudiantesCubit;

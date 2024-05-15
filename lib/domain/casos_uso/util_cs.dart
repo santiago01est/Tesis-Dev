@@ -63,14 +63,14 @@ class InitData {
       await fetchProfesores();
       await _fetchCursoYUnidad(cursoId);
       await _fetchSeguimientosCurso(cursoId);
-      await _fetchGruposCurso(cursoId);
+      // await _fetchGruposCurso(cursoId);
 
       //Obtener sesion estudiantes si el rol es estudiante
       // Leer y mostrar la lista guardada
     } else {
       await _fetchCursoYUnidad(cursoId);
       await _fetchSeguimientosCurso(cursoId);
-      await _fetchGruposCurso(cursoId);
+      //await _fetchGruposCurso(cursoId);
     }
 
     // subir seguimientos para Demo
@@ -134,6 +134,20 @@ class InitData {
   Future<void> _fetchCursoYUnidad(int cursoId) async {
     /* forma local */
 
+    final gruposCubit = context.read<GrupoEstudiantesCubit>();
+    final ref = FirebaseFirestore.instance
+        .collection("grupos")
+        .where('cursoId', isEqualTo: cursoId);
+
+    final querySnapshot = await ref.get();
+
+    final List<Grupo> grupos = querySnapshot.docs.map((doc) {
+      final grupo = Grupo.fromFirestore(doc);
+      return grupo;
+    }).toList();
+
+    gruposCubit.actualizarGrupos(grupos);
+
     try {
       final cursos = context.read<BDCursosCubit>().state;
       // buscar en cursos el curso con el id correspondiente
@@ -188,7 +202,7 @@ class InitData {
   }
   */
 
-  Future<void> _fetchGruposCurso(int cursoId) async {
+  Future<void> fetchGruposCurso(int cursoId) async {
     final gruposCubit = context.read<GrupoEstudiantesCubit>();
     final ref = FirebaseFirestore.instance
         .collection("grupos")
