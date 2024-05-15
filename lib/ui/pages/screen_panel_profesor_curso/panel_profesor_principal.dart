@@ -28,9 +28,9 @@ class _PanelPrincipalProfesorScreenState
   late InitData _cursosProfesoresCasoUso;
   bool _isLoading = true;
 
-  @override
-  void initState() {
-    super.initState();
+ @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
 
     _cursosProfesoresCasoUso = InitData(
       cursosCasoUso: getIt<CursosCasoUso>(),

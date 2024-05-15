@@ -1238,7 +1238,7 @@ class CursosDataAdapter extends CursoRepository {
                         'Tiempo de cosecha!. Juan necesita llegar al árbol de mandarinas, pero antes debe recoger la canasta.',
                     tipoActividad: 'Cuestionario',
                     dimension: 6,
-                    ejemploImage: 'ejemplocuestionarioN6REcogerGiros.png',
+                    ejemploImage: 'ejemplocuestionarioN6RecogerGiros.png',
                     ejercicioImage: '',
                     casillas: [
                       25,
@@ -1331,7 +1331,7 @@ class CursosDataAdapter extends CursoRepository {
                     pista: 'assets/items/ejemplosImg/pistaRecoger.png',
                     habilidades: [0, 1, 1, 1],
                     descripcion:
-                        'Juan necesita de tu ayuda!\n\nEl pequeño pollito Tito se ha perdido cerca del puente. Recogelo  y llévalo al gallinero.',
+                        'Juan necesita de tu ayuda!\n\nEl pequeño pollito Tito se ha perdido cerca del puente. Recógelo  y llévalo al gallinero.',
                     tipoActividad: 'Laberinto',
                     nombreArchivo: "Laberinto4",
                     mejorCamino: [

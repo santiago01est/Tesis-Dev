@@ -55,7 +55,7 @@ class BannerInfoActividades extends StatelessWidget {
                                 color: blueColor,
                                 opacidad: habilidades[0] == 0 ? 0.4 : 1),
                             TagMiniCard(
-                                text: 'Descomposicion',
+                                text: 'Descomposición',
                                 color: orangeColor,
                                 opacidad: habilidades[1] == 0 ? 0.4 : 1),
                             TagMiniCard(

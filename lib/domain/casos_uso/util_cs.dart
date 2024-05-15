@@ -125,7 +125,11 @@ class InitData {
 
       context.read<EstudiantesCubit>().subirEstudiantes([yoEstudiante]);
       */
-      await _fetchCursos();
+       if (context.read<BDCursosCubit>().state.isEmpty) {
+        await _fetchCursos();
+
+       }
+      
       await fetchProfesores();
     } catch (e) {
       // Manejo de errores, puedes mostrar un mensaje de error

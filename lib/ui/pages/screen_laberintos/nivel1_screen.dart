@@ -160,11 +160,11 @@ class _LaberintoState extends State<Laberinto> {
                                         //color: Colors.green,
                                         margin: const EdgeInsets.all(10),
                                         width: double.infinity,
-                                        height: 250,
+                                        height: 260,
                                         child: Stack(
                                           children: [
                                             FractionallySizedBox(
-                                              heightFactor: 0.6,
+                                              heightFactor: 0.7,
                                               child: Container(
                                                 decoration: BoxDecoration(
                                                   borderRadius:
@@ -178,7 +178,7 @@ class _LaberintoState extends State<Laberinto> {
                                                       top: 20,
                                                       left: 20,
                                                       right: 60,
-                                                      bottom: 20),
+                                                      bottom: 10),
                                                   child: Text(
                                                     actividadLaberinto
                                                         .descripcion!,
@@ -193,13 +193,13 @@ class _LaberintoState extends State<Laberinto> {
                                               ),
                                             ),
                                             Positioned(
-                                              right: 30,
+                                              right: 20,
                                               bottom: 0,
                                               child: Image.asset(
                                                   'assets/friends/Pajarito-colombiano.png', // Reemplaza con la ruta de tu imagen en assets
                                                   fit: BoxFit.cover,
-                                                  width: 150,
-                                                  height: 150),
+                                                  width: 100,
+                                                  height: 100),
                                             ),
                                           ],
                                         ),
