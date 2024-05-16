@@ -85,10 +85,15 @@ class _ListaEstudiantesWidgetState extends State<ListaEstudiantesWidget> {
                                               RutasImagenes.getRutasAvatares(),
                                               actualizarAvatarEstudiante);
                                         },
-                                        child: CircleAvatar(
-                                          radius: 20,
-                                          backgroundImage: AssetImage(state
-                                              .estudiantes![index].avatar!),
+                                        child: Container(
+                                          width: 50,
+                                          height: 50,
+                                          child: CircleAvatar(
+                                            
+                                            radius: 20,
+                                            backgroundImage: AssetImage(state
+                                                .estudiantes![index].avatar!, ), 
+                                          ),
                                         ),
                                       ),
                                       title: Text(

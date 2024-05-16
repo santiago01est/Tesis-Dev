@@ -36,7 +36,11 @@ class AppBarProfesorPanel extends StatelessWidget
                         onTap: () {
                           router.go('/inicio');
                         },
-                        child: const SubtitleText(text: 'Inicio')),
+                        child: const MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: SubtitleText(text: 'Inicio'),
+                  ),),
+                        
                     
                     const SizedBox(
                       width: 50,

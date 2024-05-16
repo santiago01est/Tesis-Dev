@@ -11,7 +11,6 @@ import 'package:dev_tesis/domain/repository/curso_repository.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
-import 'package:dev_tesis/ui/bloc/grupo_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
@@ -56,7 +55,7 @@ class _SeguimientoProfesorScreenState extends State<SeguimientoProfesorScreen> {
 
 
           context.read<EstudiantesCubit>().subirEstudiantes([yoEstudiante]);
-          print("EEE ${context.read<EstudiantesCubit>().state}");
+          
               context.read<RolCubit>().actualizarRol("profesor");
               _isLoading = false;
             }));
@@ -267,8 +266,6 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     return controllersMap;
   }
 
- 
-
   TextEditingController? getControllerForStudentId(
       int studentId, Map<String, TextEditingController> controllersMap) {
     // Buscar el estudiante en las claves del mapa
@@ -285,12 +282,10 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     return null;
   }
 
+
   @override
   Widget build(BuildContext context) {
-    //final grupos = context.watch<GrupoEstudiantesCubit>().state;
-
-   
-
+    
     //print('$controllersMap');
     return Scrollbar(
       thumbVisibility: true,
@@ -330,7 +325,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     // Agregar las columnas para las actividades
     columns.addAll(widget.actividades.map((activity) {
       return DataColumn(
-        label: Text('Act ${activity.id! + 1}'),
+        label: Text('Act ${activity.id! }'),
       );
     }).toList());
 
@@ -361,6 +356,8 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     widget.estudiantes,
   );
 
+  List<String> promedios=List.filled(widget.estudiantes.length, '1');
+
     // Agregar las celdas para las actividades con números aleatorios
     List<int> activityValues =
         []; // Lista para almacenar los valores de actividades
@@ -389,11 +386,20 @@ class _DataTableWidgetState extends State<DataTableWidget> {
             
             child: NumberInputPrefabbed.directionalButtons(
               controller: controller!,
-              initialValue: 1,
+              initialValue: peso,
               min: 1,
               max: 4,
               onChanged: (value) {
                 controller.text = value.toString();
+                peso = int.parse(value.toString());
+                double total = activityValues.fold(0, (sum, value) => sum + value);
+                double average = total / activityValues.length;
+                setState(() {
+                  promedios[rowIndex] = average.toStringAsFixed(1);
+                  
+                });
+                
+                
                 actualizarSeguimiento(
                   value.toString(), student.id!, seguimiento.cursoId!, activity.id!
                 );
@@ -430,6 +436,8 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     // Calcular el promedio de los valores de las actividades
     double total = activityValues.fold(0, (sum, value) => sum + value);
     double average = total / activityValues.length;
+    promedios[rowIndex] = average.toStringAsFixed(1);
+    
 
     // Agregar la celda para el promedio al final
     cells.add(
@@ -438,7 +446,8 @@ class _DataTableWidgetState extends State<DataTableWidget> {
           width: 48.0,
           alignment: Alignment.center,
           child: Text(
-            average.toStringAsFixed(2), // Mostrar el promedio con dos decimales
+            promedios[rowIndex],
+            //average.toStringAsFixed(2), // Mostrar el promedio con dos decimales
             style: TextStyle(color: Colors.white),
           ),
           decoration: BoxDecoration(
@@ -451,6 +460,17 @@ class _DataTableWidgetState extends State<DataTableWidget> {
 
     return cells;
   }
+
+  void updateAverage() {
+  setState(() {
+    // Calcular el promedio de los valores de actividades actualizados
+    //double total = activityValues.fold(0, (sum, value) => sum + value);
+    //double average = total / activityValues.length;
+    // Actualizar el promedio en la tabla
+    // Puedes almacenar el promedio en una lista o un mapa y luego acceder a él en _buildCells
+    // para mostrarlo en la última celda de cada fila.
+  });
+}
 
   // Función para manejar los cambios en el TextField
   void handleNumberPickerChange(
