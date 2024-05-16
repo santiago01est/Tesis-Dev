@@ -54,6 +54,30 @@ class SeguimientosEstudiantesCubit extends Cubit<List<Seguimiento>> {
     }).toList());
   }
 
+ void actualizarCalificacionActividadSeguimiento(int userId, int actividadId, int nuevaCalificacion, int cursoId) {
+  emit(state.map((seguimiento) {
+    if (seguimiento.userId == userId && seguimiento.cursoId == cursoId) {
+      // Buscar la respuesta correspondiente a la actividad
+      final nuevasRespuestasActividades = seguimiento.respuestasActividades?.map((r) {
+        if (r.actividadId == actividadId) {
+          // Actualizar la calificación de la respuesta
+          return r.copyWith(
+            peso: nuevaCalificacion,
+          );
+        } else {
+          return r;
+        }
+      }).toList();
+      // Clonar el seguimiento para actualizar las respuestas
+      return seguimiento.copyWith(
+        respuestasActividades: nuevasRespuestasActividades,
+      );
+    } else {
+      return seguimiento;
+    }
+  }).toList());
+}
+
   void actualizarRespuestasTestEstudiantes(
       List<int> idsEstudiantes, List<int> respuestas) {
     emit(state.map((seguimiento) {

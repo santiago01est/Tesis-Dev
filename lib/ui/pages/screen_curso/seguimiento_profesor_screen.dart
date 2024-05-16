@@ -12,6 +12,7 @@ import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/grupo_bloc.dart';
+import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
@@ -45,6 +46,17 @@ class _SeguimientoProfesorScreenState extends State<SeguimientoProfesorScreen> {
     _cursosProfesoresCasoUso
         .obtenerCursosYProfesoresYUnidades(widget.cursoId)
         .then((value) => setState(() {
+          final cursoCubit = context.read<CursoCubit>();
+          final profesor= context.read<ProfesoresCubit>().state.where((element) => element.id == cursoCubit.state.profesor).first;
+           Estudiante yoEstudiante = Estudiante(
+          id: profesor.id,
+          nombre: profesor.nombre,
+          avatar: profesor.avatar,
+          genero: 'Otro');
+
+
+          context.read<EstudiantesCubit>().subirEstudiantes([yoEstudiante]);
+          print("EEE ${context.read<EstudiantesCubit>().state}");
               context.read<RolCubit>().actualizarRol("profesor");
               _isLoading = false;
             }));
@@ -53,14 +65,12 @@ class _SeguimientoProfesorScreenState extends State<SeguimientoProfesorScreen> {
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
-    final cursoCubit = context.read<CursoCubit>();
+    final cursoCubit = context.watch<CursoCubit>();
     final totalEstudiantes = cursoCubit.state.estudiantes!;
-
-    final estudianteProfesorSeguimiento =
-        context.read<EstudiantesCubit>().state[0];
-    totalEstudiantes.add(estudianteProfesorSeguimiento);
-
-    final seguimientos = context.read<SeguimientosEstudiantesCubit>().state;
+    //final profesor= context.read<ProfesoresCubit>().state.where((element) => element.id == cursoCubit.state.profesor).first;
+  
+  
+    final seguimientos = context.watch<SeguimientosEstudiantesCubit>().state;
 
     return Scaffold(
       appBar: AppBar(
@@ -221,13 +231,15 @@ class DataTableWidget extends StatefulWidget {
 
 class _DataTableWidgetState extends State<DataTableWidget> {
   final ScrollController _scrollController = ScrollController();
-
-  Map<String, TextEditingController> createControllersMap(
+  CursosCasoUso cursoCs = getIt<CursosCasoUso>();
+   Map<String, TextEditingController> createControllersMap(
       List<Grupo> grupos, List<Estudiante> estudiantes) {
     Map<String, TextEditingController> controllersMap = {};
 
     // Iterar sobre la lista de grupos
-    for (var grupo in grupos) {
+    if(grupos.isEmpty){
+
+      for (var grupo in grupos) {
       // Obtener los IDs de los estudiantes en el grupo
       List<int> studentIds = [grupo.idEstudiante1!, grupo.idEstudiante2!];
 
@@ -236,6 +248,9 @@ class _DataTableWidgetState extends State<DataTableWidget> {
       controllersMap[combinedIds] =
           TextEditingController(text: "Valor inicial para $combinedIds");
     }
+
+    }
+    
 
     // Iterar sobre la lista de estudiantes individuales
     for (var estudiante in estudiantes) {
@@ -251,6 +266,8 @@ class _DataTableWidgetState extends State<DataTableWidget> {
 
     return controllersMap;
   }
+
+ 
 
   TextEditingController? getControllerForStudentId(
       int studentId, Map<String, TextEditingController> controllersMap) {
@@ -272,8 +289,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
   Widget build(BuildContext context) {
     //final grupos = context.watch<GrupoEstudiantesCubit>().state;
 
-    Map<String, TextEditingController> controllersMap =
-        createControllersMap([], widget.estudiantes);
+   
 
     //print('$controllersMap');
     return Scrollbar(
@@ -293,9 +309,12 @@ class _DataTableWidgetState extends State<DataTableWidget> {
           child: DataTable(
             columns: _buildColumns(),
             rows: _buildRows(),
-            columnSpacing: 12.0,
-            dataRowHeight: 48.0,
-            headingRowHeight: 56.0,
+           columnSpacing: 12.0, // Espaciado horizontal entre columnas
+  dataRowMinHeight: 48.0, // Altura de las filas
+  dataRowMaxHeight: 58.0,
+  headingRowHeight: 56.0, // Altura de la fila de encabezado
+  // Para espaciado vertical entre filas:
+  // spacing: 10.0, // Por ejemplo, espaciado de 10 píxeles entre filas
           ),
         ),
       ),
@@ -336,6 +355,12 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     // Agregar la celda con el nombre del estudiante
     cells.add(DataCell(Text(student.nombre!)));
 
+    // Crear el mapa de controladores para este estudiante
+  Map<String, TextEditingController> controllersMap = createControllersMap(
+    [],
+    widget.estudiantes,
+  );
+
     // Agregar las celdas para las actividades con números aleatorios
     List<int> activityValues =
         []; // Lista para almacenar los valores de actividades
@@ -354,24 +379,36 @@ class _DataTableWidgetState extends State<DataTableWidget> {
       }
 
       if (activity.tipoActividad == 'Desconectada') {
+        // Obtener el controlador para este estudiante o grupo
+      TextEditingController? controller =
+          getControllerForStudentId(student.id!, controllersMap);
         // Llamar a esta función cuando se cambie el valor en el NumberPicker
         cells.add(DataCell(
-          NumberInputPrefabbed.leafyButtons(
-            controller: TextEditingController(),
-            initialValue: 1,
-            min: 1,
-            max: 4,
-            onChanged: (value) {
-              TextEditingController().text = value.toString();
-            },
-            incDecBgColor: orangeColor,
+          Container(
+            margin:  const EdgeInsets.all(4.0),
+            
+            child: NumberInputPrefabbed.directionalButtons(
+              controller: controller!,
+              initialValue: 1,
+              min: 1,
+              max: 4,
+              onChanged: (value) {
+                controller.text = value.toString();
+                actualizarSeguimiento(
+                  value.toString(), student.id!, seguimiento.cursoId!, activity.id!
+                );
+              },
+              incDecBgColor: orangeColor,
+            ),
           ),
         ));
       } else {
         cells.add(
           DataCell(
             Container(
+              margin:  const EdgeInsets.all(8.0),
               width: 48.0,
+              height: 48.0,
               alignment: Alignment.center,
               child: Text(
                 peso.toString(),
@@ -432,6 +469,21 @@ class _DataTableWidgetState extends State<DataTableWidget> {
       return Color(0xFF69B5D8);
     }
   }
+  
+  void actualizarSeguimiento(String peso, int userId, int cursoId, int actividadId) {
+    context.read<SeguimientosEstudiantesCubit>().actualizarCalificacionActividadSeguimiento(userId, actividadId, int.parse(peso), cursoId);
+
+        //guardar en la base de datos FB si es diferente del curso demo
+        if (cursoId != 1){
+           cursoCs.actualizarRespuesta(
+           cursoId,  [userId],
+       actividadId, int.parse(peso), ''
+            );
+
+        }
+  }
+
+  
 }
 
 class DataTestTableWidget extends StatefulWidget {
@@ -526,7 +578,7 @@ class _DataTestTableWidgetState extends State<DataTestTableWidget> {
         .test!;
 
     respuestasTest.forEach((item) {
-      Color cellColor = asignarColor(respuestasTest.indexOf(item));
+      Color cellColor = const Color(0xFFB6C979);
 
       int peso = item;
 
@@ -580,13 +632,5 @@ class _DataTestTableWidgetState extends State<DataTestTableWidget> {
     return cells;
   }
 
-  Color asignarColor(int colIndex) {
-    if (colIndex < 4) {
-      return Color(0xFFB6C979);
-    } else if (colIndex >= 4 && colIndex < 8) {
-      return Color(0xFFF4A662);
-    } else {
-      return Color(0xFF69B5D8);
-    }
-  }
+  
 }

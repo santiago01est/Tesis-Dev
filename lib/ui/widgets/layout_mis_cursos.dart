@@ -25,24 +25,20 @@ class LayoutMisCursos extends StatefulWidget {
 }
 
 class _LayoutMisCursosState extends State<LayoutMisCursos> {
-  late InitData _cursosProfesoresCasoUso;
-  bool _isLoading = true;
+
 
   @override
   Widget build(BuildContext context) {
+    
     final router = GoRouter.of(context);
     //obtener solo los cursos del profesor
     List<Curso>  cursosCubit = context.read<BDCursosCubit>().state;
     final rolCubit = context.read<RolCubit>();
     final profesorCubit = context.read<ProfesorCubit>();
+    print(cursosCubit.length);
 
-    List<Curso> misCursos = [];
-
-    for (int i = 0; i < cursosCubit.length; i++) {
-      if (cursosCubit[i].profesor == widget.profesorId) {
-        misCursos.add(cursosCubit[i]);
-      }
-    }
+    List<Curso> misCursos = obtenerMisCursos(widget.profesorId, cursosCubit);
+    print('wtffff ${misCursos.length}');
 
   
 
@@ -60,37 +56,26 @@ class _LayoutMisCursosState extends State<LayoutMisCursos> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: misCursos.length,
                 itemBuilder: (context, index) {
-                  return Wrap(
-                    alignment: WrapAlignment.start,
-                    crossAxisAlignment: WrapCrossAlignment.start,
-                    spacing: 8.0, // Espacio entre las imágenes
-                    runSpacing: 8.0,
-                    children: List.generate(
-                      misCursos.length,
-                      (index) {
-                        return GestureDetector(
-                          onTap: () {
-                            if (rolCubit.state == 'profesor') {
-                              router.go('/panelcurso/${misCursos[index].id}');
-                            } else {
-                              if (context
-                                  .read<EstudiantesCubit>()
-                                  .state
-                                  .isEmpty) {
-                                PopupUtils.showCodeAccessPopup(
-                                    context, misCursos[index]);
-                              } else {
-                                router
-                                    .push('/panelcurso/${misCursos[index].id}');
-                              }
-                            }
-                          },
-                          child: CursoCard(
-                            curso: misCursos[index],
-                            nombreProfesor: profesorCubit.state.nombre!,
-                          ),
-                        );
-                      },
+                  return GestureDetector(
+                    onTap: () {
+                      if (rolCubit.state == 'profesor') {
+                        router.go('/panelcurso/${misCursos[index].id}');
+                      } else {
+                        if (context
+                            .read<EstudiantesCubit>()
+                            .state
+                            .isEmpty) {
+                          PopupUtils.showCodeAccessPopup(
+                              context, misCursos[index]);
+                        } else {
+                          router
+                              .push('/panelcurso/${misCursos[index].id}');
+                        }
+                      }
+                    },
+                    child: CursoCard(
+                      curso: misCursos[index],
+                      nombreProfesor: profesorCubit.state.nombre!,
                     ),
                   );
                 },

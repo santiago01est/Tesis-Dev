@@ -44,7 +44,7 @@ class _PanelPrincipalProfesorScreenState
 
   @override
   Widget build(BuildContext context) {
-    final profesorCubit = context.watch<ProfesorCubit>();
+    final profesorCubit = context.read<ProfesorCubit>();
     final router = GoRouter.of(context);
 
     return Scaffold(
