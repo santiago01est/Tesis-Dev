@@ -401,7 +401,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
                 
                 
                 actualizarSeguimiento(
-                  value.toString(), student.id!, seguimiento.cursoId!, activity.id!
+                  peso, student.id!, seguimiento.cursoId!, activity.id!
                 );
               },
               incDecBgColor: orangeColor,
@@ -490,14 +490,14 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     }
   }
   
-  void actualizarSeguimiento(String peso, int userId, int cursoId, int actividadId) {
+  void actualizarSeguimiento(int peso, int userId, int cursoId, int actividadId) {
     context.read<SeguimientosEstudiantesCubit>().actualizarCalificacionActividadSeguimiento(userId, actividadId, int.parse(peso), cursoId);
 
         //guardar en la base de datos FB si es diferente del curso demo
         if (cursoId != 1){
            cursoCs.actualizarRespuesta(
            cursoId,  [userId],
-       actividadId, int.parse(peso), ''
+       actividadId, peso, ''
             );
 
         }

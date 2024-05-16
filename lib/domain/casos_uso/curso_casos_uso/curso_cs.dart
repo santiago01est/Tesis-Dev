@@ -273,6 +273,55 @@ class CursosCasoUso {
     }
   }
 
+  Future<void> actualizarRespuesta(int cursoId, List<int> estudianteId,
+      int actividadId, int peso, String respuestaEstudiante) async {
+    final collectionRef = FirebaseFirestore.instance.collection('seguimientos');
+
+    for (var estudiante in estudianteId) {
+      try {
+        // Consultar directamente el seguimiento específico
+        final querySnapshot = await collectionRef
+            .where('cursoId', isEqualTo: cursoId)
+            .where('userId', isEqualTo: estudiante)
+            .limit(1)
+            .get();
+
+        if (querySnapshot.docs.isEmpty) {
+          // Manejar el caso donde no se encuentra ningún documento de seguimiento
+          print(
+              'No se encontró ningún documento de seguimiento para el estudiante $estudiante en el curso $cursoId');
+          continue; // Continuar con el siguiente estudiante
+        }
+
+        final doc = querySnapshot.docs.first;
+        final docRef = collectionRef.doc(doc.id);
+        final seguimiento = Seguimiento.fromFirestore(doc);
+        List<Respuesta> misRespuestas = seguimiento.respuestasActividades!;
+        List<Respuesta> respuestaActualizada = [];
+
+        for (var respuesta in misRespuestas) {
+          if (respuesta.actividadId == actividadId) {
+            respuesta.peso = peso;
+            respuesta.respuestaUsuario = respuestaEstudiante;
+          }
+          respuestaActualizada.add(respuesta);
+        }
+
+        // Actualizar el campo respuestasActividades en el documento de seguimiento
+        await docRef.update({
+          'respuestasActividades': respuestaActualizada
+              .map((respuesta) => respuesta.toFirestore())
+              .toList(),
+        });
+      } catch (e) {
+        // Manejar cualquier error durante la consulta o la actualización
+        print(
+            'Error al actualizar el seguimiento para el estudiante $estudiante en el curso $cursoId: $e');
+      }
+    }
+  }
+
+/*
 // actualizar una respuesta en el seguimiento
   Future<void> actualizarRespuesta(int cursoId, List<int> estudianteId,
       int actividadId, int peso, String respuestaEstudiante) async {
@@ -313,9 +362,9 @@ class CursosCasoUso {
       }
     }
   }
-
-  Future<void> actualizarRespuestaTest(int cursoId, List<int> estudianteId,
-      List<int> testRespuestas) async {
+*/
+  Future<void> actualizarRespuestaTest(
+      int cursoId, List<int> estudianteId, List<int> testRespuestas) async {
     final collectionRef = FirebaseFirestore.instance.collection('seguimientos');
 
     for (var estudiante in estudianteId) {
@@ -325,14 +374,13 @@ class CursosCasoUso {
           .where('userId', isEqualTo: estudiante)
           .get();
 
-// Iterar sobre los documentos encontrados (debería ser solo uno en este caso)
+      // Iterar sobre los documentos encontrados (debería ser solo uno en este caso)
       for (var doc in querySnapshot.docs) {
         // Obtener la referencia al documento
         final docRef = collectionRef.doc(doc.id);
 
-// agrega respuestas actualizadas al seguimiento
-// Actualizar el campo respuestasActividades en el documento de seguimiento
-        await docRef.update({'test': testRespuestas});
+        // Actualizar el campo `respuestasActividades` en el documento de seguimiento
+        await docRef.update({'respuestasActividades': testRespuestas});
       }
     }
   }
