@@ -9,6 +9,16 @@ class Grupo {
 
   Grupo({this.id, this.idEstudiante1, this.idEstudiante2, this.cursoId});
 
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'idEstudiante1': idEstudiante1,
+      'idEstudiante2': idEstudiante2,
+      'cursoId': cursoId,
+    
+    };
+  }
+
   factory Grupo.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
   ) {

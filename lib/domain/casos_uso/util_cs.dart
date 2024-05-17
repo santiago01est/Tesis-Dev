@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:js_interop';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
@@ -61,24 +62,22 @@ class InitData {
       // Si la lista no está vacía, convertirla a una lista de Estudiante
       //if (jsonString != null) {
 
-        /*
+        
 
-        final seguimientoCubit = context.watch<SeguimientosEstudiantesCubit>();
+      final seguimientoCubit = context.watch<SeguimientosEstudiantesCubit>();
 
       //await fetchGruposCurso(cursoId);
       await _fetchCursos();
       await fetchProfesores();
       await _fetchCursoYUnidad(cursoId);
-       List<Seguimiento> seguimientosCursos =
-          await fetchSeguimientosTodosCursos();
-      seguimientoCubit.subirSeguimientos(seguimientosCursos);
-     // await _fetchSeguimientosCurso(cursoId);
+      
+      await _fetchSeguimientosCurso(cursoId);
       // await _fetchGruposCurso(cursoId);
 
       //Obtener sesion estudiantes si el rol es estudiante
       // Leer y mostrar la lista guardada
 
-      */
+      
     } else {
       //await fetchGruposCurso(cursoId);
       await _fetchCursoYUnidad(cursoId);
@@ -205,11 +204,25 @@ class InitData {
   }
   */
 
+  Future<void> subirGrupoCurso(Grupo grupo) async {
+    // Referencia a la colección "productos" en Firestore
+    CollectionReference productos =
+        FirebaseFirestore.instance.collection('grupos');
+
+    // Convertir el objeto Producto a un mapa
+    Map<String, dynamic> data = grupo.toMap();
+
+    // Agregar el documento a la colección
+    await productos.add(data).then((value) {
+    
+    }).catchError((error) {
+     
+    });
+  }
+
 Future<void> fetchGruposCurso(int cursoId) async {
   final gruposCubit = context.read<GrupoEstudiantesCubit>();
-  /*
   final ref = FirebaseFirestore.instance.collection("grupos");
-
   try {
     final querySnapshot = await ref.get();
 
@@ -223,7 +236,7 @@ Future<void> fetchGruposCurso(int cursoId) async {
     // Manejo de la excepción
     print('Error al obtener los grupos: $e');
   }
-  */
+  
 }
 
 
@@ -254,7 +267,7 @@ Future<void> fetchGruposCurso(int cursoId) async {
             .collection("seguimientos")
             .where('cursoId', isEqualTo: cursoId);
 
-        final querySnapshot = await ref.limit(1).get();
+        final querySnapshot = await ref.get();
 
         final List<Seguimiento> seguimientos = querySnapshot.docs.map((doc) {
           final seguimiento = Seguimiento.fromFirestore(doc);

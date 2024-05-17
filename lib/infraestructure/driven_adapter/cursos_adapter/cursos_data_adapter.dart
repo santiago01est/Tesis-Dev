@@ -2045,7 +2045,7 @@ class CursosDataAdapter extends CursoRepository {
       );
       int cursoId = doc.get('id');
       QuerySnapshot querySnapshotUnidades =
-          await unidadesRef.where('cursoId', isEqualTo: cursoId).limit(1).get();
+          await unidadesRef.where('cursoId', isEqualTo: cursoId).get();
       // Recorremos los documentos obtenidos de la consulta
 
       List<Unidad> unidadesModelo = [];

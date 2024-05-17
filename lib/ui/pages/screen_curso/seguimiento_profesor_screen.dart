@@ -419,17 +419,22 @@ class _DataTableWidgetState extends State<DataTableWidget> {
               initialValue: peso,
               min: 1,
               max: 4,
-              onChanged: (value) {
-                //Toast
-                  Fluttertoast.showToast(
-                                                      msg:
-                                                          'Curso creado con éxito',
-                                                      toastLength:
-                                                          Toast.LENGTH_LONG,
-                                                      gravity: ToastGravity
-                                                          .BOTTOM, // Pos
-                                                    );
-
+              onIncrement: (value) async {
+                controller.text = value.toString();
+                peso = int.parse(value.toString());
+                double total = activityValues.fold(0, (sum, value) => sum + value);
+                double average = total / activityValues.length;
+                setState(() {
+                  promedios[rowIndex] = average.toStringAsFixed(1);
+                  
+                });
+                
+                
+                actualizarSeguimiento(
+                  peso, student.id!, seguimiento.cursoId!, activity.id!
+                );
+              },
+              onDecrement: (value) {
                 controller.text = value.toString();
                 peso = int.parse(value.toString());
                 double total = activityValues.fold(0, (sum, value) => sum + value);

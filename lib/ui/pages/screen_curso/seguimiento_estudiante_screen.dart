@@ -57,12 +57,7 @@ class _SeguimientoEstudianteScreenState
       context: context,
     );
 
-
-      if(context.read<BDCursosCubit>().state.isEmpty){
-
         await initData.obtenerCursosYProfesoresYUnidades(widget.cursoId);
-
-      }
 
       
     

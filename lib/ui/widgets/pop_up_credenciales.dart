@@ -1,4 +1,9 @@
 import 'package:dev_tesis/constants/styles.dart';
+import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
+import 'package:dev_tesis/domain/model/grupo.dart';
+import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/utils/rutasImagenes.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +39,8 @@ class _PopupCredencialesState extends State<PopupCredenciales>
   int indexnumUnSelect = 0;
   int indexnumUnSelectAvatar = 0;
 
+  
+
   @override
   void initState() {
     super.initState();
@@ -42,6 +49,13 @@ class _PopupCredencialesState extends State<PopupCredenciales>
 
   @override
   Widget build(BuildContext context) {
+
+    final initData = InitData(
+      cursosCasoUso: getIt<CursosCasoUso>(),
+      profesorCasoUso: getIt<ProfesorCasoUso>(),
+      context: context,
+    );
+
     final estudiantesCubit = context.read<EstudiantesCubit>();
     final router = GoRouter.of(context);
     return AlertDialog(
@@ -203,6 +217,7 @@ class _PopupCredencialesState extends State<PopupCredenciales>
                                 buscarEstudiantePorNombre(student2Name));
                                 */
                             // Si la validación es exitosa, redirigir al usuario a la siguiente pantalla
+                            initData.subirGrupoCurso(Grupo(id: 1, idEstudiante1: widget.estudiantes.firstWhere((estudiante) => estudiante.nombre == student1Name).id, idEstudiante2: widget.estudiantes.firstWhere((estudiante) => estudiante.nombre == student2Name).id, cursoId: widget.idCurso ));
                             router.go('/panelcurso/${widget.idCurso}');
                           } else {
                             // Si la validación falla, mostrar un mensaje de error
