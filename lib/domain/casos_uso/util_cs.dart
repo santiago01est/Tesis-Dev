@@ -63,7 +63,7 @@ class InitData {
       await _fetchCursos();
       await fetchProfesores();
       await _fetchCursoYUnidad(cursoId);
-      await _fetchSeguimientosCurso(cursoId);
+      //await _fetchSeguimientosCurso(cursoId);
       // await _fetchGruposCurso(cursoId);
 
       //Obtener sesion estudiantes si el rol es estudiante
@@ -287,6 +287,27 @@ class InitData {
   }
 
   Future<List<Seguimiento>> fetchSeguimientosTodosCursos() async {
+
+
+        final curso = context
+            .read<BDCursosCubit>()
+            .state
+            .firstWhere((c) => c.id == 1);
+        final unidades = curso.unidades;
+        List<Actividad> actividades = [];
+        // se recorre cada unidad y se pasa actividad a la lista
+        for (var unidad in unidades!) {
+          for (var actividad in unidad.actividades!) {
+            actividades.add(actividad);
+          }
+        }
+        if (context.read<BDemoMundoPC>().state.isEmpty) {
+          context.read<BDemoMundoPC>().subirSeguimientos(actividades);
+          context
+              .read<SeguimientosEstudiantesCubit>()
+              .subirSeguimientos(context.read<BDemoMundoPC>().state);
+        }
+      /*
     final ref = FirebaseFirestore.instance.collection("seguimientos");
 
     final querySnapshot = await ref.get();
@@ -296,6 +317,9 @@ class InitData {
       return seguimiento;
     }).toList();
 
-    return seguimientos;
+    seguimientos.add(context.read<BDemoMundoPC>().state.first);
+    */
+
+    return context.read<BDemoMundoPC>().state;
   }
 }

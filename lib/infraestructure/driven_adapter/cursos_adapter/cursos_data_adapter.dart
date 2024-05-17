@@ -2160,7 +2160,7 @@ class CursosDataAdapter extends CursoRepository {
       */
 
       //cursos.add(Curso.fromFirestore(doc));
-    s
+    
 
     return cursos;
   }
