@@ -2012,7 +2012,7 @@ class CursosDataAdapter extends CursoRepository {
 
     cursos.add(c1);
 /** BD FIREBASE */
-
+/*
     CollectionReference cursosRef =
         FirebaseFirestore.instance.collection('cursos');
     CollectionReference unidadesRef =
@@ -2157,9 +2157,10 @@ class CursosDataAdapter extends CursoRepository {
 
       miCurso.unidades = unidadesOrganizadas;
       cursos.add(miCurso);
+      */
 
       //cursos.add(Curso.fromFirestore(doc));
-    }
+    s
 
     return cursos;
   }

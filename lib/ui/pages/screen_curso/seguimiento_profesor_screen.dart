@@ -33,32 +33,37 @@ class SeguimientoProfesorScreen extends StatefulWidget {
 class _SeguimientoProfesorScreenState extends State<SeguimientoProfesorScreen> {
   late InitData _cursosProfesoresCasoUso;
   bool _isLoading = true;
+  bool _isInitialized = false;
 
   @override
-  void didChangeDependencies() {
+  Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
+     if (!_isInitialized) {
+    _isInitialized = true;
+
     _cursosProfesoresCasoUso = InitData(
       cursosCasoUso: CursosCasoUso(cursoRepository: getIt<CursoRepository>()),
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,
     );
-    _cursosProfesoresCasoUso
+
+    await _cursosProfesoresCasoUso
         .obtenerCursosYProfesoresYUnidades(widget.cursoId)
         .then((value) => setState(() {
           final cursoCubit = context.read<CursoCubit>();
-          final profesor= context.read<ProfesoresCubit>().state.where((element) => element.id == cursoCubit.state.profesor).first;
-           Estudiante yoEstudiante = Estudiante(
-          id: profesor.id,
-          nombre: profesor.nombre,
-          avatar: profesor.avatar,
-          genero: 'Otro');
-
+          final profesor = context.read<ProfesoresCubit>().state.where((element) => element.id == cursoCubit.state.profesor).first;
+          Estudiante yoEstudiante = Estudiante(
+            id: profesor.id,
+            nombre: profesor.nombre,
+            avatar: profesor.avatar,
+            genero: 'Otro'
+          );
 
           context.read<EstudiantesCubit>().subirEstudiantes([yoEstudiante]);
-          
-              context.read<RolCubit>().actualizarRol("profesor");
-              _isLoading = false;
-            }));
+          context.read<RolCubit>().actualizarRol("profesor");
+          _isLoading = false;
+        }));
+  }
   }
 
   @override
@@ -491,7 +496,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
   }
   
   void actualizarSeguimiento(int peso, int userId, int cursoId, int actividadId) {
-    context.read<SeguimientosEstudiantesCubit>().actualizarCalificacionActividadSeguimiento(userId, actividadId, int.parse(peso), cursoId);
+    context.read<SeguimientosEstudiantesCubit>().actualizarCalificacionActividadSeguimiento(userId, actividadId, peso, cursoId);
 
         //guardar en la base de datos FB si es diferente del curso demo
         if (cursoId != 1){

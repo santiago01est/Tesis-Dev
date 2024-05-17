@@ -17,10 +17,14 @@ class Welcome extends StatefulWidget {
 class _WelcomeState extends State<Welcome> {
   late InitData _cursosProfesoresCasoUso;
   bool _isLoading = true; // Variable para controlar el estado de carga
+  bool _isInitialized = false;
 
   @override
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
+     if (!_isInitialized) {
+    _isInitialized = true;
+    
     // Iniciar la carga de datos y establecer _isLoading en true
     setState(() {
       _isLoading = false;
@@ -41,6 +45,7 @@ class _WelcomeState extends State<Welcome> {
         //_simularCarga();
       });
     });
+    }
   }
 
   Future<void> _simularCarga() async {

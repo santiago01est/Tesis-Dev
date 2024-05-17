@@ -63,7 +63,7 @@ class InitData {
       await _fetchCursos();
       await fetchProfesores();
       await _fetchCursoYUnidad(cursoId);
-      //await _fetchSeguimientosCurso(cursoId);
+      await _fetchSeguimientosCurso(cursoId);
       // await _fetchGruposCurso(cursoId);
 
       //Obtener sesion estudiantes si el rol es estudiante

@@ -38,9 +38,13 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
   late InitData _cursosProfesoresCasoUso;
   bool _isLoading = true;
 
+bool _isInitialized = false;
+
   @override
-  void didChangeDependencies() {
+  Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
+     if (!_isInitialized) {
+    _isInitialized = true;
 
     _cursosProfesoresCasoUso = InitData(
       cursosCasoUso: getIt<CursosCasoUso>(),
@@ -50,6 +54,7 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
     _cursosProfesoresCasoUso
         .obtenerCursosYProfesoresYUnidades(widget.cursoId)
         .then((value) => setState(() => _isLoading = false));
+  }
   }
 
   @override

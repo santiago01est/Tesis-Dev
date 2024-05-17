@@ -27,10 +27,13 @@ class HomeWeb extends StatefulWidget {
 class _HomeWebState extends State<HomeWeb> {
   late InitData _cursosProfesoresCasoUso;
   bool _isLoading = true;
+bool _isInitialized = false;
 
   @override
-  void didChangeDependencies() {
+  Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
+     if (!_isInitialized) {
+    _isInitialized = true;
     _cursosProfesoresCasoUso = InitData(
       cursosCasoUso: getIt<CursosCasoUso>(),
       profesorCasoUso: getIt<ProfesorCasoUso>(),
@@ -41,6 +44,7 @@ class _HomeWebState extends State<HomeWeb> {
       _isLoading = false;
     });
     //_simularCarga();
+    }
   }
 
   @override

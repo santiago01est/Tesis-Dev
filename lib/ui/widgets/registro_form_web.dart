@@ -30,10 +30,15 @@ class RegistroFormWebState extends State<RegistroFormWeb> {
 
   late ProfesorCasoUso profesorCasoUso;
 
+bool _isInitialized = false;
+
   @override
-  void didChangeDependencies() {
+  Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
+     if (!_isInitialized) {
+    _isInitialized = true;
     profesorCasoUso = getIt<ProfesorCasoUso>();
+    }
   }
 
   String selectedAvatar =
