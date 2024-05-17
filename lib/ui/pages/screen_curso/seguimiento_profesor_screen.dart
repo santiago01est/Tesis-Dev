@@ -17,6 +17,7 @@ import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
 
@@ -395,6 +396,16 @@ class _DataTableWidgetState extends State<DataTableWidget> {
               min: 1,
               max: 4,
               onChanged: (value) {
+                //Toast
+                  Fluttertoast.showToast(
+                                                      msg:
+                                                          'Curso creado con éxito',
+                                                      toastLength:
+                                                          Toast.LENGTH_LONG,
+                                                      gravity: ToastGravity
+                                                          .BOTTOM, // Pos
+                                                    );
+
                 controller.text = value.toString();
                 peso = int.parse(value.toString());
                 double total = activityValues.fold(0, (sum, value) => sum + value);
@@ -443,6 +454,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     double average = total / activityValues.length;
     promedios[rowIndex] = average.toStringAsFixed(1);
     
+    // CELDA INDIVIDAL DEL PROMEDIO
 
     // Agregar la celda para el promedio al final
     cells.add(
@@ -496,8 +508,13 @@ class _DataTableWidgetState extends State<DataTableWidget> {
   }
   
   void actualizarSeguimiento(int peso, int userId, int cursoId, int actividadId) {
-    context.read<SeguimientosEstudiantesCubit>().actualizarCalificacionActividadSeguimiento(userId, actividadId, peso, cursoId);
+    //context.read<SeguimientosEstudiantesCubit>().actualizarCalificacionActividadSeguimiento(userId, actividadId, peso, cursoId);
 
+context.read<SeguimientosEstudiantesCubit>().actualizarRespuestasActividadesEstudiantes(
+        [userId],
+        '',
+        peso,
+        actividadId);
         //guardar en la base de datos FB si es diferente del curso demo
         if (cursoId != 1){
            cursoCs.actualizarRespuesta(

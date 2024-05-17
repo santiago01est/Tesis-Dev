@@ -1,10 +1,13 @@
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
+import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/main.dart';
+import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/carrusel/carrusel_welcome.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class Welcome extends StatefulWidget {
@@ -20,9 +23,8 @@ class _WelcomeState extends State<Welcome> {
 
 
   @override
-  void initState() {
-    super.initState();
-     
+  Future<void> didChangeDependencies() async {
+    super.didChangeDependencies();
     
     // Iniciar la carga de datos y establecer _isLoading en true
     setState(() {
@@ -37,14 +39,14 @@ class _WelcomeState extends State<Welcome> {
 
     // Simular la carga de datos con un retardo de 3 segundos
     // Una vez que los datos se han cargado, actualizar el estado para indicar que la carga ha terminado
-    _cursosProfesoresCasoUso.obtenerCursosYProfesores().then((_) {
+     _cursosProfesoresCasoUso.obtenerCursosYProfesores().then((_) {
       setState(() {
         _isLoading = false;
+        print('${context.read<BDCursosCubit>().state.length}');
         // pasa 5 segundos y carga la pagina
         //_simularCarga();
       });
     });
-    
   }
 
 

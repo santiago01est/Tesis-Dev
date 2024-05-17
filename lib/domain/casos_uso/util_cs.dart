@@ -36,6 +36,7 @@ class InitData {
 
   Future<void> obtenerCursosYProfesores() async {
     final cubitRol = context.read<RolCubit>();
+    cubitRol.actualizarRol('profesor');
     final seguimientoCubit = context.watch<SeguimientosEstudiantesCubit>();
     if (context.read<BDCursosCubit>().state.isEmpty) {
       await _fetchCursos();
@@ -45,7 +46,7 @@ class InitData {
           await fetchSeguimientosTodosCursos();
       seguimientoCubit.subirSeguimientos(seguimientosCursos);
 
-      cubitRol.actualizarRol('estudiante');
+      
     }
   }
 
@@ -194,10 +195,11 @@ class InitData {
   }
   */
 
-  Future<void> fetchGruposCurso(int cursoId) async {
-    final gruposCubit = context.read<GrupoEstudiantesCubit>();
-    final ref = FirebaseFirestore.instance.collection("grupos");
+Future<void> fetchGruposCurso(int cursoId) async {
+  final gruposCubit = context.read<GrupoEstudiantesCubit>();
+  final ref = FirebaseFirestore.instance.collection("grupos");
 
+  try {
     final querySnapshot = await ref.get();
 
     final List<Grupo> grupos = querySnapshot.docs.map((doc) {
@@ -206,7 +208,12 @@ class InitData {
     }).toList();
 
     gruposCubit.actualizarGrupos(grupos);
+  } catch (e) {
+    // Manejo de la excepción
+    print('Error al obtener los grupos: $e');
   }
+}
+
 
   Future<void> _fetchSeguimientosCurso(int cursoId) async {
     if (context.read<BDCursosCubit>().state.isEmpty) {

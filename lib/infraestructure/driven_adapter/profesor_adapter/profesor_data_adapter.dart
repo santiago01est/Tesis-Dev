@@ -25,7 +25,7 @@ class ProfesorDataAdapter extends ProfesorRepository {
 
 
 /// obtener los cursos de la base de datos
-
+/*
     // Referencia a la colección "cursos" en Firestore
     CollectionReference profesoresRef =
         FirebaseFirestore.instance.collection('profesores');
@@ -43,7 +43,7 @@ class ProfesorDataAdapter extends ProfesorRepository {
       // Agregar el objeto profesor a la lista de profesors
       profesores.add(profesor);
     }
-
+*/
   profesores.add(p1);
     return profesores;
   }
