@@ -25,26 +25,40 @@ class HomeWeb extends StatefulWidget {
 }
 
 class _HomeWebState extends State<HomeWeb> {
-  late InitData _cursosProfesoresCasoUso;
+  late Future<void> _cursosProfesoresCasoUso;
   bool _isLoading = true;
-bool _isInitialized = false;
+  bool _isInitialized = false; // Variable para controlar el estado de carga
+
 
   @override
-  Future<void> didChangeDependencies() async {
+  void didChangeDependencies() {
     super.didChangeDependencies();
-     if (!_isInitialized) {
-    _isInitialized = true;
-    _cursosProfesoresCasoUso = InitData(
+    print('Esto es una dependencia');
+    if (!_isInitialized) {
+      print('Inicializando...');
+      _cursosProfesoresCasoUso = _initializeData();
+      _isInitialized = true;
+    }
+  }
+
+  Future<void> _initializeData() async {
+    final initData = InitData(
       cursosCasoUso: getIt<CursosCasoUso>(),
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,
     );
-    _cursosProfesoresCasoUso.obtenerCursosYProfesores();
+    if (context.read<BDCursosCubit>().state.isEmpty) {
+      print('Que ha pasado');
+      await initData.obtenerCursosYProfesores();
+    }
+    _simularCarga();
+  }
+
+  void _simularCarga() {
+    // Simular una carga de 5 segundos
     setState(() {
       _isLoading = false;
     });
-    //_simularCarga();
-    }
   }
 
   @override

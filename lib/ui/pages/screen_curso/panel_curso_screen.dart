@@ -6,6 +6,7 @@ import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/profesor.dart';
 import 'package:dev_tesis/main.dart';
+import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
@@ -35,26 +36,41 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
   final UnidadCasoUso unidadCasoUso = getIt<UnidadCasoUso>();
   final ProfesorCasoUso profesorCasoUso = getIt<ProfesorCasoUso>();
 
-  late InitData _cursosProfesoresCasoUso;
-  bool _isLoading = true;
 
-bool _isInitialized = false;
+  late Future<void> _cursosProfesoresCasoUso;
+  bool _isLoading = true;
+  bool _isInitialized = false; // Variable para controlar el estado de carga
+
 
   @override
-  Future<void> didChangeDependencies() async {
+  void didChangeDependencies() {
     super.didChangeDependencies();
-     if (!_isInitialized) {
-    _isInitialized = true;
+    print('Esto es una dependencia');
+    if (!_isInitialized) {
+      print('Inicializando...');
+      _cursosProfesoresCasoUso = _initializeData();
+      _isInitialized = true;
+    }
+  }
 
-    _cursosProfesoresCasoUso = InitData(
+  Future<void> _initializeData() async {
+    final initData = InitData(
       cursosCasoUso: getIt<CursosCasoUso>(),
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,
     );
-    _cursosProfesoresCasoUso
-        .obtenerCursosYProfesoresYUnidades(widget.cursoId)
-        .then((value) => setState(() => _isLoading = false));
+    if (context.read<BDCursosCubit>().state.isEmpty) {
+      print('Que ha pasado');
+      await initData.obtenerCursosYProfesoresYUnidades(widget.cursoId);
+    }
+    _simularCarga();
   }
+
+  void _simularCarga() {
+    // Simular una carga de 5 segundos
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override

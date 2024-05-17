@@ -197,6 +197,7 @@ class InitData {
 
 Future<void> fetchGruposCurso(int cursoId) async {
   final gruposCubit = context.read<GrupoEstudiantesCubit>();
+  /*
   final ref = FirebaseFirestore.instance.collection("grupos");
 
   try {
@@ -212,6 +213,7 @@ Future<void> fetchGruposCurso(int cursoId) async {
     // Manejo de la excepción
     print('Error al obtener los grupos: $e');
   }
+  */
 }
 
 

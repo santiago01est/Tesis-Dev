@@ -18,42 +18,37 @@ class Welcome extends StatefulWidget {
 }
 
 class _WelcomeState extends State<Welcome> {
-  late InitData _cursosProfesoresCasoUso;
-  bool _isLoading = true; // Variable para controlar el estado de carga
+ late Future<void> _cursosProfesoresCasoUso;
+  bool _isLoading = true;
+  bool _isInitialized = false; // Variable para controlar el estado de carga
 
 
   @override
-  Future<void> didChangeDependencies() async {
+  void didChangeDependencies() {
     super.didChangeDependencies();
-    
-    // Iniciar la carga de datos y establecer _isLoading en true
-    setState(() {
-      _isLoading = false;
-    });
+    print('Esto es una dependencia');
+    if (!_isInitialized) {
+      print('Inicializando...');
+      _cursosProfesoresCasoUso = _initializeData();
+      _isInitialized = true;
+    }
+  }
 
-    _cursosProfesoresCasoUso = InitData(
+  Future<void> _initializeData() async {
+    final initData = InitData(
       cursosCasoUso: getIt<CursosCasoUso>(),
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,
     );
-
-    // Simular la carga de datos con un retardo de 3 segundos
-    // Una vez que los datos se han cargado, actualizar el estado para indicar que la carga ha terminado
-     _cursosProfesoresCasoUso.obtenerCursosYProfesores().then((_) {
-      setState(() {
-        _isLoading = false;
-        print('${context.read<BDCursosCubit>().state.length}');
-        // pasa 5 segundos y carga la pagina
-        //_simularCarga();
-      });
-    });
+    if (context.read<BDCursosCubit>().state.isEmpty) {
+      print('Que ha pasado');
+      await initData.obtenerCursosYProfesores();
+    }
+    _simularCarga();
   }
 
-
-
-  Future<void> _simularCarga() async {
+  void _simularCarga() {
     // Simular una carga de 5 segundos
-    await Future.delayed(Duration(seconds: 5));
     setState(() {
       _isLoading = false;
     });
