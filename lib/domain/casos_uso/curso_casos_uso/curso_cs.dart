@@ -372,6 +372,7 @@ class CursosCasoUso {
       final querySnapshot = await collectionRef
           .where('cursoId', isEqualTo: cursoId)
           .where('userId', isEqualTo: estudiante)
+          .limit(1)
           .get();
 
       // Iterar sobre los documentos encontrados (debería ser solo uno en este caso)

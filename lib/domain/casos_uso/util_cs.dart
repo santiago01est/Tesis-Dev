@@ -36,16 +36,17 @@ class InitData {
 
   Future<void> obtenerCursosYProfesores() async {
     final cubitRol = context.read<RolCubit>();
-    cubitRol.actualizarRol('profesor');
-    final seguimientoCubit = context.watch<SeguimientosEstudiantesCubit>();
+    cubitRol.actualizarRol('estudiante');
+    //final seguimientoCubit = context.watch<SeguimientosEstudiantesCubit>();
     if (context.read<BDCursosCubit>().state.isEmpty) {
       await _fetchCursos();
       await fetchProfesores();
 
+/*
       List<Seguimiento> seguimientosCursos =
           await fetchSeguimientosTodosCursos();
       seguimientoCubit.subirSeguimientos(seguimientosCursos);
-
+*/
       
     }
   }
@@ -60,15 +61,24 @@ class InitData {
       // Si la lista no está vacía, convertirla a una lista de Estudiante
       //if (jsonString != null) {
 
-      await fetchGruposCurso(cursoId);
+        /*
+
+        final seguimientoCubit = context.watch<SeguimientosEstudiantesCubit>();
+
+      //await fetchGruposCurso(cursoId);
       await _fetchCursos();
       await fetchProfesores();
       await _fetchCursoYUnidad(cursoId);
-      //await _fetchSeguimientosCurso(cursoId);
+       List<Seguimiento> seguimientosCursos =
+          await fetchSeguimientosTodosCursos();
+      seguimientoCubit.subirSeguimientos(seguimientosCursos);
+     // await _fetchSeguimientosCurso(cursoId);
       // await _fetchGruposCurso(cursoId);
 
       //Obtener sesion estudiantes si el rol es estudiante
       // Leer y mostrar la lista guardada
+
+      */
     } else {
       //await fetchGruposCurso(cursoId);
       await _fetchCursoYUnidad(cursoId);
@@ -110,7 +120,7 @@ class InitData {
           .collection("profesores")
           .where('id', isEqualTo: profesorId);
 
-      final querySnapshot = await ref.get();
+      final querySnapshot = await ref.limit(1).get();
 
       final List<Profesor> profesores = querySnapshot.docs.map((doc) {
         final profesor = Profesor.fromFirestore(doc);
@@ -244,7 +254,7 @@ Future<void> fetchGruposCurso(int cursoId) async {
             .collection("seguimientos")
             .where('cursoId', isEqualTo: cursoId);
 
-        final querySnapshot = await ref.get();
+        final querySnapshot = await ref.limit(1).get();
 
         final List<Seguimiento> seguimientos = querySnapshot.docs.map((doc) {
           final seguimiento = Seguimiento.fromFirestore(doc);
@@ -316,7 +326,7 @@ Future<void> fetchGruposCurso(int cursoId) async {
               .read<SeguimientosEstudiantesCubit>()
               .subirSeguimientos(context.read<BDemoMundoPC>().state);
         }
-      /*
+      
     final ref = FirebaseFirestore.instance.collection("seguimientos");
 
     final querySnapshot = await ref.get();
@@ -327,8 +337,8 @@ Future<void> fetchGruposCurso(int cursoId) async {
     }).toList();
 
     seguimientos.add(context.read<BDemoMundoPC>().state.first);
-    */
+    
 
-    return context.read<BDemoMundoPC>().state;
+    return seguimientos;
   }
 }

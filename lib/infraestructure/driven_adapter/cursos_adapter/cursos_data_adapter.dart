@@ -2012,14 +2012,14 @@ class CursosDataAdapter extends CursoRepository {
 
     cursos.add(c1);
 /** BD FIREBASE */
-/*
-    CollectionReference cursosRef =
-        FirebaseFirestore.instance.collection('cursos');
+
+    //CollectionReference cursosRef =
+        
     CollectionReference unidadesRef =
         FirebaseFirestore.instance.collection('unidades');
 
     // Obtener los documentos de la colección
-    QuerySnapshot querySnapshot = await cursosRef.get();
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('cursos').get();
 
     // Iterar sobre cada documento obtenido
     for (var doc in querySnapshot.docs) {
@@ -2045,7 +2045,7 @@ class CursosDataAdapter extends CursoRepository {
       );
       int cursoId = doc.get('id');
       QuerySnapshot querySnapshotUnidades =
-          await unidadesRef.where('cursoId', isEqualTo: cursoId).get();
+          await unidadesRef.where('cursoId', isEqualTo: cursoId).limit(1).get();
       // Recorremos los documentos obtenidos de la consulta
 
       List<Unidad> unidadesModelo = [];
@@ -2157,10 +2157,8 @@ class CursosDataAdapter extends CursoRepository {
 
       miCurso.unidades = unidadesOrganizadas;
       cursos.add(miCurso);
-      */
-
+    }
       //cursos.add(Curso.fromFirestore(doc));
-    
 
     return cursos;
   }

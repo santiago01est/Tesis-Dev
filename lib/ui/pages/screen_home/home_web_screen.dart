@@ -33,9 +33,9 @@ class _HomeWebState extends State<HomeWeb> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    print('Esto es una dependencia');
+    
     if (!_isInitialized) {
-      print('Inicializando...');
+      
       _cursosProfesoresCasoUso = _initializeData();
       _isInitialized = true;
     }
@@ -47,10 +47,10 @@ class _HomeWebState extends State<HomeWeb> {
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,
     );
-    if (context.read<BDCursosCubit>().state.isEmpty) {
-      print('Que ha pasado');
+    
+
       await initData.obtenerCursosYProfesores();
-    }
+    
     _simularCarga();
   }
 

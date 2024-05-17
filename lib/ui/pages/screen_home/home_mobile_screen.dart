@@ -32,9 +32,9 @@ class _HomeMobileState extends State<HomeMobile> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    print('Esto es una dependencia');
+  
     if (!_isInitialized) {
-      print('Inicializando...');
+   
       _cursosProfesoresCasoUso = _initializeData();
       _isInitialized = true;
     }
@@ -46,10 +46,10 @@ class _HomeMobileState extends State<HomeMobile> {
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,
     );
-    if (context.read<BDCursosCubit>().state.isEmpty) {
-      print('Que ha pasado');
+    
+      
       await initData.obtenerCursosYProfesores();
-    }
+    
     _simularCarga();
   }
 

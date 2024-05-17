@@ -40,10 +40,9 @@ class _WelcomeState extends State<Welcome> {
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,
     );
-    if (context.read<BDCursosCubit>().state.isEmpty) {
-      print('Que ha pasado');
+    
       await initData.obtenerCursosYProfesores();
-    }
+    
     _simularCarga();
   }
 
