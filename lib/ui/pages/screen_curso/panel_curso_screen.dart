@@ -36,7 +36,6 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
   final UnidadCasoUso unidadCasoUso = getIt<UnidadCasoUso>();
   final ProfesorCasoUso profesorCasoUso = getIt<ProfesorCasoUso>();
 
-
   late Future<void> _cursosProfesoresCasoUso;
   bool _isLoading = true;
 
@@ -44,15 +43,14 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
 
-     final initData = InitData(
+    final initData = InitData(
       cursosCasoUso: getIt<CursosCasoUso>(),
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,
     );
-      await initData.obtenerCursosYProfesoresYUnidades(widget.cursoId);
-    
+    await initData.obtenerCursosYProfesoresYUnidades(widget.cursoId);
+
     _simularCarga();
-   
   }
 
   void _simularCarga() {

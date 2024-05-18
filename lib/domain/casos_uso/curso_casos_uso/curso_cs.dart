@@ -273,6 +273,7 @@ class CursosCasoUso {
     }
   }
 
+/*
   Future<void> actualizarRespuesta(int cursoId, List<int> estudianteId,
       int actividadId, int peso, String respuestaEstudiante) async {
     final collectionRef = FirebaseFirestore.instance.collection('seguimientos');
@@ -320,8 +321,8 @@ class CursosCasoUso {
       }
     }
   }
+*/
 
-/*
 // actualizar una respuesta en el seguimiento
   Future<void> actualizarRespuesta(int cursoId, List<int> estudianteId,
       int actividadId, int peso, String respuestaEstudiante) async {
@@ -332,6 +333,7 @@ class CursosCasoUso {
       final querySnapshot = await collectionRef
           .where('cursoId', isEqualTo: cursoId)
           .where('userId', isEqualTo: estudiante)
+          .limit(1)
           .get();
 
 // Iterar sobre los documentos encontrados (debería ser solo uno en este caso)
@@ -362,7 +364,7 @@ class CursosCasoUso {
       }
     }
   }
-*/
+
   Future<void> actualizarRespuestaTest(
       int cursoId, List<int> estudianteId, List<int> testRespuestas) async {
     final collectionRef = FirebaseFirestore.instance.collection('seguimientos');
@@ -381,7 +383,7 @@ class CursosCasoUso {
         final docRef = collectionRef.doc(doc.id);
 
         // Actualizar el campo `respuestasActividades` en el documento de seguimiento
-        await docRef.update({'respuestasActividades': testRespuestas});
+        await docRef.update({'test': testRespuestas});
       }
     }
   }
