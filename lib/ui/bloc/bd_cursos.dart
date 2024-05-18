@@ -25,6 +25,13 @@ class BDCursosCubit extends Cubit<List<Curso>> {
     emit(cursos);
   }
 
+  // eliminar un curso por id
+  void eliminarCurso(int id) {
+    List<Curso> cursos = List.from(state); // Crea una nueva lista
+    cursos.removeWhere((curso) => curso.id == id);
+    emit(cursos);
+  }
+
 
   //actualizar atributo name del curso  buscando el curso por id y actualiza
 void actualizarUnidadesCurso(Curso curso) {

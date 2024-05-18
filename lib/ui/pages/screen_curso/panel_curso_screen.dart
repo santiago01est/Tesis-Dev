@@ -15,6 +15,7 @@ import 'package:dev_tesis/ui/components/appbar/appbar_actividad.dart';
 import 'package:dev_tesis/ui/components/appbar/appbar_panelCurso.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
+import 'package:dev_tesis/ui/widgets/PopUp.dart';
 import 'package:dev_tesis/ui/widgets/layout_curso_unidades.dart';
 import 'package:dev_tesis/ui/widgets/lista_estudiantes.dart';
 import 'package:flutter/material.dart';
@@ -65,6 +66,7 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
     final router = GoRouter.of(context);
 
     final cursoCubit = context.watch<CursoCubit>();
+    final bdCursoCubit = context.watch<BDCursosCubit>();
     final rol = context.read<RolCubit>().state;
 
     final profesoresCubit = context.watch<ProfesoresCubit>();
@@ -291,21 +293,87 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
                             },
                           ),
                           const SizedBox(height: 20.0),
-                          Center(
-                              child: PixelLargeBttn(
-                                  path: 'assets/items/ButtonBlue.png',
-                                  text: rol == 'estudiante'
-                                      ? 'Mi Seguimiento'
-                                      : 'Seguimiento',
-                                  onPressed: () {
-                                    if (rol == 'estudiante') {
-                                      router.go(
-                                          '/seguimientoestudiante/${cursoCubit.state.id}');
-                                    } else {
-                                      router.go(
-                                          '/seguimientoprofesor/${cursoCubit.state.id}');
-                                    }
-                                  })),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              // boton con icono de lapiz para editar
+                              rol == 'profesor' ?
+                              PixelLargeBttn(
+                                      path: 'assets/buttons/editar.png',
+                                      text: '',
+                                      onPressed: () {
+                                         PopupUtils.showEditCoursePopup(
+                                              context,
+                                              cursoCubit.state);
+                                      })
+                            : Container(),
+                            
+                              Center(
+                                  child: PixelLargeBttn(
+                                      path: 'assets/items/ButtonBlue.png',
+                                      text: rol == 'estudiante'
+                                          ? 'Mi Seguimiento'
+                                          : 'Seguimiento',
+                                      onPressed: () {
+                                        if (rol == 'estudiante') {
+                                          router.go(
+                                              '/seguimientoestudiante/${cursoCubit.state.id}');
+                                        } else {
+                                          router.go(
+                                              '/seguimientoprofesor/${cursoCubit.state.id}');
+                                        }
+                                      })),
+                                      rol == 'profesor' ?
+                              PixelLargeBttn(
+                                      path: 'assets/buttons/borrar.png',
+                                      text: '',
+                                onPressed: () {
+
+                                  // show dialog  de confirmacion
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text("¿Estás seguro de eliminar este curso permanentemente?"),
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Image.asset(
+                                              'assets/avatares/perico_avatar.png',
+                                              width: 300,
+                                              height: 300,
+                                            ), // Reemplaza 'ruta_de_la_imagen' con la ruta real de tu imagen
+                                          ],
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text("Cancelar"),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              bdCursoCubit.eliminarCurso(cursoCubit.state.id!);
+                                              cursoCubit.limpiarCubit();
+                                              router.pushReplacementNamed('/panelprofesor/$profesorId');
+                                              
+                                            },
+                                            child: Text("Eliminar"),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+
+                                 
+                                  
+                                },
+                              ): Container(),
+                            ],
+                          ),
                           const SizedBox(height: 20.0),
                         ],
                       ),

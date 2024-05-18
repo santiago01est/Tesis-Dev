@@ -18,8 +18,8 @@ class PixelSquareBttn extends StatelessWidget {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: Container(
-        width: MediaQuery.of( context).size.width > 700 ? 100 : 50,
-        height: MediaQuery.of( context).size.width > 700 ? 100 : 50,
+        width: MediaQuery.of( context).size.width > 700 ? 50 : 30,
+        height: MediaQuery.of( context).size.width > 700 ? 50 : 30,
         child: GestureDetector(
           onTap: onPressed,
           child: Stack(

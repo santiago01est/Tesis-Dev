@@ -341,4 +341,212 @@ class PopupUtils {
       },
     );
   }
+
+
+/* PopUp para ingresar codigo de acceso del curso */
+  static void showEditCoursePopup(BuildContext context, Curso curso) {
+    final TextEditingController nombreCursoController =
+        TextEditingController();
+
+         final TextEditingController descripcionCursoController =
+        TextEditingController();
+
+        nombreCursoController.text = curso.nombre!;
+
+        descripcionCursoController.text = curso.descripcion!;
+    final profesores= context.read<ProfesoresCubit>().state;
+    
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          content: Container(
+            width: MediaQuery.of(context).size.width * 0.70,
+            height: MediaQuery.of(context).size.height * 0.90,
+            decoration: const BoxDecoration(
+              
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+            ),
+            child: Column(
+              //centralizado
+
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Contenido superpuesto en la primera sección
+                Column(
+                  children: [
+                    // Fila con botón en la parte superior derecha
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        PixelSquareBttn(
+                          path: 'assets/items/buttn_close.png',
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          text: '',
+                        ),
+                      ],
+                    ),
+
+                    // Fila con dos secciones
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                           BigText(text: 'Editar ${curso.nombre}'),
+                           const SizedBox(height: 30.0),
+                           TitleText(text: '${profesores.firstWhere((element) => element.id == curso.profesor).nombre}'),
+                           const SizedBox(height: 20.0),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    const SizedBox(height: 30.0),
+                                     const Text(
+                                      "Nombre:",
+                                      style:  TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 30.0),
+                                    Container(
+                                      width: 300,
+                                      child: TextFormField(
+                                        controller: nombreCursoController,
+                                        keyboardType: TextInputType.text,
+                                        autofocus: true,
+                                        
+                                        enableSuggestions: false,
+                                        autocorrect: false,
+                                        decoration: InputDecoration(
+                                          hintText: "Ingresa el nombre del curso",
+                                          prefixIcon: Icon(Icons.text_fields,
+                                              color: blueColor),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                              width: 0,
+                                              style: BorderStyle.none,
+                                            ),
+                                          ),
+                                          filled: true,
+                                          isDense: true,
+                                          contentPadding:
+                                              const EdgeInsets.fromLTRB(
+                                                  10, 10, 10, 10),
+                                          fillColor: Colors.grey[300],
+                                          // Aplicar validación y mensajes de error
+                                          errorBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                              width: 2,
+                                              color: Colors.red,
+                                            ),
+                                          ),
+                                        ),
+                                        // Lets apply validation
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return "Por favor ingrese un nombre para el curso";
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    const Text(
+                                      "Descripción:",
+                                      style:  TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 30.0),
+                                    Container(
+                                      width: 300,
+                                      child: TextFormField(
+                                        controller: descripcionCursoController,
+                                        keyboardType: TextInputType.text,
+                                        autofocus: false,
+                                        
+                                        enableSuggestions: false,
+                                        autocorrect: true,
+                                        decoration: InputDecoration(
+                                          hintText: "Ingresa una descripción del curso",
+                                          prefixIcon: Icon(Icons.text_fields_sharp,
+                                              color: blueColor),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                              width: 0,
+                                              style: BorderStyle.none,
+                                            ),
+                                          ),
+                                          filled: true,
+                                          isDense: true,
+                                          contentPadding:
+                                              const EdgeInsets.fromLTRB(
+                                                  10, 10, 10, 10),
+                                          fillColor: Colors.grey[300],
+                                          // Aplicar validación y mensajes de error
+                                          errorBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                              width: 2,
+                                              color: Colors.red,
+                                            ),
+                                          ),
+                                        ),
+                                        // Lets apply validation
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return "Por favor ingrese una descripción para el curso";
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                    ),
+
+                                    const SizedBox(height: 10),
+                                    PixelLargeBttn(
+                                      path: "assets/items/ButtonBlue.png",
+                                      onPressed: () {
+                                        
+                                        
+                                      },
+                                      text: 'Guardar',
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 }
