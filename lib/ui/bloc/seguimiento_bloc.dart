@@ -54,29 +54,31 @@ class SeguimientosEstudiantesCubit extends Cubit<List<Seguimiento>> {
     }).toList());
   }
 
- void actualizarCalificacionActividadSeguimiento(int userId, int actividadId, int nuevaCalificacion, int cursoId) {
-  emit(state.map((seguimiento) {
-    if (seguimiento.userId == userId && seguimiento.cursoId == cursoId) {
-      // Buscar la respuesta correspondiente a la actividad
-      final nuevasRespuestasActividades = seguimiento.respuestasActividades?.map((r) {
-        if (r.actividadId == actividadId) {
-          // Actualizar la calificación de la respuesta
-          return r.copyWith(
-            peso: nuevaCalificacion,
-          );
-        } else {
-          return r;
-        }
-      }).toList();
-      // Clonar el seguimiento para actualizar las respuestas
-      return seguimiento.copyWith(
-        respuestasActividades: nuevasRespuestasActividades,
-      );
-    } else {
-      return seguimiento;
-    }
-  }).toList());
-}
+  void actualizarCalificacionActiviidadSeguimiento(
+      int userId, int actividadId, int nuevaCalificacion, int cursoId) {
+    emit(state.map((seguimiento) {
+      if (seguimiento.userId == userId && seguimiento.cursoId == cursoId) {
+        // Buscar la respuesta correspondiente a la actividad
+        final nuevasRespuestasActividades =
+            seguimiento.respuestasActividades?.map((r) {
+          if (r.actividadId == actividadId) {
+            // Actualizar la calificación de la respuesta
+            return r.copyWith(
+              peso: nuevaCalificacion,
+            );
+          } else {
+            return r;
+          }
+        }).toList();
+        // Clonar el seguimiento para actualizar las respuestas
+        return seguimiento.copyWith(
+          respuestasActividades: nuevasRespuestasActividades,
+        );
+      } else {
+        return seguimiento;
+      }
+    }).toList());
+  }
 
   void actualizarRespuestasTestEstudiantes(
       List<int> idsEstudiantes, List<int> respuestas) {
@@ -95,21 +97,20 @@ class SeguimientosEstudiantesCubit extends Cubit<List<Seguimiento>> {
 
   // Agregar una respuesta a la lista en cada seguimiento
   void agregarRespuesta(int cursoId, Actividad actividad) {
-  emit(state.map((seguimiento) {
-    if (seguimiento.cursoId == cursoId) {
-      // Inicializar la lista si es nula
-      seguimiento.respuestasActividades ??= [];
-      Respuesta nuevaRespuesta = Respuesta(
-        id: 1, 
-        respuestaUsuario: '', 
-        peso: -1, 
-        actividadId: actividad.id!, 
-        seguimientoId: seguimiento.id
-      );
-      // Añadir la nueva respuesta a la lista
-      seguimiento.respuestasActividades!.add(nuevaRespuesta);
-    }
-    return seguimiento;
-  }).toList());
+    emit(state.map((seguimiento) {
+      if (seguimiento.cursoId == cursoId) {
+        // Inicializar la lista si es nula
+        seguimiento.respuestasActividades ??= [];
+        Respuesta nuevaRespuesta = Respuesta(
+            id: 1,
+            respuestaUsuario: '',
+            peso: -1,
+            actividadId: actividad.id!,
+            seguimientoId: seguimiento.id);
+        // Añadir la nueva respuesta a la lista
+        seguimiento.respuestasActividades!.add(nuevaRespuesta);
+      }
+      return seguimiento;
+    }).toList());
   }
 }

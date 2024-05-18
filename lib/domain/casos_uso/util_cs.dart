@@ -48,7 +48,6 @@ class InitData {
           await fetchSeguimientosTodosCursos();
       seguimientoCubit.subirSeguimientos(seguimientosCursos);
 */
-      
     }
   }
 
@@ -62,22 +61,18 @@ class InitData {
       // Si la lista no está vacía, convertirla a una lista de Estudiante
       //if (jsonString != null) {
 
-        
-
       final seguimientoCubit = context.watch<SeguimientosEstudiantesCubit>();
 
       //await fetchGruposCurso(cursoId);
       await _fetchCursos();
       await fetchProfesores();
       await _fetchCursoYUnidad(cursoId);
-      
+
       await _fetchSeguimientosCurso(cursoId);
       // await _fetchGruposCurso(cursoId);
 
       //Obtener sesion estudiantes si el rol es estudiante
       // Leer y mostrar la lista guardada
-
-      
     } else {
       //await fetchGruposCurso(cursoId);
       await _fetchCursoYUnidad(cursoId);
@@ -135,11 +130,10 @@ class InitData {
 
       context.read<EstudiantesCubit>().subirEstudiantes([yoEstudiante]);
       */
-       if (context.read<BDCursosCubit>().state.isEmpty) {
+      if (context.read<BDCursosCubit>().state.isEmpty) {
         await _fetchCursos();
+      }
 
-       }
-      
       await fetchProfesores();
     } catch (e) {
       // Manejo de errores, puedes mostrar un mensaje de error
@@ -213,32 +207,26 @@ class InitData {
     Map<String, dynamic> data = grupo.toMap();
 
     // Agregar el documento a la colección
-    await productos.add(data).then((value) {
-    
-    }).catchError((error) {
-     
-    });
+    await productos.add(data).then((value) {}).catchError((error) {});
   }
 
-Future<void> fetchGruposCurso(int cursoId) async {
-  final gruposCubit = context.read<GrupoEstudiantesCubit>();
-  final ref = FirebaseFirestore.instance.collection("grupos");
-  try {
-    final querySnapshot = await ref.get();
+  Future<void> fetchGruposCurso(int cursoId) async {
+    final gruposCubit = context.read<GrupoEstudiantesCubit>();
+    final ref = FirebaseFirestore.instance.collection("grupos");
+    try {
+      final querySnapshot = await ref.get();
 
-    final List<Grupo> grupos = querySnapshot.docs.map((doc) {
-      final grupo = Grupo.fromFirestore(doc);
-      return grupo;
-    }).toList();
+      final List<Grupo> grupos = querySnapshot.docs.map((doc) {
+        final grupo = Grupo.fromFirestore(doc);
+        return grupo;
+      }).toList();
 
-    gruposCubit.actualizarGrupos(grupos);
-  } catch (e) {
-    // Manejo de la excepción
-    print('Error al obtener los grupos: $e');
+      gruposCubit.actualizarGrupos(grupos);
+    } catch (e) {
+      // Manejo de la excepción
+      print('Error al obtener los grupos: $e');
+    }
   }
-  
-}
-
 
   Future<void> _fetchSeguimientosCurso(int cursoId) async {
     if (context.read<BDCursosCubit>().state.isEmpty) {
@@ -319,27 +307,23 @@ Future<void> fetchGruposCurso(int cursoId) async {
   }
 
   Future<List<Seguimiento>> fetchSeguimientosTodosCursos() async {
+    final curso =
+        context.read<BDCursosCubit>().state.firstWhere((c) => c.id == 1);
+    final unidades = curso.unidades;
+    List<Actividad> actividades = [];
+    // se recorre cada unidad y se pasa actividad a la lista
+    for (var unidad in unidades!) {
+      for (var actividad in unidad.actividades!) {
+        actividades.add(actividad);
+      }
+    }
+    if (context.read<BDemoMundoPC>().state.isEmpty) {
+      context.read<BDemoMundoPC>().subirSeguimientos(actividades);
+      context
+          .read<SeguimientosEstudiantesCubit>()
+          .subirSeguimientos(context.read<BDemoMundoPC>().state);
+    }
 
-
-        final curso = context
-            .read<BDCursosCubit>()
-            .state
-            .firstWhere((c) => c.id == 1);
-        final unidades = curso.unidades;
-        List<Actividad> actividades = [];
-        // se recorre cada unidad y se pasa actividad a la lista
-        for (var unidad in unidades!) {
-          for (var actividad in unidad.actividades!) {
-            actividades.add(actividad);
-          }
-        }
-        if (context.read<BDemoMundoPC>().state.isEmpty) {
-          context.read<BDemoMundoPC>().subirSeguimientos(actividades);
-          context
-              .read<SeguimientosEstudiantesCubit>()
-              .subirSeguimientos(context.read<BDemoMundoPC>().state);
-        }
-      
     final ref = FirebaseFirestore.instance.collection("seguimientos");
 
     final querySnapshot = await ref.get();
@@ -350,7 +334,6 @@ Future<void> fetchGruposCurso(int cursoId) async {
     }).toList();
 
     seguimientos.add(context.read<BDemoMundoPC>().state.first);
-    
 
     return seguimientos;
   }
