@@ -32,6 +32,20 @@ class BDCursosCubit extends Cubit<List<Curso>> {
     emit(cursos);
   }
 
+  //actualizar curso
+  void actualizarCursoPorId(int id, String nombre, String descripcion) {
+    List<Curso> cursos = List.from(state); // Crea una nueva lista
+    for (var i = 0; i < state.length; i++) {
+      if (cursos[i].id == id) {
+        cursos[i].nombre = nombre;
+        cursos[i].descripcion = descripcion;
+      }
+    }
+    emit(cursos);
+   
+    
+  }
+
 
   //actualizar atributo name del curso  buscando el curso por id y actualiza
 void actualizarUnidadesCurso(Curso curso) {

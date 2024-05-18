@@ -65,7 +65,7 @@ class _PanelPrincipalProfesorScreenState
 
   @override
   Widget build(BuildContext context) {
-    final profesorCubit = context.read<ProfesorCubit>();
+    final profesorCubit = context.watch<ProfesorCubit>();
     final router = GoRouter.of(context);
 
     return Scaffold(
@@ -216,7 +216,7 @@ class _PanelPrincipalProfesorScreenState
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                SubtitleText(
+                TitleText(
                   text: nombre,
                 ),
                 const SizedBox(height: 10),

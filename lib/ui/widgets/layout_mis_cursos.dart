@@ -32,7 +32,7 @@ class _LayoutMisCursosState extends State<LayoutMisCursos> {
     
     final router = GoRouter.of(context);
     //obtener solo los cursos del profesor
-    List<Curso>  cursosCubit = context.read<BDCursosCubit>().state;
+    List<Curso>  cursosCubit = context.watch<BDCursosCubit>().state;
     final rolCubit = context.read<RolCubit>();
     final profesorCubit = context.read<ProfesorCubit>();
     print(cursosCubit.length);

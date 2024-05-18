@@ -184,11 +184,18 @@ class CrearActividadState extends State<CrearActividad> {
                                   ),
                                 ),
                               ),
+
+                              const SubtitleText(
+                                    text:
+                                        'Selecciona las habilidades que se estan evaluando:'),
+
+                              // Habilidades
                               Padding(
                                 padding: const EdgeInsets.all(20.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                child: Wrap(
+                                 
                                   children: [
+                                    
                                     for (int i = 0; i < 4; i++)
                                       Padding(
                                         padding: const EdgeInsets.symmetric(

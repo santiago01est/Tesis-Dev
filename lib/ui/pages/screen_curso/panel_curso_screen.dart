@@ -37,14 +37,14 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
   final UnidadCasoUso unidadCasoUso = getIt<UnidadCasoUso>();
   final ProfesorCasoUso profesorCasoUso = getIt<ProfesorCasoUso>();
 
-  late Future<void> _cursosProfesoresCasoUso;
+  late InitData initData;
   bool _isLoading = true;
 
   @override
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
 
-    final initData = InitData(
+    initData = InitData(
       cursosCasoUso: getIt<CursosCasoUso>(),
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,
@@ -64,7 +64,6 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
   @override
   Widget build(BuildContext context) {
     final router = GoRouter.of(context);
-
     final cursoCubit = context.watch<CursoCubit>();
     final bdCursoCubit = context.watch<BDCursosCubit>();
     final rol = context.read<RolCubit>().state;
@@ -356,9 +355,16 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
                                           ),
                                           TextButton(
                                             onPressed: () {
-                                              bdCursoCubit.eliminarCurso(cursoCubit.state.id!);
-                                              cursoCubit.limpiarCubit();
-                                              router.pushReplacementNamed('/panelprofesor/$profesorId');
+                                              setState(() {
+                                                _isLoading = true;
+                                              });
+
+                                              
+                                              
+                                              Navigator.of(context).pop();
+                                              router.go('/panelprofesor/$profesorId');
+                                              initData.eliminarCurso(cursoCubit.state.id!);
+                                              
                                               
                                             },
                                             child: Text("Eliminar"),

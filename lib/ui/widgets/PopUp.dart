@@ -1,15 +1,17 @@
 import 'package:dev_tesis/constants/styles.dart';
+import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
-import 'package:dev_tesis/domain/model/estudiante.dart';
+import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_large_bttn.dart';
 import 'package:dev_tesis/ui/components/buttons/pixel_square.dart';
 import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:dev_tesis/ui/widgets/pop_up_credenciales.dart';
-import 'package:dev_tesis/utils/rutasImagenes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 
 class PopupUtils {
   /* PopUp para seleccionar Avatar */
@@ -355,6 +357,11 @@ class PopupUtils {
 
         descripcionCursoController.text = curso.descripcion!;
     final profesores= context.read<ProfesoresCubit>().state;
+ InitData initData = InitData(
+      cursosCasoUso: getIt<CursosCasoUso>(),
+      profesorCasoUso: getIt<ProfesorCasoUso>(),
+      context: context,
+    );
     
     showDialog(
       context: context,
@@ -527,6 +534,10 @@ class PopupUtils {
                                     PixelLargeBttn(
                                       path: "assets/items/ButtonBlue.png",
                                       onPressed: () {
+                                        initData.actualizarCurso(curso.id!, nombreCursoController.text, descripcionCursoController.text);
+
+                                        Navigator.of(context).pop();
+                                        
                                         
                                         
                                       },

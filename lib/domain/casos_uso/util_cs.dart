@@ -337,4 +337,116 @@ class InitData {
 
     return seguimientos;
   }
+
+   void actualizarCurso(int cursoId, String nombre, String descripcion) {
+    context.read<BDCursosCubit>().actualizarCursoPorId(cursoId, nombre, descripcion);
+    context.read<CursoCubit>().actualizarCursoAtributos(cursoId, nombre, descripcion);
+
+    //BD
+    updateDocumentFieldsByField(cursoId, nombre, descripcion);
+    
+  }
+
+  Future<void> updateDocumentFieldsByField(int cursoId,String nombre, String descripcion) async {
+  // Referencia a la colección en Firestore
+  CollectionReference collectionRef = FirebaseFirestore.instance.collection("cursos");
+
+  // Realizar la consulta para encontrar el documento con el campo específico
+  QuerySnapshot querySnapshot = await collectionRef.where('id', isEqualTo: cursoId).limit(1).get();
+
+  // Verificar si se encontraron documentos
+  if (querySnapshot.docs.isNotEmpty) {
+    // Iterar a través de los documentos encontrados y actualizarlos
+    for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+      final docRef = collectionRef.doc(doc.id);
+     docRef.update({
+          'nombre': nombre
+              ,
+        });
+
+        docRef.update({
+          'descripcion': descripcion
+              ,
+        });
+      print('Documento con ID ${doc.id} actualizado.');
+    }
+  } else {
+    print('No se encontraron documentos');
+  }
+}
+
+  void eliminarCurso(int cursoId) {
+    context.read<BDCursosCubit>().eliminarCurso(cursoId);
+    context.read<CursoCubit>().limpiarCubit();
+
+    //BD
+    deleteDocumentByField(cursoId);
+    
+  }
+
+  Future<void> deleteDocumentByField(int cursoId) async {
+  // Referencia a la colección en Firestore
+  CollectionReference collectionRef = FirebaseFirestore.instance.collection("cursos");
+
+  // Realizar la consulta para encontrar el documento con el campo específico
+  QuerySnapshot querySnapshot = await collectionRef.where('id', isEqualTo: cursoId).limit(1).get();
+
+  // Verificar si se encontraron documentos
+  if (querySnapshot.docs.isNotEmpty) {
+    // Iterar a través de los documentos encontrados y eliminarlos
+    for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+      await doc.reference.delete();
+      print('Documento con ID ${doc.id} eliminado.');
+    }
+
+    // Elimina seguimientos relacionadas al curso
+
+    CollectionReference collectionSegRef = FirebaseFirestore.instance.collection("seguimientos");
+
+  // Realizar la consulta para encontrar el documento con el campo específico
+  QuerySnapshot querySegSnapshot = await collectionSegRef.where('cursoId', isEqualTo: cursoId).get();
+
+  if (querySegSnapshot.docs.isNotEmpty) {
+    // Iterar a través de los documentos encontrados y eliminarlos
+    for (QueryDocumentSnapshot doc in querySegSnapshot.docs) {
+      await doc.reference.delete();
+      print('Documento con ID ${doc.id} eliminado.');
+    }
+  }
+
+  // Elimina unidades relacionadas al curso
+
+  CollectionReference collectionUnidadesRef = FirebaseFirestore.instance.collection("seguimientos");
+
+  // Realizar la consulta para encontrar el documento con el campo específico
+  QuerySnapshot queryUnidadesSnapshot = await collectionUnidadesRef.where('cursoId', isEqualTo: cursoId).get();
+
+  if (queryUnidadesSnapshot.docs.isNotEmpty) {
+    // Iterar a través de los documentos encontrados y eliminarlos
+    for (QueryDocumentSnapshot doc in queryUnidadesSnapshot.docs) {
+      await doc.reference.delete();
+      print('Documento con ID ${doc.id} eliminado.');
+    }
+  }
+
+  // Elimina grupos relacionadas al curso
+
+  CollectionReference collectionGruposRef = FirebaseFirestore.instance.collection("grupos");
+
+  // Realizar la consulta para encontrar el documento con el campo específico
+  QuerySnapshot queryGruposSnapshot = await collectionGruposRef.where('cursoId', isEqualTo: cursoId).get();
+
+  if (queryGruposSnapshot.docs.isNotEmpty) {
+    // Iterar a través de los documentos encontrados y eliminarlos
+    for (QueryDocumentSnapshot doc in queryGruposSnapshot.docs) {
+      await doc.reference.delete();
+      print('Documento con ID ${doc.id} eliminado.');
+    }
+  }
+
+
+  } else {
+    print('No se encontraron documentos');
+  }
+}
 }

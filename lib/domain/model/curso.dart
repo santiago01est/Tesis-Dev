@@ -90,6 +90,43 @@ Map<String, dynamic> toFirestore() {
     );
   }
 
+  // copywith
+  Curso copyWith({
+    int? id,
+    String? nombre,
+    String? codigoAcceso,
+    String? departamento,
+    String? ciudad,
+    String? colegio,
+    int? profesor,
+    String? portada,
+    int? numEstudiantes,
+    String? descripcion,
+    String? fechaCreacion,
+    String? fechaFinalizacion,
+    bool? estado,
+    List<Estudiante>? estudiantes,
+    List<Unidad>? unidades,
+  }) {
+    return Curso(
+      id: id ?? this.id,
+      nombre: nombre ?? this.nombre,
+      codigoAcceso: codigoAcceso ?? this.codigoAcceso,
+      departamento: departamento ?? this.departamento,
+      ciudad: ciudad ?? this.ciudad,
+      colegio: colegio ?? this.colegio,
+      profesor: profesor ?? this.profesor,
+      portada: portada ?? this.portada,
+      numEstudiantes: numEstudiantes ?? this.numEstudiantes,
+      descripcion: descripcion ?? this.descripcion,
+      fechaCreacion: fechaCreacion ?? this.fechaCreacion,
+      fechaFinalizacion: fechaFinalizacion ?? this.fechaFinalizacion,
+      estado: estado ?? this.estado,
+      estudiantes: estudiantes ?? this.estudiantes,
+      unidades: unidades ?? this.unidades,
+    );
+  }
+
 
 
   List<Actividad> obtenerTodasActividadesCurso(List<Unidad>? unidades) {

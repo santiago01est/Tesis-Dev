@@ -19,6 +19,16 @@ class CursoCubit extends Cubit<Curso> {
     emit(Curso());
   }
 
+  void actualizarCursoAtributos(int cursoId, String nombre, String descripcion){
+    // crea una copia del curso
+    final estadoActual = state;
+    final nuevoCurso = estadoActual.copyWith(
+      nombre: nombre,
+      descripcion: descripcion
+    );
+    emit(nuevoCurso);
+  }
+
   // Método para buscar un estudiante por nombre
   Estudiante? buscarEstudiantePorNombre(String nombreEstudiante) {
     // Obtenemos el estado actual del curso
