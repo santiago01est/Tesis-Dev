@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
@@ -112,6 +114,11 @@ class CrearActividadState extends State<CrearActividad> {
 
   @override
   Widget build(BuildContext context) {
+    InitData initData = InitData(
+      cursosCasoUso: getIt<CursosCasoUso>(),
+      profesorCasoUso: getIt<ProfesorCasoUso>(),
+      context: context,
+    );
     final router = GoRouter.of(context);
     final unidadesCubit =
         context.read<UnidadesCubit>().obtenerUnidadPorId(widget.unidadId);
@@ -184,46 +191,64 @@ class CrearActividadState extends State<CrearActividad> {
                                   ),
                                 ),
                               ),
-
-                              const SubtitleText(
-                                    text:
-                                        'Selecciona las habilidades que se estan evaluando:'),
+                              const Padding(
+                                padding: EdgeInsets.only(
+                                    left: 50, bottom: 20, top: 20),
+                                child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          SubtitleText(
+                                              text:
+                                                  'Selecciona las habilidades que se estan evaluando:'),
+                                        ])),
+                              ),
 
                               // Habilidades
                               Padding(
-                                padding: const EdgeInsets.all(20.0),
+                                padding: const EdgeInsets.only( left: 50, bottom: 20, top: 10),
                                 child: Wrap(
-                                 
+                                  spacing:
+                                      8.0, // Espacio horizontal entre los elementos
+                                  runSpacing:
+                                      8.0, // Espacio vertical entre las líneas
                                   children: [
-                                    
                                     for (int i = 0; i < 4; i++)
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 8.0),
-                                        child: Card(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                          ),
-                                          color: _selectedOptions[i] == 1
-                                              ? Colors.blue
-                                              : null,
-                                          child: InkWell(
-                                            onTap: () => _handleOptionChange(i),
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(20.0),
-                                              child: Center(
-                                                child: Text(
-                                                  _selectedOptionsText[i],
-                                                  style: TextStyle(
-                                                    color:
-                                                        _selectedOptions[i] == 1
-                                                            ? Colors.white
-                                                            : null,
-                                                    fontWeight: FontWeight.bold,
+                                        child: Container(
+                                          width: 170,
+                                          height: null,
+                                          child: Card(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            color: _selectedOptions[i] == 1
+                                                ? blueColor
+                                                : null,
+                                            child: InkWell(
+                                              onTap: () => _handleOptionChange(i),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(20.0),
+                                                child: Center(
+                                                  child: Text(
+                                                    _selectedOptionsText[i],
+                                                    style: TextStyle(
+                                                      color:
+                                                          _selectedOptions[i] == 1
+                                                              ? Colors.white
+                                                              : null,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -234,6 +259,7 @@ class CrearActividadState extends State<CrearActividad> {
                                   ],
                                 ),
                               ),
+
                               Padding(
                                 padding:
                                     const EdgeInsets.only(left: 50, top: 20),
@@ -330,7 +356,7 @@ class CrearActividadState extends State<CrearActividad> {
                                             actividadCuestionarioSave =
                                             ActividadCuestionario(
                                                 id: Random().nextInt(1000),
-                                                nombre: 'Diagnostico',
+                                                nombre: 'Primeros Pasos',
                                                 descripcion:
                                                     descripcionTextEditingController
                                                         .text,
@@ -348,16 +374,11 @@ class CrearActividadState extends State<CrearActividad> {
                                                 respuestaCorrecta:
                                                     _selectedOptionIndex);
 
-                                        context.read<CursoCubit>().addActividad(
-                                            actividadCuestionarioSave,
-                                            widget.unidadId,
-                                            context);
-                                        context
-                                            .read<
-                                                SeguimientosEstudiantesCubit>()
-                                            .agregarRespuesta(
-                                                unidadesCubit!.cursoId,
-                                                actividadCuestionarioSave);
+                                       
+
+                                        initData.subirActividadCuestionario(
+                                            widget.unidadId, actividadCuestionarioSave,unidadesCubit!.cursoId
+                                        );
 
                                         // cerrar screen y volver
 /*

@@ -4,10 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
+import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/grupo.dart';
 import 'package:dev_tesis/domain/model/profesor.dart';
+import 'package:dev_tesis/domain/model/respuesta.dart';
 import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
@@ -338,42 +340,46 @@ class InitData {
     return seguimientos;
   }
 
-   void actualizarCurso(int cursoId, String nombre, String descripcion) {
-    context.read<BDCursosCubit>().actualizarCursoPorId(cursoId, nombre, descripcion);
-    context.read<CursoCubit>().actualizarCursoAtributos(cursoId, nombre, descripcion);
+  void actualizarCurso(int cursoId, String nombre, String descripcion) {
+    context
+        .read<BDCursosCubit>()
+        .actualizarCursoPorId(cursoId, nombre, descripcion);
+    context
+        .read<CursoCubit>()
+        .actualizarCursoAtributos(cursoId, nombre, descripcion);
 
     //BD
     updateDocumentFieldsByField(cursoId, nombre, descripcion);
-    
   }
 
-  Future<void> updateDocumentFieldsByField(int cursoId,String nombre, String descripcion) async {
-  // Referencia a la colección en Firestore
-  CollectionReference collectionRef = FirebaseFirestore.instance.collection("cursos");
+  Future<void> updateDocumentFieldsByField(
+      int cursoId, String nombre, String descripcion) async {
+    // Referencia a la colección en Firestore
+    CollectionReference collectionRef =
+        FirebaseFirestore.instance.collection("cursos");
 
-  // Realizar la consulta para encontrar el documento con el campo específico
-  QuerySnapshot querySnapshot = await collectionRef.where('id', isEqualTo: cursoId).limit(1).get();
+    // Realizar la consulta para encontrar el documento con el campo específico
+    QuerySnapshot querySnapshot =
+        await collectionRef.where('id', isEqualTo: cursoId).limit(1).get();
 
-  // Verificar si se encontraron documentos
-  if (querySnapshot.docs.isNotEmpty) {
-    // Iterar a través de los documentos encontrados y actualizarlos
-    for (QueryDocumentSnapshot doc in querySnapshot.docs) {
-      final docRef = collectionRef.doc(doc.id);
-     docRef.update({
-          'nombre': nombre
-              ,
+    // Verificar si se encontraron documentos
+    if (querySnapshot.docs.isNotEmpty) {
+      // Iterar a través de los documentos encontrados y actualizarlos
+      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+        final docRef = collectionRef.doc(doc.id);
+        docRef.update({
+          'nombre': nombre,
         });
 
         docRef.update({
-          'descripcion': descripcion
-              ,
+          'descripcion': descripcion,
         });
-      print('Documento con ID ${doc.id} actualizado.');
+        print('Documento con ID ${doc.id} actualizado.');
+      }
+    } else {
+      print('No se encontraron documentos');
     }
-  } else {
-    print('No se encontraron documentos');
   }
-}
 
   void eliminarCurso(int cursoId) {
     context.read<BDCursosCubit>().eliminarCurso(cursoId);
@@ -381,72 +387,171 @@ class InitData {
 
     //BD
     deleteDocumentByField(cursoId);
-    
   }
 
   Future<void> deleteDocumentByField(int cursoId) async {
-  // Referencia a la colección en Firestore
-  CollectionReference collectionRef = FirebaseFirestore.instance.collection("cursos");
+    // Referencia a la colección en Firestore
+    CollectionReference collectionRef =
+        FirebaseFirestore.instance.collection("cursos");
 
-  // Realizar la consulta para encontrar el documento con el campo específico
-  QuerySnapshot querySnapshot = await collectionRef.where('id', isEqualTo: cursoId).limit(1).get();
+    // Realizar la consulta para encontrar el documento con el campo específico
+    QuerySnapshot querySnapshot =
+        await collectionRef.where('id', isEqualTo: cursoId).limit(1).get();
 
-  // Verificar si se encontraron documentos
-  if (querySnapshot.docs.isNotEmpty) {
-    // Iterar a través de los documentos encontrados y eliminarlos
-    for (QueryDocumentSnapshot doc in querySnapshot.docs) {
-      await doc.reference.delete();
-      print('Documento con ID ${doc.id} eliminado.');
-    }
+    // Verificar si se encontraron documentos
+    if (querySnapshot.docs.isNotEmpty) {
+      // Iterar a través de los documentos encontrados y eliminarlos
+      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+        await doc.reference.delete();
+        print('Documento con ID ${doc.id} eliminado.');
+      }
 
-    // Elimina seguimientos relacionadas al curso
+      // Elimina seguimientos relacionadas al curso
 
-    CollectionReference collectionSegRef = FirebaseFirestore.instance.collection("seguimientos");
+      CollectionReference collectionSegRef =
+          FirebaseFirestore.instance.collection("seguimientos");
 
-  // Realizar la consulta para encontrar el documento con el campo específico
-  QuerySnapshot querySegSnapshot = await collectionSegRef.where('cursoId', isEqualTo: cursoId).get();
+      // Realizar la consulta para encontrar el documento con el campo específico
+      QuerySnapshot querySegSnapshot =
+          await collectionSegRef.where('cursoId', isEqualTo: cursoId).get();
 
-  if (querySegSnapshot.docs.isNotEmpty) {
-    // Iterar a través de los documentos encontrados y eliminarlos
-    for (QueryDocumentSnapshot doc in querySegSnapshot.docs) {
-      await doc.reference.delete();
-      print('Documento con ID ${doc.id} eliminado.');
+      if (querySegSnapshot.docs.isNotEmpty) {
+        // Iterar a través de los documentos encontrados y eliminarlos
+        for (QueryDocumentSnapshot doc in querySegSnapshot.docs) {
+          await doc.reference.delete();
+          print('Documento con ID ${doc.id} eliminado.');
+        }
+      }
+
+      // Elimina unidades relacionadas al curso
+
+      CollectionReference collectionUnidadesRef =
+          FirebaseFirestore.instance.collection("unidades");
+
+      // Realizar la consulta para encontrar el documento con el campo específico
+      QuerySnapshot queryUnidadesSnapshot = await collectionUnidadesRef
+          .where('cursoId', isEqualTo: cursoId)
+          .get();
+
+      if (queryUnidadesSnapshot.docs.isNotEmpty) {
+        // Iterar a través de los documentos encontrados y eliminarlos
+        for (QueryDocumentSnapshot doc in queryUnidadesSnapshot.docs) {
+          await doc.reference.delete();
+          print('Documento con ID ${doc.id} eliminado.');
+        }
+      }
+
+      // Elimina grupos relacionadas al curso
+
+      CollectionReference collectionGruposRef =
+          FirebaseFirestore.instance.collection("grupos");
+
+      // Realizar la consulta para encontrar el documento con el campo específico
+      QuerySnapshot queryGruposSnapshot =
+          await collectionGruposRef.where('cursoId', isEqualTo: cursoId).get();
+
+      if (queryGruposSnapshot.docs.isNotEmpty) {
+        // Iterar a través de los documentos encontrados y eliminarlos
+        for (QueryDocumentSnapshot doc in queryGruposSnapshot.docs) {
+          await doc.reference.delete();
+          print('Documento con ID ${doc.id} eliminado.');
+        }
+      }
+    } else {
+      print('No se encontraron documentos');
     }
   }
 
-  // Elimina unidades relacionadas al curso
+  Future<void> subirActividadCuestionario(int unidadId,
+      ActividadCuestionario actividadCuestionarioSave, int cursoId) async {
+    context
+        .read<CursoCubit>()
+        .addActividad(actividadCuestionarioSave, unidadId, context);
+    context
+        .read<SeguimientosEstudiantesCubit>()
+        .agregarRespuesta(cursoId, actividadCuestionarioSave);
 
-  CollectionReference collectionUnidadesRef = FirebaseFirestore.instance.collection("seguimientos");
+        // Actualizar actividad en unidad
 
-  // Realizar la consulta para encontrar el documento con el campo específico
-  QuerySnapshot queryUnidadesSnapshot = await collectionUnidadesRef.where('cursoId', isEqualTo: cursoId).get();
+        CollectionReference collectionUnidadesRef =
+          FirebaseFirestore.instance.collection("unidades");
 
-  if (queryUnidadesSnapshot.docs.isNotEmpty) {
-    // Iterar a través de los documentos encontrados y eliminarlos
-    for (QueryDocumentSnapshot doc in queryUnidadesSnapshot.docs) {
-      await doc.reference.delete();
-      print('Documento con ID ${doc.id} eliminado.');
-    }
+      // Realizar la consulta para encontrar el documento con el campo específico
+      QuerySnapshot queryUnidadesSnapshot = await collectionUnidadesRef
+          .where('cursoId', isEqualTo: cursoId)
+          .where('id' , isEqualTo: unidadId)
+          .limit(1)
+          .get();
+Map<String, dynamic> actividadGlobalFB = {};
+
+      actividadGlobalFB = {
+              'id': actividadCuestionarioSave.id,
+              'nombre': actividadCuestionarioSave.nombre,
+              'descripcion': actividadCuestionarioSave.descripcion,
+              'estado': actividadCuestionarioSave.estado,
+              'tipoActividad': actividadCuestionarioSave.tipoActividad,
+              'pesoRespuestas': convertirListaAStringPlano(
+                  actividadCuestionarioSave.pesoRespuestas!),
+              'habilidades': convertirListaAStringPlano(
+                  actividadCuestionarioSave.habilidades!),
+              'nombreArchivo': '',
+              'mejorCamino': '',
+              'mejorCamino2': '',
+              'initialState': 0,
+              'dimension': actividadCuestionarioSave.dimension,
+              'casillas':
+                  convertirListaAStringPlano(actividadCuestionarioSave.casillas!),
+              'respuestas':
+                  convertirListaAStringPlano(actividadCuestionarioSave.respuestas!),
+              'ejercicioImage': actividadCuestionarioSave.ejercicioImage,
+              'ejemploImage': actividadCuestionarioSave.ejemploImage,
+              'pista': actividadCuestionarioSave.pista,
+              'respuestaCorrecta': actividadCuestionarioSave.respuestaCorrecta,
+            };
+
+      if (queryUnidadesSnapshot.docs.isNotEmpty) {
+        // Iterar a través de los documentos encontrados y eliminarlos
+        for (QueryDocumentSnapshot doc in queryUnidadesSnapshot.docs) {
+          final docRef = collectionUnidadesRef.doc(doc.id);
+        docRef.update({
+          'actividades': FieldValue.arrayUnion([actividadGlobalFB]),
+        });
+        }
+      }
+
+       CollectionReference collectionSegRef =
+          FirebaseFirestore.instance.collection("seguimientos");
+
+      // Realizar la consulta para encontrar el documento con el campo específico
+      QuerySnapshot querySegSnapshot =
+          await collectionSegRef.where('cursoId', isEqualTo: cursoId).get();
+
+      // nuemro de seguimiento encontrados
+      int numSeg = querySegSnapshot.docs.length;
+
+      Respuesta nuevaRespuesta = Respuesta(
+            id: 1,
+            respuestaUsuario: '',
+            peso: -1,
+            actividadId: actividadCuestionarioSave.id!,
+            seguimientoId: numSeg);
+
+      if (querySegSnapshot.docs.isNotEmpty) {
+        // Iterar a través de los documentos encontrados y eliminarlos
+        for (QueryDocumentSnapshot doc in querySegSnapshot.docs) {
+          final docRef = collectionUnidadesRef.doc(doc.id);
+        docRef.update({
+          'respuestasActividades': FieldValue.arrayUnion([nuevaRespuesta]),
+        });
+        }
+      }
+
   }
 
-  // Elimina grupos relacionadas al curso
+   String convertirListaAStringPlano(List<dynamic> respuestas) {
+    // Convertir la lista a un string
+    String listAsString = jsonEncode(respuestas);
 
-  CollectionReference collectionGruposRef = FirebaseFirestore.instance.collection("grupos");
-
-  // Realizar la consulta para encontrar el documento con el campo específico
-  QuerySnapshot queryGruposSnapshot = await collectionGruposRef.where('cursoId', isEqualTo: cursoId).get();
-
-  if (queryGruposSnapshot.docs.isNotEmpty) {
-    // Iterar a través de los documentos encontrados y eliminarlos
-    for (QueryDocumentSnapshot doc in queryGruposSnapshot.docs) {
-      await doc.reference.delete();
-      print('Documento con ID ${doc.id} eliminado.');
-    }
+    return listAsString;
   }
-
-
-  } else {
-    print('No se encontraron documentos');
-  }
-}
 }
