@@ -1,15 +1,9 @@
-import 'package:dev_tesis/constants/styles.dart';
-import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
-import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
-import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
-import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/components/cards/curso_cards.dart';
-import 'package:dev_tesis/ui/components/textos/textos.dart';
 import 'package:dev_tesis/ui/widgets/PopUp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,22 +19,17 @@ class LayoutMisCursos extends StatefulWidget {
 }
 
 class _LayoutMisCursosState extends State<LayoutMisCursos> {
-
-
   @override
   Widget build(BuildContext context) {
-    
     final router = GoRouter.of(context);
     //obtener solo los cursos del profesor
-    List<Curso>  cursosCubit = context.watch<BDCursosCubit>().state;
+    List<Curso> cursosCubit = context.watch<BDCursosCubit>().state;
     final rolCubit = context.read<RolCubit>();
     final profesorCubit = context.read<ProfesorCubit>();
     print(cursosCubit.length);
 
     List<Curso> misCursos = obtenerMisCursos(widget.profesorId, cursosCubit);
     print('wtffff ${misCursos.length}');
-
-  
 
     return SingleChildScrollView(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -61,15 +50,11 @@ class _LayoutMisCursosState extends State<LayoutMisCursos> {
                       if (rolCubit.state == 'profesor') {
                         router.go('/panelcurso/${misCursos[index].id}');
                       } else {
-                        if (context
-                            .read<EstudiantesCubit>()
-                            .state
-                            .isEmpty) {
+                        if (context.read<EstudiantesCubit>().state.isEmpty) {
                           PopupUtils.showCodeAccessPopup(
                               context, misCursos[index]);
                         } else {
-                          router
-                              .push('/panelcurso/${misCursos[index].id}');
+                          router.push('/panelcurso/${misCursos[index].id}');
                         }
                       }
                     },

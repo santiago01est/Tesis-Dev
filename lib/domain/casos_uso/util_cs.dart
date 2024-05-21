@@ -1,30 +1,23 @@
 import 'dart:convert';
-import 'dart:js_interop';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
-import 'package:dev_tesis/domain/model/curso.dart';
-import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/grupo.dart';
 import 'package:dev_tesis/domain/model/profesor.dart';
 import 'package:dev_tesis/domain/model/respuesta.dart';
 import 'package:dev_tesis/domain/model/seguimiento.dart';
-import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
 import 'package:dev_tesis/ui/bloc/bd_demo.dart';
 import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
-import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/grupo_bloc.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
 import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class InitData {
   final CursosCasoUso cursosCasoUso;
@@ -471,84 +464,83 @@ class InitData {
         .read<SeguimientosEstudiantesCubit>()
         .agregarRespuesta(cursoId, actividadCuestionarioSave);
 
-        // Actualizar actividad en unidad
+    // Actualizar actividad en unidad
 
-        CollectionReference collectionUnidadesRef =
-          FirebaseFirestore.instance.collection("unidades");
+    CollectionReference collectionUnidadesRef =
+        FirebaseFirestore.instance.collection("unidades");
 
-      // Realizar la consulta para encontrar el documento con el campo específico
-      QuerySnapshot queryUnidadesSnapshot = await collectionUnidadesRef
-          .where('cursoId', isEqualTo: cursoId)
-          .where('id' , isEqualTo: unidadId)
-          .limit(1)
-          .get();
-Map<String, dynamic> actividadGlobalFB = {};
+    // Realizar la consulta para encontrar el documento con el campo específico
+    QuerySnapshot queryUnidadesSnapshot = await collectionUnidadesRef
+        .where('cursoId', isEqualTo: cursoId)
+        .where('id', isEqualTo: unidadId)
+        .limit(1)
+        .get();
+    Map<String, dynamic> actividadGlobalFB = {};
 
-      actividadGlobalFB = {
-              'id': actividadCuestionarioSave.id,
-              'nombre': actividadCuestionarioSave.nombre,
-              'descripcion': actividadCuestionarioSave.descripcion,
-              'estado': actividadCuestionarioSave.estado,
-              'tipoActividad': actividadCuestionarioSave.tipoActividad,
-              'pesoRespuestas': convertirListaAStringPlano(
-                  actividadCuestionarioSave.pesoRespuestas!),
-              'habilidades': convertirListaAStringPlano(
-                  actividadCuestionarioSave.habilidades!),
-              'nombreArchivo': '',
-              'mejorCamino': '',
-              'mejorCamino2': '',
-              'initialState': 0,
-              'dimension': actividadCuestionarioSave.dimension,
-              'casillas':
-                  convertirListaAStringPlano(actividadCuestionarioSave.casillas!),
-              'respuestas':
-                  convertirListaAStringPlano(actividadCuestionarioSave.respuestas!),
-              'ejercicioImage': actividadCuestionarioSave.ejercicioImage,
-              'ejemploImage': actividadCuestionarioSave.ejemploImage,
-              'pista': actividadCuestionarioSave.pista,
-              'respuestaCorrecta': actividadCuestionarioSave.respuestaCorrecta,
-            };
+    actividadGlobalFB = {
+      'id': actividadCuestionarioSave.id,
+      'nombre': actividadCuestionarioSave.nombre,
+      'descripcion': actividadCuestionarioSave.descripcion,
+      'estado': actividadCuestionarioSave.estado,
+      'tipoActividad': actividadCuestionarioSave.tipoActividad,
+      'pesoRespuestas':
+          convertirListaAStringPlano(actividadCuestionarioSave.pesoRespuestas!),
+      'habilidades':
+          convertirListaAStringPlano(actividadCuestionarioSave.habilidades!),
+      'nombreArchivo': '',
+      'mejorCamino': '',
+      'mejorCamino2': '',
+      'initialState': 0,
+      'dimension': actividadCuestionarioSave.dimension,
+      'casillas':
+          convertirListaAStringPlano(actividadCuestionarioSave.casillas!),
+      'respuestas':
+          convertirListaAStringPlano(actividadCuestionarioSave.respuestas!),
+      'ejercicioImage': actividadCuestionarioSave.ejercicioImage,
+      'ejemploImage': actividadCuestionarioSave.ejemploImage,
+      'pista': actividadCuestionarioSave.pista,
+      'respuestaCorrecta': actividadCuestionarioSave.respuestaCorrecta,
+    };
 
-      if (queryUnidadesSnapshot.docs.isNotEmpty) {
-        // Iterar a través de los documentos encontrados y eliminarlos
-        for (QueryDocumentSnapshot doc in queryUnidadesSnapshot.docs) {
-          final docRef = collectionUnidadesRef.doc(doc.id);
+    if (queryUnidadesSnapshot.docs.isNotEmpty) {
+      // Iterar a través de los documentos encontrados y eliminarlos
+      for (QueryDocumentSnapshot doc in queryUnidadesSnapshot.docs) {
+        final docRef = collectionUnidadesRef.doc(doc.id);
         docRef.update({
           'actividades': FieldValue.arrayUnion([actividadGlobalFB]),
         });
-        }
       }
+    }
 
-       CollectionReference collectionSegRef =
-          FirebaseFirestore.instance.collection("seguimientos");
+    CollectionReference collectionSegRef =
+        FirebaseFirestore.instance.collection("seguimientos");
 
-      // Realizar la consulta para encontrar el documento con el campo específico
-      QuerySnapshot querySegSnapshot =
-          await collectionSegRef.where('cursoId', isEqualTo: cursoId).get();
+    // Realizar la consulta para encontrar el documento con el campo específico
+    QuerySnapshot querySegSnapshot =
+        await collectionSegRef.where('cursoId', isEqualTo: cursoId).get();
 
-      // nuemro de seguimiento encontrados
-      int numSeg = querySegSnapshot.docs.length;
+    // nuemro de seguimiento encontrados
+    int numSeg = querySegSnapshot.docs.length;
 
-      Respuesta nuevaRespuesta = Respuesta(
-            id: 1,
-            respuestaUsuario: '',
-            peso: -1,
-            actividadId: actividadCuestionarioSave.id!,
-            seguimientoId: numSeg);
+    Respuesta nuevaRespuesta = Respuesta(
+        id: 1,
+        respuestaUsuario: '',
+        peso: -1,
+        actividadId: actividadCuestionarioSave.id!,
+        seguimientoId: numSeg);
 
-      if (querySegSnapshot.docs.isNotEmpty) {
-        // Iterar a través de los documentos encontrados y eliminarlos
-        for (QueryDocumentSnapshot doc in querySegSnapshot.docs) {
-          final docRef = collectionUnidadesRef.doc(doc.id);
+    if (querySegSnapshot.docs.isNotEmpty) {
+      // Iterar a través de los documentos encontrados y eliminarlos
+      for (QueryDocumentSnapshot doc in querySegSnapshot.docs) {
+        final docRef = collectionUnidadesRef.doc(doc.id);
         docRef.update({
           'respuestasActividades': FieldValue.arrayUnion([nuevaRespuesta]),
         });
-        }
       }
-
+    }
   }
 
-   String convertirListaAStringPlano(List<dynamic> respuestas) {
+  String convertirListaAStringPlano(List<dynamic> respuestas) {
     // Convertir la lista a un string
     String listAsString = jsonEncode(respuestas);
 

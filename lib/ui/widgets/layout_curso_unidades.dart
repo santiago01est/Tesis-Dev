@@ -148,56 +148,82 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                                       BorderRadius.circular(
                                                           10.0),
                                                 ),
-                                                color:getBackgroundColor(
-                                                    unidades
-                                                        .state[index]
-                                                        .actividades![
-                                                            activityIndex]
-                                                        .id!,
-                                                    seguimientosCubit
-                                                        .obtenerSeguimientoEstudiante(
-                                                            userID)),
+                                                color: getBackgroundColor(
+                                                  unidades
+                                                      .state[index]
+                                                      .actividades![
+                                                          activityIndex]
+                                                      .id!,
+                                                  seguimientosCubit
+                                                      .obtenerSeguimientoEstudiante(
+                                                          userID),
+                                                ),
                                                 margin: EdgeInsets.symmetric(
                                                     vertical: 5),
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    if (unidades
-                                                            .state[index]
-                                                            .actividades![
-                                                                activityIndex]
-                                                            .tipoActividad ==
-                                                        "Laberinto") {
-                                                      router.push(
-                                                          '/laberinto/${unidades.state[index].actividades![activityIndex].id}');
-                                                    } else if (unidades
-                                                            .state[index]
-                                                            .actividades![
-                                                                activityIndex]
-                                                            .tipoActividad ==
-                                                        "Cuestionario") {
-                                                      router.push(
-                                                          '/cuestionario/${unidades.state[index].actividades![activityIndex].id}');
-                                                    } else if (unidades
-                                                            .state[index]
-                                                            .actividades![
-                                                                activityIndex]
-                                                            .tipoActividad ==
-                                                        "Desconectada") {
-                                                      router.push(
-                                                          '/desconectada/${unidades.state[index].actividades![activityIndex].id}');
-                                                    }
-                                                  },
-                                                  child: Center(
-                                                    // Envuelve el Texto con un Widget Center
-                                                    child: Text(
-                                                      '${activityIndex + 1}',
-                                                      style: TextStyle(
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                child: Stack(
+                                                  children: [
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        if (unidades
+                                                                .state[index]
+                                                                .actividades![
+                                                                    activityIndex]
+                                                                .tipoActividad ==
+                                                            "Laberinto") {
+                                                          router.push(
+                                                              '/laberinto/${unidades.state[index].actividades![activityIndex].id}');
+                                                        } else if (unidades
+                                                                .state[index]
+                                                                .actividades![
+                                                                    activityIndex]
+                                                                .tipoActividad ==
+                                                            "Cuestionario") {
+                                                          router.push(
+                                                              '/cuestionario/${unidades.state[index].actividades![activityIndex].id}');
+                                                        } else if (unidades
+                                                                .state[index]
+                                                                .actividades![
+                                                                    activityIndex]
+                                                                .tipoActividad ==
+                                                            "Desconectada") {
+                                                          router.push(
+                                                              '/desconectada/${unidades.state[index].actividades![activityIndex].id}');
+                                                        }
+                                                      },
+                                                      child: Center(
+                                                        // Envuelve el Texto con un Widget Center
+                                                        child: Text(
+                                                          '${activityIndex + 1}',
+                                                          style: TextStyle(
+                                                            fontSize: 20,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
+                                                    rolCubit.state == 'profesor'
+                                                        ? Positioned(
+                                                            top: 0,
+                                                            right: 0,
+                                                            child: IconButton(
+                                                              icon: Icon(
+                                                                  Icons.delete,
+                                                                  color:
+                                                                      orangeColor),
+                                                              onPressed: () {
+                                                                // Aquí llamas a la función que elimina la actividad
+                                                                eliminarActividad(unidades
+                                                                    .state[
+                                                                        index]
+                                                                    .actividades![
+                                                                        activityIndex]
+                                                                    .id!);
+                                                              },
+                                                            ),
+                                                          )
+                                                        : Container()
+                                                  ],
                                                 ),
                                               ),
                                             );
