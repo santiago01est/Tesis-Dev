@@ -893,7 +893,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
 
                                                     //TODO: Crear Seguimientos para los estudiantes y el profesor en la BD
                                                     cursoCasoUso
-                                                        .subirCursoFB(curso);
+                                                        .guardarCurso(curso);
 
                                                     router.go(
                                                         '/panelcurso/${curso.id}');

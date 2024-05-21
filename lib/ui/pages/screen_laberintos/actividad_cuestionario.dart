@@ -564,7 +564,6 @@ class _ActividadCuestionarioScreenState
     final unidad = context.read<UnidadesCubit>();
     Actividad actividad = unidad.actividadPorId(id)!;
 
-    // toast
 
     if (respuestaEstudiante == -1) {
       return 0;

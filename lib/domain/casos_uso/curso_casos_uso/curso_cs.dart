@@ -29,10 +29,6 @@ class CursosCasoUso {
     return await cursoRepository.getCursos();
   }
 
-  void guardarCurso(Curso curso) {
-    cursoRepository.guardarCurso(curso);
-  }
-
   //obtener curso por su id
   Future<Curso> getCursoById(String id) {
     return cursoRepository.getCursoById(id);
@@ -101,167 +97,11 @@ class CursosCasoUso {
 
   //** FIREBASE */
   // Método para subir el objeto a Firestore
-  Future<void> subirCursoFB(Curso curso) async {
-    CollectionReference cursosRef =
-        FirebaseFirestore.instance.collection('cursos');
-
-    CursoFirebase cursoFirebase = CursoFirebase(
-      id: curso.id,
-      nombre: curso.nombre,
-      codigoAcceso: curso.codigoAcceso,
-      departamento: curso.departamento,
-      ciudad: curso.ciudad,
-      colegio: curso.colegio,
-      profesor: curso.profesor,
-      portada: curso.portada,
-      numEstudiantes: curso.numEstudiantes,
-      descripcion: curso.descripcion,
-      fechaCreacion: curso.fechaCreacion,
-      fechaFinalizacion: curso.fechaFinalizacion,
-      estado: curso.estado,
-      estudiantes: curso.estudiantes,
-    );
-
-    //Subir curso
-    final cursoMap = cursoFirebase.toFirestore();
-    cursosRef.add(cursoMap);
-
-    List<Map<String, dynamic>> unidadesFB = [];
-
-    // for que recorre cada unidad y de cada unidad toma cada actividad y la agrega a actividadesFB
-    for (var i = 0; i < curso.unidades!.length; i++) {
-      // se fija la unidad para formatearla y enviarla a firebase
-      Map<String, dynamic> unidadFirebase = {
-        'id': curso.unidades![i].id,
-        'nombre': curso.unidades![i].nombre,
-        'descripcion': curso.unidades![i].descripcion,
-        'estado': curso.unidades![i].estado,
-        'actividades': [],
-        'cursoId': curso.unidades![i].cursoId
-      };
-
-      List<Map<String, dynamic>> actividadesFB = [];
-
-      for (var actividad in curso.unidades![i].actividades!) {
-        ActividadCuestionario actividadCuestionario = ActividadCuestionario();
-        ActividadLaberinto actividadLaberinto = ActividadLaberinto();
-        ActividadDesconectada actividadDesconectada = ActividadDesconectada();
-
-        Map<String, dynamic> actividadGlobalFB = {};
-
-        if (actividad.tipoActividad == 'Laberinto') {
-          if (actividad is ActividadLaberinto) {
-            actividadLaberinto = actividad;
-
-            actividadGlobalFB = {
-              'id': actividadLaberinto.id,
-              'nombre': actividadLaberinto.nombre,
-              'descripcion': actividadLaberinto.descripcion,
-              'estado': actividadLaberinto.estado,
-              'tipoActividad': actividadLaberinto.tipoActividad,
-              'pesoRespuestas': '',
-              'habilidades':
-                  convertirListaAStringPlano(actividadLaberinto.habilidades!),
-              'nombreArchivo': actividadLaberinto.nombreArchivo,
-              'mejorCamino':
-                  convertirListaAStringPlano(actividadLaberinto.mejorCamino!),
-              'mejorCamino2':
-                  convertirListaAStringPlano(actividadLaberinto.mejorCamino2!),
-              'initialState': actividadLaberinto.initialState,
-              'dimension': 0,
-              'casillas': '',
-              'respuestas': '',
-              'ejercicioImage': '',
-              'ejemploImage': '',
-              'pista': actividadLaberinto.pista,
-              'respuestaCorrecta': 1,
-            };
-
-            actividadesFB.add(actividadGlobalFB);
-          }
-        }
-
-        if (actividad.tipoActividad == 'Cuestionario') {
-          if (actividad is ActividadCuestionario) {
-            actividadCuestionario = actividad;
-
-            actividadGlobalFB = {
-              'id': actividadCuestionario.id,
-              'nombre': actividadCuestionario.nombre,
-              'descripcion': actividadCuestionario.descripcion,
-              'estado': actividadCuestionario.estado,
-              'tipoActividad': actividadCuestionario.tipoActividad,
-              'pesoRespuestas': convertirListaAStringPlano(
-                  actividadCuestionario.pesoRespuestas!),
-              'habilidades': convertirListaAStringPlano(
-                  actividadCuestionario.habilidades!),
-              'nombreArchivo': '',
-              'mejorCamino': '',
-              'mejorCamino2': '',
-              'initialState': 0,
-              'dimension': actividadCuestionario.dimension,
-              'casillas':
-                  convertirListaAStringPlano(actividadCuestionario.casillas!),
-              'respuestas':
-                  convertirListaAStringPlano(actividadCuestionario.respuestas!),
-              'ejercicioImage': actividadCuestionario.ejercicioImage,
-              'ejemploImage': actividadCuestionario.ejemploImage,
-              'pista': actividadCuestionario.pista,
-              'respuestaCorrecta': actividadCuestionario.respuestaCorrecta,
-            };
-            actividadesFB.add(actividadGlobalFB);
-          }
-        }
-
-        if (actividad.tipoActividad == 'Desconectada') {
-          if (actividad is ActividadDesconectada) {
-            actividadDesconectada = actividad;
-
-            actividadGlobalFB = {
-              'id': actividadDesconectada.id,
-              'nombre': actividadDesconectada.nombre,
-              'descripcion': actividadDesconectada.descripcion,
-              'estado': actividadDesconectada.estado,
-              'tipoActividad': actividadDesconectada.tipoActividad,
-              'pesoRespuestas': convertirListaAStringPlano(
-                  actividadDesconectada.pesoRespuestas!),
-              'habilidades': convertirListaAStringPlano(
-                  actividadDesconectada.habilidades!),
-              'nombreArchivo': '',
-              'mejorCamino': '',
-              'mejorCamino2': '',
-              'initialState': 0,
-              'dimension': 0,
-              'casillas': '',
-              'respuestas': '',
-              'ejercicioImage': actividadDesconectada.ejercicioImage,
-              'ejemploImage': actividadDesconectada.ejemploImage,
-              'pista': actividadDesconectada.pista,
-              'respuestaCorrecta': 1,
-            };
-
-            actividadesFB.add(actividadGlobalFB);
-          }
-        }
-      }
-      unidadFirebase['actividades'] = actividadesFB;
-      unidadesFB.add(unidadFirebase);
-    }
-
-    // Subir unidades a la BD Firebase
-    final collectionRef = FirebaseFirestore.instance.collection('unidades');
-    for (var unidadFb in unidadesFB) {
-      //print(unidadMap);
-      collectionRef.add(unidadFb);
-    }
+  Future<void> guardarCurso(Curso curso) async {
+   cursoRepository.guardarCurso(curso);
   }
 
-  String convertirListaAStringPlano(List<dynamic> respuestas) {
-    // Convertir la lista a un string
-    String listAsString = jsonEncode(respuestas);
-
-    return listAsString;
-  }
+ 
 
   // metodo para subir cada seguimiento
   Future<void> subirSeguimientosFB(List<Seguimiento> seguimientos) async {

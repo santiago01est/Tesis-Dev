@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 abstract class CursoRepository {
   Future<List<Curso>> getCursos();
 
-  void guardarCurso(Curso curso);
+  Future<void> guardarCurso(Curso curso);
 
   Future<Curso> getCursoById(String id);
 
