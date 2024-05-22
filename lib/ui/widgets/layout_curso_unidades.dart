@@ -58,6 +58,7 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
 
       unidades.eliminarActividadDeUnidad(idActividad);
       curso.eliminarActividadDeUnidadDelCurso(idActividad, context);
+      seguimientosCubit.eliminarActividadDeUnidadDelCurso(idActividad);
 
       // Notifica a Flutter que los datos han cambiado y la interfaz de usuario necesita actualizarse
       setState(() {});
@@ -141,31 +142,34 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                           unidades
                                               .state[index].actividades!.length,
                                           (activityIndex) {
-                                            return SizedBox(
-                                              width: 50,
-                                              height: 50,
-                                              child: Card(
-                                                elevation: 2,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                ),
-                                                color: getBackgroundColor(
-                                                  unidades
-                                                      .state[index]
-                                                      .actividades![
-                                                          activityIndex]
-                                                      .id!,
-                                                  seguimientosCubit
-                                                      .obtenerSeguimientoEstudiante(
-                                                          userID),
-                                                ),
-                                                margin: EdgeInsets.symmetric(
-                                                    vertical: 5),
-                                                child: Stack(
-                                                  children: [
-                                                    GestureDetector(
+                                            return Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                SizedBox(
+                                                  width: 50,
+                                                  height: 50,
+                                                  child: Card(
+                                                    elevation: 2,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                    ),
+                                                    color: getBackgroundColor(
+                                                      unidades
+                                                          .state[index]
+                                                          .actividades![
+                                                              activityIndex]
+                                                          .id!,
+                                                      seguimientosCubit
+                                                          .obtenerSeguimientoEstudiante(
+                                                              userID),
+                                                    ),
+                                                    margin:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 5),
+                                                    child: GestureDetector(
                                                       onTap: () {
                                                         if (unidades
                                                                 .state[index]
@@ -194,7 +198,6 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                                         }
                                                       },
                                                       child: Center(
-                                                        // Envuelve el Texto con un Widget Center
                                                         child: Text(
                                                           '${activityIndex + 1}',
                                                           style: TextStyle(
@@ -205,30 +208,53 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                                         ),
                                                       ),
                                                     ),
-                                                    rolCubit.state == 'profesor'
-                                                        ? Positioned(
-                                                            top: 0,
-                                                            right: 0,
-                                                            child: IconButton(
-                                                              icon: Icon(
-                                                                  Icons.delete,
-                                                                  color:
-                                                                      orangeColor),
-                                                              onPressed: () {
-                                                                // Aquí llamas a la función que elimina la actividad
-                                                                eliminarActividad(unidades
-                                                                    .state[
-                                                                        index]
-                                                                    .actividades![
-                                                                        activityIndex]
-                                                                    .id!);
-                                                              },
-                                                            ),
-                                                          )
-                                                        : Container()
-                                                  ],
+                                                  ),
                                                 ),
-                                              ),
+                                                IconButton(
+                                                  icon: Icon(Icons.delete),
+                                                  onPressed: () {
+
+                                                    showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text("¿Estás seguro de eliminar esta actividad permanentemente?"),
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Image.asset(
+                                              'assets/avatares/perico_avatar.png',
+                                              width: 300,
+                                              height: 300,
+                                            ), // Reemplaza 'ruta_de_la_imagen' con la ruta real de tu imagen
+                                          ],
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text("Cancelar"),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              eliminarActividad(unidades.state[index].actividades![activityIndex].id!);
+                                              Navigator.of(context).pop();
+                                             
+                                            },
+                                            child: Text("Eliminar"),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                                    // Aquí puedes agregar la lógica para eliminar la actividad
+                                                    
+                                                    
+                                                  },
+                                                ),
+                                              ],
                                             );
                                           },
                                         ),

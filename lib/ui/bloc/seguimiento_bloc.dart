@@ -113,4 +113,13 @@ class SeguimientosEstudiantesCubit extends Cubit<List<Seguimiento>> {
       return seguimiento;
     }).toList());
   }
+
+  void eliminarActividadDeUnidadDelCurso(int idActividad) {
+    emit(state.map((seguimiento) {
+      seguimiento.respuestasActividades
+          ?.removeWhere((element) => element.actividadId == idActividad);
+      return seguimiento;
+    }).toList());
+    
+  }
 }
