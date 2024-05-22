@@ -19,12 +19,12 @@ import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class InitData {
+class CommonCs {
   final CursosCasoUso cursosCasoUso;
   final ProfesorCasoUso profesorCasoUso;
   final BuildContext context;
 
-  InitData({
+  CommonCs({
     required this.cursosCasoUso,
     required this.profesorCasoUso,
     required this.context,
@@ -532,7 +532,7 @@ class InitData {
     if (querySegSnapshot.docs.isNotEmpty) {
       // Iterar a través de los documentos encontrados y eliminarlos
       for (QueryDocumentSnapshot doc in querySegSnapshot.docs) {
-        final docRef = collectionUnidadesRef.doc(doc.id);
+        final docRef = collectionSegRef.doc(doc.id);
         docRef.update({
           'respuestasActividades': FieldValue.arrayUnion([nuevaRespuesta]),
         });
@@ -545,5 +545,19 @@ class InitData {
     String listAsString = jsonEncode(respuestas);
 
     return listAsString;
+  }
+
+  void eliminarActividad(int idActividad) {
+    final curso = context.watch<CursoCubit>();
+    final unidades = context.watch<UnidadesCubit>();
+    final seguimientosCubit = context.watch<SeguimientosEstudiantesCubit>();
+
+     unidades.eliminarActividadDeUnidad(idActividad);
+      curso.eliminarActividadDeUnidadDelCurso(idActividad, context);
+      seguimientosCubit.eliminarActividadDeUnidadDelCurso(idActividad);
+
+      //borrar en la base de datos
+      cursosCasoUso.eliminarRespuestaActividadSeguimiento(curso.state.id!, idActividad);
+
   }
 }

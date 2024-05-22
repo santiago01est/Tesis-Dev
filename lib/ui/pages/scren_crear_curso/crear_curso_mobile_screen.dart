@@ -5,7 +5,7 @@ import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/unidad_casos_uso/unidad_cs.dart';
-import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/common_cs.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
@@ -106,14 +106,14 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
     });
   }
 
-  late InitData _cursosProfesoresCasoUso;
+  late CommonCs _cursosProfesoresCasoUso;
   bool _loading = false;
 
   @override
   void initState() {
     super.initState();
     _fetchDepartamentos();
-    _cursosProfesoresCasoUso = InitData(
+    _cursosProfesoresCasoUso = CommonCs(
       cursosCasoUso: getIt<CursosCasoUso>(),
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,

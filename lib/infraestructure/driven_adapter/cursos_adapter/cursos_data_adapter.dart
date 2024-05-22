@@ -2326,24 +2326,12 @@ class CursosDataAdapter extends CursoRepository {
     return listAsString;
   }
 
-  // metodo para subir cada seguimiento
-  Future<void> subirSeguimientosFB(List<Seguimiento> seguimientos) async {
-    final collectionRef = FirebaseFirestore.instance.collection('seguimientos');
-
-    for (var seguimiento in seguimientos) {
-      final seguimientoMap = seguimiento.toFirestore();
-      collectionRef.add(seguimientoMap);
-    }
-  }
-
   @override
   Future<Curso> getCursoById(String id) {
     // TODO: implement getCursoById
     throw UnimplementedError();
   }
 
-  @override
-  void crearSeguimientos(List<Seguimiento> seguimientos) {}
 
   //obtener seguimientos
   @override
@@ -2385,5 +2373,50 @@ class CursosDataAdapter extends CursoRepository {
       return Future.value(
           context.read<BDemoMundoPC>().obtenerSeguimiento(cursoId));
     }
+  }
+  
+  @override
+  Future<void> guardarSeguimientos(List<Seguimiento> seguimientos) async {
+   final collectionRef = FirebaseFirestore.instance.collection('seguimientos');
+
+    for (var seguimiento in seguimientos) {
+      final seguimientoMap = seguimiento.toFirestore();
+      collectionRef.add(seguimientoMap);
+    }
+  }
+  
+  @override
+  Future<void> eliminarRespuestaActividadSeguimiento(int cursoId, int actividadId) async {
+    //eliminar respuesta del seguimiento
+
+    CollectionReference collectionSegRef =
+        FirebaseFirestore.instance.collection("seguimientos");
+
+    // Realizar la consulta para encontrar el documento con el campo específico
+    QuerySnapshot querySegSnapshot =
+        await collectionSegRef.where('cursoId', isEqualTo: cursoId).get();
+
+         
+  
+    if (querySegSnapshot.docs.isNotEmpty) {
+      // Iterar a través de los documentos encontrados y eliminarlos
+      for (QueryDocumentSnapshot doc in querySegSnapshot.docs) {
+        List<dynamic> respuestasActividades = doc.get('respuestasActividades');
+
+   // Encontrar la respuesta a eliminar
+        dynamic respuestaAEliminar;
+        for (var respuesta in respuestasActividades) {
+          if (respuesta['actividadId'] == actividadId) {
+            respuestaAEliminar = respuesta;
+            break;
+          }
+        }
+        final docRef = collectionSegRef.doc(doc.id);
+        await docRef.update({
+            'respuestasActividades': FieldValue.arrayRemove([respuestaAEliminar]),
+          });
+      }
+    }
+
   }
 }

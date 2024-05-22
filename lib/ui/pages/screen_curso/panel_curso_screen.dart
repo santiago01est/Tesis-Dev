@@ -2,7 +2,7 @@ import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/unidad_casos_uso/unidad_cs.dart';
-import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/common_cs.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/profesor.dart';
 import 'package:dev_tesis/main.dart';
@@ -37,14 +37,14 @@ class _PanelCursoScreenState extends State<PanelCursoScreen> {
   final UnidadCasoUso unidadCasoUso = getIt<UnidadCasoUso>();
   final ProfesorCasoUso profesorCasoUso = getIt<ProfesorCasoUso>();
 
-  late InitData initData;
+  late CommonCs initData;
   bool _isLoading = true;
 
   @override
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
 
-    initData = InitData(
+    initData = CommonCs(
       cursosCasoUso: getIt<CursosCasoUso>(),
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,

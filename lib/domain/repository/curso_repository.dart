@@ -10,8 +10,10 @@ abstract class CursoRepository {
 
   Future<Curso> getCursoById(String id);
 
-  void crearSeguimientos(List<Seguimiento> seguimientos);
-
   Future<List<Seguimiento>> getSeguimientos(
       int cursoId, List<Actividad> actividades, BuildContext context);
+
+  Future<void> guardarSeguimientos(List<Seguimiento> seguimientos);
+
+  Future<void> eliminarRespuestaActividadSeguimiento(int cursoId, int actividadId);
 }

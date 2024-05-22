@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
-import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/common_cs.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
@@ -114,7 +114,7 @@ class CrearActividadState extends State<CrearActividad> {
 
   @override
   Widget build(BuildContext context) {
-    InitData initData = InitData(
+    CommonCs initData = CommonCs(
       cursosCasoUso: getIt<CursosCasoUso>(),
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,

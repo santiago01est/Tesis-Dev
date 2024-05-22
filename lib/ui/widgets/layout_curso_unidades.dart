@@ -1,8 +1,10 @@
 import 'package:dev_tesis/constants/styles.dart';
+import 'package:dev_tesis/domain/casos_uso/common_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
 import 'package:dev_tesis/domain/model/respuesta.dart';
 import 'package:dev_tesis/domain/model/seguimiento.dart';
-import 'package:dev_tesis/domain/model/unidad.dart';
-import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
+import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
@@ -38,9 +40,17 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
     }
   }
 
+  
   @override
   Widget build(BuildContext context) {
-    final curso = context.watch<CursoCubit>();
+
+    CommonCs cursosProfesoresCasoUso = CommonCs(
+      cursosCasoUso: getIt<CursosCasoUso>(),
+      profesorCasoUso: getIt<ProfesorCasoUso>(),
+      context: context,
+    );
+
+
     final unidades = context.watch<UnidadesCubit>();
     final seguimientosCubit = context.watch<SeguimientosEstudiantesCubit>();
     final rolCubit = context.read<RolCubit>();
@@ -56,9 +66,10 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
     void eliminarActividad(int idActividad) {
       // Elimina la actividad del listado de actividades de la unidad
 
-      unidades.eliminarActividadDeUnidad(idActividad);
-      curso.eliminarActividadDeUnidadDelCurso(idActividad, context);
-      seguimientosCubit.eliminarActividadDeUnidadDelCurso(idActividad);
+      cursosProfesoresCasoUso.eliminarActividad(idActividad);
+      
+
+     
 
       // Notifica a Flutter que los datos han cambiado y la interfaz de usuario necesita actualizarse
       setState(() {});

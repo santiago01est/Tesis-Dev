@@ -2,7 +2,7 @@ import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/unidad_casos_uso/unidad_cs.dart';
-import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/common_cs.dart';
 import 'package:dev_tesis/domain/model/actividad.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/respuesta.dart';
@@ -51,7 +51,7 @@ class _SeguimientoEstudianteScreenState
   }
 
   Future<void> _initializeData() async {
-    final initData = InitData(
+    final initData = CommonCs(
       cursosCasoUso: getIt<CursosCasoUso>(),
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,

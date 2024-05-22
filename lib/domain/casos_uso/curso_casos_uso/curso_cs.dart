@@ -1,23 +1,9 @@
-import 'dart:convert';
-
 import 'package:dev_tesis/domain/model/actividad.dart';
-import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
-import 'package:dev_tesis/domain/model/actividad_desconectada.dart';
-import 'package:dev_tesis/domain/model/actividad_global_fb.dart';
-import 'package:dev_tesis/domain/model/actividad_laberinto.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
-import 'package:dev_tesis/domain/model/curso_firebase.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/respuesta.dart';
 import 'package:dev_tesis/domain/model/seguimiento.dart';
-import 'package:dev_tesis/domain/model/unidad_firebase.dart';
 import 'package:dev_tesis/domain/repository/curso_repository.dart';
-import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
-import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
-import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
-import 'package:dev_tesis/ui/bloc/unidades_bloc.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CursosCasoUso {
@@ -104,14 +90,16 @@ class CursosCasoUso {
  
 
   // metodo para subir cada seguimiento
-  Future<void> subirSeguimientosFB(List<Seguimiento> seguimientos) async {
-    final collectionRef = FirebaseFirestore.instance.collection('seguimientos');
-
-    for (var seguimiento in seguimientos) {
-      final seguimientoMap = seguimiento.toFirestore();
-      collectionRef.add(seguimientoMap);
-    }
+  Future<void> guardarSeguimientos(List<Seguimiento> seguimientos) async {
+    cursoRepository.guardarSeguimientos(seguimientos);
   }
+
+    Future<void> eliminarRespuestaActividadSeguimiento(int cursoId, int actividadId) async{
+      cursoRepository.eliminarRespuestaActividadSeguimiento(cursoId, actividadId);
+    }
+
+
+
 
 /*
   Future<void> actualizarRespuesta(int cursoId, List<int> estudianteId,

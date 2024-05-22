@@ -1,7 +1,7 @@
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
-import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/common_cs.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/profesor_bloc.dart';
@@ -357,7 +357,7 @@ class PopupUtils {
 
         descripcionCursoController.text = curso.descripcion!;
     final profesores= context.read<ProfesoresCubit>().state;
- InitData initData = InitData(
+ CommonCs initData = CommonCs(
       cursosCasoUso: getIt<CursosCasoUso>(),
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,

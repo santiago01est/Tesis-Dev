@@ -1,6 +1,6 @@
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
-import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/common_cs.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/main.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
@@ -31,7 +31,7 @@ class CustomNavigationBarActividad extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    late InitData cs_init = InitData(
+    late CommonCs cs_init = CommonCs(
       cursosCasoUso: getIt<CursosCasoUso>(),
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,
@@ -115,7 +115,7 @@ Center(
     return avatares; // Ruta del avatar
   }
 
-  void _showLogoutMenu(BuildContext context, InitData cs_init) {
+  void _showLogoutMenu(BuildContext context, CommonCs cs_init) {
     showModalBottomSheet(
       context: context,
       builder: (context) {

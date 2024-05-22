@@ -1,7 +1,7 @@
 import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/casos_uso/curso_casos_uso/curso_cs.dart';
 import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
-import 'package:dev_tesis/domain/casos_uso/util_cs.dart';
+import 'package:dev_tesis/domain/casos_uso/common_cs.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/profesor.dart';
 import 'package:dev_tesis/main.dart';
@@ -41,7 +41,7 @@ class _HomeMobileState extends State<HomeMobile> {
   }
 
   Future<void> _initializeData() async {
-    final initData = InitData(
+    final initData = CommonCs(
       cursosCasoUso: getIt<CursosCasoUso>(),
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,
