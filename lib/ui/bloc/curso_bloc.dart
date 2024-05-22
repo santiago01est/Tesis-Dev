@@ -3,7 +3,7 @@ import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
 import 'package:dev_tesis/ui/bloc/bd_cursos.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Cubit para manejar el estado del nombre completo
@@ -19,13 +19,12 @@ class CursoCubit extends Cubit<Curso> {
     emit(Curso());
   }
 
-  void actualizarCursoAtributos(int cursoId, String nombre, String descripcion){
+  void actualizarCursoAtributos(
+      int cursoId, String nombre, String descripcion) {
     // crea una copia del curso
     final estadoActual = state;
-    final nuevoCurso = estadoActual.copyWith(
-      nombre: nombre,
-      descripcion: descripcion
-    );
+    final nuevoCurso =
+        estadoActual.copyWith(nombre: nombre, descripcion: descripcion);
     emit(nuevoCurso);
   }
 
@@ -54,14 +53,11 @@ class CursoCubit extends Cubit<Curso> {
       }
       nuevasUnidades.add(unidad);
     }
-    Curso curso=state;
-    curso.unidades=nuevasUnidades;
-   //emit(curso);
+    Curso curso = state;
+    curso.unidades = nuevasUnidades;
+    //emit(curso);
 
-   context.read<BDCursosCubit>().actualizarUnidadesCurso(curso);
-
-   
-  
+    context.read<BDCursosCubit>().actualizarUnidadesCurso(curso);
   }
 
   // retornar lista de estudiantes dado una lista de Ids
@@ -82,5 +78,33 @@ class CursoCubit extends Cubit<Curso> {
     }
 
     return todasLasActividades; // Si no se encuentra la actividad
+  }
+
+  // eliminar actividad de la unidad del curso del estado
+  void eliminarActividadDeUnidadDelCurso(
+      int idActividad, BuildContext context) {
+    Curso nuevoCurso = state;
+    // Recorre cada unidad y busca la actividad para borrarla
+    List<Unidad> nuevasUnidades = [];
+
+    for (var unidad in state.unidades!) {
+      // Verifica si la unidad actual tiene la actividad a eliminar
+      if (unidad.actividades != null) {
+        // for que recorre las actividades
+        for (var actividad in unidad.actividades!) {
+          if (actividad.id == idActividad) {
+            unidad.actividades!
+                .removeWhere((actividad) => actividad.id == idActividad);
+          }
+        }
+      }
+
+      nuevasUnidades.add(unidad);
+    }
+    nuevoCurso.unidades = nuevasUnidades;
+
+    // Emite la lista actualizada de unidades
+    emit(nuevoCurso);
+    context.read<BDCursosCubit>().actualizarUnidadesCurso(nuevoCurso);
   }
 }

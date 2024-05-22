@@ -2,6 +2,7 @@ import 'package:dev_tesis/constants/styles.dart';
 import 'package:dev_tesis/domain/model/respuesta.dart';
 import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:dev_tesis/domain/model/unidad.dart';
+import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
@@ -39,6 +40,7 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
 
   @override
   Widget build(BuildContext context) {
+    final curso = context.watch<CursoCubit>();
     final unidades = context.watch<UnidadesCubit>();
     final seguimientosCubit = context.watch<SeguimientosEstudiantesCubit>();
     final rolCubit = context.read<RolCubit>();
@@ -55,6 +57,7 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
       // Elimina la actividad del listado de actividades de la unidad
 
       unidades.eliminarActividadDeUnidad(idActividad);
+      curso.eliminarActividadDeUnidadDelCurso(idActividad, context);
 
       // Notifica a Flutter que los datos han cambiado y la interfaz de usuario necesita actualizarse
       setState(() {});
