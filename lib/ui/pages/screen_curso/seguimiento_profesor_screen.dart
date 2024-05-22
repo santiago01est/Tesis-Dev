@@ -33,19 +33,15 @@ class SeguimientoProfesorScreen extends StatefulWidget {
 }
 
 class _SeguimientoProfesorScreenState extends State<SeguimientoProfesorScreen> {
-  
-
   late Future<void> _cursosProfesoresCasoUso;
   bool _isLoading = true;
   bool _isInitialized = false; // Variable para controlar el estado de carga
-
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
     if (!_isInitialized) {
-    
       _cursosProfesoresCasoUso = _initializeData();
       _isInitialized = true;
     }
@@ -58,31 +54,32 @@ class _SeguimientoProfesorScreenState extends State<SeguimientoProfesorScreen> {
       context: context,
     );
 
-      if(context.read<BDCursosCubit>().state.isEmpty){
-         await initData
-        .obtenerCursosYProfesoresYUnidades(widget.cursoId)
-        .then((value) => setState(() {
-          final cursoCubit = context.read<CursoCubit>();
-          final profesor = context.read<ProfesoresCubit>().state.where((element) => element.id == cursoCubit.state.profesor).first;
-          Estudiante yoEstudiante = Estudiante(
-            id: profesor.id,
-            nombre: profesor.nombre,
-            avatar: profesor.avatar,
-            genero: 'Otro'
-          );
+    if (context.read<BDCursosCubit>().state.isEmpty) {
+      await initData
+          .obtenerCursosYProfesoresYUnidades(widget.cursoId)
+          .then((value) => setState(() {
+                final cursoCubit = context.read<CursoCubit>();
+                final profesor = context
+                    .read<ProfesoresCubit>()
+                    .state
+                    .where((element) => element.id == cursoCubit.state.profesor)
+                    .first;
+                Estudiante yoEstudiante = Estudiante(
+                    id: profesor.id,
+                    nombre: profesor.nombre,
+                    avatar: profesor.avatar,
+                    genero: 'Otro');
 
-          context.read<EstudiantesCubit>().subirEstudiantes([yoEstudiante]);
-          context.read<RolCubit>().actualizarRol("profesor");
-          _isLoading = false;
-        }));
-
-      }
-      
-  
-  _simularCarga();
-      
+                context
+                    .read<EstudiantesCubit>()
+                    .subirEstudiantes([yoEstudiante]);
+                context.read<RolCubit>().actualizarRol("profesor");
+                _isLoading = false;
+              }));
     }
-  
+
+    _simularCarga();
+  }
 
   void _simularCarga() {
     // Simular una carga de 5 segundos
@@ -97,8 +94,7 @@ class _SeguimientoProfesorScreenState extends State<SeguimientoProfesorScreen> {
     final cursoCubit = context.watch<CursoCubit>();
     final totalEstudiantes = cursoCubit.state.estudiantes!;
     //final profesor= context.read<ProfesoresCubit>().state.where((element) => element.id == cursoCubit.state.profesor).first;
-  
-  
+
     final seguimientos = context.watch<SeguimientosEstudiantesCubit>().state;
 
     return Scaffold(
@@ -261,25 +257,22 @@ class DataTableWidget extends StatefulWidget {
 class _DataTableWidgetState extends State<DataTableWidget> {
   final ScrollController _scrollController = ScrollController();
   CursosCasoUso cursoCs = getIt<CursosCasoUso>();
-   Map<String, TextEditingController> createControllersMap(
+  Map<String, TextEditingController> createControllersMap(
       List<Grupo> grupos, List<Estudiante> estudiantes) {
     Map<String, TextEditingController> controllersMap = {};
 
     // Iterar sobre la lista de grupos
-    if(grupos.isEmpty){
-
+    if (grupos.isEmpty) {
       for (var grupo in grupos) {
-      // Obtener los IDs de los estudiantes en el grupo
-      List<int> studentIds = [grupo.idEstudiante1!, grupo.idEstudiante2!];
+        // Obtener los IDs de los estudiantes en el grupo
+        List<int> studentIds = [grupo.idEstudiante1!, grupo.idEstudiante2!];
 
-      // Si el grupo tiene dos estudiantes, combinar sus IDs y crear un TextEditingController
-      String combinedIds = "${studentIds[0]},${studentIds[1]}";
-      controllersMap[combinedIds] =
-          TextEditingController(text: "Valor inicial para $combinedIds");
+        // Si el grupo tiene dos estudiantes, combinar sus IDs y crear un TextEditingController
+        String combinedIds = "${studentIds[0]},${studentIds[1]}";
+        controllersMap[combinedIds] =
+            TextEditingController(text: "Valor inicial para $combinedIds");
+      }
     }
-
-    }
-    
 
     // Iterar sobre la lista de estudiantes individuales
     for (var estudiante in estudiantes) {
@@ -312,10 +305,8 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     return null;
   }
 
-
   @override
   Widget build(BuildContext context) {
-    
     //print('$controllersMap');
     return Scrollbar(
       thumbVisibility: true,
@@ -334,12 +325,12 @@ class _DataTableWidgetState extends State<DataTableWidget> {
           child: DataTable(
             columns: _buildColumns(),
             rows: _buildRows(),
-           columnSpacing: 12.0, // Espaciado horizontal entre columnas
-  dataRowMinHeight: 48.0, // Altura de las filas
-  dataRowMaxHeight: 58.0,
-  headingRowHeight: 56.0, // Altura de la fila de encabezado
-  // Para espaciado vertical entre filas:
-  // spacing: 10.0, // Por ejemplo, espaciado de 10 píxeles entre filas
+            columnSpacing: 12.0, // Espaciado horizontal entre columnas
+            dataRowMinHeight: 48.0, // Altura de las filas
+            dataRowMaxHeight: 58.0,
+            headingRowHeight: 56.0, // Altura de la fila de encabezado
+            // Para espaciado vertical entre filas:
+            // spacing: 10.0, // Por ejemplo, espaciado de 10 píxeles entre filas
           ),
         ),
       ),
@@ -355,7 +346,9 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     // Agregar las columnas para las actividades
     columns.addAll(widget.actividades.map((activity) {
       return DataColumn(
-        label: Text('Act ${activity.id! }'),
+        //obtener index de la activity
+
+        label: Text('Act ${widget.actividades.indexOf(activity) + 1}'),
       );
     }).toList());
 
@@ -381,12 +374,12 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     cells.add(DataCell(Text(student.nombre!)));
 
     // Crear el mapa de controladores para este estudiante
-  Map<String, TextEditingController> controllersMap = createControllersMap(
-    [],
-    widget.estudiantes,
-  );
+    Map<String, TextEditingController> controllersMap = createControllersMap(
+      [],
+      widget.estudiantes,
+    );
 
-  List<String> promedios=List.filled(widget.estudiantes.length, '1');
+    List<String> promedios = List.filled(widget.estudiantes.length, '1');
 
     // Agregar las celdas para las actividades con números aleatorios
     List<int> activityValues =
@@ -407,13 +400,12 @@ class _DataTableWidgetState extends State<DataTableWidget> {
 
       if (activity.tipoActividad == 'Desconectada') {
         // Obtener el controlador para este estudiante o grupo
-      TextEditingController? controller =
-          getControllerForStudentId(student.id!, controllersMap);
+        TextEditingController? controller =
+            getControllerForStudentId(student.id!, controllersMap);
         // Llamar a esta función cuando se cambie el valor en el NumberPicker
         cells.add(DataCell(
           Container(
-            margin:  const EdgeInsets.all(4.0),
-            
+            margin: const EdgeInsets.all(4.0),
             child: NumberInputPrefabbed.directionalButtons(
               controller: controller!,
               initialValue: peso,
@@ -422,32 +414,28 @@ class _DataTableWidgetState extends State<DataTableWidget> {
               onIncrement: (value) async {
                 controller.text = value.toString();
                 peso = int.parse(value.toString());
-                double total = activityValues.fold(0, (sum, value) => sum + value);
+                double total =
+                    activityValues.fold(0, (sum, value) => sum + value);
                 double average = total / activityValues.length;
                 setState(() {
                   promedios[rowIndex] = average.toStringAsFixed(1);
-                  
                 });
-                
-                
+
                 actualizarSeguimiento(
-                  peso, student.id!, seguimiento.cursoId!, activity.id!
-                );
+                    peso, student.id!, seguimiento.cursoId!, activity.id!);
               },
               onDecrement: (value) {
                 controller.text = value.toString();
                 peso = int.parse(value.toString());
-                double total = activityValues.fold(0, (sum, value) => sum + value);
+                double total =
+                    activityValues.fold(0, (sum, value) => sum + value);
                 double average = total / activityValues.length;
                 setState(() {
                   promedios[rowIndex] = average.toStringAsFixed(1);
-                  
                 });
-                
-                
+
                 actualizarSeguimiento(
-                  peso, student.id!, seguimiento.cursoId!, activity.id!
-                );
+                    peso, student.id!, seguimiento.cursoId!, activity.id!);
               },
               incDecBgColor: orangeColor,
             ),
@@ -457,7 +445,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
         cells.add(
           DataCell(
             Container(
-              margin:  const EdgeInsets.all(8.0),
+              margin: const EdgeInsets.all(8.0),
               width: 48.0,
               height: 48.0,
               alignment: Alignment.center,
@@ -482,7 +470,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     double total = activityValues.fold(0, (sum, value) => sum + value);
     double average = total / activityValues.length;
     promedios[rowIndex] = average.toStringAsFixed(1);
-    
+
     // CELDA INDIVIDAL DEL PROMEDIO
 
     // Agregar la celda para el promedio al final
@@ -508,15 +496,15 @@ class _DataTableWidgetState extends State<DataTableWidget> {
   }
 
   void updateAverage() {
-  setState(() {
-    // Calcular el promedio de los valores de actividades actualizados
-    //double total = activityValues.fold(0, (sum, value) => sum + value);
-    //double average = total / activityValues.length;
-    // Actualizar el promedio en la tabla
-    // Puedes almacenar el promedio en una lista o un mapa y luego acceder a él en _buildCells
-    // para mostrarlo en la última celda de cada fila.
-  });
-}
+    setState(() {
+      // Calcular el promedio de los valores de actividades actualizados
+      //double total = activityValues.fold(0, (sum, value) => sum + value);
+      //double average = total / activityValues.length;
+      // Actualizar el promedio en la tabla
+      // Puedes almacenar el promedio en una lista o un mapa y luego acceder a él en _buildCells
+      // para mostrarlo en la última celda de cada fila.
+    });
+  }
 
   // Función para manejar los cambios en el TextField
   void handleNumberPickerChange(
@@ -535,26 +523,20 @@ class _DataTableWidgetState extends State<DataTableWidget> {
       return Color(0xFF69B5D8);
     }
   }
-  
-  void actualizarSeguimiento(int peso, int userId, int cursoId, int actividadId) {
+
+  void actualizarSeguimiento(
+      int peso, int userId, int cursoId, int actividadId) {
     //context.read<SeguimientosEstudiantesCubit>().actualizarCalificacionActividadSeguimiento(userId, actividadId, peso, cursoId);
 
-context.read<SeguimientosEstudiantesCubit>().actualizarRespuestasActividadesEstudiantes(
-        [userId],
-        '',
-        peso,
-        actividadId);
-        //guardar en la base de datos FB si es diferente del curso demo
-        if (cursoId != 1){
-           cursoCs.actualizarRespuesta(
-           cursoId,  [userId],
-       actividadId, peso, ''
-            );
-
-        }
+    context
+        .read<SeguimientosEstudiantesCubit>()
+        .actualizarRespuestasActividadesEstudiantes(
+            [userId], '', peso, actividadId);
+    //guardar en la base de datos FB si es diferente del curso demo
+    if (cursoId != 1) {
+      cursoCs.actualizarRespuesta(cursoId, [userId], actividadId, peso, '');
+    }
   }
-
-  
 }
 
 class DataTestTableWidget extends StatefulWidget {
@@ -702,6 +684,4 @@ class _DataTestTableWidgetState extends State<DataTestTableWidget> {
 
     return cells;
   }
-
-  
 }

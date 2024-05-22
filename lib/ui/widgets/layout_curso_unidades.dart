@@ -5,6 +5,7 @@ import 'package:dev_tesis/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
 import 'package:dev_tesis/domain/model/respuesta.dart';
 import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:dev_tesis/main.dart';
+import 'package:dev_tesis/ui/bloc/curso_bloc.dart';
 import 'package:dev_tesis/ui/bloc/estudiante_bloc.dart';
 import 'package:dev_tesis/ui/bloc/rol_bloc.dart';
 import 'package:dev_tesis/ui/bloc/seguimiento_bloc.dart';
@@ -40,18 +41,16 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
     }
   }
 
-  
   @override
   Widget build(BuildContext context) {
-
     CommonCs cursosProfesoresCasoUso = CommonCs(
       cursosCasoUso: getIt<CursosCasoUso>(),
       profesorCasoUso: getIt<ProfesorCasoUso>(),
       context: context,
     );
 
-
     final unidades = context.watch<UnidadesCubit>();
+    final curso = context.watch<CursoCubit>();
     final seguimientosCubit = context.watch<SeguimientosEstudiantesCubit>();
     final rolCubit = context.read<RolCubit>();
     final router = GoRouter.of(context);
@@ -66,10 +65,11 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
     void eliminarActividad(int idActividad) {
       // Elimina la actividad del listado de actividades de la unidad
 
-      cursosProfesoresCasoUso.eliminarActividad(idActividad);
-      
+      unidades.eliminarActividadDeUnidad(idActividad);
+      curso.eliminarActividadDeUnidadDelCurso(idActividad, context);
+      seguimientosCubit.eliminarActividadDeUnidadDelCurso(idActividad);
 
-     
+      cursosProfesoresCasoUso.eliminarActividad(idActividad);
 
       // Notifica a Flutter que los datos han cambiado y la interfaz de usuario necesita actualizarse
       setState(() {});
@@ -221,50 +221,90 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                                     ),
                                                   ),
                                                 ),
-                                                IconButton(
-                                                  icon: Icon(Icons.delete),
-                                                  onPressed: () {
+                                                rolCubit.state == 'profesor' &&
+                                                        index != 0
+                                                    ? IconButton(
+                                                        icon: const Icon(
+                                                            Icons.delete),
+                                                        onPressed: () {
+                                                          showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                              return AlertDialog(
+                                                                title: Text(
+                                                                    "¿Estás seguro de eliminar esta actividad permanentemente?"),
+                                                                content: Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .min,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Image.asset(
+                                                                      'assets/avatares/perico_avatar.png',
+                                                                      width:
+                                                                          300,
+                                                                      height:
+                                                                          300,
+                                                                    ), // Reemplaza 'ruta_de_la_imagen' con la ruta real de tu imagen
+                                                                  ],
+                                                                ),
+                                                                actions: [
+                                                                  TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.of(
+                                                                              context)
+                                                                          .pop();
+                                                                    },
+                                                                    child: Text(
+                                                                        "Cancelar"),
+                                                                  ),
+                                                                  TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      int idActividad = unidades
+                                                                          .state[
+                                                                              index]
+                                                                          .actividades![
+                                                                              activityIndex]
+                                                                          .id!;
 
-                                                    showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text("¿Estás seguro de eliminar esta actividad permanentemente?"),
-                                        content: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            Image.asset(
-                                              'assets/avatares/perico_avatar.png',
-                                              width: 300,
-                                              height: 300,
-                                            ), // Reemplaza 'ruta_de_la_imagen' con la ruta real de tu imagen
-                                          ],
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: Text("Cancelar"),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              eliminarActividad(unidades.state[index].actividades![activityIndex].id!);
-                                              Navigator.of(context).pop();
-                                             
-                                            },
-                                            child: Text("Eliminar"),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                                    // Aquí puedes agregar la lógica para eliminar la actividad
-                                                    
-                                                    
-                                                  },
-                                                ),
+                                                                      unidades.eliminarActividadDeUnidad(
+                                                                          idActividad);
+                                                                      curso.eliminarActividadDeUnidadDelCurso(
+                                                                          idActividad,
+                                                                          context);
+                                                                      seguimientosCubit
+                                                                          .eliminarActividadDeUnidadDelCurso(
+                                                                              idActividad);
+                                                                      /*
+                                                                      cursosProfesoresCasoUso
+                                                                          .eliminarActividad(
+                                                                              idActividad);
+*/
+                                                                      // Notifica a Flutter que los datos han cambiado y la interfaz de usuario necesita actualizarse
+                                                                      setState(
+                                                                          () {});
+
+                                                                      Navigator.of(
+                                                                              context)
+                                                                          .pop();
+                                                                    },
+                                                                    child: Text(
+                                                                        "Eliminar"),
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            },
+                                                          );
+                                                          // Aquí puedes agregar la lógica para eliminar la actividad
+                                                        },
+                                                      )
+                                                    : Container()
                                               ],
                                             );
                                           },

@@ -2016,12 +2016,13 @@ class CursosDataAdapter extends CursoRepository {
 /** BD FIREBASE */
 
     //CollectionReference cursosRef =
-        
+
     CollectionReference unidadesRef =
         FirebaseFirestore.instance.collection('unidades');
 
     // Obtener los documentos de la colección
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('cursos').get();
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('cursos').get();
 
     // Iterar sobre cada documento obtenido
     for (var doc in querySnapshot.docs) {
@@ -2160,7 +2161,7 @@ class CursosDataAdapter extends CursoRepository {
       miCurso.unidades = unidadesOrganizadas;
       cursos.add(miCurso);
     }
-      //cursos.add(Curso.fromFirestore(doc));
+    //cursos.add(Curso.fromFirestore(doc));
 
     return cursos;
   }
@@ -2180,12 +2181,12 @@ class CursosDataAdapter extends CursoRepository {
   }
 
   @override
-   // Método para subir el objeto a Firestore
+  // Método para subir el objeto a Firestore
   Future<void> guardarCurso(Curso curso) async {
-    
-     // Instanciar el servicio de Firestore
-      final firebaseService = FirebaseService(firestore: FirebaseFirestore.instance);
-      await firebaseService.subirCursoFB(curso);
+    // Instanciar el servicio de Firestore
+    final firebaseService =
+        FirebaseService(firestore: FirebaseFirestore.instance);
+    await firebaseService.subirCursoFB(curso);
 
     // se fija el curso para formatearlo y enviarlo a firebase (unidades y actividades)
 
@@ -2332,7 +2333,6 @@ class CursosDataAdapter extends CursoRepository {
     throw UnimplementedError();
   }
 
-
   //obtener seguimientos
   @override
   Future<List<Seguimiento>> getSeguimientos(
@@ -2374,19 +2374,20 @@ class CursosDataAdapter extends CursoRepository {
           context.read<BDemoMundoPC>().obtenerSeguimiento(cursoId));
     }
   }
-  
+
   @override
   Future<void> guardarSeguimientos(List<Seguimiento> seguimientos) async {
-   final collectionRef = FirebaseFirestore.instance.collection('seguimientos');
+    final collectionRef = FirebaseFirestore.instance.collection('seguimientos');
 
     for (var seguimiento in seguimientos) {
       final seguimientoMap = seguimiento.toFirestore();
       collectionRef.add(seguimientoMap);
     }
   }
-  
+
   @override
-  Future<void> eliminarRespuestaActividadSeguimiento(int cursoId, int actividadId) async {
+  Future<void> eliminarRespuestaActividadSeguimiento(
+      int cursoId, int actividadId) async {
     //eliminar respuesta del seguimiento
 
     CollectionReference collectionSegRef =
@@ -2396,14 +2397,13 @@ class CursosDataAdapter extends CursoRepository {
     QuerySnapshot querySegSnapshot =
         await collectionSegRef.where('cursoId', isEqualTo: cursoId).get();
 
-         
-  
     if (querySegSnapshot.docs.isNotEmpty) {
       // Iterar a través de los documentos encontrados y eliminarlos
       for (QueryDocumentSnapshot doc in querySegSnapshot.docs) {
         List<dynamic> respuestasActividades = doc.get('respuestasActividades');
+        print(respuestasActividades);
 
-   // Encontrar la respuesta a eliminar
+        // Encontrar la respuesta a eliminar
         dynamic respuestaAEliminar;
         for (var respuesta in respuestasActividades) {
           if (respuesta['actividadId'] == actividadId) {
@@ -2413,10 +2413,9 @@ class CursosDataAdapter extends CursoRepository {
         }
         final docRef = collectionSegRef.doc(doc.id);
         await docRef.update({
-            'respuestasActividades': FieldValue.arrayRemove([respuestaAEliminar]),
-          });
+          'respuestasActividades': FieldValue.arrayRemove([respuestaAEliminar]),
+        });
       }
     }
-
   }
 }

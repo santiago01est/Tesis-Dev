@@ -547,17 +547,11 @@ class CommonCs {
     return listAsString;
   }
 
-  void eliminarActividad(int idActividad) {
+  Future<void> eliminarActividad(int idActividad) async {
     final curso = context.watch<CursoCubit>();
-    final unidades = context.watch<UnidadesCubit>();
-    final seguimientosCubit = context.watch<SeguimientosEstudiantesCubit>();
 
-     unidades.eliminarActividadDeUnidad(idActividad);
-      curso.eliminarActividadDeUnidadDelCurso(idActividad, context);
-      seguimientosCubit.eliminarActividadDeUnidadDelCurso(idActividad);
-
-      //borrar en la base de datos
-      cursosCasoUso.eliminarRespuestaActividadSeguimiento(curso.state.id!, idActividad);
-
+    //borrar en la base de datos
+    cursosCasoUso.eliminarRespuestaActividadSeguimiento(
+        curso.state.id!, idActividad);
   }
 }

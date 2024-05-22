@@ -33,18 +33,15 @@ class _SeguimientoEstudianteScreenState
   final UnidadCasoUso unidadCasoUso = getIt<UnidadCasoUso>();
   final ProfesorCasoUso profesorCasoUso = getIt<ProfesorCasoUso>();
 
-
   late Future<void> _cursosProfesoresCasoUso;
   bool _isLoading = true;
   bool _isInitialized = false; // Variable para controlar el estado de carga
-
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
     if (!_isInitialized) {
-
       _cursosProfesoresCasoUso = _initializeData();
       _isInitialized = true;
     }
@@ -57,10 +54,8 @@ class _SeguimientoEstudianteScreenState
       context: context,
     );
 
-        await initData.obtenerCursosYProfesoresYUnidades(widget.cursoId);
+    await initData.obtenerCursosYProfesoresYUnidades(widget.cursoId);
 
-      
-    
     _simularCarga();
   }
 
@@ -301,7 +296,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
     // Agregar las columnas para las actividades
     columns.addAll(widget.actividades.map((activity) {
       return DataColumn(
-        label: Text('Act ${activity.id! + 1}'),
+        label: Text('Act ${widget.actividades.indexOf(activity) + 1} '),
       );
     }).toList());
 
