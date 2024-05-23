@@ -47,6 +47,7 @@ dependencies:
   flame_tiled: ^1.18.0
   number_inc_dec: ^0.8.0
   mockito: ^5.0.17
+  fake_cloud_firestore: 2.4.8
 
 
 
