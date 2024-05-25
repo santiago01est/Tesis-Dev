@@ -70,6 +70,7 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
       seguimientosCubit.eliminarActividadDeUnidadDelCurso(actividadId);
 
       cursosProfesoresCasoUso.eliminarActividad(actividadId, cursoId);
+      cursosProfesoresCasoUso.eliminarSeguimientosActividad(actividadId, cursoId);
 
       // Notifica a Flutter que los datos han cambiado y la interfaz de usuario necesita actualizarse
       setState(() {});

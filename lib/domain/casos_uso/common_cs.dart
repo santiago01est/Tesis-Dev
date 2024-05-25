@@ -457,12 +457,7 @@ class CommonCs {
 
   Future<void> subirActividadCuestionario(int unidadId,
       ActividadCuestionario actividadCuestionarioSave, int cursoId) async {
-    context
-        .read<CursoCubit>()
-        .addActividad(actividadCuestionarioSave, unidadId, context);
-    context
-        .read<SeguimientosEstudiantesCubit>()
-        .agregarRespuesta(cursoId, actividadCuestionarioSave);
+    
 
     // Actualizar actividad en unidad
 
@@ -548,12 +543,20 @@ class CommonCs {
   }
 
   Future<void> eliminarActividad(int idActividad, int cursoId) async {
-  
-    //borrar en la base de datos
-    cursosCasoUso.eliminarRespuestaActividadSeguimiento(
-        cursoId, idActividad);
+
 
         cursosCasoUso.eliminarActividad(
+        cursoId, idActividad);
+
+    //borrar la actividad de unidades en la  base de datos
+
+  }
+
+   Future<void> eliminarSeguimientosActividad(int idActividad, int cursoId) async {
+
+
+        //borrar en la base de datos
+    cursosCasoUso.eliminarRespuestaActividadSeguimiento(
         cursoId, idActividad);
 
     //borrar la actividad de unidades en la  base de datos

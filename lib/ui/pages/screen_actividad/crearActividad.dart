@@ -374,7 +374,12 @@ class CrearActividadState extends State<CrearActividad> {
                                                 respuestaCorrecta:
                                                     _selectedOptionIndex);
 
-                                       
+                                       context
+        .read<CursoCubit>()
+        .addActividad(actividadCuestionarioSave, widget.unidadId, context);
+    context
+        .read<SeguimientosEstudiantesCubit>()
+        .agregarRespuesta(unidadesCubit!.cursoId, actividadCuestionarioSave);
 
                                         initData.subirActividadCuestionario(
                                             widget.unidadId, actividadCuestionarioSave,unidadesCubit!.cursoId
