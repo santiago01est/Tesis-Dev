@@ -537,9 +537,9 @@ class _DataTestTableWidgetState extends State<DataTestTableWidget> {
   }
 
   Color asignarColor(int colIndex) {
-    if (colIndex < 4) {
+    if (colIndex <= 4) {
       return Color(0xFFB6C979);
-    } else if (colIndex >= 4 && colIndex < 8) {
+    } else if (colIndex > 4 && colIndex <= 8) {
       return Color(0xFFF4A662);
     } else {
       return Color(0xFF69B5D8);
