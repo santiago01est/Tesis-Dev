@@ -98,7 +98,9 @@ class CursosCasoUso {
       cursoRepository.eliminarRespuestaActividadSeguimiento(cursoId, actividadId);
     }
 
-
+Future<void> eliminarActividad(int cursoId, int actividadId) async{
+      cursoRepository.eliminarActividad(cursoId, actividadId);
+    }
 
 
 /*

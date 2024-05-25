@@ -62,14 +62,14 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
       userID = widget.idProfesor;
     }
 
-    void eliminarActividad(int idActividad) {
+    void eliminarActividad(int actividadId, int cursoId) {
       // Elimina la actividad del listado de actividades de la unidad
 
-      unidades.eliminarActividadDeUnidad(idActividad);
-      curso.eliminarActividadDeUnidadDelCurso(idActividad, context);
-      seguimientosCubit.eliminarActividadDeUnidadDelCurso(idActividad);
+      unidades.eliminarActividadDeUnidad(actividadId);
+      curso.eliminarActividadDeUnidadDelCurso(actividadId, context);
+      seguimientosCubit.eliminarActividadDeUnidadDelCurso(actividadId);
 
-      cursosProfesoresCasoUso.eliminarActividad(idActividad);
+      cursosProfesoresCasoUso.eliminarActividad(actividadId, cursoId);
 
       // Notifica a Flutter que los datos han cambiado y la interfaz de usuario necesita actualizarse
       setState(() {});
@@ -273,22 +273,9 @@ class _LayoutUnidadCursoState extends State<LayoutUnidadCurso> {
                                                                               activityIndex]
                                                                           .id!;
 
-                                                                      unidades.eliminarActividadDeUnidad(
-                                                                          idActividad);
-                                                                      curso.eliminarActividadDeUnidadDelCurso(
-                                                                          idActividad,
-                                                                          context);
-                                                                      seguimientosCubit
-                                                                          .eliminarActividadDeUnidadDelCurso(
-                                                                              idActividad);
-                                                                      /*
-                                                                      cursosProfesoresCasoUso
-                                                                          .eliminarActividad(
-                                                                              idActividad);
-*/
-                                                                      // Notifica a Flutter que los datos han cambiado y la interfaz de usuario necesita actualizarse
-                                                                      setState(
-                                                                          () {});
+                                                                      eliminarActividad(idActividad, curso.state.id!);
+                                                                      
+                                                                      
 
                                                                       Navigator.of(
                                                                               context)

@@ -2418,4 +2418,38 @@ class CursosDataAdapter extends CursoRepository {
       }
     }
   }
+  
+  @override
+  Future<void> eliminarActividad(int cursoId, int actividadId) async {
+  
+    //eliminar respuesta del seguimiento
+
+    CollectionReference collectionSegRef =
+        FirebaseFirestore.instance.collection("unidades");
+
+    // Realizar la consulta para encontrar el documento con el campo específico
+    QuerySnapshot querySegSnapshot =
+        await collectionSegRef.where('cursoId', isEqualTo: cursoId).get();
+
+    if (querySegSnapshot.docs.isNotEmpty) {
+      // Iterar a través de los documentos encontrados y eliminarlos
+      for (QueryDocumentSnapshot doc in querySegSnapshot.docs) {
+        List<dynamic> actividades = doc.get('actividades');
+        print(actividades);
+
+        // Encontrar la respuesta a eliminar
+        dynamic actividadAEliminar;
+        for (var actividad in actividades) {
+          if (actividad['id'] == actividadId) {
+            actividadAEliminar = actividad;
+            break;
+          }
+        }
+        final docRef = collectionSegRef.doc(doc.id);
+        await docRef.update({
+          'actividades': FieldValue.arrayRemove([actividadAEliminar]),
+        });
+      }
+    }
+  }
 }

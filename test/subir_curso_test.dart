@@ -1,5 +1,3 @@
-import 'package:dev_tesis/domain/model/curso.dart';
-import 'package:dev_tesis/infraestructure/firebase/firebase_curso.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
