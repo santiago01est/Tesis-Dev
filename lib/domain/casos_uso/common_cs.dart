@@ -82,7 +82,7 @@ class CommonCs {
     context.read<BDCursosCubit>();
 
     try {
-      final cursos = await cursosCasoUso.getCursos();
+      final cursos = await cursosCasoUso.getCursosCs();
       context.read<BDCursosCubit>().subirCursos(cursos);
     } catch (e) {
       // Manejo de errores, puedes mostrar un mensaje de error
@@ -455,85 +455,7 @@ class CommonCs {
     }
   }
 
-  Future<void> subirActividadCuestionario(int unidadId,
-      ActividadCuestionario actividadCuestionarioSave, int cursoId) async {
-    
-
-    // Actualizar actividad en unidad
-
-    CollectionReference collectionUnidadesRef =
-        FirebaseFirestore.instance.collection("unidades");
-
-    // Realizar la consulta para encontrar el documento con el campo específico
-    QuerySnapshot queryUnidadesSnapshot = await collectionUnidadesRef
-        .where('cursoId', isEqualTo: cursoId)
-        .where('id', isEqualTo: unidadId)
-        .limit(1)
-        .get();
-    Map<String, dynamic> actividadGlobalFB = {};
-
-    actividadGlobalFB = {
-      'id': actividadCuestionarioSave.id,
-      'nombre': actividadCuestionarioSave.nombre,
-      'descripcion': actividadCuestionarioSave.descripcion,
-      'estado': actividadCuestionarioSave.estado,
-      'tipoActividad': actividadCuestionarioSave.tipoActividad,
-      'pesoRespuestas':
-          convertirListaAStringPlano(actividadCuestionarioSave.pesoRespuestas!),
-      'habilidades':
-          convertirListaAStringPlano(actividadCuestionarioSave.habilidades!),
-      'nombreArchivo': '',
-      'mejorCamino': '',
-      'mejorCamino2': '',
-      'initialState': 0,
-      'dimension': actividadCuestionarioSave.dimension,
-      'casillas':
-          convertirListaAStringPlano(actividadCuestionarioSave.casillas!),
-      'respuestas':
-          convertirListaAStringPlano(actividadCuestionarioSave.respuestas!),
-      'ejercicioImage': actividadCuestionarioSave.ejercicioImage,
-      'ejemploImage': actividadCuestionarioSave.ejemploImage,
-      'pista': actividadCuestionarioSave.pista,
-      'respuestaCorrecta': actividadCuestionarioSave.respuestaCorrecta,
-    };
-
-    if (queryUnidadesSnapshot.docs.isNotEmpty) {
-      // Iterar a través de los documentos encontrados y eliminarlos
-      for (QueryDocumentSnapshot doc in queryUnidadesSnapshot.docs) {
-        final docRef = collectionUnidadesRef.doc(doc.id);
-        docRef.update({
-          'actividades': FieldValue.arrayUnion([actividadGlobalFB]),
-        });
-      }
-    }
-
-    CollectionReference collectionSegRef =
-        FirebaseFirestore.instance.collection("seguimientos");
-
-    // Realizar la consulta para encontrar el documento con el campo específico
-    QuerySnapshot querySegSnapshot =
-        await collectionSegRef.where('cursoId', isEqualTo: cursoId).get();
-
-    // nuemro de seguimiento encontrados
-    int numSeg = querySegSnapshot.docs.length;
-
-    Respuesta nuevaRespuesta = Respuesta(
-        id: 1,
-        respuestaUsuario: '',
-        peso: -1,
-        actividadId: actividadCuestionarioSave.id!,
-        seguimientoId: numSeg);
-
-    if (querySegSnapshot.docs.isNotEmpty) {
-      // Iterar a través de los documentos encontrados y eliminarlos
-      for (QueryDocumentSnapshot doc in querySegSnapshot.docs) {
-        final docRef = collectionSegRef.doc(doc.id);
-        docRef.update({
-          'respuestasActividades': FieldValue.arrayUnion([nuevaRespuesta]),
-        });
-      }
-    }
-  }
+  
 
   String convertirListaAStringPlano(List<dynamic> respuestas) {
     // Convertir la lista a un string
@@ -542,24 +464,26 @@ class CommonCs {
     return listAsString;
   }
 
-  Future<void> eliminarActividad(int idActividad, int cursoId) async {
+  Future<void> eliminarActividadCs(int idActividad, int cursoId) async {
 
 
-        cursosCasoUso.eliminarActividad(
+        cursosCasoUso.eliminarActividadCs(
         cursoId, idActividad);
 
     //borrar la actividad de unidades en la  base de datos
 
   }
 
-   Future<void> eliminarSeguimientosActividad(int idActividad, int cursoId) async {
+   Future<void> eliminarSeguimientosActividadCs(int idActividad, int cursoId) async {
 
 
         //borrar en la base de datos
-    cursosCasoUso.eliminarRespuestaActividadSeguimiento(
+    cursosCasoUso.eliminarRespuestaActividadSeguimientoCs(
         cursoId, idActividad);
 
     //borrar la actividad de unidades en la  base de datos
 
   }
+
+ 
 }

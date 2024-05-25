@@ -114,11 +114,7 @@ class CrearActividadState extends State<CrearActividad> {
 
   @override
   Widget build(BuildContext context) {
-    CommonCs initData = CommonCs(
-      cursosCasoUso: getIt<CursosCasoUso>(),
-      profesorCasoUso: getIt<ProfesorCasoUso>(),
-      context: context,
-    );
+    CursosCasoUso cursoCasoUso = CursosCasoUso(cursoRepository: getIt<CursoRepository>());
     final router = GoRouter.of(context);
     final unidadesCubit =
         context.read<UnidadesCubit>().obtenerUnidadPorId(widget.unidadId);
@@ -381,9 +377,11 @@ class CrearActividadState extends State<CrearActividad> {
         .read<SeguimientosEstudiantesCubit>()
         .agregarRespuesta(unidadesCubit!.cursoId, actividadCuestionarioSave);
 
-                                        initData.subirActividadCuestionario(
-                                            widget.unidadId, actividadCuestionarioSave,unidadesCubit!.cursoId
+                                        cursoCasoUso.subirActividadCuestionarioCs(
+                                            widget.unidadId, actividadCuestionarioSave,unidadesCubit.cursoId
                                         );
+
+                                        cursoCasoUso.subirRespuestaActividadSeguimientoCs(actividadCuestionarioSave, unidadesCubit.cursoId);
 
                                         // cerrar screen y volver
 /*

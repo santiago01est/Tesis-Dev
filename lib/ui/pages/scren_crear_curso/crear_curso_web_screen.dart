@@ -838,7 +838,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                                     // Agregar Seguimientos en cubit y lyego en la BD
                                                     List<Seguimiento>
                                                         seguimientosData =
-                                                        cursoCasoUso.crearSeguimientos(
+                                                        cursoCasoUso.crearSeguimientosCs(
                                                             curso.estudiantes!,
                                                             profesorCubit
                                                                 .state.id!,
@@ -853,7 +853,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                                             seguimientosData);
 
                                                     cursoCasoUso
-                                                        .guardarSeguimientos(
+                                                        .guardarSeguimientosCs(
                                                             seguimientosData);
 
                                                     //estudiantesCubit.subirEstudiantes(curso.estudiantes!);
@@ -885,7 +885,7 @@ class _CrearCursoWebScreenState extends State<CrearCursoWebScreen> {
                                                             'profesor');
                                                     // Llamar a la API para guardar la información
                                                     cursoCasoUso
-                                                        .guardarCurso(curso);
+                                                        .guardarCursoCs(curso);
 
                                                     router.go(
                                                         '/panelcurso/${curso.id}');

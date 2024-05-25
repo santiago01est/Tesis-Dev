@@ -1,4 +1,5 @@
 import 'package:dev_tesis/domain/model/actividad.dart';
+import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/estudiante.dart';
 import 'package:dev_tesis/domain/model/respuesta.dart';
@@ -11,17 +12,17 @@ class CursosCasoUso {
 
   CursosCasoUso({required this.cursoRepository});
 
-  Future<List<Curso>> getCursos() async {
+  Future<List<Curso>> getCursosCs() async {
     return await cursoRepository.getCursos();
   }
 
   //obtener curso por su id
-  Future<Curso> getCursoById(String id) {
+  Future<Curso> getCursoByIdCs(String id) {
     return cursoRepository.getCursoById(id);
   }
 
   // crear Seguimientos del curso
-  List<Seguimiento> crearSeguimientos(List<Estudiante> estudiantes,
+  List<Seguimiento> crearSeguimientosCs(List<Estudiante> estudiantes,
       int idProfesor, int idCurso, List<Actividad> actividades) {
     /*
     Recorre la lista de estudiantes y crea un seguimiento para cada uno de ellos
@@ -66,7 +67,7 @@ class CursosCasoUso {
   }
 
   //Metodo que agrega una actividad en el seguimiento del grupo
-  void agregarActividad(int idCurso, Actividad actividad, int unidadId) {
+  void agregarActividadCs(int idCurso, Actividad actividad, int unidadId) {
     /*
     context.read<UnidadesCubit>().addActividad(
         Actividad(
@@ -83,23 +84,33 @@ class CursosCasoUso {
 
   //** FIREBASE */
   // Método para subir el objeto a Firestore
-  Future<void> guardarCurso(Curso curso) async {
+  Future<void> guardarCursoCs(Curso curso) async {
    cursoRepository.guardarCurso(curso);
   }
 
  
 
   // metodo para subir cada seguimiento
-  Future<void> guardarSeguimientos(List<Seguimiento> seguimientos) async {
+  Future<void> guardarSeguimientosCs(List<Seguimiento> seguimientos) async {
     cursoRepository.guardarSeguimientos(seguimientos);
   }
 
-    Future<void> eliminarRespuestaActividadSeguimiento(int cursoId, int actividadId) async{
+    Future<void> eliminarRespuestaActividadSeguimientoCs(int cursoId, int actividadId) async{
       cursoRepository.eliminarRespuestaActividadSeguimiento(cursoId, actividadId);
     }
 
-Future<void> eliminarActividad(int cursoId, int actividadId) async{
+Future<void> eliminarActividadCs(int cursoId, int actividadId) async{
       cursoRepository.eliminarActividad(cursoId, actividadId);
+    }
+
+    Future<void> subirRespuestaActividadSeguimientoCs(
+      ActividadCuestionario actividadCuestionarioSave, int cursoId) async{
+      cursoRepository.subirSeguimientosActividadCuestionario(actividadCuestionarioSave, cursoId);
+    }
+
+    Future<void> subirActividadCuestionarioCs(int unidadId,
+      ActividadCuestionario actividadCuestionarioSave, int cursoId) async{
+      cursoRepository.subirActividadCuestionario(unidadId, actividadCuestionarioSave, cursoId);
     }
 
 

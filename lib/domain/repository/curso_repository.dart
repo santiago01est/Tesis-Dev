@@ -1,4 +1,5 @@
 import 'package:dev_tesis/domain/model/actividad.dart';
+import 'package:dev_tesis/domain/model/actividad_cuestionario.dart';
 import 'package:dev_tesis/domain/model/curso.dart';
 import 'package:dev_tesis/domain/model/seguimiento.dart';
 import 'package:flutter/material.dart';
@@ -18,4 +19,10 @@ abstract class CursoRepository {
   Future<void> eliminarRespuestaActividadSeguimiento(int cursoId, int actividadId);
 
   Future<void> eliminarActividad(int cursoId, int actividadId);
+
+  Future<void> subirActividadCuestionario(int unidadId,
+      ActividadCuestionario actividadCuestionarioSave, int cursoId);
+
+       Future<void> subirSeguimientosActividadCuestionario(
+      ActividadCuestionario actividadCuestionarioSave, int cursoId) ;
 }

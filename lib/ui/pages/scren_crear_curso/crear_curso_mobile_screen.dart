@@ -797,7 +797,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                                   onPressed: () {
                                                     //TODO: Llamar a la API para guardar la información
                                                     cursoCasoUso
-                                                        .guardarCurso(curso);
+                                                        .guardarCursoCs(curso);
                                                     // Guardar en Cubit
                                                     cursoCubit
                                                         .actualizarCurso(curso);
@@ -805,7 +805,7 @@ class _CrearCursoMobileScreenState extends State<CrearCursoMobileScreen> {
                                                         .agregarCurso(curso);
 
                                                     // Agregar Seguimientos
-                                                    cursoCasoUso.crearSeguimientos(
+                                                    cursoCasoUso.crearSeguimientosCs(
                                                         listaEstudiantes,
                                                         profesorCubit.state.id!,
                                                         curso.id!,
