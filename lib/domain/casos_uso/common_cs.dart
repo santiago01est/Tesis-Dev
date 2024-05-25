@@ -553,7 +553,10 @@ class CommonCs {
     cursosCasoUso.eliminarRespuestaActividadSeguimiento(
         cursoId, idActividad);
 
+        cursosCasoUso.eliminarActividad(
+        cursoId, idActividad);
+
     //borrar la actividad de unidades en la  base de datos
-    
+
   }
 }
