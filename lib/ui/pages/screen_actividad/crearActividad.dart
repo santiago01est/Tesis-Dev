@@ -112,6 +112,8 @@ class CrearActividadState extends State<CrearActividad> {
   List<TextEditingController> _controllers =
       List.generate(4, (_) => TextEditingController());
 
+  bool centinela = false;
+
   @override
   Widget build(BuildContext context) {
     CursosCasoUso cursoCasoUso =
@@ -344,7 +346,7 @@ class CrearActividadState extends State<CrearActividad> {
                                       onPressed: () {},
                                       text: 'Cancelar',
                                     ),
-                                    PixelSmallBttn(
+                                    centinela == false ?PixelSmallBttn(
                                       path: 'assets/items/ButtonBlue.png',
                                       onPressed: () async {
                                         for (int i = 0;
@@ -396,10 +398,20 @@ class CrearActividadState extends State<CrearActividad> {
                                                 actividadCuestionarioSave,
                                                 unidadesCubit.cursoId);
 
-                                        router.go('/panelcurso/${unidadesCubit.cursoId}');
+                                        esperarCarga(unidadesCubit.cursoId, router);
+
+                                        
+
+                                        
+
+                                       
                                       },
+
+
                                       text: 'Publicar',
-                                    ),
+                                    ):
+                                    // circular progreso
+                                    const Center(child: CircularProgressIndicator()),
                                   ],
                                 ),
                               ),
@@ -680,6 +692,19 @@ class CrearActividadState extends State<CrearActividad> {
             ),
           ))
         ]));
+  }
+  
+  void esperarCarga(int cursoId, GoRouter router) {
+    setState(() {
+                                          centinela=true;
+                                        });
+                                        // este codigo se ejecuta a las 2 segundos
+                                        Future.delayed(const Duration(seconds: 2), () {
+                                          router.go('/panelcurso/$cursoId');
+                                        });
+                                         
+
+
   }
 }
 

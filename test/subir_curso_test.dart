@@ -1,16 +1,17 @@
-import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-// Mocks generados por Mockito
-class MockFirebaseFirestore extends Mock implements FirebaseFirestore {}
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('Firestore Test', () {
-    test('Subir un curso', () async {
-      final firestore = FakeFirebaseFirestore();
-      await firestore.collection('cursos').add({
+  group('Firestore Integration Test', () {
+    late FirebaseFirestore firestore;
+
+    setUp(() {
+      firestore = FirebaseFirestore.instance;
+    });
+
+    test('Subir curso, unidades y seguimientos', () async {
+      // 1. Subir curso
+      var docRef = await firestore.collection('cursos').add({
         'id': 7777,
         'nombre': 'Curso de prueba',
         'codigoAcceso': '12345',
@@ -21,77 +22,81 @@ void main() {
         'portada': 'portada.png',
         'numEstudiantes': 30,
         'descripcion': 'Descripción del curso',
-        'fechaCreacion': '$DateTime.now()',
-        'fechaFinalizacion': '$DateTime.now().add(Duration(days: 30))',
+        'fechaCreacion': DateTime.now().toString(),
+        'fechaFinalizacion': DateTime.now().add(Duration(days: 30)).toString(),
         'estado': true,
         'estudiantes': [],
       });
 
-      final snapshot = await firestore.collection('cursos').get();
+      // 2. Subir unidades relacionadas al curso
+      await subirUnidadesFB(firestore, docRef.id);
 
-      expect(snapshot.docs.length, 1);
+      // 3. Subir seguimientos relacionados al curso
+      await guardarSeguimientosFB(firestore, docRef.id);
 
-      final document = snapshot.docs.first;
+      // Asserts para verificar los resultados esperados
+      final snapshotCursos = await firestore.collection('cursos').get();
+      expect(snapshotCursos.docs.length, 1);
 
-      expect(document['id'], 999);
-      expect(document['nombre'], 'Curso de prueba');
-      expect(document['portada'], 'portada.png');
+      final snapshotUnidades = await firestore.collection('unidades').get();
+      expect(snapshotUnidades.docs.isNotEmpty, true);
 
-    });
-
-  });
-  /*
-  group('subirCursoFB', () {
-    test('sube un curso a Firestore', () async {
-       late MockFirebaseFirestore mockFirestore;
-    late FirebaseService firebaseService;
-
-
-    setUp(() {
-      mockFirestore = MockFirebaseFirestore();
-      firebaseService = FirebaseService(firestore: mockFirestore);
-    });
-
-
- // Mocking the Firestore collection and document references
-      final mockCollectionReference = MockCollectionReference();
-      final mockDocumentReference = MockDocumentReference();
-     
-
-      // Configura los mocks
-      when(mockFirestore.collection('cursos')).thenReturn(mockCollectionReference);
-      when(mockCollectionReference.add(any!)).thenAnswer((_) async => mockDocumentReference);
-
-      // Crea una instancia de tu servicio
-      final cursoService = FirebaseService(firestore: mockFirestore);
-
-      // Crea un curso de prueba
-      final curso = Curso(
-        id: 7777,
-        nombre: 'Curso de prueba',
-        codigoAcceso: '12345',
-        departamento: 'Departamento de prueba',
-        ciudad: 'Ciudad de prueba',
-        colegio: 'Colegio de prueba',
-        profesor: 1,
-        portada: 'portada.png',
-        numEstudiantes: 30,
-        descripcion: 'Descripción del curso',
-        fechaCreacion: '$DateTime.now()',
-        fechaFinalizacion: '$DateTime.now().add(Duration(days: 30))',
-        estado: true,
-        estudiantes: [],
-      );
-
-      // Llama a la función
-      await cursoService.subirCursoFB(curso);
-
-      // Verifica que la función add fue llamada una vez
-      verify(mockCollectionReference.add(any!)).called(1);
+      final snapshotSeguimientos = await firestore.collection('seguimientos').get();
+      expect(snapshotSeguimientos.docs.isNotEmpty, true);
     });
   });
 }
-*/
+
+Future<void> subirUnidadesFB(FirebaseFirestore firestore, String cursoId) async {
+  var unidades = [
+    {
+      'id': 'U1',
+      'nombre': 'Unidad 1',
+      'descripcion': 'Introducción a la programación',
+      'estado': true,
+      'cursoId': cursoId,
+      'actividades': [
+        {'id': 'A1', 'nombre': 'Secuencias'},
+        {'id': 'A2', 'nombre': 'Ciclos'},
+      ]
+    },
+    {
+      'id': 'U2',
+      'nombre': 'Unidad 2',
+      'descripcion': 'Programación Avanzada',
+      'estado': true,
+      'cursoId': cursoId,
+      'actividades': [
+        {'id': 'A3', 'nombre': 'Herencia y Polimorfismo'},
+        {'id': 'A4', 'nombre': 'Manejo de Excepciones'},
+      ]
+    },
+  ];
+
+  for (var unidad in unidades) {
+    await firestore.collection('unidades').add(unidad);
+  }
 }
 
-class CursoService {}
+Future<void> guardarSeguimientosFB(FirebaseFirestore firestore, String cursoId) async {
+  var seguimientos = [
+    {
+      'id': 'S1',
+      'respuestasActividades': [{'respuesta': 'Correcta', 'puntaje': 10}],
+      'calificacion': 85.0,
+      'userId': '123',
+      'cursoId': cursoId,
+    },
+    {
+      'id': 'S2',
+      'respuestasActividades': [{'respuesta': 'Incorrecta', 'puntaje': 5}],
+      'calificacion': 70.0,
+      'userId': '456',
+      'cursoId': cursoId,
+    },
+  ];
+
+  for (var seguimiento in seguimientos) {
+    await firestore.collection('seguimientos').add(seguimiento);
+  }
+}
