@@ -2480,7 +2480,7 @@ class CursosDataAdapter extends CursoRepository {
       for (QueryDocumentSnapshot doc in querySegSnapshot.docs) {
         final docRef = collectionSegRef.doc(doc.id);
         docRef.update({
-          'respuestasActividades': FieldValue.arrayUnion([nuevaRespuesta]),
+          'respuestasActividades': FieldValue.arrayUnion([nuevaRespuesta.toFirestore()]),
         });
       }
     }

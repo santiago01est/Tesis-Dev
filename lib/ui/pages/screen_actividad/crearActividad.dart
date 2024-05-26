@@ -374,17 +374,16 @@ class CrearActividadState extends State<CrearActividad> {
                                                 pesoRespuestas: pesos,
                                                 respuestaCorrecta:
                                                     _selectedOptionIndex);
-
-                                        context.read<CursoCubit>().addActividad(
-                                            actividadCuestionarioSave,
-                                            widget.unidadId,
-                                            context);
                                         context
                                             .read<
                                                 SeguimientosEstudiantesCubit>()
                                             .agregarRespuesta(
                                                 unidadesCubit!.cursoId,
                                                 actividadCuestionarioSave);
+                                        context.read<CursoCubit>().addActividad(
+                                            actividadCuestionarioSave,
+                                            widget.unidadId,
+                                            context);
 
                                         await cursoCasoUso
                                             .subirActividadCuestionarioCs(
@@ -397,7 +396,7 @@ class CrearActividadState extends State<CrearActividad> {
                                                 actividadCuestionarioSave,
                                                 unidadesCubit.cursoId);
 
-                                        router.pop();
+                                        router.go('/panelcurso/${unidadesCubit.cursoId}');
                                       },
                                       text: 'Publicar',
                                     ),
