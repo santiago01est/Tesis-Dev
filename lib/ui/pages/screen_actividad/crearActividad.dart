@@ -114,7 +114,8 @@ class CrearActividadState extends State<CrearActividad> {
 
   @override
   Widget build(BuildContext context) {
-    CursosCasoUso cursoCasoUso = CursosCasoUso(cursoRepository: getIt<CursoRepository>());
+    CursosCasoUso cursoCasoUso =
+        CursosCasoUso(cursoRepository: getIt<CursoRepository>());
     final router = GoRouter.of(context);
     final unidadesCubit =
         context.read<UnidadesCubit>().obtenerUnidadPorId(widget.unidadId);
@@ -206,7 +207,8 @@ class CrearActividadState extends State<CrearActividad> {
 
                               // Habilidades
                               Padding(
-                                padding: const EdgeInsets.only( left: 50, bottom: 20, top: 10),
+                                padding: const EdgeInsets.only(
+                                    left: 50, bottom: 20, top: 10),
                                 child: Wrap(
                                   spacing:
                                       8.0, // Espacio horizontal entre los elementos
@@ -229,7 +231,8 @@ class CrearActividadState extends State<CrearActividad> {
                                                 ? blueColor
                                                 : null,
                                             child: InkWell(
-                                              onTap: () => _handleOptionChange(i),
+                                              onTap: () =>
+                                                  _handleOptionChange(i),
                                               borderRadius:
                                                   BorderRadius.circular(20),
                                               child: Padding(
@@ -240,10 +243,12 @@ class CrearActividadState extends State<CrearActividad> {
                                                     _selectedOptionsText[i],
                                                     style: TextStyle(
                                                       color:
-                                                          _selectedOptions[i] == 1
+                                                          _selectedOptions[i] ==
+                                                                  1
                                                               ? Colors.white
                                                               : null,
-                                                      fontWeight: FontWeight.bold,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                     ),
                                                   ),
                                                 ),
@@ -341,7 +346,7 @@ class CrearActividadState extends State<CrearActividad> {
                                     ),
                                     PixelSmallBttn(
                                       path: 'assets/items/ButtonBlue.png',
-                                      onPressed: () {
+                                      onPressed: () async {
                                         for (int i = 0;
                                             i < _controllers.length;
                                             i++) {
@@ -370,57 +375,28 @@ class CrearActividadState extends State<CrearActividad> {
                                                 respuestaCorrecta:
                                                     _selectedOptionIndex);
 
-                                       context
-        .read<CursoCubit>()
-        .addActividad(actividadCuestionarioSave, widget.unidadId, context);
-    context
-        .read<SeguimientosEstudiantesCubit>()
-        .agregarRespuesta(unidadesCubit!.cursoId, actividadCuestionarioSave);
+                                        context.read<CursoCubit>().addActividad(
+                                            actividadCuestionarioSave,
+                                            widget.unidadId,
+                                            context);
+                                        context
+                                            .read<
+                                                SeguimientosEstudiantesCubit>()
+                                            .agregarRespuesta(
+                                                unidadesCubit!.cursoId,
+                                                actividadCuestionarioSave);
 
-                                        cursoCasoUso.subirActividadCuestionarioCs(
-                                            widget.unidadId, actividadCuestionarioSave,unidadesCubit.cursoId
-                                        );
+                                        await cursoCasoUso
+                                            .subirActividadCuestionarioCs(
+                                                widget.unidadId,
+                                                actividadCuestionarioSave,
+                                                unidadesCubit.cursoId);
 
-                                        cursoCasoUso.subirRespuestaActividadSeguimientoCs(actividadCuestionarioSave, unidadesCubit.cursoId);
+                                        await cursoCasoUso
+                                            .subirRespuestaActividadSeguimientoCs(
+                                                actividadCuestionarioSave,
+                                                unidadesCubit.cursoId);
 
-                                        // cerrar screen y volver
-/*
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: Text(
-                                                  'Contenido de la actividad'),
-                                              content: SingleChildScrollView(
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                        'Actv: ${unidadesCubit!.actividades!.firstWhere(
-                                                              (actividad) =>
-                                                                  actividad
-                                                                      .id ==
-                                                                  actividadCuestionarioSave
-                                                                      .id,
-                                                            ).toString()}'),
-
-                                                    // Agrega más detalles de la actividad según sea necesario
-                                                  ],
-                                                ),
-                                              ),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: Text('Cerrar'),
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
-*/
                                         router.pop();
                                       },
                                       text: 'Publicar',
