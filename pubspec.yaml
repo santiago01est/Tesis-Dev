@@ -7,7 +7,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.1.0 < 4.0.0"
+  sdk: ">=3.4.1 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -26,8 +26,8 @@ dependencies:
   get_it: ^7.6.4
   firebase_auth: ^4.15.0
   cloud_firestore: ^4.13.3
-  go_router: ^12.0.1
-  google_fonts: ^5.1.0
+  go_router: ^14.1.3
+  google_fonts: ^6.2.1
   carousel_slider: ^4.2.1
   universal_html: ^2.0.8
   excel: ^4.0.0
@@ -35,12 +35,12 @@ dependencies:
   flame_tiled: ^1.18.0
   number_inc_dec: ^0.8.0
   mockito: ^5.0.17
-  fake_cloud_firestore: 2.4.8
+  fake_cloud_firestore: ^2.5.1
 
 
 
 dev_dependencies:
-  flutter_lints: ^2.0.0
+  flutter_lints: ^4.0.0
   flutter_test:
     sdk: flutter
 
