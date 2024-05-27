@@ -25,6 +25,9 @@ jobs:
       with:
         flutter-version: '2.x'
         
+    - name: Set Dart SDK path
+      run: flutter config --dart /usr/lib/dart
+      
     - name: Install dependencies
       run: flutter pub get
       
