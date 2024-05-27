@@ -17,8 +17,12 @@ jobs:
         flutter-version: '2.x'
         channel: 'stable'
       
-    - name: Use Dart SDK 3.1.0
-      run: echo '3.1.0' > .dart_version
+    - name: Install Dart SDK 3.1.0
+      run: |
+        wget https://storage.googleapis.com/dart-archive/channels/stable/release/3.1.0/sdk/dartsdk-linux-x64-release.zip
+        unzip dartsdk-linux-x64-release.zip
+        export PATH="$PATH:`pwd`/dart-sdk/bin"
+        dart --version
         
     - name: Install dependencies
       run: flutter pub get
