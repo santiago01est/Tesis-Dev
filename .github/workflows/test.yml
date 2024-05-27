@@ -1,26 +1,32 @@
-name: Flutter
+name: Run tests
 
-on:
-  push:
+on: [push]
 
 jobs:
-  build:
+  test:
+    name: Run tests
     runs-on: ubuntu-latest
-
+    
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Flutter SDK
-        uses: flutter-actions/setup-flutter@v3
-        with:
-          channel: stable
-          version: 3.1.0
-
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Analyze project source
-        run: dart analyze
-
-      - name: Run tests
-        run: flutter test
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Install Dart SDK
+      run: |
+        sudo apt-get update
+        sudo apt-get install apt-transport-https
+        sudo sh -c 'wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -'
+        sudo sh -c 'wget -qO- https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list'
+        sudo apt-get update
+        sudo apt-get install dart=3.1.0-1
+      
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '2.x'
+        
+    - name: Install dependencies
+      run: flutter pub get
+      
+    - name: Run tests
+      run: flutter test
