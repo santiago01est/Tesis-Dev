@@ -16,6 +16,9 @@ jobs:
       with:
         flutter-version: '2.x'
         
+    - name: Set Dart SDK version
+      run: echo "3.1.0" > .dart_version
+      
     - name: Install dependencies
       run: flutter pub get
       
