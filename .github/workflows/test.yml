@@ -19,15 +19,13 @@ jobs:
         sudo sh -c 'wget -qO- https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list'
         sudo apt-get update
         sudo apt-get install dart=3.1.0-1
+        echo "export DART_SDK=/usr/lib/dart" >> $GITHUB_ENV
       
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
         flutter-version: '2.x'
         
-    - name: Set Dart SDK path
-      run: flutter config --dart /usr/lib/dart
-      
     - name: Install dependencies
       run: flutter pub get
       
