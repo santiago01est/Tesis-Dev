@@ -1,0 +1,563 @@
+import '../../../domain/casos_uso/common_cs.dart';
+import '../../../domain/model/profesor.dart';
+import '../../bloc/bd_cursos.dart';
+import '../../widgets/PopUp.dart';
+import '/constants/styles.dart';
+import '/domain/casos_uso/curso_casos_uso/curso_cs.dart';
+import '/domain/casos_uso/profesor_casos_uso/profesor_cs.dart';
+import '/domain/casos_uso/unidad_casos_uso/unidad_cs.dart';
+import '/domain/model/estudiante.dart';
+import '/main.dart';
+import '/ui/bloc/curso_bloc.dart';
+import '/ui/bloc/estudiante_bloc.dart';
+import '/ui/bloc/profesor_bloc.dart';
+import '/ui/bloc/rol_bloc.dart';
+import '/ui/components/appbar/appbar_actividad.dart';
+import '/ui/components/appbar/appbar_panelCurso.dart';
+import '/ui/components/buttons/pixel_large_bttn.dart';
+import '/ui/components/textos/textos.dart';
+import '/ui/widgets/layout_curso_unidades.dart';
+import '/ui/widgets/lista_estudiantes.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+
+class PanelCursoScreen extends StatefulWidget {
+  final int cursoId;
+  const PanelCursoScreen({super.key, required this.cursoId});
+
+  @override
+  State<PanelCursoScreen> createState() => _PanelCursoScreenState();
+}
+
+//al iniciar la pantalla se obtienen los datos del curso
+
+class _PanelCursoScreenState extends State<PanelCursoScreen> {
+  final CursosCasoUso cursosCasoUso = getIt<CursosCasoUso>();
+  final UnidadCasoUso unidadCasoUso = getIt<UnidadCasoUso>();
+  final ProfesorCasoUso profesorCasoUso = getIt<ProfesorCasoUso>();
+
+  late CommonCs initData;
+  bool _isLoading = true;
+
+  @override
+  Future<void> didChangeDependencies() async {
+    super.didChangeDependencies();
+
+    initData = CommonCs(
+      cursosCasoUso: getIt<CursosCasoUso>(),
+      profesorCasoUso: getIt<ProfesorCasoUso>(),
+      context: context,
+    );
+    await initData.obtenerCursosYProfesoresYUnidades(widget.cursoId);
+
+    _simularCarga();
+  }
+
+  void _simularCarga() {
+    // Simular una carga de 5 segundos
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final router = GoRouter.of(context);
+    final cursoCubit = context.watch<CursoCubit>();
+    final bdCursoCubit = context.watch<BDCursosCubit>();
+    final rol = context.read<RolCubit>().state;
+
+    final profesoresCubit = context.watch<ProfesoresCubit>();
+    Profesor yoProfesor = profesoresCubit.state
+        .firstWhere((profesor) => profesor.id == cursoCubit.state.profesor);
+    String? nombreProfesor = profesoresCubit.state
+        .firstWhere((profesor) => profesor.id == cursoCubit.state.profesor)
+        .nombre;
+    int? profesorId = profesoresCubit.state
+        .firstWhere((profesor) => profesor.id == cursoCubit.state.profesor)
+        .id;
+    if (rol == 'profesor') {
+      context.read<EstudiantesCubit>().subirEstudiantes([
+        Estudiante(
+            id: yoProfesor.id!,
+            nombre: yoProfesor.nombre!,
+            avatar: yoProfesor.avatar!,
+            genero: 'Otro')
+      ]);
+    }
+
+    late EstudiantesCubit estudiantesCubit;
+    List<String> avatares = [];
+    if (rol == 'estudiante') {
+      estudiantesCubit = context.watch<EstudiantesCubit>();
+
+      for (var estudiante in estudiantesCubit.state) {
+        avatares.add(estudiante.avatar!);
+      }
+    } else {
+      avatares.add(profesoresCubit.state
+          .firstWhere((profesor) => profesor.id == cursoCubit.state.profesor)
+          .avatar!);
+    }
+
+    return DefaultTabController(
+      length: 2, // Número de pestañas
+      child: Scaffold(
+        backgroundColor: thirtyColor,
+        appBar: CustomNavigationBarPanelCurso(
+          cursoName: 'Mundo PC',
+          cursoId: widget.cursoId,
+          userName: rol == 'estudiante'
+              ? estudiantesCubit.obtenerNombres()
+              : nombreProfesor!,
+          profesorId: rol == 'profesor' ? profesorId! : 0,
+          userAvatars: avatares,
+          onLogout: () {
+            // Aquí implementa la lógica para cerrar sesión
+            print('Cerrar sesión');
+          },
+        ),
+        body: _isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+          child: Column(
+            children: [
+              // Encabezado (header)
+              Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(
+                      cursoCubit.state.portada!,
+                    ),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    // Contenido superpuesto en la primera sección
+                    // Fila con botón en la parte superior derecha
+                    const SizedBox(height: 20.0),
+                    Center(
+                        child: TitleText(
+                          text: cursoCubit.state.nombre!,
+                        )),
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        // Verifica el ancho de la pantalla
+                        if (constraints.maxWidth > 700) {
+                          // Pantalla grande: utiliza una fila
+                          return FractionallySizedBox(
+                              widthFactor: 0.6,
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  cardInfoCurso(
+                                    cursoCubit.state.nombre!,
+                                    cursoCubit.state.colegio!,
+                                    cursoCubit.state.ciudad!,
+                                    cursoCubit.state.departamento!,
+                                    cursoCubit.state.fechaCreacion!,
+                                    cursoCubit.state.unidades!.length,
+                                    unidadCasoUso.numeroTotalActividades(
+                                        cursoCubit.state),
+                                    cursoCubit.state.estado!,
+                                    nombreProfesor!,
+                                  ),
+                                  buildCardWithImageAndGraph(
+                                      cursoCubit.state.descripcion!)
+                                ],
+                              ));
+                        } else {
+                          // retorna para Pantalla pequeña: utiliza una columna
+                          return Column(
+                            children: [
+                              Container(
+                                width: 600,
+                                padding: const EdgeInsets.all(16),
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(15.0),
+                                  ),
+                                  color: blueColor,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(
+                                        16), // Ajusta el padding del contenido
+                                    child: Column(
+                                      children: [
+                                        Row(children: [
+                                          Expanded(
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment
+                                                    .start,
+                                                children: [
+                                                  SubtitleText(
+                                                    text:
+                                                    'Información general del curso',
+                                                  ),
+                                                  const SizedBox(
+                                                      height: 10),
+                                                  ParagraphText(
+                                                    text:
+                                                    "${cursoCubit.state.nombre!} del Colegio ${cursoCubit.state.colegio!} de ${cursoCubit.state.ciudad!}, ${cursoCubit.state.departamento!}.",
+                                                  ),
+                                                ]),
+                                          ),
+                                        ]),
+                                        const SizedBox(height: 20),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 4,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment
+                                                    .start,
+                                                children: [
+                                                  ParagraphText(
+                                                    text:
+                                                    'Profesor: $nombreProfesor',
+                                                  ),
+                                                  ParagraphText(
+                                                    text:
+                                                    'Número de Unidades: ${cursoCubit.state.unidades!}',
+                                                  ),
+                                                  ParagraphText(
+                                                    text:
+                                                    'Número de Actividades: ${unidadCasoUso.numeroTotalActividades(cursoCubit.state)}',
+                                                  ),
+                                                  ParagraphText(
+                                                    text:
+                                                    'Fecha Creación: ${cursoCubit.state.fechaCreacion!}',
+                                                  ),
+                                                  ParagraphText(
+                                                    text: cursoCubit
+                                                        .state.estado!
+                                                        ? 'Estado: Activo'
+                                                        : 'Estado: Inactivo',
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Image.asset(
+                                                'assets/avatares/perico_avatar.png',
+                                                width: 80,
+                                                height: 80,
+                                                fit: BoxFit.contain,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.all(16),
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(15.0),
+                                  ),
+                                  color: blueColor,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16),
+                                    child: Column(
+                                      children: [
+                                        SubtitleText(
+                                          text: 'Descripción del curso',
+                                        ),
+                                        const SizedBox(height: 10),
+                                        ParagraphText(
+                                          text: cursoCubit
+                                              .state.descripcion!,
+                                        ),
+                                        // Agrega cualquier contenido adicional que desees aquí
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 20.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // boton con icono de lapiz para editar
+                        rol == 'profesor' ?
+                        PixelLargeBttn(
+                            path: 'assets/buttons/editar.png',
+                            text: '',
+                            onPressed: () {
+                              PopupUtils.showEditCoursePopup(
+                                  context,
+                                  cursoCubit.state);
+                            })
+                            : Container(),
+
+                        Center(
+                            child: PixelLargeBttn(
+                                path: 'assets/items/ButtonBlue.png',
+                                text: rol == 'estudiante'
+                                    ? 'Mi Seguimiento'
+                                    : 'Seguimiento',
+                                onPressed: () {
+                                  if (rol == 'estudiante') {
+                                    router.go(
+                                        '/seguimientoestudiante/${cursoCubit.state.id}');
+                                  } else {
+                                    router.go(
+                                        '/seguimientoprofesor/${cursoCubit.state.id}');
+                                  }
+                                })),
+                        rol == 'profesor' ?
+                        PixelLargeBttn(
+                          path: 'assets/buttons/borrar.png',
+                          text: '',
+                          onPressed: () {
+
+                            // show dialog  de confirmacion
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("¿Estás seguro de eliminar este curso permanentemente?"),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        'assets/avatares/perico_avatar.png',
+                                        width: 300,
+                                        height: 300,
+                                      ), // Reemplaza 'ruta_de_la_imagen' con la ruta real de tu imagen
+                                    ],
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text("Cancelar"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _isLoading = true;
+                                        });
+
+
+
+                                        Navigator.of(context).pop();
+                                        router.go('/panelprofesor/$profesorId');
+                                        initData.eliminarCurso(cursoCubit.state.id!);
+
+
+                                      },
+                                      child: Text("Eliminar"),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+
+
+
+                          },
+                        ): Container(),
+                      ],
+                    ),
+                    const SizedBox(height: 20.0),
+                  ],
+                ),
+              ),
+
+              // Añadimos el TabBar
+              TabBar(
+                tabs: const [
+                  Tab(text: 'Contenido'),
+                  Tab(text: 'Estudiantes'),
+                ],
+                labelColor:
+                blackColor, // Color del texto de la pestaña activa
+                unselectedLabelColor:
+                Colors.grey, // Color del texto de la pestaña inactiva
+                labelStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight
+                        .bold), // Estilo del texto de la pestaña activa
+                unselectedLabelStyle: TextStyle(
+                    fontSize:
+                    14), // Estilo del texto de la pestaña inactiva
+                indicator: BoxDecoration(
+                  // Estilo de la barra debajo del texto
+                  border: Border(
+                    bottom: BorderSide(
+                        color: blueDarkColor,
+                        width: 2), // Color y grosor de la barra
+                  ),
+                ),
+              ),
+
+              // Añadimos el TabBarView
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+
+                child: TabBarView(
+                  children: [
+                    // Contenido de la primera pestaña
+                    // Utiliza tu LayoutUnidadCurso o el contenido que desees
+                    LayoutUnidadCurso(
+                        idProfesor: cursoCubit.state.profesor!),
+                    const ListaEstudiantesWidget()
+                    // Contenido de la segunda pestaña
+                  ],
+                ),
+                // Ajusta la altura según tus necesidades
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget cardInfoCurso(
+      String nombreCurso,
+      String colegio,
+      String ciudad,
+      String depto,
+      String fecha,
+      int unidades,
+      int actividades,
+      bool estado,
+      String profesor) {
+    return Expanded(
+      child: Container(
+        width: 600,
+        padding: const EdgeInsets.all(16),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          color: blueColor,
+          child: Padding(
+            padding:
+            const EdgeInsets.all(16), // Ajusta el padding del contenido
+            child: Column(
+              children: [
+                Row(children: [
+                  Expanded(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SubtitleText(
+                            text: 'Información general del curso',
+                          ),
+                          const SizedBox(height: 10),
+                          ParagraphText(
+                            text:
+                            "$nombreCurso del Colegio $colegio de $ciudad, $depto.",
+                          ),
+                        ]),
+                  ),
+                ]),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 4,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ParagraphText(
+                            text: 'Profesor: $profesor',
+                          ),
+                          ParagraphText(
+                            text: 'Número de Unidades: $unidades',
+                          ),
+                          ParagraphText(
+                            text: 'Número de Actividades: $actividades',
+                          ),
+                          ParagraphText(
+                            text: 'Fecha Creación: $fecha',
+                          ),
+                          ParagraphText(
+                            text:
+                            estado ? 'Estado: Activo' : 'Estado: Inactivo',
+                          )
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Image.asset(
+                        'assets/avatares/perico_avatar.png',
+                        width: 80,
+                        height: 80,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Este método simula la carga del avatar
+  Future<List<String>> _fetchAvatar(List<Estudiante> state) async {
+    List<String> avatares = [];
+    for (var estudiante in state) {
+      avatares.add(estudiante.avatar!);
+    }
+    await Future.delayed(Duration(seconds: 2)); // Simula la carga
+
+    return avatares; // Ruta del avatar
+  }
+
+  Widget buildCardWithImageAndGraph(String descripcion) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          color: blueColor,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                SubtitleText(
+                  text: 'Descripción del curso',
+                ),
+                const SizedBox(height: 10),
+                ParagraphText(
+                  text: descripcion,
+                ),
+                // Agrega cualquier contenido adicional que desees aquí
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
