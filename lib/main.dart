@@ -30,6 +30,10 @@ import 'infraestructure/driven_adapter/cursos_adapter/cursos_data_adapter.dart';
 import 'infraestructure/driven_adapter/profesor_adapter/profesor_data_adapter.dart';
 import 'infraestructure/driven_adapter/unidad_adapter/unidad_data_adapter.dart';
 
+/**
+ * Bienvenidos a MundoPC
+ */
+
 final getIt = GetIt.instance;
 
 void setupDependencies() {
