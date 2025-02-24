@@ -28,7 +28,6 @@ final appRouter = GoRouter(
       path: '/inicio',
       builder: (context, state) => const Home(),
     ),
-
     GoRoute(
       path: '/iniciosesion',
       builder: (context, state) => const InicioSesionScreen(),
