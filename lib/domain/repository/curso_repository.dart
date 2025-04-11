@@ -1,8 +1,8 @@
 import '../model/actividad_cuestionario.dart';
-import '/domain/model/actividad.dart';
+//import '/domain/model/actividad.dart';
 import '/domain/model/curso.dart';
 import '/domain/model/seguimiento.dart';
-import 'package:flutter/material.dart';
+//import 'package:flutter/material.dart';
 
 abstract class CursoRepository {
   Future<List<Curso>> getCursos();

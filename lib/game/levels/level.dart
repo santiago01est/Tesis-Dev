@@ -36,7 +36,7 @@ class Level extends World with HasGameRef<GameActivity>{
 
   void cargarNivel() async{
 
-    const RUTA_DECORACION_CAMPO= 'mapa/decoracion-suelo/unidad1-Campo/';
+    //const RUTA_DECORACION_CAMPO= 'mapa/decoracion-suelo/unidad1-Campo/';
     const RUTA_OBJETOS_UP_DOWN= 'mapa/objetos-UpAndDown/';
     const RUTA_SUELO_CAMPO= 'mapa/suelo/unidad1-Campo/';
     const RUTA_DECORACION= 'mapa/decoracion-suelo/';

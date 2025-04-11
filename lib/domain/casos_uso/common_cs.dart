@@ -55,7 +55,7 @@ class CommonCs {
       // Si la lista no está vacía, convertirla a una lista de Estudiante
       //if (jsonString != null) {
 
-      final seguimientoCubit = context.watch<SeguimientosEstudiantesCubit>();
+      //final seguimientoCubit = context.watch<SeguimientosEstudiantesCubit>();
 
       //await fetchGruposCurso(cursoId);
       await _fetchCursos();

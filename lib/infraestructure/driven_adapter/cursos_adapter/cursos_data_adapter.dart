@@ -9,12 +9,12 @@ import '../../../domain/model/unidad.dart';
 import '../../firebase/firebase_curso.dart';
 import '/domain/model/actividad.dart';
 import '/domain/model/curso.dart';
-import '/domain/model/respuesta.dart';
+//import '/domain/model/respuesta.dart';
 import '/domain/model/seguimiento.dart';
 import '/domain/repository/curso_repository.dart';
-import '/ui/bloc/bd_demo.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+//import '/ui/bloc/bd_demo.dart';
+//import 'package:flutter/material.dart';
+//import 'package:flutter_bloc/flutter_bloc.dart';
 class CursosDataAdapter extends CursoRepository {
   @override
   Future<List<Curso>> getCursos() async {

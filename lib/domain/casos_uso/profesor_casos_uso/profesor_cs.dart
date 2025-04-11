@@ -13,7 +13,7 @@ class ProfesorCasoUso {
   Future<void> subirProfesorFB(Profesor profesor) async {
     // Referencia a la colección "productos" en Firestore
     CollectionReference productos =
-    FirebaseFirestore.instance.collection('profesores');
+        FirebaseFirestore.instance.collection('profesores');
 
     // Convertir el objeto Producto a un mapa
     Map<String, dynamic> data = profesor.toMap();

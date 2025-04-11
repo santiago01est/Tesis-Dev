@@ -34,7 +34,7 @@ class CursosCasoUso {
             id: i,
             respuestasActividades: List.generate(
                 actividades.length,
-                    (index) => Respuesta(
+                (index) => Respuesta(
                     id: i,
                     respuestaUsuario: '',
                     peso: -1,
@@ -51,7 +51,7 @@ class CursosCasoUso {
         id: seguimientos.length + 1,
         respuestasActividades: List.generate(
             actividades.length,
-                (index) => Respuesta(
+            (index) => Respuesta(
                 id: 1,
                 respuestaUsuario: '',
                 peso: -1,
@@ -88,31 +88,31 @@ class CursosCasoUso {
     cursoRepository.guardarCurso(curso);
   }
 
-
-
   // metodo para subir cada seguimiento
   Future<void> guardarSeguimientosCs(List<Seguimiento> seguimientos) async {
     cursoRepository.guardarSeguimientos(seguimientos);
   }
 
-  Future<void> eliminarRespuestaActividadSeguimientoCs(int cursoId, int actividadId) async{
+  Future<void> eliminarRespuestaActividadSeguimientoCs(
+      int cursoId, int actividadId) async {
     cursoRepository.eliminarRespuestaActividadSeguimiento(cursoId, actividadId);
   }
 
-  Future<void> eliminarActividadCs(int cursoId, int actividadId) async{
+  Future<void> eliminarActividadCs(int cursoId, int actividadId) async {
     cursoRepository.eliminarActividad(cursoId, actividadId);
   }
 
   Future<void> subirRespuestaActividadSeguimientoCs(
-      ActividadCuestionario actividadCuestionarioSave, int cursoId) async{
-    cursoRepository.subirSeguimientosActividadCuestionario(actividadCuestionarioSave, cursoId);
+      ActividadCuestionario actividadCuestionarioSave, int cursoId) async {
+    cursoRepository.subirSeguimientosActividadCuestionario(
+        actividadCuestionarioSave, cursoId);
   }
 
   Future<void> subirActividadCuestionarioCs(int unidadId,
-      ActividadCuestionario actividadCuestionarioSave, int cursoId) async{
-    cursoRepository.subirActividadCuestionario(unidadId, actividadCuestionarioSave, cursoId);
+      ActividadCuestionario actividadCuestionarioSave, int cursoId) async {
+    cursoRepository.subirActividadCuestionario(
+        unidadId, actividadCuestionarioSave, cursoId);
   }
-
 
 /*
   Future<void> actualizarRespuesta(int cursoId, List<int> estudianteId,
