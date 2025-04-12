@@ -11,7 +11,6 @@ abstract class CursoRepository {
 
   Future<Curso> getCursoById(String id);
 
-
   Future<void> guardarSeguimientos(List<Seguimiento> seguimientos);
 
   Future<void> eliminarRespuestaActividadSeguimiento(
