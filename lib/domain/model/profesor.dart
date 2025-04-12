@@ -17,7 +17,6 @@ class Profesor {
     this.bio,
   });
 
-  //Map
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -38,6 +37,7 @@ class Profesor {
     bio = data['bio'];
   }
 
+  // Método usado para Firestore
   factory Profesor.fromFirestore(
       DocumentSnapshot<Map<String, dynamic>> snapshot,
       ) {
@@ -50,5 +50,29 @@ class Profesor {
       avatar: data?['avatar'],
       bio: data?['bio'],
     );
+  }
+
+  // Nuevo método de fábrica para consumo vía REST (JSON)
+  factory Profesor.fromJson(Map<String, dynamic> json) {
+    return Profesor(
+      id: json['id'],
+      nombre: json['nombre'],
+      email: json['email'],
+      password: json['password'],
+      avatar: json['avatar'],
+      bio: json['bio'],
+    );
+  }
+
+  // Método para convertir la instancia a JSON al enviar datos al backend
+  Map<String, dynamic> toJson() {
+    return {
+      if (id != null) 'id': id,
+      'nombre': nombre,
+      'email': email,
+      'password': password,
+      'avatar': avatar,
+      'bio': bio,
+    };
   }
 }

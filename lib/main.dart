@@ -57,7 +57,6 @@ void setupDependencies() {
 */
 
 void setupDependencies() {
-  // Registra tus dependencias aquí
   getIt.registerSingleton<CursoRepository>(CursosDataAdapter());
   getIt.registerSingleton<CursosCasoUso>(
       CursosCasoUso(cursoRepository: getIt<CursoRepository>()));
@@ -70,6 +69,21 @@ void setupDependencies() {
   getIt.registerSingleton<ProfesorCasoUso>(
       ProfesorCasoUso(profesorRepository: getIt<ProfesorRepository>()));
 }
+
+void setupDependencies() {
+  getIt.registerSingleton<CursoRepository>(CursosDataAdapter());
+  getIt.registerSingleton<CursosCasoUso>(
+      CursosCasoUso(cursoRepository: getIt<CursoRepository>()));
+
+  getIt.registerSingleton<ProfesorRepository>(ProfesorDataAdapter());
+  getIt.registerSingleton<ProfesorCasoUso>(
+      ProfesorCasoUso(profesorRepository: getIt<ProfesorRepository>()));
+
+  getIt.registerSingleton<UnidadRepository>(UnidadDataAdapter());
+  getIt.registerSingleton<UnidadCasoUso>(
+      UnidadCasoUso(unidadRepository: getIt<UnidadRepository>()));
+}
+
 
 Future<void> main() async {
   setupDependencies();
