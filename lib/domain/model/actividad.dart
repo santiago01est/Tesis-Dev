@@ -10,15 +10,14 @@ class Actividad {
 
   Actividad(
       {this.id,
-        this.nombre,
-        this.descripcion,
-        this.estado,
-        this.tipoActividad,
-        this.pesoRespuestas,
-        this.habilidades,
-        this.pista});
+      this.nombre,
+      this.descripcion,
+      this.estado,
+      this.tipoActividad,
+      this.pesoRespuestas,
+      this.habilidades,
+      this.pista});
 
-  // To Map
   factory Actividad.fromFirestore(Map<String, dynamic> data) {
     return Actividad(
       id: data['id'],
@@ -42,6 +41,39 @@ class Actividad {
       "pesoRespuestas": pesoRespuestas,
       "habilidades": habilidades,
       "pista": pista,
+    };
+  }
+
+  // Nuevo método de fábrica para JSON (consumido desde el backend)
+  factory Actividad.fromJson(Map<String, dynamic> json) {
+    return Actividad(
+      id: json['id'],
+      nombre: json['nombre'],
+      descripcion: json['descripcion'],
+      estado: json['estado'],
+      tipoActividad: json['tipoActividad'],
+      // Convertimos la lista a List<int> si existe
+      pesoRespuestas: json['pesoRespuestas'] != null
+          ? List<int>.from(json['pesoRespuestas'])
+          : null,
+      habilidades: json['habilidades'] != null
+          ? List<int>.from(json['habilidades'])
+          : null,
+      pista: json['pista'],
+    );
+  }
+
+  // Método para convertir la instancia a JSON al enviar datos al backend
+  Map<String, dynamic> toJson() {
+    return {
+      if (id != null) 'id': id,
+      'nombre': nombre,
+      'descripcion': descripcion,
+      'estado': estado,
+      'tipoActividad': tipoActividad,
+      'pesoRespuestas': pesoRespuestas,
+      'habilidades': habilidades,
+      'pista': pista,
     };
   }
 }

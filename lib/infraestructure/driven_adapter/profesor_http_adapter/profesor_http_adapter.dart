@@ -1,3 +1,4 @@
+/*
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '/domain/model/profesor.dart';
@@ -30,3 +31,4 @@ class ProfesorHttpAdapter extends ProfesorRepository {
     }
   }
 }
+*/

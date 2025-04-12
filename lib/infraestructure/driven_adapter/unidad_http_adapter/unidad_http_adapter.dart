@@ -1,3 +1,4 @@
+/*
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '/domain/model/unidad.dart';
@@ -18,3 +19,4 @@ class UnidadHttpAdapter extends UnidadRepository {
     }
   }
 }
+*/

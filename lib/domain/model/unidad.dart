@@ -10,14 +10,13 @@ class Unidad {
 
   Unidad(
       {this.id,
-        this.nombre,
-        this.descripcion,
-        this.estado,
-        this.actividades,
-        required this.cursoId});
+      this.nombre,
+      this.descripcion,
+      this.estado,
+      this.actividades,
+      required this.cursoId});
 
-  // metodo toMap
-  // To Map
+  // Método de fábrica para Firestore (toMap)
   factory Unidad.fromFirestore(Map<String, dynamic> data) {
     return Unidad(
       id: data['id'],
@@ -39,7 +38,36 @@ class Unidad {
       "estado": estado,
       "cursoId": cursoId,
       "actividades":
-      actividades?.map((actividad) => actividad.toFirestore()).toList(),
+          actividades?.map((actividad) => actividad.toFirestore()).toList(),
+    };
+  }
+
+  // Nuevo método de fábrica para JSON (consumido desde el backend)
+  factory Unidad.fromJson(Map<String, dynamic> json) {
+    return Unidad(
+      id: json['id'],
+      nombre: json['nombre'],
+      descripcion: json['descripcion'],
+      estado: json['estado'],
+      cursoId: json['cursoId'],
+      // Se asume que Actividad tiene un método similar: fromJson.
+      actividades: (json['actividades'] as List<dynamic>?)
+          ?.map((actividadData) =>
+              Actividad.fromJson(actividadData as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  // Método para convertir a JSON al enviar datos al backend
+  Map<String, dynamic> toJson() {
+    return {
+      if (id != null) 'id': id,
+      'nombre': nombre,
+      'descripcion': descripcion,
+      'estado': estado,
+      'cursoId': cursoId,
+      'actividades':
+          actividades?.map((actividad) => actividad.toJson()).toList(),
     };
   }
 }

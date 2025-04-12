@@ -1,3 +1,4 @@
+/*
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '/domain/model/grupo.dart';
@@ -34,3 +35,4 @@ class GrupoHttpAdapter extends GrupoRepository {
     // DELETE http://localhost:8080/grupos/{idGrupo}
   }
 }
+*/

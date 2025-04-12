@@ -1,3 +1,4 @@
+/*
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '/domain/model/curso.dart';
@@ -115,3 +116,4 @@ class CursosHttpAdapter extends CursoRepository {
     }
   }
 }
+*/
