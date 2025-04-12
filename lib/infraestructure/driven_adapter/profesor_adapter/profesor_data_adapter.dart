@@ -31,8 +31,26 @@ class ProfesorDataAdapter extends ProfesorRepository {
 
     if (response.statusCode == 200) {
       return Profesor.fromJson(jsonDecode(response.body));
+    } else if (response.statusCode == 404) {
+      throw Exception('Profesor con id $id no encontrado.');
     } else {
-      throw Exception('Error al obtener el profesor con id $id: ${response.body}');
+      throw Exception(
+          'Error al obtener el profesor con id $id: ${response.body}');
+    }
+  }
+
+  @override
+  Future<Profesor> crearProfesor(Profesor profesor) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/profesores'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(profesor.toJson()),
+    );
+
+    if (response.statusCode == 201) {
+      return Profesor.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Error al crear profesor: ${response.body}');
     }
   }
 }
